@@ -1,0 +1,160 @@
+{
+  "home": {
+    "metadata": {
+      "title": "Greek Essence | Thoughtful journeys through Greece",
+      "description": "Discover a more personal way to explore Greece, shaped around place, pace, and meaningful local moments."
+    },
+    "hero": {
+      "eyebrow": "Travel, thoughtfully arranged",
+      "title": "Greece, experienced with intention",
+      "summary": "Slow down, look closer, and discover an island journey shaped around the way you want to travel.",
+      "mediaId": "home-aegean-human-arrival-01",
+      "primaryCta": {
+        "label": "Plan my trip",
+        "routeId": "plan-my-trip",
+        "destinationContext": null
+      },
+      "secondaryCta": {
+        "label": "Explore Paros & Antiparos",
+        "routeId": "paros",
+        "destinationContext": null
+      }
+    },
+    "promise": {
+      "eyebrow": "A personal approach",
+      "heading": "More than a list of places",
+      "body": [
+        "Greek Essence brings together considered routes, a feeling for place, and room to travel at your own rhythm.",
+        "Every journey begins with what matters to you, not with a fixed package."
+      ],
+      "mediaId": null
+    },
+    "parosFeature": {
+      "id": "paros-antiparos",
+      "title": "Paros & Antiparos",
+      "summary": "Whitewashed villages, clear coves, generous tables, and two islands with distinct but complementary rhythms.",
+      "mediaId": "destination-paros-antiparos-primary-01",
+      "cta": {
+        "label": "Discover the islands",
+        "routeId": "paros",
+        "destinationContext": null
+      }
+    },
+    "howItWorks": {
+      "heading": "How it works",
+      "steps": [
+        {
+          "title": "Share your ideas",
+          "summary": "Tell us where your curiosity leads and how you like to travel."
+        },
+        {
+          "title": "Shape the journey",
+          "summary": "Your interests become the starting point for a thoughtful route."
+        },
+        {
+          "title": "Travel with clarity",
+          "summary": "Review a coherent plan designed around your pace and priorities."
+        }
+      ]
+    },
+    "trustStory": {
+      "eyebrow": "Rooted in curiosity",
+      "heading": "A closer relationship with Greece",
+      "body": [
+        "We believe the most memorable journeys leave space for character: a quiet harbour, an unhurried meal, a conversation that changes the day.",
+        "Our role is to connect those moments into a journey that feels considered and genuinely yours."
+      ],
+      "mediaId": null
+    },
+    "finalCta": {
+      "label": "Start planning",
+      "routeId": "plan-my-trip",
+      "destinationContext": null
+    }
+  },
+  "paros": {
+    "metadata": {
+      "title": "Paros & Antiparos | Greek Essence",
+      "description": "Discover the character, rhythm, and thoughtful possibilities of Paros and Antiparos."
+    },
+    "hero": {
+      "eyebrow": "A Cycladic pairing",
+      "title": "Paros & Antiparos, in your own rhythm",
+      "summary": "Two close islands bring together village life, open water, generous tables, and room to choose the pace.",
+      "mediaId": "destination-paros-antiparos-primary-01",
+      "primaryCta": {
+        "label": "Plan my trip",
+        "routeId": "plan-my-trip",
+        "destinationContext": "paros-antiparos"
+      },
+      "secondaryCta": null
+    },
+    "introduction": {
+      "eyebrow": "Defining character",
+      "heading": "Easy-going days with a sense of place",
+      "body": [
+        "Paros brings whitewashed lanes, working harbours, and a sociable island energy without asking every day to look the same.",
+        "Across the water, Antiparos offers a quieter counterpoint of simple coves, unhurried walks, and intimate scale."
+      ],
+      "mediaId": null
+    },
+    "travelerFit": {
+      "heading": "Who this pairing can suit",
+      "items": [
+        {
+          "id": "slow-discovery",
+          "title": "Travelers who like to linger",
+          "summary": "For people who would rather return to a favourite table or beach than collect a long list of stops.",
+          "cta": null
+        },
+        {
+          "id": "shared-rhythms",
+          "title": "Couples, friends, and families",
+          "summary": "A flexible setting with enough variety to make space for different interests.",
+          "cta": null
+        }
+      ]
+    },
+    "signatureExperiences": {
+      "heading": "Signature ways to spend the day",
+      "items": [
+        {
+          "id": "culture-gastronomy",
+          "title": "Culture and gastronomy",
+          "summary": "Follow the day from village streets and local craft to a generous meal shaped by the season.",
+          "mediaId": "paros-antiparos-editorial-culture-food-01",
+          "cta": null
+        },
+        {
+          "id": "sea-and-local-life",
+          "title": "Sea time and local life",
+          "summary": "Balance time on the water with small harbours, shaded pauses, and a slower island evening.",
+          "mediaId": "paros-antiparos-editorial-local-moment-01",
+          "cta": null
+        }
+      ]
+    },
+    "combinations": {
+      "heading": "How the islands can combine",
+      "items": [
+        {
+          "id": "paros-antiparos",
+          "title": "One paired island stay",
+          "summary": "Use Paros and Antiparos together for contrast without constant movement.",
+          "cta": null
+        },
+        {
+          "id": "cyclades-continuation",
+          "title": "A considered Cycladic continuation",
+          "summary": "The pairing can become one chapter in a wider Greek journey shaped around your time.",
+          "cta": null
+        }
+      ]
+    },
+    "finalCta": {
+      "label": "Plan Paros & Antiparos",
+      "routeId": "plan-my-trip",
+      "destinationContext": "paros-antiparos"
+    }
+  }
+}

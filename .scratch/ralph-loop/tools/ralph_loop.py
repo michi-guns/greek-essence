@@ -1,43 +1,42 @@
 #!/usr/bin/env python3
-"""Run supervised fresh Greek Essence Ralph root iterations."""
+"""Run bounded fresh Greek Essence Ralph orchestrator iterations."""
 from __future__ import annotations
 
 import argparse
 import json
 import os
-import re
+import shutil
+import stat
 import subprocess
 import sys
-import tempfile
+import threading
 import time
-from dataclasses import asdict, dataclass
+import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Callable
 
 sys.dont_write_bytecode = True
 
-ROOT_PROFILE = "greekroot"
-ROOT_MODEL = "gpt-5.6-sol"
-ROOT_PROVIDER = "openai-codex"
-ASSESSOR_PROFILE = "greekreview"
-ASSESSOR_MODEL = "gpt-5.6-terra"
-COMPLETION_SIGNAL = Path(".scratch") / "ralph-loop" / "completion-signal.json"
-HANDOFF = Path(".scratch") / "ralph-loop" / "HANDOFF.md"
-PREFLIGHT = Path(".agents") / "skills" / "ralph-loop-manager" / "scripts" / "preflight.py"
-DEFAULT_ITERATION_TIMEOUT = 3600.0
-DEFAULT_ASSESSMENT_THRESHOLD = 2700.0
-DEFAULT_ASSESSOR_TIMEOUT = 1200.0
-MAX_EXTENSIONS = 3
-MAX_TIMEOUT_RETRIES = 1
+ROOT_PROFILE = "jzgreekorch"
+DEFAULT_MAX_ITERATIONS = 100
+DEFAULT_ITERATION_TIMEOUT = 3 * 60 * 60
+COMPLETION_SIGNAL = Path(".scratch/ralph-loop/completion-signal.json")
+PAUSE_SIGNAL = Path(".scratch/ralph-loop/pause-signal.json")
+MAX_LOG_BYTES = 2 * 1024 * 1024
+LOG_TRUNCATION_MARKER = "\n[ralph iteration output truncated; retained tail follows]\n"
 
 
 class RalphError(RuntimeError):
-    """Base class for operational Ralph failures."""
+    """Base class for mechanical controller failures."""
 
 
 class CompletionSignalError(RalphError):
+    pass
+
+
+class PauseSignalError(RalphError):
     pass
 
 
@@ -57,81 +56,39 @@ class ProcessTreeError(RalphError):
     pass
 
 
-class HardStop(RalphError):
+class FrontierRouteError(RalphError):
     pass
 
 
 class LoopOutcome(str, Enum):
     COMPLETE = "COMPLETE"
+    BLOCKED = "BLOCKED"
     LIMIT_REACHED = "LIMIT_REACHED"
 
 
-@dataclass(eq=True)
-class Diagnosis:
-    should_retry: bool
-    steering: str | None
-
-
-@dataclass
-class ControllerState:
-    campaign_id: str
-    task_id: str
-    resolved_tier: str
-    successful_extensions: int = 0
-    timeout_retries: int = 0
-    current_iteration: int | None = None
-    current_root_pid: int | None = None
-    assessment_log: str | None = None
-    diagnosis_log: str | None = None
-
-
-@dataclass(frozen=True)
-class CampaignIdentity:
-    campaign_id: str
-    task_id: str
-    resolved_tier: str
-
-
-@dataclass(frozen=True)
-class TransitionResult:
-    archive_path: Path
-    state_path: Path
-
-
 class LifecycleLogger:
-    """Append privacy-bounded controller lifecycle events as durable JSONL."""
+    """Best-effort JSONL containing only bounded mechanical metadata."""
 
-    def __init__(self, path: Path, campaign_id: str, task_id: str, resolved_tier: str) -> None:
+    def __init__(self, path: Path) -> None:
         self.path = path
-        self.campaign_id = campaign_id
-        self.task_id = task_id
-        self.resolved_tier = resolved_tier
-        self.last_error: str | None = None
         try:
-            self.path.parent.mkdir(parents=True, exist_ok=True)
-        except OSError as exc:
-            self.last_error = f"{type(exc).__name__}: {exc}"
+            path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            pass
 
     def emit(self, event: str, **fields: object) -> None:
         payload = {
             "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "event": event,
-            "campaign_id": self.campaign_id,
-            "task_id": self.task_id,
-            "resolved_tier": self.resolved_tier,
             **fields,
         }
         try:
+            if self.path.exists() and self.path.stat().st_size >= MAX_LOG_BYTES:
+                return
             with self.path.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
-                handle.flush()
-            self.last_error = None
-        except (OSError, TypeError, ValueError) as exc:
-            self.last_error = f"{type(exc).__name__}: {exc}"
-
-
-def _lifecycle_log(state_dir: Path) -> Path:
-    return state_dir / "logs" / f"controller-lifecycle-{time.strftime('%Y%m%d-%H%M%S')}-pid-{os.getpid()}.jsonl"
+        except (OSError, TypeError, ValueError):
+            pass
 
 
 def default_state_dir() -> Path:
@@ -139,143 +96,54 @@ def default_state_dir() -> Path:
     return base / "hermes" / "ralph" / "greek-essence"
 
 
-def _pairs_without_duplicates(pairs: list[tuple[str, object]]) -> dict[str, object]:
-    result: dict[str, object] = {}
-    for key, value in pairs:
-        if key in result:
-            raise ValueError(f"duplicate property: {key}")
-        result[key] = value
-    return result
-
-
 def _strict_json(text: str) -> object:
+    def pairs(values: list[tuple[str, object]]) -> dict[str, object]:
+        result: dict[str, object] = {}
+        for key, value in values:
+            if key in result:
+                raise ValueError(f"duplicate property: {key}")
+            result[key] = value
+        return result
+
     try:
-        return json.loads(text, object_pairs_hook=_pairs_without_duplicates)
+        return json.loads(text, object_pairs_hook=pairs)
     except (json.JSONDecodeError, ValueError) as exc:
         raise ValueError(f"invalid JSON: {exc}") from exc
 
 
-def parse_health_response(text: str) -> bool:
-    payload = _strict_json(text)
-    if not isinstance(payload, dict) or set(payload) != {"should_extend"}:
-        raise ValueError("health response must contain exactly should_extend")
-    value = payload["should_extend"]
-    if type(value) is not bool:
-        raise ValueError("should_extend must be a JSON Boolean")
-    return value
-
-
-def parse_diagnosis(text: str) -> Diagnosis:
-    payload = _strict_json(text)
-    if not isinstance(payload, dict) or set(payload) != {"should_retry", "steering"}:
-        raise ValueError("diagnosis must contain exactly should_retry and steering")
-    should_retry = payload["should_retry"]
-    steering = payload["steering"]
-    if type(should_retry) is not bool:
-        raise ValueError("should_retry must be a JSON Boolean")
-    if should_retry:
-        if not isinstance(steering, str) or not steering.strip():
-            raise ValueError("retry diagnosis requires non-empty steering")
-        return Diagnosis(True, steering.strip())
-    if steering is not None:
-        raise ValueError("no-retry diagnosis requires null steering")
-    return Diagnosis(False, None)
+def _read_signal(repo: Path, relative: Path, key: str, error_type: type[RalphError]) -> bool:
+    path = repo.resolve() / relative
+    try:
+        payload = _strict_json(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise error_type(f"Invalid signal {path}: {exc}") from exc
+    if not isinstance(payload, dict) or set(payload) != {key} or type(payload[key]) is not bool:
+        raise error_type(f"Signal {path} must contain exactly one Boolean property: {key}")
+    return payload[key]
 
 
 def read_completion_signal(repo: Path) -> bool:
-    path = repo.resolve() / COMPLETION_SIGNAL
-    try:
-        payload = _strict_json(path.read_text(encoding="utf-8"))
-    except OSError as exc:
-        raise CompletionSignalError(f"Cannot read completion signal {path}: {exc}") from exc
-    except ValueError as exc:
-        raise CompletionSignalError(f"Malformed completion signal {path}: {exc}") from exc
-    if not isinstance(payload, dict) or set(payload) != {"isEverythingDone"}:
-        raise CompletionSignalError(f"Completion signal {path} must contain exactly isEverythingDone")
-    value = payload["isEverythingDone"]
-    if type(value) is not bool:
-        raise CompletionSignalError(f"Completion signal {path}.isEverythingDone must be a Boolean")
-    return value
+    return _read_signal(repo, COMPLETION_SIGNAL, "isEverythingDone", CompletionSignalError)
 
 
-def save_controller_state(
-    state_dir: Path,
-    state: ControllerState,
-    lifecycle: LifecycleLogger | None = None,
-    *,
-    reason: str = "state_update",
-) -> None:
-    if lifecycle is not None:
-        lifecycle.emit(
-            "controller_state_write_start",
-            reason=reason,
-            current_iteration=state.current_iteration,
-            current_root_pid=state.current_root_pid,
-        )
-    state_dir.mkdir(parents=True, exist_ok=True)
-    target = state_dir / "controller-state.json"
-    temporary = state_dir / "controller-state.json.tmp"
-    temporary.write_text(json.dumps(asdict(state), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    os.replace(temporary, target)
-    if lifecycle is not None:
-        lifecycle.emit(
-            "controller_state_write_complete",
-            reason=reason,
-            state_path=str(target),
-            current_iteration=state.current_iteration,
-            current_root_pid=state.current_root_pid,
-        )
+def read_pause_signal(repo: Path) -> bool:
+    return _read_signal(repo, PAUSE_SIGNAL, "isPaused", PauseSignalError)
 
 
-def _validated_controller_state(payload: object) -> ControllerState:
-    expected = {
-        "campaign_id", "task_id", "resolved_tier", "successful_extensions",
-        "timeout_retries", "current_iteration", "current_root_pid",
-        "assessment_log", "diagnosis_log",
-    }
-    if not isinstance(payload, dict) or set(payload) != expected:
-        raise ValueError("controller state has an unexpected schema")
-    for key in ("campaign_id", "task_id", "resolved_tier"):
-        if not isinstance(payload[key], str) or not payload[key].strip():
-            raise ValueError(f"{key} must be a non-empty string")
-    for key, maximum in (("successful_extensions", MAX_EXTENSIONS), ("timeout_retries", MAX_TIMEOUT_RETRIES)):
-        value = payload[key]
-        if type(value) is not int or not 0 <= value <= maximum:
-            raise ValueError(f"{key} must be an integer from 0 through {maximum}")
-    for key in ("current_iteration", "current_root_pid"):
-        value = payload[key]
-        if value is not None and (type(value) is not int or value <= 0):
-            raise ValueError(f"{key} must be null or a positive integer")
-    for key in ("assessment_log", "diagnosis_log"):
-        value = payload[key]
-        if value is not None and (not isinstance(value, str) or not value.strip()):
-            raise ValueError(f"{key} must be null or a non-empty string")
-    return ControllerState(**payload)  # type: ignore[arg-type]
+def root_prompt() -> str:
+    return """You are the fresh Greek Essence JZ workflow orchestrator. Read AGENTS.md, NEXT.md, .scratch/features/001-greek-essence-showcase/AGENTS.md, .scratch/ralph-loop/RALPH_LOOP.md, .scratch/ralph-loop/HANDOFF.md, and .scratch/ralph-loop/KNOWLEDGE.md. Query the live features-cli frontier at the start and end. Complete exactly one frontier action, including required delegation, repair, verification, and review, update HANDOFF.md, then stop. Never begin the successor frontier action in this iteration. Set completion true only when the entire campaign is proven complete; set pause true only for a genuine human-required blocker while completion remains false."""
 
 
-def load_controller_state(
-    state_dir: Path,
-    campaign_id: str,
-    task_id: str,
-    resolved_tier: str,
-    lifecycle: LifecycleLogger | None = None,
-) -> ControllerState:
-    target = state_dir / "controller-state.json"
-    if not target.exists():
-        state = ControllerState(campaign_id, task_id, resolved_tier)
-        save_controller_state(state_dir, state, lifecycle, reason="initial_state")
-        return state
-    try:
-        payload = _strict_json(target.read_text(encoding="utf-8"))
-        state = _validated_controller_state(payload)
-    except (OSError, TypeError, ValueError) as exc:
-        raise HardStop(f"Controller state is unreadable or malformed: {target}: {exc}") from exc
-    if (state.campaign_id, state.task_id, state.resolved_tier) != (campaign_id, task_id, resolved_tier):
-        raise ValueError("controller state belongs to a different campaign, task, or resolved tier")
-    return state
+def build_hermes_command(repo: Path, iteration: int) -> list[str]:
+    del repo, iteration
+    return [
+        "hermes", "-p", ROOT_PROFILE, "chat", "-Q", "--yolo",
+        "--pass-session-id", "--source", "ralph", "-q", root_prompt(),
+    ]
 
 
-def _pid_is_running(pid: int) -> bool:
+def _pid_is_running(pid: int) -> bool | None:
+    """Return None when process liveness cannot be established safely."""
     if pid <= 0:
         return False
     try:
@@ -285,263 +153,94 @@ def _pid_is_running(pid: int) -> bool:
     except PermissionError:
         return True
     except (OSError, SystemError):
-        return False
+        return None
     return True
 
 
-def _validate_transition_identity(identity: CampaignIdentity, label: str) -> None:
-    if not isinstance(identity, CampaignIdentity):
-        raise TypeError(f"{label} identity has an invalid type")
-    for field in ("campaign_id", "task_id", "resolved_tier"):
-        value = getattr(identity, field)
-        if not isinstance(value, str) or not value or value != value.strip():
-            raise ValueError(f"{label} {field} must be a trimmed non-empty string")
+RUNTIME_LAUNCH_STATES = {"idle", "starting", "running", "cleanup_ambiguous"}
 
 
-def _load_existing_controller_state(state_dir: Path) -> tuple[bytes, ControllerState]:
-    target = state_dir / "controller-state.json"
-    original = target.read_bytes()
+def _read_runtime_record(lock: Path) -> dict[str, int | str | None]:
     try:
-        payload = _strict_json(original.decode("utf-8"))
-        return original, _validated_controller_state(payload)
-    except (UnicodeError, TypeError, ValueError) as exc:
-        raise ValueError(f"controller state is unreadable or malformed: {target}: {exc}") from exc
-
-
-def _sanitize_archive_component(value: str) -> str:
-    sanitized = re.sub(r"[^A-Za-z0-9._-]+", "_", value).strip("._")
-    return sanitized or "identity"
-
-
-def _transition_timestamp(timestamp_utc: str | None) -> str:
-    value = timestamp_utc or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    if not re.fullmatch(r"\d{8}T\d{12}Z", value):
-        raise ValueError("archive timestamp must be YYYYMMDDTHHMMSSffffffZ")
-    try:
-        datetime.strptime(value, "%Y%m%dT%H%M%S%fZ")
-    except ValueError as exc:
-        raise ValueError("archive timestamp is not a valid UTC timestamp") from exc
-    return value
-
-
-def _write_fsync_exclusive(path: Path, content: bytes) -> None:
-    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
-    binary_flag = getattr(os, "O_BINARY", 0)
-    descriptor = os.open(path, flags | binary_flag)
-    try:
-        with os.fdopen(descriptor, "wb") as handle:
-            descriptor = -1
-            handle.write(content)
-            handle.flush()
-            os.fsync(handle.fileno())
-    finally:
-        if descriptor != -1:
-            os.close(descriptor)
-
-
-def _write_prepared_state(state_dir: Path, content: bytes) -> Path:
-    descriptor, temporary_name = tempfile.mkstemp(prefix="controller-state.json.", dir=str(state_dir))
-    temporary = Path(temporary_name)
-    try:
-        with os.fdopen(descriptor, "wb") as handle:
-            descriptor = -1
-            handle.write(content)
-            handle.flush()
-            os.fsync(handle.fileno())
-        return temporary
-    except Exception:
-        temporary.unlink(missing_ok=True)
-        raise
-    finally:
-        if descriptor != -1:
-            os.close(descriptor)
-
-
-def _best_effort_fsync_directory(state_dir: Path) -> None:
-    try:
-        descriptor = os.open(state_dir, os.O_RDONLY)
-    except OSError:
-        return
-    try:
-        try:
-            os.fsync(descriptor)
-        except OSError:
-            pass
-    finally:
-        os.close(descriptor)
-
-
-def transition_campaign_state(
-    state_dir: Path,
-    completed: CampaignIdentity,
-    new: CampaignIdentity,
-    *,
-    timestamp_utc: str | None = None,
-    pid_is_running_fn: Callable[[int], bool] = _pid_is_running,
-    replace_fn: Callable[[Path, Path], None] = os.replace,
-) -> TransitionResult:
-    """Safely archive one completed controller identity and initialize the next one."""
-    _validate_transition_identity(completed, "completed")
-    _validate_transition_identity(new, "new")
-    if completed.campaign_id == new.campaign_id:
-        raise ValueError("completed and new campaign IDs must differ")
-    if completed.task_id == new.task_id:
-        raise ValueError("completed and new task IDs must differ")
-
-    state_dir = Path(state_dir)
-    timestamp = _transition_timestamp(timestamp_utc)
-    archive_path = state_dir / "archive" / (
-        "controller-state-"
-        f"{_sanitize_archive_component(completed.campaign_id)}-"
-        f"{_sanitize_archive_component(completed.task_id)}-{timestamp}.json"
+        payload = _strict_json(lock.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise LockConflict(f"Ralph loop has an unreadable ownership record: {lock}") from exc
+    root_pid = payload.get("root_pid") if isinstance(payload, dict) else None
+    launch_state = payload.get("launch_state") if isinstance(payload, dict) else None
+    valid_root = root_pid is None or (type(root_pid) is int and root_pid > 0)
+    valid_state = launch_state in RUNTIME_LAUNCH_STATES
+    state_matches_root = (
+        (launch_state in {"idle", "starting"} and root_pid is None)
+        or (launch_state in {"running", "cleanup_ambiguous"} and type(root_pid) is int and root_pid > 0)
     )
-    state_path = state_dir / "controller-state.json"
-    lifecycle = LifecycleLogger(_lifecycle_log(state_dir), completed.campaign_id, completed.task_id, completed.resolved_tier)
-    lock: Path | None = None
-    temporary: Path | None = None
+    if (not isinstance(payload, dict) or set(payload) != {"controller_pid", "root_pid", "launch_state"}
+            or type(payload.get("controller_pid")) is not int or payload["controller_pid"] <= 0
+            or not valid_root or not valid_state or not state_matches_root):
+        raise LockConflict(f"Ralph loop has an invalid ownership record: {lock}")
+    return {
+        "controller_pid": payload["controller_pid"], "root_pid": root_pid,
+        "launch_state": launch_state,
+    }
+
+
+def _write_runtime_record(lock: Path, controller_pid: int, root_pid: int | None, launch_state: str) -> None:
+    if (controller_pid <= 0 or launch_state not in RUNTIME_LAUNCH_STATES
+            or (launch_state in {"idle", "starting"} and root_pid is not None)
+            or (launch_state in {"running", "cleanup_ambiguous"}
+                and (type(root_pid) is not int or root_pid <= 0))):
+        raise LockConflict("Ralph loop cannot write an invalid ownership record")
+    replacement = lock.with_suffix(".next")
     try:
-        lifecycle.emit(
-            "campaign_transition_start",
-            new_campaign_id=new.campaign_id,
-            new_task_id=new.task_id,
-            new_resolved_tier=new.resolved_tier,
-            archive_path=str(archive_path),
+        replacement.write_text(
+            json.dumps({
+                "controller_pid": controller_pid, "root_pid": root_pid,
+                "launch_state": launch_state,
+            }), encoding="utf-8"
         )
-        lock = _acquire_lock(state_dir, lifecycle)
-        original, current = _load_existing_controller_state(state_dir)
-        if (current.campaign_id, current.task_id, current.resolved_tier) != (
-            completed.campaign_id,
-            completed.task_id,
-            completed.resolved_tier,
-        ):
-            raise ValueError("controller state does not match the declared completed identity")
-        if current.current_root_pid is not None:
-            root_pid_live = pid_is_running_fn(current.current_root_pid)
-            lifecycle.emit(
-                "campaign_transition_recorded_root_present",
-                current_root_pid=current.current_root_pid,
-                root_pid_live=root_pid_live,
-            )
-            raise RalphError(
-                f"recorded root PID {current.current_root_pid} prevents campaign transition "
-                f"(live={root_pid_live})"
-            )
-        lifecycle.emit(
-            "campaign_transition_validation_complete",
-            state_path=str(state_path),
-            current_root_pid=None,
-        )
-
-        archive_path.parent.mkdir(parents=True, exist_ok=True)
-        if archive_path.exists():
-            raise ValueError(f"archive already exists: {archive_path}")
-
-        new_state = ControllerState(new.campaign_id, new.task_id, new.resolved_tier)
-        new_bytes = (json.dumps(asdict(new_state), indent=2, ensure_ascii=False) + "\n").encode("utf-8")
-        temporary = _write_prepared_state(state_dir, new_bytes)
-        _write_fsync_exclusive(archive_path, original)
-        lifecycle.emit("campaign_transition_archive_complete", archive_path=str(archive_path))
-        replace_fn(temporary, state_path)
-        temporary = None
-        lifecycle.emit("campaign_transition_state_replace_complete", state_path=str(state_path))
-        _best_effort_fsync_directory(state_dir)
-        lifecycle.emit(
-            "campaign_transition_complete",
-            archive_path=str(archive_path),
-            state_path=str(state_path),
-        )
-        return TransitionResult(archive_path=archive_path, state_path=state_path)
-    except Exception as exc:
-        lifecycle.emit("campaign_transition_failed", exception_type=type(exc).__name__)
-        raise
-    finally:
-        if temporary is not None:
-            temporary.unlink(missing_ok=True)
-        if lock is not None:
-            lifecycle.emit("lock_release_start", lock_path=str(lock), controller_pid=os.getpid())
-            lock.unlink(missing_ok=True)
-            lifecycle.emit("lock_release_complete", lock_path=str(lock), controller_pid=os.getpid(), lock_exists=lock.exists())
+        os.replace(replacement, lock)
+    except OSError as exc:
+        replacement.unlink(missing_ok=True)
+        raise LockConflict(f"Ralph loop cannot update ownership record: {lock}") from exc
 
 
-def root_prompt(extra: str | None = None) -> str:
-    base = """You are the Greek Essence Ralph root orchestrator.
-
-Start by reading exactly these three Ralph entry points:
-- .scratch/ralph-loop/RALPH_LOOP.md
-- .scratch/ralph-loop/HANDOFF.md
-- .scratch/ralph-loop/KNOWLEDGE.md
-
-Inspect repository reality and structured work files yourself. Resume only the authorized campaign task, preserve unrelated work, and stay within repository safety authority. Delegate substantial implementation to greekimpl and independent review to greekreview. Verify filesystem output. Update HANDOFF.md before ending. Set completion-signal.json true only after all managed work and final quality gates succeed. Never reset the signal automatically."""
-    return base if not extra else base + "\n\n" + extra
-
-
-def build_hermes_command(repo: Path, iteration: int, prompt: str | None = None) -> list[str]:
-    del repo, iteration
-    return ["hermes", "-p", ROOT_PROFILE, "chat", "-Q", "--yolo", "--pass-session-id", "--source", "ralph", "-m", ROOT_MODEL, "--provider", ROOT_PROVIDER, "-q", root_prompt(prompt)]
-
-
-def _readonly_command(prompt: str) -> list[str]:
-    # The strict parser consumes stdout verbatim. Do not request a session-id
-    # trailer here because it would make an otherwise valid JSON decision fail.
-    return ["hermes", "-p", ASSESSOR_PROFILE, "chat", "-Q", "--source", "ralph-supervisor", "-m", ASSESSOR_MODEL, "--provider", ROOT_PROVIDER, "-q", prompt]
-
-
-def health_prompt(state: ControllerState) -> str:
-    return f"""You are a read-only health assessor for the active Greek Essence Ralph root.
-Campaign: {state.campaign_id}
-Task: {state.task_id}
-Resolved engineering tier: {state.resolved_tier}
-
-Inspect repository evidence only: the active task contract/status and task-owned diff; report/evidence; review and correction state; recent Ralph/root/child activity; unresolved acceptance criteria, required gates, Blocking/High findings, handoff, dedicated commit, and completion reconciliation. Healthy means recent durable task-attributable progress on necessary unresolved work, including a finite changed recovery strategy or required closure. Evidence against extension includes optional/repeated tests, untied research, repeated reads or failed calls, unnecessary refactoring, speculative abstractions, enterprise-depth expansion, implausible edges, unrelated docs, scope expansion, claimed effort without durable evidence, accepted work with stalled closure, or work beyond the resolved tier.
-
-Do not perform broad repository exploration. Read the smallest authoritative evidence set needed for this decision, prioritize current task status, latest review/evidence, HANDOFF, relevant diff/commit state, and recent runtime events, and avoid repeating searches or checks. Decide promptly once the decisive evidence is clear.
-
-Do not modify files, implement, create review files, commit, email, or control processes. Return exactly one JSON object and no prose, markdown, session ID, or explanation: {{"should_extend": true}} or {{"should_extend": false}}. Uncertainty means false."""
-
-
-def diagnosis_prompt(state: ControllerState) -> str:
-    return f"""You are a read-only timeout diagnosis agent for Greek Essence Ralph.
-Campaign: {state.campaign_id}
-Task: {state.task_id}
-Resolved engineering tier: {state.resolved_tier}
-Health renewal already existed, so timeout is evidence that the root exceeded its accepted autonomous budget.
-
-Inspect what is already complete in task status, diff, evidence/reports, reviews, HANDOFF, completion signal, commits, and runtime logs before recommending repetition. Classify closure incomplete, overengineering, review correction incomplete, tool/process stall, scope conflict, human decision required, or unknown failure. Recommend at most one same-task retry only when a narrow safe remaining action exists. Prefer the smallest recovery; preserve task and tier; do not rerun approved implementation/review. Human decision, conflict, or uncertainty means no retry.
-
-Do not perform broad repository exploration. Read the smallest authoritative evidence set needed for this decision, prioritize current task status, latest review/evidence, HANDOFF, relevant diff/commit state, and recent runtime events, and avoid repeating searches or checks. Decide promptly once the decisive evidence is clear.
-
-Do not mutate files, implement, create reviews, commit, email, or control processes. Return only exactly one JSON object with no prose, markdown, session ID, or explanation:
-{{"should_retry": true, "steering": "Non-empty bounded instruction."}}
-{{"should_retry": false, "steering": null}}"""
-
-
-def build_retry_prompt(state: ControllerState, steering: str, evidence: str) -> str:
-    return f"""TIMEOUT RECOVERY FOR THE SAME TASK ONLY.
-Original campaign: {state.campaign_id}
-Original task: {state.task_id}
-Resolved engineering tier: {state.resolved_tier}
-Existing completed evidence/review state: {evidence}
-Only remaining authorized work: the narrow same-task recovery below.
-Diagnosis steering: {steering}
-Do not repeat already-approved work. Do not begin another task. Do not delegate new implementation, rerun browser inspection or broad tests, or research when this is closure-only. Verify existing approved state, create the dedicated task commit, reconcile HANDOFF and the existing completion signal, then exit. Stop as soon as required acceptance and closure pass. Existing repository safety boundaries still apply."""
-
-
-def _event_log(state_dir: Path, prefix: str, iteration: int) -> Path:
-    logs = state_dir / "logs"
-    logs.mkdir(parents=True, exist_ok=True)
-    return logs / f"{prefix}-{iteration:04d}-{time.strftime('%Y%m%d-%H%M%S')}.log"
-
-
-def run_readonly_assessor(repo: Path, state_dir: Path, prompt: str, timeout: float, prefix: str, iteration: int) -> tuple[str | None, Path]:
-    log_path = _event_log(state_dir, prefix, iteration)
-    try:
-        result = subprocess.run(_readonly_command(prompt), cwd=repo, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace", timeout=timeout, check=False)
-        output = result.stdout
-        log_path.write_text(output, encoding="utf-8")
-        return (output if result.returncode == 0 else None), log_path
-    except (OSError, subprocess.TimeoutExpired) as exc:
-        log_path.write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8")
-        return None, log_path
+def _acquire_lock(state_dir: Path, lifecycle: LifecycleLogger | None = None) -> Path:
+    state_dir.mkdir(parents=True, exist_ok=True)
+    lock = state_dir / "ralph.lock"
+    for attempt in range(2):
+        try:
+            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            break
+        except FileExistsError as exc:
+            record = _read_runtime_record(lock)
+            controller_state = _pid_is_running(record["controller_pid"])
+            if controller_state is True:
+                raise LockConflict(f"Ralph loop is already locked by controller PID {record['controller_pid']}: {lock}") from exc
+            if controller_state is None:
+                raise LockConflict(f"Ralph loop controller ownership is ambiguous: {lock}") from exc
+            launch_state = record["launch_state"]
+            if launch_state != "idle":
+                root_pid = record["root_pid"]
+                if root_pid is not None:
+                    root_state = _pid_is_running(root_pid)
+                    if root_state is True:
+                        raise LockConflict(f"Ralph loop has a surviving root PID {root_pid}; recovery is unsafe: {lock}") from exc
+                    if root_state is None:
+                        raise LockConflict(f"Ralph loop root ownership is ambiguous for PID {root_pid}: {lock}") from exc
+                raise LockConflict(
+                    f"Ralph loop has unresolved launch state {launch_state!r}; recovery is unsafe: {lock}"
+                ) from exc
+            if attempt:
+                raise LockConflict(f"Ralph loop could not acquire lock: {lock}") from exc
+            if lifecycle:
+                lifecycle.emit("stale_lock_remove_start", controller_pid=record["controller_pid"])
+            lock.unlink()
+            if lifecycle:
+                lifecycle.emit("stale_lock_remove_complete", controller_pid=record["controller_pid"])
+    else:
+        raise LockConflict(f"Ralph loop could not acquire lock: {lock}")
+    with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+        json.dump({"controller_pid": os.getpid(), "root_pid": None, "launch_state": "idle"}, handle)
+    return lock
 
 
 def terminate_process_tree(process: subprocess.Popen[str]) -> None:
@@ -549,17 +248,22 @@ def terminate_process_tree(process: subprocess.Popen[str]) -> None:
         return
     if os.name == "nt":
         pid = getattr(process, "pid", None)
-        if pid is None:  # Test doubles and nonstandard launchers only.
-            process.terminate()
-            process.wait(timeout=5)
-            return
-        result = subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=10, check=False)
-        if result.returncode != 0 and process.poll() is None:
+        if not isinstance(pid, int) or pid <= 0:
+            raise ProcessTreeError("Owned Windows process PID is unavailable; cleanup is ambiguous")
+        try:
+            result = subprocess.run(
+                ["taskkill", "/PID", str(pid), "/T", "/F"],
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+                timeout=10, check=False,
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            raise ProcessTreeError(f"Owned process tree cleanup for PID {pid} is ambiguous: {exc}") from exc
+        if result.returncode != 0:
             raise ProcessTreeError(f"Owned process tree for PID {pid} may still be running: {result.stdout.strip()}")
         try:
             process.wait(timeout=5)
         except subprocess.TimeoutExpired as exc:
-            raise ProcessTreeError(f"Owned process tree for PID {process.pid} survived taskkill") from exc
+            raise ProcessTreeError(f"Owned process tree for PID {pid} survived taskkill") from exc
         return
     process.terminate()
     try:
@@ -569,306 +273,390 @@ def terminate_process_tree(process: subprocess.Popen[str]) -> None:
         process.wait(timeout=5)
 
 
-def supervise_process(process: subprocess.Popen[str], *, lease_seconds: float, assessment_seconds: float, state: ControllerState, assess_fn: Callable[[], bool], persist_fn: Callable[[ControllerState], None], completion_or_stop_fn: Callable[[], bool], monotonic_fn: Callable[[], float] = time.monotonic, terminate_fn: Callable[[subprocess.Popen[str]], None] = terminate_process_tree, event_fn: Callable[[str, dict[str, object]], None] | None = None, heartbeat_seconds: float = 5.0) -> int:
-    def emit(event: str, **fields: object) -> None:
-        if event_fn is not None:
-            event_fn(event, fields)
-
-    lease_start = monotonic_fn()
-    assessed_this_lease = False
-    while True:
-        poll_result = process.poll()
-        emit(
-            "supervision_poll",
-            root_pid=getattr(process, "pid", None),
-            poll_result=poll_result,
-            elapsed_seconds=monotonic_fn() - lease_start,
-        )
-        if poll_result is not None:
-            return poll_result or 0
-        now = monotonic_fn()
-        if state.successful_extensions < MAX_EXTENSIONS and not assessed_this_lease and now - lease_start >= assessment_seconds:
-            assessed_this_lease = True
-            emit("assessment_start", root_pid=getattr(process, "pid", None), elapsed_seconds=now - lease_start)
-            extend = assess_fn()
-            poll_result = process.poll()
-            emit("assessment_complete", root_pid=getattr(process, "pid", None), poll_result=poll_result, should_extend=extend)
-            if poll_result is not None:
-                return poll_result or 0
-            if extend and not completion_or_stop_fn() and state.successful_extensions < MAX_EXTENSIONS:
-                state.successful_extensions += 1
-                persist_fn(state)
-                emit("lease_extended", root_pid=getattr(process, "pid", None), successful_extensions=state.successful_extensions)
-                lease_start = monotonic_fn()
-                assessed_this_lease = False
-                continue
-        remaining = lease_seconds - (monotonic_fn() - lease_start)
-        if remaining <= 0:
-            emit("lease_expired", root_pid=getattr(process, "pid", None), poll_result=process.poll())
-            terminate_fn(process)
-            raise IterationTimeout("Ralph iteration lease expired")
-        until_assessment = remaining
-        if state.successful_extensions < MAX_EXTENSIONS and not assessed_this_lease:
-            until_assessment = max(0.001, assessment_seconds - (monotonic_fn() - lease_start))
-        wait_seconds = min(remaining, until_assessment)
-        if event_fn is not None:
-            wait_seconds = min(wait_seconds, heartbeat_seconds)
-        emit("supervision_wait_start", root_pid=getattr(process, "pid", None), timeout_seconds=wait_seconds)
-        try:
-            code = process.wait(timeout=wait_seconds)
-            emit("supervision_wait_return", root_pid=getattr(process, "pid", None), return_code=code)
-            return code
-        except subprocess.TimeoutExpired:
-            emit("supervision_wait_timeout", root_pid=getattr(process, "pid", None), timeout_seconds=wait_seconds, poll_result=process.poll())
-            continue
+def _iteration_log(state_dir: Path, iteration: int) -> Path:
+    logs = state_dir / "logs"
+    logs.mkdir(parents=True, exist_ok=True)
+    return logs / f"iteration-{iteration:04d}.log"
 
 
-def _acquire_lock(state_dir: Path, lifecycle: LifecycleLogger | None = None) -> Path:
-    state_dir.mkdir(parents=True, exist_ok=True)
-    lock = state_dir / "ralph.lock"
-    if lifecycle is not None:
-        lifecycle.emit("lock_acquire_start", lock_path=str(lock), controller_pid=os.getpid())
-    for attempt in range(2):
-        try:
-            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-            break
-        except FileExistsError as exc:
-            try:
-                owner_pid = int(lock.read_text(encoding="utf-8").strip())
-            except (OSError, ValueError) as read_exc:
-                if lifecycle is not None:
-                    lifecycle.emit("lock_conflict", lock_path=str(lock), reason="unreadable")
-                raise LockConflict(f"Ralph loop has an unreadable lock: {lock}") from read_exc
-            if attempt or _pid_is_running(owner_pid):
-                if lifecycle is not None:
-                    lifecycle.emit("lock_conflict", lock_path=str(lock), owner_pid=owner_pid)
-                raise LockConflict(f"Ralph loop is already locked by PID {owner_pid}: {lock}") from exc
-            if lifecycle is not None:
-                lifecycle.emit("stale_lock_remove_start", lock_path=str(lock), owner_pid=owner_pid)
-            lock.unlink(missing_ok=True)
-            if lifecycle is not None:
-                lifecycle.emit("stale_lock_remove_complete", lock_path=str(lock), owner_pid=owner_pid)
-    else:
-        raise LockConflict(f"Ralph loop could not acquire lock: {lock}")
-    with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
-        handle.write(str(os.getpid()))
-        handle.flush()
-    if lifecycle is not None:
-        lifecycle.emit("lock_acquired", lock_path=str(lock), controller_pid=os.getpid())
-    return lock
+def _progress_command(repo: Path) -> subprocess.CompletedProcess[str]:
+    executable = shutil.which("features-cli")
+    if not executable:
+        return subprocess.CompletedProcess(["features-cli"], 126, stdout="features-cli is unavailable")
+    return subprocess.run(
+        [executable, "progress", "--feature", "greek-essence-showcase", "--json"],
+        cwd=repo, text=True, encoding="utf-8", errors="replace",
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
+    )
 
 
-def _hard_stop_present(repo: Path) -> bool:
+ISSUE_FRONTIER_KINDS = frozenset({"contract-issue", "implement-issue", "review-issue"})
+NON_ISSUE_FRONTIER_KINDS = frozenset({
+    "migration-required", "write-prd", "grill-and-consolidate-decisions", "design-ready",
+    "write-spec", "plan-milestones", "decompose-milestone", "blocked", "feature-review", "archived",
+})
+
+
+def _is_reparse_point(path: Path) -> bool:
     try:
-        return "HARD STOP" in (repo / HANDOFF).read_text(encoding="utf-8")
-    except OSError:
-        return True
+        metadata = path.lstat()
+    except FileNotFoundError:
+        return False
+    except OSError as exc:
+        raise FrontierRouteError(f"cannot inspect frontier path component: {path}") from exc
+    return path.is_symlink() or bool(
+        getattr(metadata, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    )
 
 
-def hermes_executor(repo: Path, state_dir: Path, iteration: int, timeout: float | None, *, assessment_threshold: float = DEFAULT_ASSESSMENT_THRESHOLD, assessor_timeout: float = DEFAULT_ASSESSOR_TIMEOUT, state: ControllerState | None = None, prompt: str | None = None, lifecycle: LifecycleLogger | None = None) -> Path:
-    if timeout is None:
-        timeout = DEFAULT_ITERATION_TIMEOUT
-    state = state or ControllerState("legacy", "active-task", "Tier 2 — Prototype")
-    log_path = _event_log(state_dir, "iteration", iteration)
-    process: subprocess.Popen[str] | None = None
-    with log_path.open("w", encoding="utf-8") as log:
-        command = build_hermes_command(repo, iteration, prompt)
-        if lifecycle is not None:
-            lifecycle.emit(
-                "root_launch_start",
-                iteration=iteration,
-                controller_pid=os.getpid(),
-                parent_pid=os.getppid(),
-                root_executable=command[0],
-                root_profile=ROOT_PROFILE,
-                root_model=ROOT_MODEL,
-                root_provider=ROOT_PROVIDER,
-                iteration_log=str(log_path),
+def _reject_reparse_components(root: Path, parts: tuple[str, ...], label: str) -> None:
+    if _is_reparse_point(root):
+        raise FrontierRouteError(f"{label} must not use a reparse-point repository root")
+    current = root
+    for part in parts:
+        current /= part
+        if _is_reparse_point(current):
+            raise FrontierRouteError(f"{label} must not resolve through a symlink, junction, or reparse point")
+
+
+def _require_contained_destination(repo: Path, owner: Path, destination: Path) -> None:
+    try:
+        canonical_repo = repo.resolve(strict=True)
+        canonical_owner = owner.resolve(strict=True)
+        canonical_destination = destination.resolve(strict=False)
+        canonical_owner.relative_to(canonical_repo)
+        canonical_destination.relative_to(canonical_owner)
+    except (OSError, RuntimeError, ValueError) as exc:
+        raise FrontierRouteError("frontier log destination escapes its contained owner") from exc
+
+
+def _validate_log_chain(repo: Path, owner: Path, run_dir: Path) -> None:
+    ralph_dir = owner / ".Ralph"
+    runs_dir = ralph_dir / "runs"
+    for path in (owner, ralph_dir, runs_dir, run_dir):
+        if _is_reparse_point(path):
+            raise FrontierRouteError("frontier log path must not use a symlink, junction, or reparse point")
+        if path.exists() and not path.is_dir():
+            raise FrontierRouteError(f"frontier log path component must be a directory: {path}")
+        _require_contained_destination(repo, owner, path)
+
+
+ARTIFACT_OPTIONAL_FRONTIER_KINDS = frozenset({
+    "implement-issue", "review-issue", "design-ready", "feature-review", "blocked", "archived",
+})
+FEATURE_SLUG = "greek-essence-showcase"
+
+
+def _contained_feature_owner(repo: Path, slug: str) -> Path:
+    if slug != FEATURE_SLUG:
+        raise FrontierRouteError("features-cli progress did not identify greek-essence-showcase")
+    features_root = repo / ".scratch" / "features"
+    _reject_reparse_components(repo, (".scratch", "features"), "feature workspace")
+    candidates = list(features_root.glob(f"*-{slug}")) if features_root.is_dir() else []
+    owners: list[Path] = []
+    for candidate in candidates:
+        _reject_reparse_components(repo, candidate.relative_to(repo).parts, "feature workspace")
+        if candidate.is_dir() and not _is_reparse_point(candidate):
+            _require_contained_destination(repo, candidate, candidate)
+            owners.append(candidate)
+    if len(owners) != 1:
+        raise FrontierRouteError("frontier feature slug must resolve to exactly one contained feature directory")
+    return owners[0]
+
+
+def _contained_issue_owner(repo: Path, feature_owner: Path, issue_id: int) -> Path:
+    issues_root = feature_owner / "issues"
+    _reject_reparse_components(repo, issues_root.relative_to(repo).parts, "issue workspace")
+    candidates = list(issues_root.glob(f"{issue_id:02d}-*")) if issues_root.is_dir() else []
+    owners: list[Path] = []
+    for candidate in candidates:
+        _reject_reparse_components(repo, candidate.relative_to(repo).parts, "issue workspace")
+        if candidate.is_dir() and not _is_reparse_point(candidate):
+            _require_contained_destination(repo, candidate, candidate)
+            owners.append(candidate)
+    if len(owners) != 1:
+        raise FrontierRouteError("issue frontier must resolve to exactly one contained issue directory")
+    return owners[0]
+
+
+def _contained_artifact(repo: Path, artifact_path: object) -> Path:
+    if not isinstance(artifact_path, str) or not artifact_path or "\\" in artifact_path:
+        raise FrontierRouteError("frontier artifactPath must be a non-empty relative POSIX path")
+    pure_path = PurePosixPath(artifact_path)
+    windows_path = PureWindowsPath(artifact_path)
+    if pure_path.is_absolute() or windows_path.is_absolute() or windows_path.drive or any(part in {"", ".", ".."} for part in pure_path.parts):
+        raise FrontierRouteError("frontier artifactPath must not be absolute or traverse directories")
+    _reject_reparse_components(repo, pure_path.parts, "frontier artifactPath")
+    artifact = repo.joinpath(*pure_path.parts)
+    _require_contained_destination(repo, repo, artifact)
+    return artifact
+
+
+def _frontier_artifact_owner(repo: Path, output: str) -> Path:
+    try:
+        payload = _strict_json(output)
+    except ValueError as exc:
+        raise FrontierRouteError(f"features-cli progress returned invalid JSON: {exc}") from exc
+    feature = payload.get("feature") if isinstance(payload, dict) else None
+    frontier = payload.get("frontier") if isinstance(payload, dict) else None
+    slug = feature.get("slug") if isinstance(feature, dict) else None
+    if not isinstance(slug, str):
+        raise FrontierRouteError("features-cli progress did not identify greek-essence-showcase")
+    if payload.get("warnings") != [] or not isinstance(frontier, dict):
+        raise FrontierRouteError("features-cli progress has warnings or no frontier object")
+    kind = frontier.get("kind")
+    if not isinstance(kind, str) or kind not in ISSUE_FRONTIER_KINDS | NON_ISSUE_FRONTIER_KINDS:
+        raise FrontierRouteError("frontier kind must be a known routable kind")
+    feature_owner = _contained_feature_owner(repo, slug)
+    issue_id = frontier.get("issueId")
+    if kind in ISSUE_FRONTIER_KINDS:
+        if type(issue_id) is not int or issue_id <= 0:
+            raise FrontierRouteError("issue frontier kind requires a positive issueId")
+        owner = _contained_issue_owner(repo, feature_owner, issue_id)
+    else:
+        if "issueId" in frontier:
+            raise FrontierRouteError("non-issue frontier kind must not include issueId")
+        owner = feature_owner
+    artifact_path = frontier.get("artifactPath")
+    if artifact_path is None:
+        if kind not in ARTIFACT_OPTIONAL_FRONTIER_KINDS:
+            raise FrontierRouteError("frontier artifactPath is required for this frontier kind")
+    else:
+        if kind == "decompose-milestone" and artifact_path == "SPEC.md":
+            artifact = owner / artifact_path
+            _reject_reparse_components(
+                repo, artifact.relative_to(repo).parts, "frontier artifactPath",
             )
-        log.write(json.dumps({"iteration": iteration, "command": command}, ensure_ascii=False) + "\n")
-        log.flush()
-        process = subprocess.Popen(command, cwd=repo, stdout=log, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
-        primary_exception = False
-        try:
-            if lifecycle is not None:
-                lifecycle.emit(
-                    "root_launched",
-                    iteration=iteration,
-                    controller_pid=os.getpid(),
-                    root_pid=getattr(process, "pid", None),
-                    root_executable=command[0],
-                    root_profile=ROOT_PROFILE,
-                    root_model=ROOT_MODEL,
-                    root_provider=ROOT_PROVIDER,
-                )
-            state.current_iteration = iteration
-            state.current_root_pid = getattr(process, "pid", None)
-            save_controller_state(state_dir, state, lifecycle, reason="root_pid_set")
+            _require_contained_destination(repo, owner, artifact)
+        else:
+            artifact = _contained_artifact(repo, artifact_path)
+            _require_contained_destination(repo, owner, artifact)
+    if not owner.is_dir() or _is_reparse_point(owner):
+        raise FrontierRouteError("frontier log owner must be a contained regular directory")
+    return owner
 
-            def assess() -> bool:
-                output, path = run_readonly_assessor(repo, state_dir, health_prompt(state), assessor_timeout, "assessment", iteration)
-                state.assessment_log = str(path)
-                save_controller_state(state_dir, state, lifecycle, reason="assessment_log_set")
-                if output is None:
-                    return False
-                try:
-                    return parse_health_response(output)
-                except ValueError:
-                    return False
 
-            code = supervise_process(
-                process,
-                lease_seconds=timeout,
-                assessment_seconds=assessment_threshold,
-                state=state,
-                assess_fn=assess,
-                persist_fn=lambda value: save_controller_state(state_dir, value, lifecycle, reason="lease_extension"),
-                completion_or_stop_fn=lambda: read_completion_signal(repo) or _hard_stop_present(repo),
-                event_fn=(lambda event, fields: lifecycle.emit(event, iteration=iteration, **fields)) if lifecycle is not None else None,
-            )
-            if lifecycle is not None:
-                lifecycle.emit(
-                    "root_poll_result",
-                    iteration=iteration,
-                    root_pid=getattr(process, "pid", None),
-                    poll_result=process.poll(),
-                    supervised_return_code=code,
-                )
-        except IterationTimeout as exc:
-            primary_exception = True
-            if lifecycle is not None:
-                lifecycle.emit("executor_exception", iteration=iteration, exception_type=type(exc).__name__, root_pid=getattr(process, "pid", None), poll_result=process.poll())
-            if process.poll() is None:
-                try:
-                    terminate_process_tree(process)
-                except BaseException as cleanup_exc:
-                    exc.add_note(f"root cleanup also failed: {type(cleanup_exc).__name__}: {cleanup_exc}")
-                    if lifecycle is not None:
-                        lifecycle.emit("root_cleanup_failed", iteration=iteration, exception_type=type(cleanup_exc).__name__, root_pid=getattr(process, "pid", None))
-            raise IterationTimeout(
-                f"Ralph iteration {iteration} timed out; log: {log_path}"
-            ) from exc
-        except BaseException as exc:
-            primary_exception = True
-            if lifecycle is not None:
-                lifecycle.emit("executor_exception", iteration=iteration, exception_type=type(exc).__name__, root_pid=getattr(process, "pid", None), poll_result=process.poll())
-            if process.poll() is None:
-                try:
-                    terminate_process_tree(process)
-                except BaseException as cleanup_exc:
-                    exc.add_note(f"root cleanup also failed: {type(cleanup_exc).__name__}: {cleanup_exc}")
-                    if lifecycle is not None:
-                        lifecycle.emit("root_cleanup_failed", iteration=iteration, exception_type=type(cleanup_exc).__name__, root_pid=getattr(process, "pid", None))
-            raise
-        finally:
-            if lifecycle is not None:
-                lifecycle.emit("executor_finally_enter", iteration=iteration, root_pid=getattr(process, "pid", None), poll_result=process.poll())
-                lifecycle.emit("root_pid_clear_start", iteration=iteration, root_pid=state.current_root_pid)
-            state.current_root_pid = None
-            clear_error: BaseException | None = None
+def resolve_frontier_log_location(
+    repo: Path, iteration: int, run_id: str, *, create: bool,
+    command_runner: Callable[[Path], subprocess.CompletedProcess[str]] | None = None,
+    invocation_run_dirs: set[Path] | None = None,
+) -> tuple[Path, Path, Path]:
+    if iteration <= 0 or not run_id or not run_id.replace("-", "").replace("_", "").isalnum():
+        raise FrontierRouteError("iteration and run identifier are invalid")
+    repo = repo.resolve()
+    result = (command_runner or _progress_command)(repo)
+    if result.returncode != 0:
+        raise FrontierRouteError(f"features-cli progress failed with exit {result.returncode}")
+    owner = _frontier_artifact_owner(repo, result.stdout)
+    run_dir = owner / ".Ralph" / "runs" / run_id
+    if create:
+        _validate_log_chain(repo, owner, run_dir)
+        established = invocation_run_dirs is not None and run_dir in invocation_run_dirs
+        if established:
+            if not run_dir.is_dir():
+                raise FrontierRouteError(f"Ralph invocation run directory is unavailable: {run_dir}")
+        else:
             try:
-                save_controller_state(state_dir, state, lifecycle, reason="root_pid_clear")
-            except BaseException as exc:
-                clear_error = exc
-                if lifecycle is not None:
-                    lifecycle.emit("root_pid_clear_failed", iteration=iteration, exception_type=type(exc).__name__)
-            if lifecycle is not None:
-                if clear_error is None:
-                    lifecycle.emit("root_pid_clear_complete", iteration=iteration, root_pid=None)
-                lifecycle.emit("executor_finally_exit", iteration=iteration, root_pid=None, poll_result=process.poll())
-            if clear_error is not None and not primary_exception:
-                raise clear_error
+                run_dir.mkdir(parents=True, exist_ok=False)
+            except FileExistsError as exc:
+                raise FrontierRouteError(f"Ralph run directory already exists: {run_dir}") from exc
+            except OSError as exc:
+                raise FrontierRouteError(f"Ralph run directory cannot be created: {run_dir}") from exc
+            if invocation_run_dirs is not None:
+                invocation_run_dirs.add(run_dir)
+        _validate_log_chain(repo, owner, run_dir)
+    return owner, run_dir, run_dir / f"iteration-{iteration:04d}.log"
+
+
+class _BoundedIterationCapture:
+    """Continuously materialize one bounded diagnostic tail while draining output."""
+
+    def __init__(self, log_path: Path) -> None:
+        self.log_path = log_path
+        self.tail = bytearray()
+        self.total = 0
+        self.truncated = False
+        self.log_path.write_bytes(b"")
+
+    def _materialize(self) -> None:
+        marker = LOG_TRUNCATION_MARKER.encode("utf-8") if self.truncated else b""
+        marker = marker[:MAX_LOG_BYTES]
+        tail_limit = max(0, MAX_LOG_BYTES - len(marker))
+        self.log_path.write_bytes(marker + self.tail[-tail_limit:])
+
+    def append(self, chunk: bytes) -> None:
+        self.total += len(chunk)
+        if not self.truncated and self.total <= MAX_LOG_BYTES:
+            self.tail.extend(chunk)
+            self._materialize()
+            return
+        self.truncated = True
+        tail_limit = max(0, MAX_LOG_BYTES - len(LOG_TRUNCATION_MARKER.encode("utf-8")))
+        self.tail.extend(chunk)
+        if len(self.tail) > tail_limit:
+            del self.tail[:-tail_limit]
+        self._materialize()
+
+    def finalize(self) -> None:
+        self._materialize()
+
+
+def hermes_executor(
+    repo: Path, state_dir: Path, iteration: int, timeout: float | None,
+    *, lifecycle: LifecycleLogger | None = None, lock: Path | None = None,
+    log_path: Path | None = None,
+) -> Path:
+    timeout = DEFAULT_ITERATION_TIMEOUT if timeout is None else timeout
+    log_path = log_path or _iteration_log(state_dir, iteration)
+    capture = _BoundedIterationCapture(log_path)
+    if lock is not None:
+        _write_runtime_record(lock, os.getpid(), None, "starting")
+    process = subprocess.Popen(
+        build_hermes_command(repo, iteration), cwd=repo, stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT, text=False,
+    )
+    if lock is not None:
+        recorded = False
+        for attempt in range(25):
+            try:
+                _write_runtime_record(lock, os.getpid(), process.pid, "running")
+                recorded = True
+                break
+            except LockConflict:
+                if attempt < 24:
+                    time.sleep(0.25)
+        if not recorded:
+            try:
+                terminate_process_tree(process)
+                if process.poll() is None:
+                    raise ProcessTreeError(f"Started process root {process.pid} exit could not be verified")
+            except BaseException as cleanup_exc:
+                try:
+                    _write_runtime_record(lock, os.getpid(), process.pid, "cleanup_ambiguous")
+                except BaseException as evidence_exc:
+                    if lifecycle:
+                        lifecycle.emit("cleanup_ambiguous", iteration=iteration, root_pid=process.pid,
+                                       error=f"{cleanup_exc}; ownership evidence failed: {evidence_exc}")
+                    raise ProcessTreeError(
+                        f"Started process root {process.pid} could not be durably recorded or safely cleaned up"
+                    ) from evidence_exc
+                if lifecycle:
+                    lifecycle.emit("cleanup_ambiguous", iteration=iteration, root_pid=process.pid, error=str(cleanup_exc))
+                raise ProcessTreeError(
+                    f"Started process root {process.pid} could not be durably recorded or safely cleaned up"
+                ) from cleanup_exc
+            _write_runtime_record(lock, os.getpid(), None, "idle")
+            raise LockConflict(f"Started process root {process.pid} could not be durably recorded")
+    if lifecycle:
+        lifecycle.emit("root_started", iteration=iteration, root_pid=process.pid, log_path=str(log_path))
+
+    def drain() -> None:
+        if process.stdout is None:
+            return
+        reader = getattr(process.stdout, "read1", process.stdout.read)
+        while chunk := reader(64 * 1024):
+            capture.append(chunk)
+
+    reader = threading.Thread(target=drain, daemon=True)
+    reader.start()
+    verified_exit = False
+    try:
+        code = process.wait(timeout=timeout)
+        verified_exit = True
+    except subprocess.TimeoutExpired as exc:
+        try:
+            terminate_process_tree(process)
+            verified_exit = process.poll() is not None
+            if not verified_exit:
+                raise ProcessTreeError(f"Owned process root {process.pid} exit could not be verified")
+        except BaseException as cleanup_exc:
+            if lifecycle:
+                lifecycle.emit("cleanup_ambiguous", iteration=iteration, root_pid=process.pid, error=str(cleanup_exc))
+            exc.add_note(f"owned tree cleanup failed: {type(cleanup_exc).__name__}: {cleanup_exc}")
+            raise
+        raise IterationTimeout(f"Ralph iteration {iteration} timed out; log: {log_path}") from exc
+    except BaseException as exc:
+        if process.poll() is None:
+            try:
+                terminate_process_tree(process)
+                verified_exit = process.poll() is not None
+            except BaseException as cleanup_exc:
+                if lifecycle:
+                    lifecycle.emit("cleanup_ambiguous", iteration=iteration, root_pid=process.pid, error=str(cleanup_exc))
+                exc.add_note(f"owned tree cleanup failed: {type(cleanup_exc).__name__}: {cleanup_exc}")
+                raise
+        raise
+    finally:
+        reader.join(timeout=5)
+        if process.stdout is not None:
+            process.stdout.close()
+        capture.finalize()
+        if verified_exit and lock is not None:
+            _write_runtime_record(lock, os.getpid(), None, "idle")
+        if lifecycle and verified_exit:
+            lifecycle.emit("root_exited", iteration=iteration, root_pid=process.pid, log_path=str(log_path))
     if code != 0:
         raise HermesProcessError(f"Hermes iteration {iteration} exited {code}; log: {log_path}")
     return log_path
 
 
-def run_preflight(repo: Path, task_id: str) -> bool:
-    try:
-        result = subprocess.run([sys.executable, str(repo / PREFLIGHT), "--repo", str(repo), "--target", task_id], cwd=repo, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=60, check=False)
-        payload = _strict_json(result.stdout)
-        return (
-            result.returncode == 0
-            and isinstance(payload, dict)
-            and payload.get("status") == "STRUCTURAL_PASS"
-            and payload.get("warnings") == []
-            and payload.get("launch_performed") is False
-        )
-    except (OSError, subprocess.TimeoutExpired, ValueError):
-        return False
-
-
-def run_loop(repo: Path, *, max_iterations: int | None = None, iteration_timeout: float | None = DEFAULT_ITERATION_TIMEOUT, read_signal_fn: Callable[[Path], bool] | None = None, execute_fn: Callable[[int, float | None], object] | None = None, state_dir: Path | None = None, campaign_id: str = "legacy", task_id: str = "active-task", resolved_tier: str = "Tier 2 — Prototype", assessment_threshold: float = DEFAULT_ASSESSMENT_THRESHOLD, assessor_timeout: float = DEFAULT_ASSESSOR_TIMEOUT, diagnosis_fn: Callable[[ControllerState, int], Diagnosis | None] | None = None, preflight_fn: Callable[[], bool] | None = None, evidence_summary: str = "Inspect existing repository evidence and approved review state.") -> LoopOutcome:
-    if max_iterations is not None and max_iterations < 0:
+def run_loop(
+    repo: Path,
+    *,
+    max_iterations: int = DEFAULT_MAX_ITERATIONS,
+    iteration_timeout: float | None = DEFAULT_ITERATION_TIMEOUT,
+    read_signal_fn: Callable[[Path], bool] | None = None,
+    execute_fn: Callable[[int, float | None], object] | None = None,
+    state_dir: Path | None = None,
+) -> LoopOutcome:
+    if max_iterations < 0:
         raise ValueError("max_iterations must be zero or greater")
     if iteration_timeout is not None and iteration_timeout <= 0:
         raise ValueError("iteration_timeout must be greater than zero")
-    if assessment_threshold <= 0 or (iteration_timeout is not None and assessment_threshold >= iteration_timeout):
-        raise ValueError("assessment threshold must be positive and less than timeout")
-    repo = repo.resolve(); state_dir = (state_dir or default_state_dir()).resolve()
-    read_signal_fn = read_signal_fn or read_completion_signal
-    lifecycle = LifecycleLogger(_lifecycle_log(state_dir), campaign_id, task_id, resolved_tier)
-    lifecycle.emit(
-        "controller_start",
-        controller_pid=os.getpid(),
-        parent_pid=os.getppid(),
-        repo=str(repo),
-        state_dir=str(state_dir),
-        max_iterations=max_iterations,
-    )
+    repo = repo.resolve()
+    state_dir = (state_dir or default_state_dir()).resolve()
+    completion = read_signal_fn or read_completion_signal
+    lifecycle = LifecycleLogger(state_dir / "logs" / f"controller-lifecycle-{os.getpid()}.jsonl")
+    run_id = uuid.uuid4().hex
+    invocation_run_dirs: set[Path] = set()
     lock: Path | None = None
     try:
         lock = _acquire_lock(state_dir, lifecycle)
-        state = load_controller_state(state_dir, campaign_id, task_id, resolved_tier, lifecycle)
-        iteration = 0
-        retry_prompt: str | None = None
-        while True:
-            if read_signal_fn(repo):
-                lifecycle.emit("loop_return", outcome=LoopOutcome.COMPLETE.value, reason="completion_signal_true", iteration=iteration)
+        lifecycle.emit("controller_start", controller_pid=os.getpid(), max_iterations=max_iterations)
+        for iteration in range(1, max_iterations + 1):
+            if completion(repo):
                 return LoopOutcome.COMPLETE
-            if max_iterations is not None and iteration >= max_iterations:
-                lifecycle.emit("loop_return", outcome=LoopOutcome.LIMIT_REACHED.value, reason="iteration_limit", iteration=iteration)
-                return LoopOutcome.LIMIT_REACHED
-            iteration += 1
-            lifecycle.emit("iteration_start", iteration=iteration, controller_pid=os.getpid())
-            executor = execute_fn or (lambda number, lease: hermes_executor(repo, state_dir, number, lease, assessment_threshold=assessment_threshold, assessor_timeout=assessor_timeout, state=state, prompt=retry_prompt, lifecycle=lifecycle))
-            try:
-                executor(iteration, iteration_timeout)
-                lifecycle.emit("iteration_executor_return", iteration=iteration)
-                retry_prompt = None
-            except IterationTimeout:
-                lifecycle.emit("iteration_timeout", iteration=iteration, current_root_pid=state.current_root_pid)
-                if read_signal_fn(repo):
-                    lifecycle.emit("loop_return", outcome=LoopOutcome.COMPLETE.value, reason="completion_after_timeout", iteration=iteration)
-                    return LoopOutcome.COMPLETE
-                if state.timeout_retries >= MAX_TIMEOUT_RETRIES:
-                    raise HardStop("Second timeout for the task; automatic retry denied")
-                if diagnosis_fn is None:
-                    output, path = run_readonly_assessor(repo, state_dir, diagnosis_prompt(state), assessor_timeout, "diagnosis", iteration)
-                    state.diagnosis_log = str(path); save_controller_state(state_dir, state, lifecycle, reason="diagnosis_log_set")
-                    try:
-                        diagnosis = parse_diagnosis(output) if output is not None else None
-                    except ValueError:
-                        diagnosis = None
-                else:
-                    diagnosis = diagnosis_fn(state, iteration)
-                if diagnosis is None or not diagnosis.should_retry:
-                    raise HardStop("Timeout diagnosis did not authorize a safe retry")
-                if not (preflight_fn or (lambda: run_preflight(repo, task_id)))():
-                    raise HardStop("Mandatory preflight failed; retry denied")
-                state.timeout_retries += 1; save_controller_state(state_dir, state, lifecycle, reason="timeout_retry_increment")
-                retry_prompt = build_retry_prompt(state, diagnosis.steering or "", evidence_summary)
-                if max_iterations is not None:
-                    max_iterations += 1
-    except BaseException as exc:
-        lifecycle.emit("controller_exception", controller_pid=os.getpid(), exception_type=type(exc).__name__)
-        raise
+            if read_pause_signal(repo):
+                return LoopOutcome.BLOCKED
+            lifecycle.emit("iteration_start", iteration=iteration)
+            if execute_fn:
+                execute_fn(iteration, iteration_timeout)
+            else:
+                _, _, log_path = resolve_frontier_log_location(
+                    repo, iteration, run_id, create=True, invocation_run_dirs=invocation_run_dirs,
+                )
+                hermes_executor(repo, state_dir, iteration, iteration_timeout, lifecycle=lifecycle, lock=lock, log_path=log_path)
+            lifecycle.emit("iteration_complete", iteration=iteration)
+        if completion(repo):
+            return LoopOutcome.COMPLETE
+        if read_pause_signal(repo):
+            return LoopOutcome.BLOCKED
+        return LoopOutcome.LIMIT_REACHED
     finally:
         if lock is not None:
-            lifecycle.emit("lock_release_start", lock_path=str(lock), controller_pid=os.getpid())
-            lock.unlink(missing_ok=True)
-            lifecycle.emit("lock_release_complete", lock_path=str(lock), controller_pid=os.getpid(), lock_exists=lock.exists())
-        lifecycle.emit("controller_exit", controller_pid=os.getpid(), parent_pid=os.getppid(), lock_acquired=lock is not None)
+            try:
+                record = _read_runtime_record(lock)
+            except LockConflict:
+                lifecycle.emit("ownership_record_preserved", controller_pid=os.getpid())
+            else:
+                if record["launch_state"] == "idle":
+                    lock.unlink(missing_ok=True)
+                else:
+                    lifecycle.emit(
+                        "ownership_record_preserved", controller_pid=os.getpid(),
+                        root_pid=record["root_pid"], launch_state=record["launch_state"],
+                    )
+        lifecycle.emit("controller_exit", controller_pid=os.getpid())
 
 
 def _print_error(outcome: str, error: BaseException) -> None:
@@ -878,34 +666,46 @@ def _print_error(outcome: str, error: BaseException) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
-    parser.add_argument("--max-iterations", type=int)
+    parser.add_argument("--max-iterations", type=int, default=DEFAULT_MAX_ITERATIONS)
     parser.add_argument("--iteration-timeout", type=float, default=DEFAULT_ITERATION_TIMEOUT)
-    parser.add_argument("--assessment-threshold", type=float, default=DEFAULT_ASSESSMENT_THRESHOLD)
-    parser.add_argument("--assessor-timeout", type=float, default=DEFAULT_ASSESSOR_TIMEOUT)
-    parser.add_argument("--campaign-id", default="bootstrap-active-campaign")
-    parser.add_argument("--task-id", default="active-task")
-    parser.add_argument("--resolved-tier", default="Tier 2 — Prototype")
     parser.add_argument("--state-dir", type=Path, default=default_state_dir())
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
     try:
         if args.dry_run:
-            done = read_completion_signal(args.repo)
-            print(json.dumps({"completion_signal": {"isEverythingDone": done}, "command": build_hermes_command(args.repo, 1), "supervision": {"assessment_threshold": args.assessment_threshold, "assessor_timeout": args.assessor_timeout, "iteration_timeout": args.iteration_timeout, "max_extensions": MAX_EXTENSIONS, "max_timeout_retries": MAX_TIMEOUT_RETRIES}}, indent=2, ensure_ascii=False))
+            repo = args.repo.resolve()
+            run_id = uuid.uuid4().hex
+            owner, run_dir, log_path = resolve_frontier_log_location(repo, 1, run_id, create=False)
+            print(json.dumps({
+                "repo": str(repo),
+                "completion_signal": {"isEverythingDone": read_completion_signal(repo)},
+                "pause_signal": {"isPaused": read_pause_signal(repo)},
+                "profile": ROOT_PROFILE,
+                "command": build_hermes_command(repo, 1),
+                "iteration_timeout": args.iteration_timeout,
+                "max_iterations": args.max_iterations,
+                "log_owner": str(owner),
+                "log_run_directory": str(run_dir),
+                "iteration_log": str(log_path),
+                "launch_performed": False,
+            }, indent=2, ensure_ascii=False))
             return 0
-        outcome = run_loop(args.repo, max_iterations=args.max_iterations, iteration_timeout=args.iteration_timeout, state_dir=args.state_dir, campaign_id=args.campaign_id, task_id=args.task_id, resolved_tier=args.resolved_tier, assessment_threshold=args.assessment_threshold, assessor_timeout=args.assessor_timeout)
+        outcome = run_loop(
+            args.repo, max_iterations=args.max_iterations,
+            iteration_timeout=args.iteration_timeout, state_dir=args.state_dir,
+        )
         print(json.dumps({"outcome": outcome.value}, indent=2))
         return 0 if outcome is LoopOutcome.COMPLETE else 2
-    except CompletionSignalError as exc:
+    except (CompletionSignalError, PauseSignalError) as exc:
         _print_error("INVALID_SIGNAL", exc); return 3
     except HermesProcessError as exc:
         _print_error("HERMES_FAILED", exc); return 4
     except IterationTimeout as exc:
         _print_error("TIMEOUT", exc); return 5
-    except (HardStop, ProcessTreeError) as exc:
-        _print_error("HARD_STOP", exc); return 7
     except LockConflict as exc:
         _print_error("LOCK_CONFLICT", exc); return 6
+    except ProcessTreeError as exc:
+        _print_error("ERROR", exc); return 7
     except KeyboardInterrupt as exc:
         _print_error("INTERRUPTED", exc); return 130
     except Exception as exc:

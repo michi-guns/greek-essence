@@ -1,43 +1,36 @@
-# Hermes Ralph Profiles
+# Hermes Ralph/JZ Profiles
 
-These tracked SOUL templates make the external Hermes profile setup reproducible. Profiles are reusable context shells; the root contract and child prompt define authority.
+These source-controlled SOUL templates are the reviewable role contracts for the Ralph/JZ rebuild in the isolated worktree `C:/Users/jimzord12/Documents/GitHub/greek-essence-jz-ralph`. Live profile configuration, credentials, memories, and sessions remain outside Git under `%LOCALAPPDATA%/hermes/profiles/<name>/`.
 
-| Role | Profile | Model | Provider | Reasoning | Template |
-|---|---|---|---|---|---|
-| Root orchestrator | `greekroot` | `gpt-5.6-sol` | `openai-codex` | low | [greekroot-SOUL.md](greekroot-SOUL.md) |
-| Substantial implementer | `greekimpl` | `gpt-5.6-luna` | `openai-codex` | high | [greekimpl-SOUL.md](greekimpl-SOUL.md) |
-| Independent reviewer | `greekreview` | `gpt-5.6-terra` | `openai-codex` | high | [greekreview-SOUL.md](greekreview-SOUL.md) |
+| Role | Live profile | Source contract | Installed state |
+|---|---|---|---|
+| One-action workflow orchestrator | `jzgreekorch` | [jzgreekorch-SOUL.md](jzgreekorch-SOUL.md) | Installed; profile-owned configuration |
+| TDD implementer for RED and/or GREEN | `jzgreekimpl` | [jzgreekimpl-SOUL.md](jzgreekimpl-SOUL.md) | Installed; profile-owned configuration |
+| Independent code reviewer | `jzgreekrev` | [jzgreekrev-SOUL.md](jzgreekrev-SOUL.md) | Installed; profile-owned configuration |
+| Independent rendered visual reviewer | `jzgreekvisualrev` | [jzgreekvisualrev-SOUL.md](jzgreekvisualrev-SOUL.md) | Installed; profile-owned configuration |
 
-The live profiles are stored outside Git under `%LOCALAPPDATA%\hermes\profiles\<name>\`. All three use `C:/Users/jimzord12/Documents/GitHub/greek-essence` as `terminal.cwd`.
+All four profiles are installed, have `terminal.cwd` set to this isolated worktree, and their live `SOUL.md` files match the source templates. The controller names only `jzgreekorch`; it does not override the profile-owned model, provider, or reasoning configuration. The orchestrator creates fresh standalone child sessions and never resumes a prior role session.
 
-The installed Hermes CLI uses these validated commands when a profile needs pinning:
+## Reproducibility and role boundary
 
-```bash
-hermes -p greekroot config set model.default gpt-5.6-sol
-hermes -p greekroot config set model.provider openai-codex
-hermes -p greekroot config set model.reasoning_effort low
-hermes -p greekroot config set agent.reasoning_effort low
-hermes -p greekroot config set terminal.cwd C:/Users/jimzord12/Documents/GitHub/greek-essence
+- The four templates above are the only retained source-controlled role contracts for this workflow. Obsolete legacy source templates are not runtime dependencies.
+- Do not copy runtime configuration, credentials, memories, or sessions into this directory.
+- The live recommended JZ skill comes from `features-cli docs current`; role contracts must load that skill and its required references rather than pin remembered workflow behavior.
+- Child briefs must state the one assigned action, authority paths, resolved engineering depth, gates, evidence path, and prohibited side effects.
+- Code and visual reviews create new immutable evidence files; implementation agents never edit them.
 
-hermes -p greekimpl config set model.default gpt-5.6-luna
-hermes -p greekimpl config set model.provider openai-codex
-hermes -p greekimpl config set model.reasoning_effort high
-hermes -p greekimpl config set agent.reasoning_effort high
-hermes -p greekimpl config set terminal.cwd C:/Users/jimzord12/Documents/GitHub/greek-essence
-
-hermes -p greekreview config set model.default gpt-5.6-terra
-hermes -p greekreview config set model.provider openai-codex
-hermes -p greekreview config set model.reasoning_effort high
-hermes -p greekreview config set agent.reasoning_effort high
-hermes -p greekreview config set terminal.cwd C:/Users/jimzord12/Documents/GitHub/greek-essence
-```
-
-The live profiles were already pinned to these values before this refactor; no credentials or profile data outside the approved config keys are changed by the repository migration.
-
-Verify before an unattended run:
+## Read-only installed-profile checks
 
 ```bash
-hermes profile show greekroot
-hermes profile show greekimpl
-hermes profile show greekreview
+hermes profile show jzgreekorch
+hermes profile show jzgreekimpl
+hermes profile show jzgreekrev
+hermes profile show jzgreekvisualrev
+
+hermes -p jzgreekorch config show
+hermes -p jzgreekimpl config show
+hermes -p jzgreekrev config show
+hermes -p jzgreekvisualrev config show
 ```
+
+These commands inspect configuration only. They do not authorize a profile launch, feature transition, signal mutation, legacy-profile retirement, staging, commit, push, or deployment.

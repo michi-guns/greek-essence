@@ -4,13 +4,25 @@ const unlighthouseConfig = {
   scanner: {
     device: "mobile",
     samples: 3,
-    include: ["/en", "/el", "/en/quality-lab", "/el/quality-lab"],
+    include: [
+      "/en",
+      "/el",
+      "/en/destinations/paros-antiparos",
+      "/el/destinations/paros-antiparos",
+      "/en/quality-lab",
+      "/el/quality-lab",
+    ],
     sitemap: false,
     robotsTxt: false,
     dynamicSampling: false,
   },
   lighthouseOptions: {
     skipAudits: ["is-crawlable"],
+    // Lighthouse's Lantern simulator currently inflates text LCP from ~150 ms
+    // observed to ~4.9 s on Windows/Chrome 150, including on the unchanged
+    // quality-lab route. DevTools throttling preserves the mobile profile while
+    // measuring the actual throttled browser timeline.
+    throttlingMethod: "devtools",
   },
   ci: {
     budget: {
