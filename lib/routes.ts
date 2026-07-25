@@ -20,3 +20,18 @@ export function getLocalizedHref(
 export function getRoutePathname(routeId: ShowcaseRouteId): string {
   return getLocalizedHref(routeId, "en").replace(/^\/en(?=\/|$)/, "") || "/"
 }
+
+export function getCtaPathname({
+  routeId,
+  destinationContext,
+}: {
+  routeId: ShowcaseRouteId
+  destinationContext: "paros-antiparos" | null
+}): string {
+  if (destinationContext === "paros-antiparos" && routeId !== "plan-my-trip") {
+    throw new Error("Destination context requires Plan My Trip")
+  }
+  return destinationContext === null
+    ? getRoutePathname(routeId)
+    : "/plan-my-trip?destination=paros-antiparos"
+}

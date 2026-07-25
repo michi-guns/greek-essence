@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from "react"
 
+import { LanguageSwitcher } from "./language-switcher"
+
 import { Link } from "@/i18n/navigation"
 import type { Locale } from "@/i18n/routing"
-import { getRoutePathname } from "@/lib/routes"
+import { getRoutePathname, type ShowcaseRouteId } from "@/lib/routes"
 
 const labels = {
   en: {
@@ -13,7 +15,6 @@ const labels = {
     home: "Home",
     paros: "Paros & Antiparos",
     plan: "Plan my trip",
-    other: "Ελληνικά",
   },
   el: {
     nav: "Κύρια πλοήγηση",
@@ -21,16 +22,20 @@ const labels = {
     home: "Αρχική",
     paros: "Πάρος & Αντίπαρος",
     plan: "Σχεδιάστε το ταξίδι μου",
-    other: "English",
   },
 } as const
 
-export function SiteHeader({ locale }: { locale: Locale }) {
+export function SiteHeader({
+  locale,
+  routeId,
+}: {
+  locale: Locale
+  routeId: ShowcaseRouteId
+}) {
   const [open, setOpen] = useState(false)
   const trigger = useRef<HTMLButtonElement>(null)
   const nav = useRef<HTMLElement>(null)
   const l = labels[locale]
-  const otherLocale = locale === "en" ? "el" : "en"
 
   useEffect(() => {
     if (!open) return
@@ -41,7 +46,10 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       }
     }
     const outside = (event: PointerEvent) => {
-      if (!nav.current?.contains(event.target as Node)) setOpen(false)
+      if (!nav.current?.contains(event.target as Node)) {
+        setOpen(false)
+        window.setTimeout(() => trigger.current?.focus())
+      }
     }
     window.addEventListener("keydown", keydown)
     document.addEventListener("pointerdown", outside)
@@ -55,7 +63,12 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   return (
     <header className="site-header">
       <nav ref={nav} aria-label={l.nav} className="site-nav">
-        <Link aria-current="page" className="brand" href="/" locale={locale}>
+        <Link
+          aria-current={routeId === "home" ? "page" : undefined}
+          className="brand"
+          href="/"
+          locale={locale}
+        >
           Greek Essence
         </Link>
         <button
@@ -72,10 +85,16 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           className={open ? "nav-links is-open" : "nav-links"}
           id="primary-menu"
         >
-          <Link aria-current="page" href="/" locale={locale} onClick={close}>
+          <Link
+            aria-current={routeId === "home" ? "page" : undefined}
+            href="/"
+            locale={locale}
+            onClick={close}
+          >
             {l.home}
           </Link>
           <Link
+            aria-current={routeId === "paros" ? "page" : undefined}
             href={getRoutePathname("paros")}
             locale={locale}
             onClick={close}
@@ -92,9 +111,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           >
             {l.plan}
           </Link>
-          <Link href="/" locale={otherLocale} onClick={close}>
-            {l.other}
-          </Link>
+          <LanguageSwitcher locale={locale} routeId={routeId} />
         </div>
       </nav>
     </header>

@@ -2,9 +2,9 @@
 
 ## Status and authority
 
-This document is the repository's **mandatory master Git workflow**. Every agent and human contributor must read it before modifying files, creating or switching branches, creating worktrees, delegating implementation, staging changes, committing, pushing, opening or merging a pull request, resolving conflicts, or cleaning up Git state.
+This document is an **optional Git delivery workflow**. It applies only when the operator explicitly requests the Git Workflow for the current task. Do not infer that request from ordinary implementation, verification, commit, push, or merge instructions.
 
-Root [`AGENTS.md`](../AGENTS.md) makes this a required start-of-task read. A feature-local `AGENTS.md`, task contract, or delegated-agent brief may impose stricter rules, but it must not weaken this workflow. Direct operator instructions remain authoritative; any approved exception must be explicit, narrow, and recorded truthfully.
+Pull requests are also optional and must be explicitly requested. When neither this workflow nor a pull request is requested, use only the simplest Git actions the operator explicitly authorizes while preserving unrelated work, truthful verification, and non-destructive safety. Root [`AGENTS.md`](../AGENTS.md), direct operator instructions, and task-specific authority remain controlling.
 
 ## Core model
 
@@ -16,17 +16,17 @@ A branch records one line of work. A worktree gives that branch a separate physi
 
 Do not perform implementation in a shared dirty worktree when an isolated worktree can be used. Do not switch the branch of a worktree owned by another agent or active process.
 
-## Mandatory lifecycle
+## Workflow lifecycle (when explicitly requested)
 
 1. Inspect live repository and remote state.
 2. Create a dedicated branch and isolated worktree from current `origin/main`.
 3. Record task ownership, path, branch, scope, exclusions, and Git permissions.
 4. Implement and verify only the assigned task.
 5. Stage explicit task-owned paths and inspect the staged snapshot.
-6. Commit, push, and open a focused pull request.
+6. Commit and use the explicitly requested delivery route. Push/open a focused pull request only when requested.
 7. Complete required checks and independent reviews.
 8. Resolve straightforward conflicts safely; escalate ambiguous semantic conflicts.
-9. Merge with a normal merge commit.
+9. Merge using the explicitly authorized direct or pull-request route.
 10. Verify the merge on remote `main` and verify required post-merge checks.
 11. Confirm the task worktree is clean, then delete its worktree and local/remote branch.
 

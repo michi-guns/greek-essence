@@ -1,11 +1,29 @@
 import { z } from "zod"
 
 const routeIdSchema = z.enum(["home", "paros", "plan-my-trip", "confirmation"])
-const ctaSchema = z.object({
+const ctaBaseSchema = z.object({
   label: z.string().trim().min(1),
-  routeId: routeIdSchema,
-  destinationContext: z.literal("paros-antiparos").nullable(),
 })
+const ctaSchema = z.union([
+  ctaBaseSchema.extend({
+    routeId: routeIdSchema,
+    destinationContext: z.null(),
+  }),
+  ctaBaseSchema.extend({
+    routeId: z.literal("plan-my-trip"),
+    destinationContext: z.literal("paros-antiparos"),
+  }),
+])
+
+export function validateParosFinalCta(cta: z.infer<typeof ctaSchema>): void {
+  if (
+    cta.routeId !== "plan-my-trip" ||
+    cta.destinationContext !== "paros-antiparos"
+  ) {
+    throw new Error("Paros final CTA requires destination context")
+  }
+}
+
 const editorialSchema = z.object({
   eyebrow: z.string().trim().min(1).nullable(),
   heading: z.string().trim().min(1),
@@ -18,6 +36,7 @@ const cardSchema = z.object({
   summary: z.string().trim().min(1),
   cta: ctaSchema.nullable(),
 })
+const mediaCardSchema = cardSchema.extend({ mediaId: z.string().trim().min(1) })
 
 export const showcaseContentSchema = z.object({
   home: z.object({
@@ -53,6 +72,34 @@ export const showcaseContentSchema = z.object({
       ]),
     }),
     trustStory: editorialSchema,
+    finalCta: ctaSchema,
+  }),
+  paros: z.object({
+    metadata: z.object({
+      title: z.string().trim().min(1),
+      description: z.string().trim().min(1),
+    }),
+    hero: z.object({
+      eyebrow: z.string().trim().min(1).nullable(),
+      title: z.string().trim().min(1),
+      summary: z.string().trim().min(1),
+      mediaId: z.string().trim().min(1).nullable(),
+      primaryCta: ctaSchema,
+      secondaryCta: ctaSchema.nullable(),
+    }),
+    introduction: editorialSchema,
+    travelerFit: z.object({
+      heading: z.string().trim().min(1),
+      items: z.array(cardSchema).min(1),
+    }),
+    signatureExperiences: z.object({
+      heading: z.string().trim().min(1),
+      items: z.array(mediaCardSchema).min(1),
+    }),
+    combinations: z.object({
+      heading: z.string().trim().min(1),
+      items: z.array(cardSchema).min(1),
+    }),
     finalCta: ctaSchema,
   }),
 })

@@ -28,6 +28,7 @@
 - Do not invent business facts, credentials, prices, availability, response times, or unsupported claims.
 - Keep secrets server-side and outside Git.
 - Avoid rare edge-case branches unless they protect correctness, privacy, security, or recoverability.
+- `features-cli` is the sole workflow ledger. At iteration start and end, run `features-cli docs current --feature greek-essence-showcase` and `features-cli progress --feature greek-essence-showcase --json`; contextual handoffs must not replace or duplicate its live frontier.
 - Follow the live `features-cli` frontier and the active issue/change contract. Do not continue into a successor workflow or issue without explicit authorization.
 
 ## Orchestrator / Overseer Ownership
@@ -114,6 +115,6 @@ Use synthetic data only. Screenshots, traces, reports, URLs, console output, and
 2. This file.
 3. `PRD.md`.
 4. `GLOSSARY.md`.
-5. `features-cli progress --feature greek-essence-showcase --json`.
+5. `features-cli docs current --feature greek-essence-showcase` and `features-cli progress --feature greek-essence-showcase --json`.
 6. `GRILL_SESSION.md`, continuing from `## Next Question`.
 7. Only the authoritative repository documents needed to resolve the active question.

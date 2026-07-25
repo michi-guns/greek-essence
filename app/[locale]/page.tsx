@@ -39,7 +39,7 @@ export default async function HomePage({ params }: LocalePageProps) {
       <a className="skip-link" href="#main-content">
         {locale === "en" ? "Skip to content" : "Μετάβαση στο περιεχόμενο"}
       </a>
-      <SiteHeader locale={locale} />
+      <SiteHeader locale={locale} routeId="home" />
       <HomeSections
         content={content}
         heroMedia={resolveMedia(content.hero.mediaId!, locale)}

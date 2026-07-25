@@ -4,7 +4,14 @@ const unlighthouseConfig = {
   scanner: {
     device: "mobile",
     samples: 3,
-    include: ["/en", "/el", "/en/quality-lab", "/el/quality-lab"],
+    include: [
+      "/en",
+      "/el",
+      "/en/destinations/paros-antiparos",
+      "/el/destinations/paros-antiparos",
+      "/en/quality-lab",
+      "/el/quality-lab",
+    ],
     sitemap: false,
     robotsTxt: false,
     dynamicSampling: false,

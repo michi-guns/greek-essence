@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { getLocalizedHref } from "@/lib/routes"
+import { getCtaPathname, getLocalizedHref } from "@/lib/routes"
 
 describe("showcase route identities", () => {
   it.each([
@@ -14,5 +14,26 @@ describe("showcase route identities", () => {
     ["confirmation", "el", "/el/plan-my-trip/confirmation"],
   ] as const)("maps %s independently for %s", (route, locale, href) => {
     expect(getLocalizedHref(route, locale)).toBe(href)
+  })
+
+  it("emits contextual CTA paths only for Plan My Trip", () => {
+    expect(
+      getCtaPathname({
+        routeId: "plan-my-trip",
+        destinationContext: "paros-antiparos",
+      })
+    ).toBe("/plan-my-trip?destination=paros-antiparos")
+    expect(getCtaPathname({ routeId: "home", destinationContext: null })).toBe(
+      "/"
+    )
+    expect(getCtaPathname({ routeId: "paros", destinationContext: null })).toBe(
+      "/destinations/paros-antiparos"
+    )
+    expect(() =>
+      getCtaPathname({
+        routeId: "home",
+        destinationContext: "paros-antiparos",
+      })
+    ).toThrow("Destination context requires Plan My Trip")
   })
 })

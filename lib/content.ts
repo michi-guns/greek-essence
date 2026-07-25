@@ -1,7 +1,10 @@
+import { existsSync } from "node:fs"
+
 import greekContent from "@/content/el/showcase.json"
 import englishContent from "@/content/en/showcase.json"
 import {
   showcaseContentSchema,
+  validateParosFinalCta,
   type ShowcaseContent,
 } from "@/content/schemas/showcase"
 import mediaManifest from "@/content/shared/media.json"
@@ -36,7 +39,27 @@ function shape(value: unknown): unknown {
         .map((key) => [key, shape((value as Record<string, unknown>)[key])])
     )
   }
-  return typeof value
+  return "scalar"
+}
+
+const stableValueKeys = new Set([
+  "id",
+  "mediaId",
+  "routeId",
+  "destinationContext",
+])
+
+function stableValues(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(stableValues)
+  if (!value || typeof value !== "object") return undefined
+
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).flatMap(([key, child]) => {
+      if (stableValueKeys.has(key)) return [[key, child]]
+      const nested = stableValues(child)
+      return nested === undefined ? [] : [[key, nested]]
+    })
+  )
 }
 
 function referencedMedia(content: ShowcaseContent): string[] {
@@ -45,6 +68,9 @@ function referencedMedia(content: ShowcaseContent): string[] {
     content.home.promise.mediaId,
     content.home.parosFeature.mediaId,
     content.home.trustStory.mediaId,
+    content.paros.hero.mediaId,
+    content.paros.introduction.mediaId,
+    ...content.paros.signatureExperiences.items.map((item) => item.mediaId),
   ].filter((id): id is string => id !== null)
 }
 
@@ -60,11 +86,16 @@ export function validateShowcaseContentPair(
   }
   const en = showcaseContentSchema.parse(englishInput)
   const el = showcaseContentSchema.parse(greekInput)
+  validateParosFinalCta(en.paros.finalCta)
+  validateParosFinalCta(el.paros.finalCta)
   const mediaIds = new Set(knownMediaIds)
   for (const content of [en, el]) {
     for (const id of referencedMedia(content)) {
       if (!mediaIds.has(id)) throw new Error(`Unknown showcase media id: ${id}`)
     }
+  }
+  if (JSON.stringify(stableValues(en)) !== JSON.stringify(stableValues(el))) {
+    throw new Error("Showcase locale stable values differ")
   }
   return { en, el }
 }
@@ -101,7 +132,7 @@ export function resolveMediaFromManifest(
   sourceManifest: MediaManifest,
   id: string,
   locale: Locale,
-  fileExists: (path: string) => boolean = () => true
+  fileExists: (path: string) => boolean = existsSync
 ): MediaResolution {
   const asset = sourceManifest.assets.find((candidate) => candidate.id === id)
   if (!asset) throw new Error(`Unknown media id: ${id}`)

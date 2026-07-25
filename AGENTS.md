@@ -2,7 +2,7 @@
 
 ## Authority
 
-Before modifying files, creating or switching branches, creating a worktree, delegating implementation, staging, committing, pushing, opening or merging a pull request, resolving conflicts, or cleaning up Git state, read [`docs/GIT_WORKFLOW.md`](docs/GIT_WORKFLOW.md). It is the repository's **mandatory master Git workflow** for every agent and contributor. Every delegated implementation or review brief must point to it explicitly. Feature-local instructions and task contracts may impose stricter rules but must not weaken its isolation, ownership, staging, review, merge-verification, or cleanup requirements.
+The repository Git Workflow is optional and must be explicitly requested by the operator for the current task. Do not infer that request from ordinary implementation, verification, commit, push, or merge instructions. Pull requests are optional and must also be explicitly requested. When the Git Workflow is not requested, use only the simplest Git actions the operator explicitly authorizes while preserving unrelated work, truthful verification, and non-destructive safety.
 
 At the start of every project task, check the repository-root [`NEXT.md`](NEXT.md). If it is non-empty, read it and follow its project handoff instructions before proceeding. Keep `NEXT.md` current when handing project work to another agent. Ralph-specific orchestration state remains in `.scratch/ralph-loop/HANDOFF.md`.
 

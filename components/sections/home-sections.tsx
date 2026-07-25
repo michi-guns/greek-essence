@@ -1,58 +1,8 @@
-import Image from "next/image"
+import { ShowcaseCta, ShowcaseMedia } from "./showcase-media"
 
 import type { ShowcaseContent } from "@/content/schemas/showcase"
-import { Link } from "@/i18n/navigation"
 import type { Locale } from "@/i18n/routing"
 import type { MediaResolution } from "@/lib/content"
-import { getRoutePathname } from "@/lib/routes"
-
-function Media({
-  resolution,
-  priority = false,
-}: {
-  resolution: MediaResolution
-  priority?: boolean
-}) {
-  if (resolution.kind === "fallback")
-    return <div aria-hidden="true" className="media-fallback" />
-  const { media } = resolution
-  return (
-    <Image
-      alt={media.alt}
-      className="showcase-media"
-      height={media.height}
-      priority={priority}
-      sizes="(max-width: 767px) 100vw, 50vw"
-      src={media.src}
-      style={{
-        objectPosition: `${media.focalPoint.xPercent}% ${media.focalPoint.yPercent}%`,
-      }}
-      width={media.width}
-    />
-  )
-}
-
-function Cta({
-  cta,
-  locale,
-  className = "text-link",
-}: {
-  cta: ShowcaseContent["home"]["finalCta"]
-  locale: Locale
-  className?: string
-}) {
-  const available = cta.routeId === "home"
-  return (
-    <Link
-      className={className}
-      href={getRoutePathname(cta.routeId)}
-      locale={locale}
-      prefetch={available ? undefined : false}
-    >
-      {cta.label}
-    </Link>
-  )
-}
 
 export function HomeSections({
   content,
@@ -68,19 +18,19 @@ export function HomeSections({
   return (
     <main id="main-content">
       <section className="hero section-pad">
-        <Media priority resolution={heroMedia} />
+        <ShowcaseMedia priority resolution={heroMedia} variant="hero" />
         <div className="shell hero-copy">
           <p className="eyebrow">{content.hero.eyebrow}</p>
           <h1>{content.hero.title}</h1>
           <p className="lead">{content.hero.summary}</p>
           <div className="cta-row">
-            <Cta
+            <ShowcaseCta
               cta={content.hero.primaryCta}
               locale={locale}
               className="button button-primary"
             />
             {content.hero.secondaryCta ? (
-              <Cta
+              <ShowcaseCta
                 cta={content.hero.secondaryCta}
                 locale={locale}
                 className="button button-secondary"
@@ -100,7 +50,7 @@ export function HomeSections({
       </section>
       <section className="section-pad surface">
         <div className="shell split">
-          <Media resolution={parosMedia} />
+          <ShowcaseMedia resolution={parosMedia} variant="card" />
           <div>
             <p className="eyebrow">
               {locale === "en" ? "An island pairing" : "Δύο νησιά μαζί"}
@@ -108,7 +58,7 @@ export function HomeSections({
             <h2>{content.parosFeature.title}</h2>
             <p>{content.parosFeature.summary}</p>
             {content.parosFeature.cta ? (
-              <Cta cta={content.parosFeature.cta} locale={locale} />
+              <ShowcaseCta cta={content.parosFeature.cta} locale={locale} />
             ) : null}
           </div>
         </div>
@@ -148,7 +98,7 @@ export function HomeSections({
               ? "Tell us what you imagine, and take the first step towards a journey with your own rhythm."
               : "Μοιραστείτε όσα φαντάζεστε και κάντε το πρώτο βήμα για ένα ταξίδι στον δικό σας ρυθμό."}
           </p>
-          <Cta
+          <ShowcaseCta
             cta={content.finalCta}
             locale={locale}
             className="button button-light"

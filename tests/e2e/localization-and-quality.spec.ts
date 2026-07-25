@@ -20,6 +20,26 @@ const localizedRoutes = [
     alternates: { en: "/en", el: "/el", "x-default": "/en" },
   },
   {
+    route: "/en/destinations/paros-antiparos",
+    locale: "en",
+    canonical: "/en/destinations/paros-antiparos",
+    alternates: {
+      en: "/en/destinations/paros-antiparos",
+      el: "/el/destinations/paros-antiparos",
+      "x-default": "/en/destinations/paros-antiparos",
+    },
+  },
+  {
+    route: "/el/destinations/paros-antiparos",
+    locale: "el",
+    canonical: "/el/destinations/paros-antiparos",
+    alternates: {
+      en: "/en/destinations/paros-antiparos",
+      el: "/el/destinations/paros-antiparos",
+      "x-default": "/en/destinations/paros-antiparos",
+    },
+  },
+  {
     route: "/en/quality-lab",
     locale: "en",
     canonical: "/en/quality-lab",
@@ -184,6 +204,162 @@ test.describe("localized prototype shell", () => {
       })
     ).toBeVisible()
     await expect(page.locator("main > section")).toHaveCount(6)
+  })
+
+  test("renders the bilingual Paros editorial journey with route-preserving locale switching", async ({
+    page,
+  }) => {
+    await page.goto("/en/destinations/paros-antiparos")
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: "Paros & Antiparos, in your own rhythm",
+      })
+    ).toBeVisible()
+    await expect(page.locator("main > section")).toHaveCount(6)
+    const menuButton = page.getByRole("button", { name: "Menu", exact: true })
+    if (await menuButton.isVisible()) await menuButton.click()
+    await expect(
+      page.getByRole("link", { name: "Paros & Antiparos", exact: true })
+    ).toHaveAttribute("aria-current", "page")
+    await expectPathname(
+      page.getByRole("link", { name: "Plan Paros & Antiparos", exact: true }),
+      "/en/plan-my-trip"
+    )
+    await expect(
+      page.getByRole("link", { name: "Plan Paros & Antiparos", exact: true })
+    ).toHaveAttribute("href", "/en/plan-my-trip?destination=paros-antiparos")
+
+    await page.getByRole("link", { name: "Ελληνικά", exact: true }).click()
+    await expect(page).toHaveURL(/\/el\/destinations\/paros-antiparos$/)
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: "Πάρος & Αντίπαρος, στον δικό σας ρυθμό",
+      })
+    ).toBeVisible()
+    await expect(page.locator("main > section")).toHaveCount(6)
+  })
+
+  test("protects both localized Home-to-Paros journeys and destination responsive boundaries", async ({
+    page,
+    request,
+  }) => {
+    for (const journey of [
+      {
+        home: "/en",
+        destination: "/en/destinations/paros-antiparos",
+        otherDestination: "/el/destinations/paros-antiparos",
+        cta: "Plan Paros & Antiparos",
+        switcher: "Ελληνικά",
+        current: "Paros & Antiparos",
+      },
+      {
+        home: "/el",
+        destination: "/el/destinations/paros-antiparos",
+        otherDestination: "/en/destinations/paros-antiparos",
+        cta: "Σχεδιάστε Πάρο & Αντίπαρο",
+        switcher: "English",
+        current: "Πάρος & Αντίπαρος",
+      },
+    ]) {
+      await page.emulateMedia({ reducedMotion: "reduce" })
+      await page.goto(journey.home)
+      const menuButton = page.getByRole("button", {
+        name: journey.home === "/en" ? "Menu" : "Μενού",
+        exact: true,
+      })
+      if (await menuButton.isVisible()) await menuButton.click()
+      await page.locator(`a[href="${journey.destination}"]`).first().click()
+      await expect(page).toHaveURL(journey.destination)
+      if (await menuButton.isVisible()) await menuButton.click()
+      await expect(
+        page.getByRole("link", { name: journey.current, exact: true })
+      ).toHaveAttribute("aria-current", "page")
+      await expect(
+        page.getByRole("link", { name: journey.cta, exact: true })
+      ).toHaveAttribute(
+        "href",
+        `${journey.home.replace(/\/(en|el)$/, "/$1/plan-my-trip")}?destination=paros-antiparos`
+      )
+      await page
+        .getByRole("link", { name: journey.switcher, exact: true })
+        .click()
+      await expect(page).toHaveURL(journey.otherDestination)
+
+      const response = await request.get(journey.destination)
+      expect(response.headers()["content-security-policy"]).toBeTruthy()
+      expect(response.headers()["x-content-type-options"]).toBe("nosniff")
+      expect(response.headers()["x-frame-options"]).toBe("DENY")
+
+      await page.setViewportSize({ width: 320, height: 844 })
+      await expect(page.locator(".button").first()).toBeVisible()
+      expect(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth <=
+            document.documentElement.clientWidth + 1
+        )
+      ).toBe(true)
+      expect(
+        await page
+          .locator(".button")
+          .first()
+          .evaluate((element) => getComputedStyle(element).transitionDuration)
+      ).toBe("0s")
+      await page.setViewportSize({ width: 1440, height: 1024 })
+      await page.keyboard.press("Tab")
+      await expect(page.locator(":focus")).toBeVisible()
+    }
+  })
+
+  test("protects destination headers and 200% zoom overflow for both locales", async ({
+    page,
+    request,
+  }) => {
+    for (const route of [
+      "/en/destinations/paros-antiparos",
+      "/el/destinations/paros-antiparos",
+    ]) {
+      const response = await request.get(route)
+      expect(response.headers()["content-security-policy"]).toBeTruthy()
+      expect(response.headers()["x-content-type-options"]).toBe("nosniff")
+      expect(response.headers()["referrer-policy"]).toBe(
+        "strict-origin-when-cross-origin"
+      )
+      expect(response.headers()["permissions-policy"]).toBe(
+        "camera=(), microphone=(), geolocation=()"
+      )
+      expect(response.headers()["x-frame-options"]).toBe("DENY")
+
+      await page.goto(route)
+      await page.setViewportSize({ width: 195, height: 844 })
+      await expectNoHorizontalOverflow(page, 195)
+    }
+  })
+
+  test("closes compact destination menus with trigger focus return", async ({
+    page,
+  }) => {
+    test.skip((await page.viewportSize())!.width >= 768, "compact interaction")
+    for (const journey of [
+      { route: "/en/destinations/paros-antiparos", menu: "Menu" },
+      { route: "/el/destinations/paros-antiparos", menu: "Μενού" },
+    ]) {
+      await page.goto(journey.route)
+      const trigger = page.getByRole("button", {
+        name: journey.menu,
+        exact: true,
+      })
+      await trigger.click()
+      await page.keyboard.press("Escape")
+      await expect(trigger).toHaveAttribute("aria-expanded", "false")
+      await expect(trigger).toBeFocused()
+      await trigger.click()
+      await page.locator("main").click({ position: { x: 10, y: 10 } })
+      await expect(trigger).toHaveAttribute("aria-expanded", "false")
+      await expect(trigger).toBeFocused()
+    }
   })
 
   test("redirects the root route and rejects an invalid locale", async ({
