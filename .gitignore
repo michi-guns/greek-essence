@@ -47,3 +47,7 @@ next-env.d.ts
 
 # Ralph generated analytics
 .scratch/ralph-loop/analytics/
+
+# Playwright
+.artifacts/
+.playwright-cli-runtime
