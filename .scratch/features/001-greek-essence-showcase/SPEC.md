@@ -1021,7 +1021,7 @@ The controlled real Resend smoke is an operator-authorized manual gate after the
 
 ### 2. Complete a resilient bilingual trip request — `complete-resilient-trip-request`
 
-- **Decomposed:** pending
+- **Decomposed:** 2026-07-25T00:16:59.776Z
 - **Demo:** A visitor enters from Paros, completes the exact four-step request in either locale, refreshes or switches language without losing progress, and can safely cancel or confirm Start Over.
 - **DependsOn:** `explore-bilingual-showcase`
 - **Delivers:** FR-003 (Plan My Trip route, step, and canonical-value continuity), FR-004, FR-005, FR-006, FR-007, FR-013 (form options, validation, states, and message parity), FR-015 (Plan My Trip metadata); NFR-001, NFR-002, NFR-003, NFR-004, NFR-005, NFR-006, NFR-007, NFR-008; DEC-003, DEC-004, DEC-005, DEC-008, DEC-010, DEC-012, SUBDEC-001, SUBDEC-002, SUBDEC-004

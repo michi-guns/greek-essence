@@ -2,7 +2,7 @@
   "featureId": 1,
   "featureSlug": "greek-essence-showcase",
   "featureStatus": "in-progress",
-  "lastUpdated": "2026-07-24T22:58:45.924Z",
+  "lastUpdated": "2026-07-25T00:16:59.275Z",
   "issues": [
     {
       "id": 1,
@@ -29,6 +29,28 @@
       "milestone": "explore-bilingual-showcase",
       "phase": "red",
       "reopens": 4
+    },
+    {
+      "id": 3,
+      "title": "Complete the accessible bilingual four-step trip request",
+      "status": "ready-for-agent",
+      "method": "tdd-solo",
+      "complexity": 5,
+      "blockedBy": [],
+      "filePath": ".scratch/features/001-greek-essence-showcase/issues/03-complete-bilingual-trip-request/issue.md",
+      "milestone": "complete-resilient-trip-request"
+    },
+    {
+      "id": 4,
+      "title": "Preserve trip-request progress across refresh, locale switching, and reset",
+      "status": "ready-for-agent",
+      "method": "tdd-pingpong",
+      "complexity": 5,
+      "blockedBy": [
+        3
+      ],
+      "filePath": ".scratch/features/001-greek-essence-showcase/issues/04-preserve-trip-request-progress/issue.md",
+      "milestone": "complete-resilient-trip-request"
     }
   ]
 }
