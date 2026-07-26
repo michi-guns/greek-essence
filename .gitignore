@@ -38,3 +38,6 @@ next-env.d.ts
 
 # bootstrap evidence artifacts
 .artifacts/bootstrap/
+
+# Ralph generated analytics
+.scratch/ralph-loop/analytics/
