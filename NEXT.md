@@ -2,21 +2,19 @@
 
 ## Current state
 
-The Greek Essence showcase delivery checkpoint contains the completed and independently reviewed Issue 01 and Issue 02 product work, their workflow records and sanitized evidence, and the rebuilt Ralph/JZ controller and role contracts. `features-cli` remains the sole workflow ledger and reports both current issues `done`; the feature remains `in-progress` at the `decompose-milestone` frontier for `complete-resilient-trip-request`.
+The Greek Essence showcase has completed and independently reviewed Issues 01 and 02. Milestone `complete-resilient-trip-request` is decomposed into Issues 03 and 04, and Issue 03 now has a fresh-reviewed Tier-2 change contract. `features-cli` remains the sole workflow ledger and reports the feature `in-progress` at the `implement-issue` frontier for Issue 03, `03-complete-bilingual-trip-request`.
 
-The normal `decompose-milestone` `SPEC.md` frontier-log compatibility defect is repaired. The controller now routes that stable shape to the feature owner while retaining strict rejection of unsafe, absolute, traversal, ambiguous, and reparse paths. Verification completed with 69 Ralph/controller tests passing (one environment-dependent symlink test skipped), controller dry-run passing, and the project-owned manager preflight passing with no hard stops.
+The Issue 03 contract locks a `tdd-solo` implementation of the static localized Plan My Trip route and accessible bilingual four-step form, including realistic validation, child-age correction, metadata, accessibility, responsive checks, and preserved performance budgets. It explicitly excludes Issue 04 draft/reset continuity and the later submission, email, and confirmation work.
 
 ## Delivery boundary
 
-The operator explicitly authorized committing the complete meaningful checkpoint, merging it directly into `main`, pushing `main`, verifying remote `main`, and cleaning up the task branch/worktree. No pull request was requested. The repository Git Workflow is optional and applies only when the operator explicitly requests it. Generated `.playwright-cli` state, Python caches, and raw `.Ralph/runs` controller logs are local runtime output and remain outside the commit; sanitized review evidence and durable implementation-attempt records are included.
+Preserve the intentionally dirty worktree. No Git workflow, staging, commit, push, merge, deployment, history rewrite, or credential action is authorized by this handoff. The inherited English Home LCP remains technically RED against the strict `<=2500ms` assertion under its recorded operator exception; never report that metric or an aggregate command containing it as a technical pass.
 
-The inherited English Home LCP remains technically RED against the strict `<=2500ms` assertion under its recorded operator exception. Never report that metric or its aggregate quality command as a technical pass.
+## Next feature action
 
-## Next feature action after delivery
-
-From the verified merged `main`, query:
+From the repository root, query:
 
 1. `features-cli docs current --feature greek-essence-showcase`
 2. `features-cli progress --feature greek-essence-showcase --json`
 
-If the frontier remains `decompose-milestone` for `complete-resilient-trip-request`, run the Ralph manager preflight and controller dry-run, then resume the project-owned Ralph loop. The fresh `jzgreekorch` iteration must load `jz-milestone-to-issues`, complete exactly that one frontier action, reconcile `HANDOFF.md`, and stop as soon as the frontier advances. Do not contract or implement a resulting issue in the same iteration.
+Follow the live result rather than this prose. If the frontier remains `implement-issue` for Issue 03, load `jz-implement-contract` and all required references. Delegate one fresh `jzgreekimpl` session to own the Issue 03 `tdd-solo` RED → GREEN loop, preserve its exact failing and passing evidence, complete Tier-2 verification and required fresh code/visual review, and stop as soon as the frontier advances. Do not begin Issue 04 or the submission milestone in that iteration.
