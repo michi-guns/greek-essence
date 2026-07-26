@@ -1,5 +1,8 @@
 import { defineConfig } from "@playwright/test"
 
+const port = Number(process.env.PLAYWRIGHT_PORT ?? 3100)
+const baseURL = `http://127.0.0.1:${port}`
+
 export default defineConfig({
   testDir: "./tests/e2e",
   outputDir: ".artifacts/bootstrap/playwright/test-results",
@@ -13,14 +16,14 @@ export default defineConfig({
     ],
   ],
   use: {
-    baseURL: "http://127.0.0.1:3100",
+    baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
   },
   webServer: {
-    command: "pnpm dev --port 3100",
-    url: "http://127.0.0.1:3100",
+    command: `pnpm dev --port ${port}`,
+    url: baseURL,
     timeout: 120_000,
     reuseExistingServer: !process.env.CI,
   },

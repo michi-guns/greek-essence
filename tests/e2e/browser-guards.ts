@@ -8,7 +8,7 @@ const criticalResourceTypes = new Set([
   "xhr",
 ])
 
-const expectedInvalidLocaleDocumentUrl = "http://127.0.0.1:3100/invalid"
+const expectedInvalidLocaleDocumentPathname = "/invalid"
 const expectedInvalidLocale404ConsoleMessage =
   "Failed to load resource: the server responded with a status of 404 (Not Found)"
 
@@ -20,9 +20,18 @@ export type BrowserGuards = {
 
 function isExpectedInvalidLocaleDocument404(response: Response) {
   return (
-    response.url() === expectedInvalidLocaleDocumentUrl &&
+    isExpectedInvalidLocaleDocumentUrl(response.url()) &&
     response.request().resourceType() === "document" &&
     response.status() === 404
+  )
+}
+
+function isExpectedInvalidLocaleDocumentUrl(value: string) {
+  const url = new URL(value)
+
+  return (
+    (url.hostname === "127.0.0.1" || url.hostname === "localhost") &&
+    url.pathname === expectedInvalidLocaleDocumentPathname
   )
 }
 
@@ -41,7 +50,7 @@ export function installBrowserGuards(page: Page): BrowserGuards {
       expectedInvalidLocale404Observed &&
       message.type() === "error" &&
       message.text() === expectedInvalidLocale404ConsoleMessage &&
-      message.location().url === expectedInvalidLocaleDocumentUrl
+      isExpectedInvalidLocaleDocumentUrl(message.location().url)
 
     if (isExpectedInvalidLocale404Console) {
       expectedInvalidLocale404ConsoleConsumed = true
