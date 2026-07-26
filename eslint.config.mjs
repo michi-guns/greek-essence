@@ -36,7 +36,7 @@ export default defineConfig([
     },
   },
   globalIgnores([
-    ".artifacts/bootstrap/**",
+    ".artifacts/**",
     ".next/**",
     "build/**",
     "coverage/**",
