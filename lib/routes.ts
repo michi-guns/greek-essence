@@ -2,7 +2,7 @@ import type { Locale } from "@/i18n/routing"
 
 export type ShowcaseRouteId = "home" | "paros" | "plan-my-trip" | "confirmation"
 
-export const showcaseRoutes = {
+const showcaseRoutes = {
   home: (locale: Locale) => `/${locale}` as const,
   paros: (locale: Locale) => `/${locale}/destinations/paros-antiparos` as const,
   "plan-my-trip": (locale: Locale) => `/${locale}/plan-my-trip` as const,

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
-export const HOME_LCP_CEILING_MS = 2500
+const HOME_LCP_CEILING_MS = 2500
 
 export function assertHomeLcpCeiling(reports) {
   for (const route of ["/en", "/el"]) {
@@ -18,9 +18,7 @@ export function assertHomeLcpCeiling(reports) {
   }
 }
 
-export function readHomeLcpReports(
-  outputPath = ".artifacts/bootstrap/unlighthouse"
-) {
+function readHomeLcpReports(outputPath = ".artifacts/bootstrap/unlighthouse") {
   return ["en", "el"].map((locale) => {
     const report = JSON.parse(
       readFileSync(
