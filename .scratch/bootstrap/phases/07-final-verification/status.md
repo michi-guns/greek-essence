@@ -2,9 +2,9 @@
 
 | Task | State |
 |---|---|
-| B07-01 | Ready |
-| B07-02 | Pending |
-| B07-03 | Pending |
+| B07-01 | Done |
+| B07-02 | Done |
+| B07-03 | Done |
 
-**Phase state:** Pending
+**Phase state:** Done
 

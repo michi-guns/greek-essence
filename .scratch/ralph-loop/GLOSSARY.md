@@ -20,12 +20,12 @@ One fresh root-orchestrator session launched by the Ralph controller. A task may
 
 ## Root Orchestrator
 
-The fresh `greekroot` Sol session launched for a Ralph Iteration. It selects or resumes authorized work, delegates substantial implementation and independent review, verifies repository evidence, and updates the handoff.
+The fresh `jzgreekorch` session launched for a Ralph Iteration. It completes exactly one durable `features-cli` frontier action, delegates substantive implementation and independent review, verifies repository evidence, and updates the handoff.
 
 ## Implementer
 
-A fresh `greekimpl` Luna session responsible for substantial implementation within one scoped task. It does not independently approve its own work.
+A fresh `jzgreekimpl` session responsible for substantive implementation within one scoped frontier action. It does not independently approve its own work.
 
 ## Reviewer
 
-A fresh `greekreview` Terra session responsible for independent review or read-only health and timeout assessment, depending on how it is invoked.
+A fresh `jzgreekrev` or `jzgreekvisualrev` session responsible for independent code or visual review, respectively. Reviewers do not approve their own implementation work.

@@ -7,7 +7,14 @@ import {
   type BrowserGuards,
 } from "./browser-guards"
 
-const routes = ["/en", "/el", "/en/quality-lab", "/el/quality-lab"]
+const routes = [
+  "/en",
+  "/el",
+  "/en/destinations/paros-antiparos",
+  "/el/destinations/paros-antiparos",
+  "/en/quality-lab",
+  "/el/quality-lab",
+]
 const wcag22Tags = [
   "wcag2a",
   "wcag2aa",

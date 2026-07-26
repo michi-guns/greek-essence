@@ -3,10 +3,15 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 
 import { QualityLabToggle } from "@/components/quality-lab-toggle"
 import { Link } from "@/i18n/navigation"
+import type { Locale } from "@/i18n/routing"
+
+type LocaleQualityLabPageProps = {
+  params: Promise<{ locale: string }>
+}
 
 export async function generateMetadata({
   params,
-}: PageProps<"/[locale]/quality-lab">): Promise<Metadata> {
+}: LocaleQualityLabPageProps): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: "Fixture" })
 
@@ -27,7 +32,7 @@ export async function generateMetadata({
 
 export default async function QualityLabPage({
   params,
-}: PageProps<"/[locale]/quality-lab">) {
+}: LocaleQualityLabPageProps) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: "Fixture" })
@@ -48,13 +53,14 @@ export default async function QualityLabPage({
           <Link
             className="inline-flex min-h-11 items-center rounded px-3 py-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
             href="/"
+            locale={locale as Locale}
           >
             {t("homeLink")}
           </Link>
           <Link
             className="inline-flex min-h-11 items-center rounded px-3 py-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
             href="/quality-lab"
-            locale={locale === "en" ? "el" : "en"}
+            locale={(locale === "en" ? "el" : "en") as Locale}
           >
             {t("switchLocale")}
           </Link>

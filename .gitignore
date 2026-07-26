@@ -39,5 +39,11 @@ next-env.d.ts
 # bootstrap evidence artifacts
 .artifacts/bootstrap/
 
+# local browser, Python, and Ralph runtime output
+/.playwright-cli/
+**/__pycache__/
+*.py[cod]
+**/.Ralph/runs/
+
 # Ralph generated analytics
 .scratch/ralph-loop/analytics/

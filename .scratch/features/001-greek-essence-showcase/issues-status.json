@@ -1,0 +1,34 @@
+{
+  "featureId": 1,
+  "featureSlug": "greek-essence-showcase",
+  "featureStatus": "in-progress",
+  "lastUpdated": "2026-07-24T22:58:45.924Z",
+  "issues": [
+    {
+      "id": 1,
+      "title": "Browse a complete bilingual Home through the shared showcase foundation",
+      "status": "done",
+      "method": "tdd-solo",
+      "complexity": 5,
+      "blockedBy": [],
+      "filePath": ".scratch/features/001-greek-essence-showcase/issues/01-browse-bilingual-home/issue.md",
+      "milestone": "explore-bilingual-showcase",
+      "phase": "green",
+      "reopens": 3
+    },
+    {
+      "id": 2,
+      "title": "Explore the bilingual Paros and Antiparos editorial journey",
+      "status": "done",
+      "method": "tdd-solo",
+      "complexity": 3,
+      "blockedBy": [
+        1
+      ],
+      "filePath": ".scratch/features/001-greek-essence-showcase/issues/02-explore-paros-editorial/issue.md",
+      "milestone": "explore-bilingual-showcase",
+      "phase": "red",
+      "reopens": 4
+    }
+  ]
+}

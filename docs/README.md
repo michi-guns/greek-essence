@@ -8,6 +8,7 @@ Greek Essence is currently specified as a private, bilingual client-review proto
 
 | Area | Owns | Start here |
 |---|---|---|
+| Optional Git workflow | Explicitly requested branch/worktree, staging, delivery, merge-verification, conflict-handling, and cleanup procedure; PRs remain separately opt-in | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) |
 | Project protocol | Documentation governance, responsibilities, and conflict resolution | [`00_project_protocol/index.md`](00_project_protocol/index.md) |
 | Product requirements | Product intent, audience, offer, scope, business rules, and MVP acceptance | [`01_prd/index.md`](01_prd/index.md) |
 | Prototype specification | Information architecture, page composition, interactions, responsive behavior, and prototype flows | [`02_prototype_specification/index.md`](02_prototype_specification/index.md) |
@@ -51,14 +52,15 @@ When two documents appear to conflict, follow the higher-ranked source and recor
 
 ### Implementation work
 
-1. Read the product and prototype sources relevant to the task.
-2. [`03_technical_design/document_purpose_authority_and_scope.md`](03_technical_design/document_purpose_authority_and_scope.md)
-3. [`03_technical_design/01_confirmed_technical_decisions.md`](03_technical_design/01_confirmed_technical_decisions.md)
-4. [`03_technical_design/04_project_and_file_architecture.md`](03_technical_design/04_project_and_file_architecture.md)
-5. [`03_technical_design/18_testing_and_quality_gates.md`](03_technical_design/18_testing_and_quality_gates.md)
-6. [`03_technical_design/22_production_readiness_gap_register.md`](03_technical_design/22_production_readiness_gap_register.md)
-7. [`03_technical_design/25_prototype_definition_of_done.md`](03_technical_design/25_prototype_definition_of_done.md)
-8. Read the relevant Design System sections and the agent-tooling instructions before making changes.
+1. If the operator explicitly requests the repository Git Workflow, read [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md); otherwise it does not apply. A pull request requires its own explicit request.
+2. Read the product and prototype sources relevant to the task.
+3. [`03_technical_design/document_purpose_authority_and_scope.md`](03_technical_design/document_purpose_authority_and_scope.md)
+4. [`03_technical_design/01_confirmed_technical_decisions.md`](03_technical_design/01_confirmed_technical_decisions.md)
+5. [`03_technical_design/04_project_and_file_architecture.md`](03_technical_design/04_project_and_file_architecture.md)
+6. [`03_technical_design/18_testing_and_quality_gates.md`](03_technical_design/18_testing_and_quality_gates.md)
+7. [`03_technical_design/22_production_readiness_gap_register.md`](03_technical_design/22_production_readiness_gap_register.md)
+8. [`03_technical_design/25_prototype_definition_of_done.md`](03_technical_design/25_prototype_definition_of_done.md)
+9. Read the relevant Design System sections and the agent-tooling instructions before making changes.
 
 ## Current status
 
@@ -69,10 +71,27 @@ When two documents appear to conflict, follow the higher-ranked source and recor
 | Prototype Specification | Complete first draft; approvals pending |
 | Technical Design | Prototype-build design; implementation pending |
 | Design System | Complete first draft; visual and product review pending |
-| Agent skills and tooling | Baseline approved; installation pending |
-| Application | Not yet implemented |
+| Agent skills and tooling | Bootstrap tooling complete; ongoing maintenance follows the approved baseline |
+| Bilingual fixture scaffold | Complete |
+| Product application | Not yet implemented |
 
-The private prototype and the later production MVP have different readiness requirements. A successful prototype review does not authorize public commercial launch. The unresolved production requirements remain recorded in the [production-readiness gap register](03_technical_design/22_production_readiness_gap_register.md).
+The private prototype and the later production MVP have different readiness requirements. Bootstrap tooling and the bilingual fixture scaffold are complete, but product prototype implementation remains pending. A successful prototype review does not authorize public commercial launch. The unresolved production requirements remain recorded in the [production-readiness gap register](03_technical_design/22_production_readiness_gap_register.md).
+
+## Development package manager
+
+Use standalone pnpm `11.17.0` directly:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+On Windows, install the repository-pinned version with the official PowerShell installer, then open a refreshed terminal:
+
+```powershell
+$env:PNPM_VERSION = "11.17.0"
+irm https://get.pnpm.io/install.ps1 | iex
+```
 
 ## Contributor rules
 
