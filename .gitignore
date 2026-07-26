@@ -44,3 +44,6 @@ next-env.d.ts
 **/__pycache__/
 *.py[cod]
 **/.Ralph/runs/
+
+# Ralph generated analytics
+.scratch/ralph-loop/analytics/
