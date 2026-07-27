@@ -52,3 +52,12 @@ advisories affecting the installed dependency graph. Husky runs this strict
 audit during `pnpm check:push`; registry errors and security findings both block
 the push. Review and update the affected dependency deliberately. Do not run
 `pnpm audit --fix` without inspecting the proposed lockfile or override changes.
+
+### Unit-test coverage
+
+Run `pnpm test:unit:coverage` to generate a terminal summary and an ignored HTML
+report under `coverage/`. The coverage gate requires at least 80% statements,
+branches, functions, and lines across the unit-testable source files selected in
+`vitest.config.mts`. Husky runs coverage during `pnpm check:push` instead of
+repeating the normal unit-test command. Adjust the thresholds deliberately as
+the supported logic grows; coverage indicates execution, not assertion quality.
