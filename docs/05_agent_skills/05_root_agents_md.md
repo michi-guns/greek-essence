@@ -24,7 +24,6 @@ Include:
 - instruction not to install or use Playwright MCP, Browser Use, or `agent-browser`;
 - list of approved repository-local skills and when to apply them;
 - requirement to prefer simple, maintainable, battle-tested solutions when several valid implementations exist;
-- concise definition of done.
 
 ### 5.3 Recommended structure
 
@@ -40,11 +39,8 @@ Include:
 ## Browser inspection
 
 ## Required checks
-
-## Definition of done
 ```
 
 Do not paste external skill documentation or long project specifications into `AGENTS.md`.
 
 ---
-

@@ -2,7 +2,7 @@
 
 `TODO.md` is the operator-managed backlog and idea inbox for work that must be remembered but is not currently active.
 
-It is not an execution queue, task contract, project-status ledger, or agent handoff. [`NEXT.md`](NEXT.md) remains the single source for the immediate project continuation. An item appearing here does not authorize an agent to implement it.
+It is not an execution queue, task contract, project-status ledger, or agent handoff. An item appearing here does not authorize an agent to implement it.
 
 ## Workflow
 
@@ -15,8 +15,6 @@ Clarified and prioritized
         ↓
 Formal plan or task contract
         ↓
-NEXT.md when it becomes active
-        ↓
 Completed and removed or reconciled into durable project history
 ```
 
@@ -25,7 +23,7 @@ Completed and removed or reconciled into durable project history
 - The operator controls priority and promotion into active work.
 - Agents may add a clearly attributable item when new pending work emerges, clarify an existing item without changing its intent, or mark an item blocked when supported by evidence.
 - Agents must not implement, delegate, schedule, or start an item merely because it appears here.
-- Before implementation, promote the item into the appropriate plan, issue, or task contract. Put only the immediate continuation in `NEXT.md`.
+- Before implementation, promote the item into the appropriate plan, issue, or task contract.
 - Keep entries concise: desired outcome, useful source/reference, and any known decision or blocker.
 - Do not store runtime state, process IDs, session IDs, raw logs, secrets, credentials, or detailed execution evidence here.
 - Remove completed items once their outcome is reconciled into Git history, task records, or another durable source of truth. This file is not a changelog.

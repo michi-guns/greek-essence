@@ -6,6 +6,18 @@ This document is an **optional Git delivery workflow**. It applies only when the
 
 Pull requests are also optional and must be explicitly requested. When neither this workflow nor a pull request is requested, use only the simplest Git actions the operator explicitly authorizes while preserving unrelated work, truthful verification, and non-destructive safety. Root [`AGENTS.md`](../AGENTS.md), direct operator instructions, and task-specific authority remain controlling.
 
+## Repository GitHub Flow policy
+
+The GitHub repository uses a lightweight GitHub Flow policy for `main`:
+
+- Do all change work on a branch; do not push directly to `main`.
+- Merge changes into `main` only through a pull request.
+- The pull request must pass the required **Lightweight quality gates** GitHub Actions check before it can merge.
+- No approving review is required by the branch rule. The task's own review requirements still apply.
+- These protections apply to administrators too; force-pushes and branch deletion are not allowed.
+
+The repository branch-protection rule is the enforcement mechanism and takes precedence when it is stricter than this document. The optional-workflow rule above governs when an agent may create branches, pushes, or pull requests; it does not permit bypassing the protected `main` branch.
+
 ## Core model
 
 For implementation work:
@@ -26,7 +38,7 @@ Do not perform implementation in a shared dirty worktree when an isolated worktr
 6. Commit and use the explicitly requested delivery route. Push/open a focused pull request only when requested.
 7. Complete required checks and independent reviews.
 8. Resolve straightforward conflicts safely; escalate ambiguous semantic conflicts.
-9. Merge using the explicitly authorized direct or pull-request route.
+9. Merge the pull request into `main` using the explicitly authorized merge route.
 10. Verify the merge on remote `main` and verify required post-merge checks.
 11. Confirm the task worktree is clean, then delete its worktree and local/remote branch.
 
