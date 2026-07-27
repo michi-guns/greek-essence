@@ -24,9 +24,10 @@
     "test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
     "validate:content": "node scripts/validate-content.mjs",
     "validate:prototype-asset-prompts": "node scripts/validate-prototype-asset-prompts.mjs",
+    "secrets:scan": "gitleaks git --redact --verbose .",
     "quality:unlighthouse": "start-server-and-test \"pnpm start --port 3101\" http://127.0.0.1:3101 \"unlighthouse-ci --config-file unlighthouse.config.ts && node scripts/assert-unlighthouse-lcp.mjs\"",
     "check": "pnpm format:check && pnpm lint && pnpm knip && pnpm typecheck && pnpm validate:content && pnpm test:unit",
-    "check:push": "pnpm check && pnpm build && pnpm test:e2e",
+    "check:push": "pnpm secrets:scan && pnpm check && pnpm build && pnpm test:e2e",
     "check:all": "pnpm check:push && pnpm quality:unlighthouse",
     "prepare": "husky"
   },

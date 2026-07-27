@@ -24,3 +24,23 @@ On Windows, install the repository-pinned version with the official PowerShell i
 $env:PNPM_VERSION = "11.17.0"
 irm https://get.pnpm.io/install.ps1 | iex
 ```
+
+### Secret scanning
+
+Install Gitleaks `8.30.1` or newer before the first push. On Windows, install the
+official package with Windows Package Manager, then open a refreshed terminal:
+
+```powershell
+winget install --id Gitleaks.Gitleaks --exact
+gitleaks version
+```
+
+On macOS, use `brew install gitleaks`. On Linux, install the appropriate binary
+from the [official Gitleaks releases](https://github.com/gitleaks/gitleaks/releases).
+
+Run `pnpm secrets:scan` to scan committed Git history manually. Husky also runs
+the redacted scan as the first part of `pnpm check:push`, so a detected secret
+blocks the push without printing its value. Treat a real finding as compromised:
+revoke or rotate it, remove it from the proposed commits, and rerun the scan.
+Only suppress a verified false positive after review; do not ignore a real or
+unexplained finding.

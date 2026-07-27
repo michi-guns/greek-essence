@@ -2,6 +2,10 @@ import type { KnipConfig } from "knip"
 
 const config = {
   entry: ["unlighthouse.config.ts"],
+  ignoreBinaries: [
+    // Installed separately from npm and invoked by secrets:scan.
+    "gitleaks",
+  ],
   ignoreDependencies: [
     // Installed for the repository-approved interactive browser workflow.
     "@playwright/cli",
