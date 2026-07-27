@@ -44,3 +44,11 @@ blocks the push without printing its value. Treat a real finding as compromised:
 revoke or rotate it, remove it from the proposed commits, and rerun the scan.
 Only suppress a verified false positive after review; do not ignore a real or
 unexplained finding.
+
+### Dependency auditing
+
+Run `pnpm security:audit` to query the registry for high- and critical-severity
+advisories affecting the installed dependency graph. Husky runs this strict
+audit during `pnpm check:push`; registry errors and security findings both block
+the push. Review and update the affected dependency deliberately. Do not run
+`pnpm audit --fix` without inspecting the proposed lockfile or override changes.

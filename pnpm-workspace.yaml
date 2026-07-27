@@ -1,5 +1,15 @@
 packages: []
 
+overrides:
+  "postcss@<=8.5.17": "8.5.23"
+  "sharp@<0.35.0": "0.35.3"
+
+auditConfig:
+  ignoreGhsas:
+    # Dev-only ESLint/shadcn paths use brace-expansion 1.x, which has no
+    # compatible patched release and receives no application-controlled input.
+    - GHSA-mh99-v99m-4gvg
+
 allowBuilds:
   sharp: true
   unrs-resolver: true
