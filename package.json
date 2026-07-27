@@ -9,6 +9,7 @@
     "pnpm": ">=11 <12"
   },
   "scripts": {
+    "doctor": "node scripts/doctor.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -8,6 +8,7 @@ Greek Essence is currently specified as a private, bilingual client-review proto
 
 | Area | Owns | Start here |
 |---|---|---|
+| Contributor onboarding | Workstation prerequisites, repository setup, local configuration, doctor checks, Git hooks, and first-run verification | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md) |
 | Optional Git workflow | Explicitly requested branch/worktree, staging, delivery, merge-verification, conflict-handling, and cleanup procedure; PRs remain separately opt-in | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) |
 | Project protocol | Documentation governance, responsibilities, and conflict resolution | [`00_project_protocol/index.md`](00_project_protocol/index.md) |
 | Product requirements | Product intent, audience, offer, scope, business rules, and MVP acceptance | [`01_prd/index.md`](01_prd/index.md) |

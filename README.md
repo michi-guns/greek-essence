@@ -1,13 +1,29 @@
 # Greek Essence
 
-Greek Essence is a private bilingual client-review prototype for a Greece-focused travel-planning service.
+Greek Essence is a public source repository for a bilingual client-review prototype of a Greece-focused travel-planning service.
+
+## Getting started
+
+New contributors should follow the complete [contributor onboarding guide](docs/CONTRIBUTOR_ONBOARDING.md). It covers the required Node.js, pnpm, Git, Gitleaks, and Playwright installations; repository cloning; pnpm build-script approvals; environment configuration; Git hooks; and verification commands.
+
+After installing the documented prerequisites:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm run doctor
+pnpm dev
+```
+
+Local environment overrides are optional. Copy [`.env.example`](.env.example) to `.env.local` when you want to make the development defaults explicit.
 
 ## Documentation
 
 - [Documentation entry point](docs/README.md)
+- [Contributor onboarding](docs/CONTRIBUTOR_ONBOARDING.md)
 - [Bootstrap workspace](.scratch/bootstrap/README.md)
 
-Bootstrap tooling and the bilingual fixture scaffold are complete. Product prototype implementation remains pending. This repository does not implement booking, payments, accounts, analytics, or production operations.
+Bootstrap tooling and the bilingual fixture scaffold are complete, and prototype implementation is in progress. This repository does not implement booking, payments, accounts, analytics, or production operations.
 
 ## Development
 
