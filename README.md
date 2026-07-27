@@ -4,7 +4,7 @@ Greek Essence is a public source repository for a bilingual client-review protot
 
 ## Getting started
 
-New contributors should follow the complete [contributor onboarding guide](docs/CONTRIBUTOR_ONBOARDING.md). It covers the required Node.js, pnpm, Git, Gitleaks, and Playwright installations; repository cloning; pnpm build-script approvals; environment configuration; Git hooks; and verification commands.
+New contributors should follow the complete [contributor onboarding guide](docs/CONTRIBUTOR_ONBOARDING.md). It provides dedicated Windows, macOS, and Ubuntu/Debian setup paths covering the required Node.js, pnpm, Git, Gitleaks, and Playwright installations; repository cloning; pnpm build-script approvals; environment configuration; Git hooks; and verification commands.
 
 After installing the documented prerequisites:
 

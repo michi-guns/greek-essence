@@ -4,70 +4,129 @@ This guide takes a new Greek Essence contributor from a clean machine to a verif
 
 ## 1. Install the required tools
 
-### Git
+Use the instructions for your operating system. All three paths install Git, the exact Node.js version recorded in [`.node-version`](../.node-version), standalone pnpm from [`package.json`](../package.json), and Gitleaks. Do not substitute npm, Yarn, Corepack, or another package manager for pnpm.
 
-Install [Git](https://git-scm.com/downloads), then open a new terminal and verify it:
+### Windows 11 with PowerShell
 
-```bash
-git --version
+Install Git, [fnm](https://github.com/Schniz/fnm), and Gitleaks through Windows Package Manager:
+
+```powershell
+winget install --id Git.Git --exact
+winget install --id Schniz.fnm --exact
+winget install --id Gitleaks.Gitleaks --exact
 ```
 
-### Node.js 24.18.0
+Open a new PowerShell terminal. Add the following line to your PowerShell profile so fnm selects the repository's Node version when you enter its directory:
 
-Install the exact version recorded in [`.node-version`](../.node-version). Node.js 24 is also enforced by the `engines` field in [`package.json`](../package.json). Download the official installer from [nodejs.org](https://nodejs.org/en/download) or use a version manager that understands `.node-version`.
-
-```bash
-node --version
+```powershell
+fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
 ```
 
-The result must be `v24.18.0`.
+Run that line in the current terminal as well, then install the pinned Node.js release:
 
-### Standalone pnpm 11.17.0
+```powershell
+fnm install 24.18.0
+fnm use 24.18.0
+```
 
-This project uses standalone pnpm directly; do not substitute npm, Yarn, Corepack, or another package manager.
-
-On Windows, use the official PowerShell installer and then open a new terminal:
+Install standalone pnpm with its official PowerShell installer, then open one more refreshed terminal:
 
 ```powershell
 $env:PNPM_VERSION = "11.17.0"
 irm https://get.pnpm.io/install.ps1 | iex
 ```
 
-On macOS or Linux:
+### macOS with zsh
+
+Install [Homebrew](https://brew.sh/) if it is not already available:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Follow Homebrew's printed PATH instructions, then install Git, fnm, and Gitleaks:
+
+```bash
+brew install git fnm gitleaks
+```
+
+Add this line to `~/.zshrc`, and run it once in the current terminal:
+
+```bash
+eval "$(fnm env --use-on-cd --shell zsh)"
+```
+
+Install the pinned Node.js and standalone pnpm versions:
+
+```bash
+fnm install 24.18.0
+fnm use 24.18.0
+curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=11.17.0 sh -
+```
+
+Open a refreshed terminal before continuing.
+
+### Ubuntu or Debian with bash
+
+Install the base packages from the operating-system repository:
+
+```bash
+sudo apt update
+sudo apt install --yes ca-certificates curl git tar unzip
+```
+
+Install fnm with its official script. The installer adds the fnm loader to your shell configuration:
+
+```bash
+curl -fsSL https://fnm.vercel.app/install | bash
+```
+
+Open a refreshed terminal, or load fnm in the current Bash session, then install Node.js:
+
+```bash
+eval "$(fnm env --use-on-cd --shell bash)"
+fnm install 24.18.0
+fnm use 24.18.0
+```
+
+Install standalone pnpm:
 
 ```bash
 curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=11.17.0 sh -
 ```
 
-Verify the installation:
+Gitleaks does not provide an official apt repository. Download the pinned official release for the machine architecture and verify it against the published checksums before installing it:
 
 ```bash
+gitleaks_version="8.30.1"
+case "$(uname -m)" in
+  x86_64) gitleaks_arch="x64" ;;
+  aarch64|arm64) gitleaks_arch="arm64" ;;
+  *) echo "Unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+gitleaks_archive="gitleaks_${gitleaks_version}_linux_${gitleaks_arch}.tar.gz"
+gitleaks_tmp="$(mktemp -d)"
+curl -fL "https://github.com/gitleaks/gitleaks/releases/download/v${gitleaks_version}/${gitleaks_archive}" -o "${gitleaks_tmp}/${gitleaks_archive}"
+curl -fL "https://github.com/gitleaks/gitleaks/releases/download/v${gitleaks_version}/gitleaks_${gitleaks_version}_checksums.txt" -o "${gitleaks_tmp}/checksums.txt"
+(cd "${gitleaks_tmp}" && sha256sum --check --ignore-missing checksums.txt)
+tar -xzf "${gitleaks_tmp}/${gitleaks_archive}" -C "${gitleaks_tmp}" gitleaks
+sudo install -m 0755 "${gitleaks_tmp}/gitleaks" /usr/local/bin/gitleaks
+```
+
+Open a refreshed terminal after pnpm finishes installing.
+
+### Verify the toolchain
+
+On every operating system, these commands must succeed before cloning or installing the project:
+
+```bash
+git --version
+node --version
 pnpm --version
-```
-
-The result must be `11.17.0`.
-
-### Gitleaks 8.30.1 or newer
-
-Gitleaks prevents committed secrets from being pushed. Install it before your first push.
-
-Windows:
-
-```powershell
-winget install --id Gitleaks.Gitleaks --exact
-```
-
-macOS:
-
-```bash
-brew install gitleaks
-```
-
-For Linux, download the appropriate binary from the [official Gitleaks releases](https://github.com/gitleaks/gitleaks/releases). Open a new terminal, then verify:
-
-```bash
 gitleaks version
 ```
+
+`node --version` must report `v24.18.0`, `pnpm --version` must report `11.17.0`, and Gitleaks must report `8.30.1` or newer.
 
 ## 2. Clone the organization repository
 
