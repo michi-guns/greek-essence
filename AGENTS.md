@@ -2,13 +2,43 @@
 
 ## Authority
 
-The branch, isolated-worktree, commit, push, pull-request, merge, and cleanup strategy described in [`docs/GIT_WORKFLOW.md`](docs/GIT_WORKFLOW.md) is **optional**. Use that Git strategy only when the user explicitly requests it for the current task. Otherwise, work in the current checkout without creating or switching branches, creating a worktree, committing, pushing, opening or merging a pull request, or performing Git cleanup. Continue to preserve unrelated and concurrent edits, and never discard or overwrite work without explicit authorization.
+Use the GitHub Flow strategy in [`docs/GIT_WORKFLOW.md`](docs/GIT_WORKFLOW.md) for every committed change. Keep `main` deployable, never commit or push directly to `main`, and deliver changes through a short-lived branch and pull request. Review approval is not required, but applicable checks must pass before merge. Continue to preserve unrelated and concurrent edits, and never discard or overwrite work without explicit authorization.
 
-At the start of every project task, check the repository-root [`NEXT.md`](NEXT.md). If it is non-empty, read it and follow its project handoff instructions before proceeding. Keep `NEXT.md` current when handing project work to another agent. Ralph-specific orchestration state remains in `.scratch/ralph-loop/HANDOFF.md`.
+### Work-item continuation
 
-[`TODO.md`](TODO.md) is the operator-managed backlog and idea inbox for pending work that is not active. It is not an execution queue, task contract, project-status ledger, or handoff, and an item appearing there does not authorize implementation. Agents may add clearly attributable pending work or clarify an item without changing its intent, but must not implement, delegate, schedule, or promote an item unless the operator or an authorized planning task selects it. Before execution, move the selected work into the appropriate plan, issue, or task contract and put only its immediate continuation in `NEXT.md`. Do not store runtime state, process IDs, session IDs, raw logs, secrets, credentials, or detailed execution evidence in `TODO.md`; remove completed entries after their outcomes are reconciled into durable project history.
+At the start of project work, read the repository-root [`NEXT.md`](NEXT.md),
+which is the router for active multi-session work. Detailed state and the next
+recommended action belong in each work item's `NEXT.md` under
+`docs/working/work-items/<work-item>/`.
 
-Read [the documentation entry point](docs/README.md) and [the bootstrap workspace](.scratch/bootstrap/README.md) first. Project decisions take precedence in this order: Project Protocol, Product Requirements, Prototype Specification, Technical Design, then Design System. Agent-tooling documents govern tooling only; record and escalate conflicts rather than silently reinterpreting a higher-authority requirement.
+If the user or spawning agent assigns a listed work item, read that work item's
+`NEXT.md` completely before acting. If no work item is assigned, present the
+available work items and ask the user which one to continue; do not select or
+begin one autonomously. Current user instructions always take precedence over
+handoff content.
+
+Each work item has one primary owner. Claim it in its `NEXT.md` before changing
+its scope, and do not act on an item claimed by another owner without explicit
+coordination. Only the primary owner updates that work item's `NEXT.md`;
+subagents report results to the owner unless explicitly given ownership. Before
+creating or claiming work with overlapping paths or responsibilities, inspect
+the other active work items and coordinate the overlap.
+
+Verify a selected work item's current-state claims against the live repository
+before following its next action. If they disagree, treat the handoff as stale
+and reconcile or escalate it before continuing. Before handing off materially
+advanced work, reconcile the operation document first and update the work
+item's `NEXT.md` as the final documentation action. Record one next recommended
+action, its completion condition, and immediate constraints or approval needs.
+
+Create a work item's directory and add its root-router link in the same change.
+When work completes, mark its `NEXT.md` complete and remove its root-router link
+in the same change. The root router contains links only; it never owns task
+details or a global next action.
+
+[`TODO.md`](TODO.md) is the operator-managed backlog and idea inbox for pending work that is not active. It is not an execution queue, task contract, project-status ledger, or handoff, and an item appearing there does not authorize implementation. Agents may add clearly attributable pending work or clarify an item without changing its intent, but must not implement, delegate, schedule, or promote an item unless the operator or an authorized planning task selects it. Before execution, move the selected work into the appropriate plan, issue, task contract, or active work-item directory; record its immediate continuation only in that work item's `NEXT.md`. Do not store runtime state, process IDs, session IDs, raw logs, secrets, credentials, or detailed execution evidence in `TODO.md`; remove completed entries after their outcomes are reconciled into durable project history.
+
+Read [the documentation entry point](docs/README.md) first. Project decisions take precedence in this order: Project Protocol, Product Requirements, Prototype Specification, Technical Design, then Design System. Agent-tooling documents govern tooling only; record and escalate conflicts rather than silently reinterpreting a higher-authority requirement.
 
 ## Architecture
 
@@ -78,7 +108,7 @@ The example illustrates relative depth only. Apply the assigned tier to the actu
 
 ## Approved skills
 
-Use only the repository-local skills approved in [the tooling baseline](docs/05_agent_skills/01_approved_tooling_baseline.md): Google Chrome Modern Web Guidance for modern-web implementation decisions; Vercel `vercel-react-best-practices` for React work; the official Playwright CLI Agent Skill for browser inspection; `greek-essence-quality-review` for structured quality reviews; `bootstrap-next` for one ordinary bootstrap task; and `ralph-loop-manager` for compatibility-gated, monitored use of the project-owned Ralph controller. The sole external-skill exception is the separately installed profile-level `email-notification` skill, which `ralph-loop-manager` may load only to send verified Ralph task/campaign completion or genuine human-escalation events; this exception grants no broader external-skill authority and never permits vendoring credentials. For Next.js-specific work, consult the documentation bundled with the installed Next.js version under `next/dist/docs/` and its approved generated agent rules; do not install the retired `next-best-practices` skill. Guidance complements, and never replaces, required executable checks.
+Use only the repository-local skills approved in [the tooling baseline](docs/05_agent_skills/01_approved_tooling_baseline.md): Google Chrome Modern Web Guidance for modern-web implementation decisions; Vercel `vercel-react-best-practices` for React work; the official Playwright CLI Agent Skill for browser inspection; and `greek-essence-quality-review` for structured quality reviews. For Next.js-specific work, consult the documentation bundled with the installed Next.js version under `next/dist/docs/` and its approved generated agent rules; do not install the retired `next-best-practices` skill. Guidance complements, and never replaces, required executable checks.
 
 ## Browser inspection
 

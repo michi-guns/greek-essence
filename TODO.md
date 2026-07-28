@@ -83,4 +83,9 @@ The deterministic transition node is complete. The reviewed sequential asset pro
 
 ## Later / ideas
 
+- [ ] Adopt Trello as the durable task and work-coordination system.
+  - **Available tooling:** An existing Trello CLI allows agents to perform CRUD operations on the operator's boards.
+  - **Current position:** The repository-local work-item and per-item `NEXT.md` system is intentionally ephemeral.
+  - **Future direction:** Define how agents use Trello for assignment, ownership, status, and handoff before replacing the file-based system.
+
 <!-- Uncommitted possibilities that should remain visible but need clarification. -->

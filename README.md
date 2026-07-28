@@ -21,7 +21,6 @@ Local environment overrides are optional. Copy [`.env.example`](.env.example) to
 
 - [Documentation entry point](docs/README.md)
 - [Contributor onboarding](docs/CONTRIBUTOR_ONBOARDING.md)
-- [Bootstrap workspace](.scratch/bootstrap/README.md)
 
 Bootstrap tooling and the bilingual fixture scaffold are complete, and prototype implementation is in progress. This repository does not implement booking, payments, accounts, analytics, or production operations.
 

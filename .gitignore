@@ -45,9 +45,6 @@ next-env.d.ts
 *.py[cod]
 **/.Ralph/runs/
 
-# Ralph generated analytics
-.scratch/ralph-loop/analytics/
-
 # Playwright
 .artifacts/
 .playwright-cli-runtime
