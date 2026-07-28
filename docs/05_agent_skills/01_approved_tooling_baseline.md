@@ -16,12 +16,8 @@ Install and version these repository-local skills:
 2. **Vercel `vercel-react-best-practices`**
 3. **Official Playwright CLI Agent Skill**
 4. **Project-owned `greek-essence-quality-review` skill**
-5. **Project-owned `bootstrap-next` workflow skill**
-6. **Project-owned `ralph-loop-manager` workflow skill**
 
 For Next.js-specific reference knowledge, use the documentation bundled with the repository's installed Next.js version under `next/dist/docs/` and its generated agent rules. `next-best-practices` was retired upstream and must not be installed or vendored as a repository-local skill.
-
-The only profile-level skill exception is `email-notification`, and only as a runtime dependency of `ralph-loop-manager`. It may send verified Ralph task/campaign completion or genuine human-escalation notifications. It does not authorize other external skills, does not expand Ralph's repository authority, and must not place credentials or sender code in this repository.
 
 ### 1.3 Approved interactive browser interface
 
@@ -58,7 +54,7 @@ A different browser interface requires a documented revision to this decision. P
 
 Do not install broad third-party development workflows or unrelated agent frameworks, including:
 
-- generic autonomous implementation loops other than the project-owned Ralph controller governed by `.scratch/ralph-loop/` and `ralph-loop-manager`;
+- generic autonomous implementation loops;
 - task-management frameworks;
 - multi-agent orchestration systems;
 - broad plugin bundles;
@@ -67,7 +63,4 @@ Do not install broad third-party development workflows or unrelated agent framew
 
 Greek Essence already defines its own documentation and implementation workflow.
 
-`ralph-loop-manager` manages only that existing project-owned workflow. It must fail closed before launch when scope, campaign identity, durable state, profiles, safety authority, email notification, or controller health is incompatible; it does not authorize installation of another loop or framework.
-
 ---
-

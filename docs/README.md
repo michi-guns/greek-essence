@@ -9,7 +9,7 @@ Greek Essence is currently specified as a private, bilingual client-review proto
 | Area | Owns | Start here |
 |---|---|---|
 | Contributor onboarding | Workstation prerequisites, repository setup, local configuration, doctor checks, Git hooks, and first-run verification | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md) |
-| Optional Git workflow | Explicitly requested branch/worktree, staging, delivery, merge-verification, conflict-handling, and cleanup procedure; PRs remain separately opt-in | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) |
+| Git workflow | Required GitHub Flow strategy for branches, pull requests, checks, merges, and cleanup | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) |
 | Project protocol | Documentation governance, responsibilities, and conflict resolution | [`00_project_protocol/index.md`](00_project_protocol/index.md) |
 | Product requirements | Product intent, audience, offer, scope, business rules, and MVP acceptance | [`01_prd/index.md`](01_prd/index.md) |
 | Prototype specification | Information architecture, page composition, interactions, responsive behavior, and prototype flows | [`02_prototype_specification/index.md`](02_prototype_specification/index.md) |
@@ -53,7 +53,7 @@ When two documents appear to conflict, follow the higher-ranked source and recor
 
 ### Implementation work
 
-1. If the operator explicitly requests the repository Git Workflow, read [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md); otherwise it does not apply. A pull request requires its own explicit request.
+1. Before committing or publishing changes, follow the required GitHub Flow strategy in [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md).
 2. Read the product and prototype sources relevant to the task.
 3. [`03_technical_design/document_purpose_authority_and_scope.md`](03_technical_design/document_purpose_authority_and_scope.md)
 4. [`03_technical_design/01_confirmed_technical_decisions.md`](03_technical_design/01_confirmed_technical_decisions.md)
@@ -104,7 +104,3 @@ irm https://get.pnpm.io/install.ps1 | iex
 - Record approved changes in the document that owns the decision and update affected traceability references.
 
 Each documentation family has its own `index.md` for detailed navigation. Start there after selecting the relevant area from the map above.
-
-## Active preparation workspace
-
-The bootstrap-only execution plan, task briefs, work protocol, human-operator guide, review records, and progress ledger live in [`.scratch/bootstrap/README.md`](../.scratch/bootstrap/README.md). This workspace prepares the repository and quality tooling; it does not authorize product implementation.

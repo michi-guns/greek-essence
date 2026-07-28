@@ -2,40 +2,6 @@
 
 This inventory records approved third-party skills vendored into the repository. B01-02 uses a deliberately small local runtime-search design rather than the full generated skill layout; the selection and its upstream source are recorded below.
 
-## Bootstrap Next Task
-
-- **Local skill name:** `bootstrap-next`.
-- **Local path:** `.agents/skills/bootstrap-next/`.
-- **Purpose:** Resume exactly one valid Greek Essence bootstrap task under the bootstrap execution workflow.
-- **Upstream source and exact source path:** Project-owned; no upstream source or path.
-- **Installed revision:** Project commit `158093188ccf44ffa35ce2a2473b4137cb1159ac` (`feat(skills): add bootstrap next task`).
-- **Installation or generation command:** None; this canonical project-owned Markdown skill was authored directly in the repository.
-- **Installation date:** `2026-07-21` (UTC+03:00 commit time).
-- **Verified license:** Project-owned content; no third-party license applies.
-- **Included files:** `SKILL.md` and `agents/openai.yaml`.
-- **Excluded optional disciplines:** none; no agent-specific wrapper copies are retained.
-- **Local modifications:** none after the recorded project revision.
-- **Codex validation result:** Explicit local-file control passed (exit `0`): Codex read `SKILL.md` and returned `.scratch/bootstrap/BOOTSTRAP-AGENTS.md`. Artifact: `.artifacts/bootstrap/B01-07/codex-bootstrap-next.txt`.
-- **Compatibility validation:** Codex local-file control passed; no second-agent compatibility gate is part of the current contract.
-- **Update procedure:** Update the canonical project-owned `SKILL.md` and its `agents/openai.yaml` metadata together when the bootstrap workflow changes; record the resulting project revision and repeat the explicit-load control.
-
-## Ralph Loop Manager
-
-- **Local skill name:** `ralph-loop-manager`.
-- **Local path:** `.agents/skills/ralph-loop-manager/`.
-- **Purpose:** Fail-closed compatibility checking, bounded launch, live monitoring, and meaningful email milestone/escalation notification for the existing Greek Essence Ralph controller.
-- **Upstream source and exact source path:** Project-owned; no upstream source or path.
-- **Installed revision:** Project-owned revision introduced by `feat(skills): add project Ralph loop manager`; use `git log -1 -- .agents/skills/ralph-loop-manager` for the exact local revision.
-- **Installation or generation command:** None; the canonical project-owned skill was authored directly in this repository.
-- **Installation date:** `2026-07-22` (UTC+03:00).
-- **Verified license:** Project-owned content; no third-party license applies.
-- **Included files:** `SKILL.md`, `agents/openai.yaml`, and the read-only `scripts/preflight.py` structural checker.
-- **Excluded optional disciplines:** no controller fork, email sender copy, daemon, agent-specific duplicate, or generic workflow framework.
-- **Local modifications:** not applicable; this is the canonical project-owned source.
-- **Validation result:** Frontmatter/layout checks, Python compilation and unit tests, live hard-stop controls, a compatible structural-pass control using the configured environment without exposing values, Ralph controller dry-run, and repository workspace validation must pass before acceptance.
-- **Email dependency:** Loads the explicitly approved profile-level `email-notification` exception at runtime and requires its sender, non-secret environment-shape checks, recipient dry-run, and idempotency contract. These checks do not prove provider acceptance or delivery; no email credentials or sender code are vendored here.
-- **Update procedure:** Update the canonical skill, OpenAI metadata, and preflight checker together; rerun both hard-stop and structural-pass controls plus Ralph tests and workspace validation.
-
 ## Modern Web Guidance
 
 - **Local skill name:** `modern-web-guidance`
@@ -50,7 +16,7 @@ This inventory records approved third-party skills vendored into the repository.
 - **Observed full generated layout and agent copies:** at release `v0.0.177`, the canonical core skill contains 139 files: `SKILL.md` plus the guide catalog under `guides/` (accessibility, built-in AI, CSS, forms, HTML, JavaScript, performance, privacy, security, UI, visual design, and WebMCP). The isolated `--yes --copy` installer generated that complete core layout into `.agents/skills/modern-web-guidance/` and agent-specific copies in `.claude/skills/modern-web-guidance/`, `.hermes/skills/modern-web-guidance/`, and `.trae/skills/modern-web-guidance/`. This is observed installer behavior, not the repository's selected layout.
 - **Selected three-file local runtime-search design:** `.agents/skills/modern-web-guidance/` intentionally retains only the canonical `SKILL.md`, wrapper `LICENSE`, and wrapper `THIRD_PARTY_NOTICES`. The canonical skill instructs agents to run `npx -y modern-web-guidance@latest search` and `retrieve` at use time; it has no relative local guide links. No local guide/reference is required for that retained runtime-search design. `SKILL.md`, `LICENSE`, and `THIRD_PARTY_NOTICES` are byte-identical to their respective inspected wrapper-package files; `SKILL.md` and `LICENSE` also match the official repository after CRLF/LF normalization.
 - **Excluded optional disciplines:** the separate `skills/chrome-extensions` skill is excluded. Passkey and WebMCP material are present in the canonical core layout but intentionally not retained locally, consistent with the project tooling decision; the installer does not exclude them automatically. The remaining generated guides, search executable/model assets, telemetry watchdog, plugins, and all agent-specific copies are also intentionally not retained because the selected design uses the canonical runtime search/retrieve interface. The official repository does not contain `THIRD_PARTY_NOTICES`; that attribution file is retained from the inspected wrapper package.
-- **Installation and inspection commands:** expected wrapper entry `npx modern-web-guidance@latest install`; reviewed verification script `.scratch/bootstrap/phases/01-agent-tooling/tasks/02-modern-web-guidance/scripts/verify-review-01.sh`, invoked with `bash .scratch/bootstrap/phases/01-agent-tooling/tasks/02-modern-web-guidance/scripts/verify-review-01.sh`. The script uses isolated temporary directories and cleanup traps.
+- **Installation and inspection command:** expected wrapper entry `npx modern-web-guidance@latest install`; inspect updates in an isolated temporary directory before changing the retained local files.
 - **Installation date:** `2026-07-21` (UTC).
 - **Verified license:** Apache License 2.0 (`LICENSE`); wrapper-package third-party attribution is retained in `THIRD_PARTY_NOTICES`.
 - **Local modifications:** none to retained upstream file contents; local selection and this provenance record are project-owned.

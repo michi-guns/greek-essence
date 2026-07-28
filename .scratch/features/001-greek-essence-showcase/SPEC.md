@@ -816,7 +816,6 @@ Exact final editorial wording is intentionally provisional under the accepted PR
 ### 12.3 Explicitly Out of Scope Files/Areas
 
 - Do not add routes for broader destinations, experiences, journeys, About, FAQ, Contact, legal pages, sitemap expansion, deployment, analytics, CRM, or CMS.
-- Do not edit `.scratch/ralph-loop/completion-signal.json` or launch Ralph.
 - Do not alter credentials, remote Git state, deployment configuration, or existing unrelated asset/content work except targeted manifest fields required after explicit asset approval.
 
 ### 12.4 Suggested Implementation Order
