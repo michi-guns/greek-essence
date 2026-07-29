@@ -148,6 +148,12 @@ architecture rebaseline, and promotion of settled documentation.
   person; public forms do not expose or prefill prior details, and approximate
   identity merging is prohibited. D-003 owns whether a later submission is a
   new request, an explicit correction, or an accidental duplicate.
+- Request Processing and Communications D-003 preserves an immutable
+  chronological history of accepted requests under the email-based contact
+  relationship. New requests are the default; an explicit correction requires
+  the earlier opaque reference and creates a linked record without overwriting
+  history. Exact technical retries resolve idempotently to the same request,
+  and no public account or request-history surface is introduced.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -199,11 +205,11 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Request Processing and Communications with D-003, which distinguishes
-a new request, an explicit correction, and an accidental duplicate without
-overwriting accepted history or exposing prior activity from email alone.
+Continue Request Processing and Communications with D-004, which decides which
+system-owned states and audit history remain truthful without introducing the
+deferred staff dashboard or hidden direct-database work.
 
-Completion condition: persist D-003 and its consequences, then store D-004 as
+Completion condition: persist D-004 and its consequences, then store D-005 as
 the single next question.
 
 ## Done When
