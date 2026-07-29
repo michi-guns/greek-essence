@@ -50,8 +50,12 @@ focused documentation; this file may be removed when the operation is complete.
   [`../../../grilling/DECISIONS.md`](../../../grilling/DECISIONS.md). The
   operator approved removal of the raw project ledger on 2026-07-29; Git history
   retains it and `DECISIONS.md` is the sole project-level grilling authority.
-- Eight confirmed feature-grilling workspaces exist; the continuation begins at
-  [`../../../grilling/public-brand-pages/GRILLING.md`](../../../grilling/public-brand-pages/GRILLING.md).
+- Eight confirmed feature-grilling workspaces exist. The operator accepted the
+  five Public Brand Pages decisions on 2026-07-29; they are distilled in
+  [`../../../grilling/public-brand-pages/DECISIONS.md`](../../../grilling/public-brand-pages/DECISIONS.md).
+  The operator separately approved removal of the raw feature ledger on
+  2026-07-29. Git history retains it, and Catalogue Discovery D-001 is the
+  active continuation.
 - The grilling protocol now requires product-management and travel-agency
   operations coaching when requirements hide ambiguity or operational risk.
 - The closed showcase execution records were removed from `.scratch/` with
@@ -71,7 +75,7 @@ focused documentation; this file may be removed when the operation is complete.
 | Archive former documentation | Complete | Preserved the old baseline under one explicitly non-authoritative boundary |
 | Plan retention and removal | Complete | Classified active paths and removed only the explicitly approved closed execution records |
 | Capture expanded requirements | In progress | Batch 01 remains provisional; accepted project decisions isolate example-led client validation and remaining external gates |
-| Grill product and features | In progress | Project-level grill accepted and distilled; eight feature grills are queued beginning with Public Brand Pages |
+| Grill product and features | In progress | Project-level and Public Brand Pages grills are accepted and distilled; Catalogue Discovery D-001 is next |
 | Establish new architecture | Pending | Select CMS, data, backend, runtime, security, and module boundaries from approved requirements |
 | Promote durable decisions | In progress | Project decisions are distilled; feature decisions and later canonical documents remain |
 

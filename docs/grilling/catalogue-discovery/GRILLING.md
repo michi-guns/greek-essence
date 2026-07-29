@@ -2,8 +2,7 @@
 
 ## Status
 
-Queued as feature 2 of 8. Begin after the Public Brand Pages grill is accepted,
-unless the operator changes the sequence.
+Ready to begin as feature 2 of 8. Public Brand Pages is accepted and distilled.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).
