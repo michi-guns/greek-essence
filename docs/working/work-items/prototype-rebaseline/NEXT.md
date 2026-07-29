@@ -176,6 +176,11 @@ architecture rebaseline, and promotion of settled documentation.
   on 2026-07-30. The final accepted raw ledger must first remain durable on
   `main`; distillation and any later raw-ledger removal follow separately so a
   squash merge cannot discard the accepted source history.
+- The operator approved raw-ledger removal after a draft distillation, but final
+  consistency review found that D-003 corrections could outlive their original
+  request under D-006 per-request deletion. Removal stopped before commit, the
+  draft was preserved outside the repository, and D-007 reopens only this
+  interaction.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -227,13 +232,14 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Distill the accepted Request Processing and Communications ledger into a
-self-contained `DECISIONS.md`, verify it against the final raw ledger and linked
-contracts, then present the exact raw-ledger path for separate removal approval.
+Ask Request Processing and Communications D-007 exactly as stored in
+`docs/grilling/request-processing-and-communications/GRILLING.md`. Do not
+distill or remove the raw ledger until D-007 is settled and the complete feature
+grill is accepted again.
 
-Completion condition: the distillation is verified and the operator has either
-approved or declined removal of
-`docs/grilling/request-processing-and-communications/GRILLING.md`.
+Completion condition: persist D-007 and its consequences, recheck the complete
+decision set, then ask the operator to accept or correct the complete feature
+grill.
 
 ## Done When
 
