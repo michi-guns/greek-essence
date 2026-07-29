@@ -137,6 +137,11 @@ architecture rebaseline, and promotion of settled documentation.
   are distilled into `docs/grilling/general-contact/DECISIONS.md`. The operator
   separately approved removal of the raw feature ledger on 2026-07-29; Git
   history retains it.
+- Request Processing and Communications D-001 establishes that a valid request
+  is accepted after its private record is durably committed in Neon. Agency and
+  visitor email outcomes are recorded and recovered separately; email failure
+  cannot revoke acceptance, prompt resubmission, or be ignored. The shared
+  acceptance and delivery-state boundary is recorded in the feature contract.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -188,13 +193,12 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Request Processing and Communications D-001 is the next feature-grilling
-decision in the accepted sequence. It was not started by the General Contact
-task; begin it only when the operator explicitly continues successor work.
+Continue Request Processing and Communications with D-002, which decides how
+repeated customer contact is recognized without accounts while avoiding unsafe
+identity merges.
 
-Completion condition: the operator accepts the General Contact decisions, they
-are distilled into that feature’s `DECISIONS.md`, and the raw feature
-`GRILLING.md` is removed only after separate path-specific approval.
+Completion condition: persist D-002 and its consequences, then store D-003 as
+the single next question.
 
 ## Done When
 
