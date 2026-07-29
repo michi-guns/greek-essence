@@ -22,6 +22,12 @@ privacy or legal validation where appropriate.
 4. Enquiries are not retained indefinitely.
 5. A broader or longer schedule requires later evidence from the agency's real
    workflow or qualified review; it must not be introduced silently.
+6. Linked corrections do not extend the earlier request's expiry. Every
+   correction stores a complete corrected snapshot and expires twelve months
+   after its own acceptance. After the target expires, the correction may retain
+   its submitted prior opaque reference and an expired-target marker during the
+   correction's remaining retention period, but not the deleted target's
+   content or audit history.
 
 ## Ownership and Earlier Requests
 
