@@ -18,4 +18,22 @@ business capabilities.
 
 ## Active Session
 
-- [Project and public preview release](GRILLING.md)
+- [Public brand pages](public-brand-pages/GRILLING.md) — ready, feature 1 of 8
+
+## Accepted Project Decisions
+
+- [Public Preview Release decisions](DECISIONS.md)
+
+## Feature Grilling Sequence
+
+1. [Public brand pages](public-brand-pages/GRILLING.md)
+2. [Catalogue discovery](catalogue-discovery/GRILLING.md)
+3. [Consultation request](consultation-request/GRILLING.md)
+4. [Booking request](booking-request/GRILLING.md)
+5. [General contact](general-contact/GRILLING.md)
+6. [Request processing and communications](request-processing-and-communications/GRILLING.md)
+7. [Content operations](content-operations/GRILLING.md)
+8. [Production operations](production-operations/GRILLING.md)
+
+Grill one feature at a time unless the operator explicitly changes the order.
+Feature grills define requirements and do not authorize implementation.

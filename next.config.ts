@@ -18,6 +18,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
+  images: { qualities: [60, 75] },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }]
   },

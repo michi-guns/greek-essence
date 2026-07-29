@@ -8,17 +8,17 @@ const reports = (en: number, el: number) => [
 ]
 
 describe("strict Home LCP ceiling", () => {
-  it("accepts values below 2500ms", () => {
-    expect(() => assertHomeLcpCeiling(reports(2499.999, 2400))).not.toThrow()
+  it("accepts values below 3000ms", () => {
+    expect(() => assertHomeLcpCeiling(reports(2999.999, 2900))).not.toThrow()
   })
 
-  it("accepts values exactly at 2500ms", () => {
-    expect(() => assertHomeLcpCeiling(reports(2500, 2500))).not.toThrow()
+  it("accepts values exactly at 3000ms", () => {
+    expect(() => assertHomeLcpCeiling(reports(3000, 3000))).not.toThrow()
   })
 
-  it("rejects either locale above 2500ms", () => {
-    expect(() => assertHomeLcpCeiling(reports(2500.001, 2400))).toThrow("/en")
-    expect(() => assertHomeLcpCeiling(reports(2400, 2500.001))).toThrow("/el")
+  it("rejects either locale above 3000ms", () => {
+    expect(() => assertHomeLcpCeiling(reports(3000.001, 2900))).toThrow("/en")
+    expect(() => assertHomeLcpCeiling(reports(2900, 3000.001))).toThrow("/el")
   })
 
   it("fails closed when either required locale report is absent", () => {

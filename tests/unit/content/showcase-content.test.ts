@@ -15,14 +15,7 @@ import { describe, expect, it } from "vitest"
 
 import greekFixture from "@/content/el/showcase.json"
 import englishFixture from "@/content/en/showcase.json"
-import mediaManifest from "@/content/shared/media.json"
-import {
-  getShowcaseContent,
-  resolveMedia,
-  resolveMediaFromManifest,
-  validateShowcaseContentPair,
-  type MediaManifest,
-} from "@/lib/content"
+import { getShowcaseContent, validateShowcaseContentPair } from "@/lib/content"
 
 const clone = <T>(value: T): T => structuredClone(value)
 const showcaseContentPaths = [
@@ -67,26 +60,6 @@ function runContentValidationInTemporaryFixtureRoot(
   }
 }
 
-const approvedManifest = (): MediaManifest => ({
-  assetRoot: "assets/imgs",
-  setStatus: "approved",
-  defaults: {
-    source: "operator-generated",
-    sourceApprovalStatus: "approved",
-    rightsStatus: "approved",
-    approvalStatus: "approved",
-    provisional: false,
-    focalPoint: { xPercent: 25, yPercent: 60 },
-    alt: { en: "Aegean arrival", el: "Άφιξη στο Αιγαίο" },
-  },
-  assets: [
-    {
-      id: "hero",
-      files: [{ path: "hero.jpg", width: 1200, height: 800, role: "master" }],
-    },
-  ],
-})
-
 describe("showcase content boundary", () => {
   it("loads structurally equivalent English and Greek Home content", () => {
     const english = getShowcaseContent("en")
@@ -108,9 +81,7 @@ describe("showcase content boundary", () => {
   it("rejects an empty editorial field", () => {
     const invalid = clone(englishFixture)
     invalid.home.hero.title = "   "
-    expect(() =>
-      validateShowcaseContentPair(invalid, greekFixture, [])
-    ).toThrow()
+    expect(() => validateShowcaseContentPair(invalid, greekFixture)).toThrow()
   })
 
   it("rejects an unknown route ID", () => {
@@ -127,17 +98,13 @@ describe("showcase content boundary", () => {
         },
       },
     }
-    expect(() =>
-      validateShowcaseContentPair(invalid, greekFixture, [])
-    ).toThrow()
+    expect(() => validateShowcaseContentPair(invalid, greekFixture)).toThrow()
   })
 
-  it("rejects an unknown media ID", () => {
+  it("rejects media paths outside the public image directory", () => {
     const invalid = clone(englishFixture)
-    invalid.home.hero.mediaId = "unknown-media"
-    expect(() =>
-      validateShowcaseContentPair(invalid, greekFixture, [])
-    ).toThrow("Unknown showcase media id")
+    invalid.home.hero.media.src = "/assets/imgs/hero.jpg"
+    expect(() => validateShowcaseContentPair(invalid, greekFixture)).toThrow()
   })
 
   it("rejects English/Greek structural drift", () => {
@@ -150,17 +117,13 @@ describe("showcase content boundary", () => {
       home: { ...clone(greekFixture.home), promise: promiseWithoutBody },
     }
     expect(() =>
-      validateShowcaseContentPair(englishFixture, invalidGreek, [])
+      validateShowcaseContentPair(englishFixture, invalidGreek)
     ).toThrow("Showcase locale structure differs")
   })
 
   it.each([
     ["destination collection ID", "travelerFit", "traveler-fit-drift"],
-    [
-      "referenced media ID",
-      "signatureExperiences",
-      "destination-athens-primary-01",
-    ],
+    ["referenced media path", "signatureExperiences", "/images/different.jpg"],
     ["final CTA route", "finalCta", "home"],
     ["final CTA context", "finalCta", null],
   ])(
@@ -170,7 +133,7 @@ describe("showcase content boundary", () => {
       if (target === "travelerFit") {
         invalidGreek.paros.travelerFit.items[0]!.id = replacement as string
       } else if (target === "signatureExperiences") {
-        invalidGreek.paros.signatureExperiences.items[0]!.mediaId =
+        invalidGreek.paros.signatureExperiences.items[0]!.media.src =
           replacement as string
       } else if (target === "finalCta") {
         if (replacement === null) {
@@ -181,11 +144,7 @@ describe("showcase content boundary", () => {
       }
 
       const validate = () =>
-        validateShowcaseContentPair(
-          englishFixture,
-          invalidGreek,
-          mediaManifest.assets.map((asset) => asset.id)
-        )
+        validateShowcaseContentPair(englishFixture, invalidGreek)
       if (target === "finalCta") {
         expect(validate).toThrow()
       } else {
@@ -245,82 +204,17 @@ describe("showcase content boundary", () => {
       }
 
       expect(() =>
-        validateShowcaseContentPair(
-          invalidEnglish,
-          invalidGreek,
-          mediaManifest.assets.map((asset) => asset.id)
-        )
+        validateShowcaseContentPair(invalidEnglish, invalidGreek)
       ).toThrow()
     }
   )
 
-  it("keeps both live Home media records behind the pending approval fallback", () => {
-    expect(resolveMedia("home-aegean-human-arrival-01", "en")).toEqual({
-      kind: "fallback",
-      id: "home-aegean-human-arrival-01",
-      reason: "pending-approval",
+  it("rejects content that references a missing public image", () => {
+    const result = runContentValidationInTemporaryFixtureRoot((fixture) => {
+      fixture.home.hero.media.src = "/images/missing.jpg"
     })
-    expect(
-      resolveMedia("destination-paros-antiparos-primary-01", "el")
-    ).toEqual({
-      kind: "fallback",
-      id: "destination-paros-antiparos-primary-01",
-      reason: "pending-approval",
-    })
-  })
 
-  it("fails closed when an approved media file is absent from the build", () => {
-    expect(() =>
-      resolveMediaFromManifest(approvedManifest(), "hero", "en")
-    ).toThrow("Approved media is incomplete")
-  })
-
-  it("resolves a controlled fully approved record with localized geometry", () => {
-    expect(
-      resolveMediaFromManifest(approvedManifest(), "hero", "el", () => true)
-    ).toEqual({
-      kind: "approved",
-      media: {
-        id: "hero",
-        src: "/assets/imgs/hero.jpg",
-        width: 1200,
-        height: 800,
-        alt: "Άφιξη στο Αιγαίο",
-        focalPoint: { xPercent: 25, yPercent: 60 },
-      },
-    })
-  })
-
-  it.each([
-    [
-      "pending source approval",
-      (manifest: MediaManifest) => {
-        manifest.defaults.sourceApprovalStatus = "pending"
-      },
-    ],
-    [
-      "arbitrary source",
-      (manifest: MediaManifest) => {
-        manifest.defaults.source = "arbitrary"
-      },
-    ],
-    [
-      "provisional manifest",
-      (manifest: MediaManifest) => {
-        manifest.defaults.provisional = true
-      },
-    ],
-    [
-      "incomplete crop role",
-      (manifest: MediaManifest) => {
-        manifest.assets[0]!.files[0]!.role = ""
-      },
-    ],
-  ])("fails closed for approved media with %s", (_name, mutate) => {
-    const manifest = approvedManifest()
-    mutate(manifest)
-    expect(() =>
-      resolveMediaFromManifest(manifest, "hero", "en", () => true)
-    ).toThrow("Approved media is incomplete")
+    expect(result.status).not.toBe(0)
+    expect(result.stderr).toContain("Showcase media file is missing")
   })
 })

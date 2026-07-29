@@ -164,6 +164,20 @@ async function expectLocalizedMetadata(
   )
 }
 
+async function expectLoadedImages(page: Page, expectedCount: number) {
+  const images = page.locator("main img")
+  await expect(images).toHaveCount(expectedCount)
+
+  for (let index = 0; index < expectedCount; index += 1) {
+    const image = images.nth(index)
+    await image.scrollIntoViewIfNeeded()
+    await expect(image).toHaveAttribute("alt", /\S/)
+    await expect
+      .poll(() => image.evaluate((element) => element.naturalWidth))
+      .toBeGreaterThan(0)
+  }
+}
+
 test.describe("localized prototype shell", () => {
   let browserGuards: BrowserGuards
 
@@ -179,6 +193,18 @@ test.describe("localized prototype shell", () => {
     for (const route of localizedRoutes) {
       await page.goto(route.route)
       await expectLocalizedMetadata(page, route)
+    }
+  })
+
+  test("loads localized Home and Paros imagery from public paths", async ({
+    page,
+  }) => {
+    for (const locale of ["en", "el"]) {
+      await page.goto(`/${locale}`)
+      await expectLoadedImages(page, 2)
+
+      await page.goto(`/${locale}/destinations/paros-antiparos`)
+      await expectLoadedImages(page, 3)
     }
   })
 
