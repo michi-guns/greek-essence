@@ -172,6 +172,10 @@ architecture rebaseline, and promotion of settled documentation.
   documented cycle; database access is restricted; and private request content
   remains excluded from general logs. Client approval and accurate privacy
   wording remain launch validations rather than a custom privacy system.
+- The operator accepted all six Request Processing and Communications decisions
+  on 2026-07-30. The final accepted raw ledger must first remain durable on
+  `main`; distillation and any later raw-ledger removal follow separately so a
+  squash merge cannot discard the accepted source history.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -223,12 +227,13 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Ask the operator to accept the complete six-decision Request Processing and
-Communications grill or identify one material correction. Do not distill or
-remove the raw ledger before acceptance.
+Distill the accepted Request Processing and Communications ledger into a
+self-contained `DECISIONS.md`, verify it against the final raw ledger and linked
+contracts, then present the exact raw-ledger path for separate removal approval.
 
-Completion condition: record explicit feature acceptance or persist the named
-correction and continue grilling.
+Completion condition: the distillation is verified and the operator has either
+approved or declined removal of
+`docs/grilling/request-processing-and-communications/GRILLING.md`.
 
 ## Done When
 
