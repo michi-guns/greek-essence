@@ -80,44 +80,79 @@ Rejected alternatives:
 - Explaining the distinction only after submission allows the visitor to act
   under the wrong expectation.
 
+### D-003 — Structured dates, party composition, and bounded needs
+
+The visitor must provide one preferred date and may provide either one
+alternative date or indicate that their dates are flexible. The request must
+record the adult count and, when children are included, the child count.
+
+The form may include one short optional field for accessibility or practical
+needs. It must carry a persistent warning not to include medical, passport, or
+payment information. The initial booking request must not collect individual
+traveler ages, health details, or another detailed traveler breakdown.
+
+This structure gives the agency enough consistent information to investigate the
+Experience while avoiding an early detailed questionnaire and disproportionate
+collection of personal or sensitive information.
+
+Dependencies:
+
+- Privacy and qualified review must validate the field wording, handling, access,
+  retention, and later follow-up process.
+- Request Processing and Communications owns validation, storage, notification,
+  and safe rendering of visitor-provided text.
+- Catalogue and Experience rules may later establish when child counts or other
+  practical details are relevant, without expanding this initial request into a
+  traveler dossier.
+
+Rejected alternatives:
+
+- A mostly free-text representation would be harder to validate and hand off
+  reliably.
+- A per-traveler age, mobility, dietary, or health breakdown would collect too
+  much potentially sensitive information at the initial request stage.
+
 ## Open Questions
 
-- D-003: How are dates, party size, and special needs represented?
 - D-004: What happens if the Experience changes or is unpublished?
 - D-005: What does the visitor see after success or failure?
 
 ## Next Question
 
-ID: D-003
+ID: D-004
 
 Topic:
-How the request represents dates, party size, and accessibility or other special
-needs without collecting unnecessary sensitive information.
+What happens when the selected Experience changes or becomes unrequestable
+before or after the visitor submits the request.
 
 Prompt:
-How should the booking-request form capture dates, party composition, and
-special requirements?
+How should the booking-request journey behave if the Experience changes or is
+unpublished?
 
 Options:
 
-1. (recommended): **Structured essentials with a bounded optional needs field.**
-   Require one preferred date; allow either one alternative date or a flexible
-   dates choice; require adult count and, when children are included, child
-   count; provide an optional short accessibility or practical-needs field with
-   a warning not to include medical, passport, or payment information.
-2. **Mostly free text.** Ask for party size and timing in one notes field. This
-   is flexible but harder to validate, search, and hand off reliably.
-3. **Detailed traveler breakdown.** Collect each traveler’s age, mobility,
-   dietary, and health information. This may help later planning but collects
-   disproportionate personal and potentially sensitive data too early.
+1. (recommended): **Revalidate before saving and preserve a historical
+   snapshot after saving.** At submission, verify that the Experience still
+   exists and is requestable. If not, do not save a new booking request; explain
+   that it can no longer be requested and offer catalogue or consultation paths.
+   Once a request is safely saved, retain the Experience identifier and the
+   customer-visible title/details needed to understand the historical request,
+   even if the live Experience later changes or is withdrawn.
+2. **Always accept against the remembered Experience.** Save the request even if
+   the Experience is no longer requestable and let staff resolve it manually.
+   This avoids blocking visitors but creates misleading or impossible requests.
+3. **Keep only a live Experience link.** Reject unavailable Experiences before
+   submission, but let saved requests display whatever the current Experience
+   says. This is simpler but can rewrite the meaning of historical requests.
 
 Why this matters:
-The agency needs enough structured information to investigate the Experience,
-but an initial request should not become a detailed traveler questionnaire or
-collect sensitive data before it is necessary.
+Catalogue decisions already require withdrawn Experiences to disappear from new
+discovery while preserving historical request intelligibility. The booking
+journey must prevent stale submissions without losing what an accepted request
+originally referred to.
 
 After answer:
 
-- Lock the date, party, and special-requirements model.
-- Record privacy, catalogue, and shared-processing dependencies.
-- Store D-004 as the next question.
+- Lock pre-submit revalidation and post-save historical behavior.
+- Record catalogue, persistence, and recovery dependencies.
+- Store D-005 as the next question.
