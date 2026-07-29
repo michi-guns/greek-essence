@@ -109,48 +109,75 @@ correction incorrectly, add friction, or expose prior activity.
 The normative chronology, correction, and exact-retry boundary is defined in
 [contracts/request-history-and-duplicates.md](contracts/request-history-and-duplicates.md).
 
+### D-004 — Audit System-Owned States Only
+
+The website records only states it can keep truthful without staff workflow
+tooling: durable request acceptance, explicit correction relationships, and the
+independent agency-notification and visitor-acknowledgement outcomes. Each state
+transition retains its time and whether it came from the submission flow,
+automated recovery, or a named authorized recovery action.
+
+The website database does not claim that agency handling is new, in progress,
+resolved, or closed. Those lifecycle states remain in the agency's existing
+email process for launch because no staff dashboard or customer-management
+system is accepted. Direct database maintenance by technical staff is not a
+substitute for a supported agency workflow.
+
+The audit must preserve the accepted request's immutable reference, type,
+acceptance time, contact relationship, submitted snapshot, correction link, and
+delivery history without copying unnecessary personal or free-text data into
+logs. D-005 owns detailed delivery recovery; D-006 owns retention, deletion,
+access, and logging limits.
+
+Adding even a small staff state-control surface is deferred with the staff
+dashboard. Creating lifecycle fields that nobody can reliably maintain is
+rejected because inaccurate states would mislead recovery, privacy handling,
+and future reporting.
+
+The normative state and audit boundary is defined in
+[contracts/system-states-and-audit.md](contracts/system-states-and-audit.md).
+
 ## Open Questions
 
-- D-004: What shared request states and audit information are required?
 - D-005: How are notification and acknowledgement failures recovered?
 - D-006: What retention, deletion, logging, and access rules apply?
 
 ## Next Question
 
-ID: D-004
+ID: D-005
 
 Topic:
-Shared request states and audit information without a staff dashboard.
+Recovering agency-notification and visitor-acknowledgement failures.
 
 Prompt:
-Since launch has no staff dashboard or customer-management system, which states
-should the website own and audit while the agency follows up through its
-existing email process?
+When required email cannot be sent after a request is safely accepted, how
+should recovery work without a staff dashboard and without risking silent loss
+or duplicate messages?
 
 Options:
 
-1. (recommended): **Audit system-owned states only; keep manual handling in the
-   agency inbox.** Record durable acceptance, correction links, and independent
-   agency-notification and visitor-acknowledgement outcomes with timestamps and
-   source. Do not claim “in progress,” “resolved,” or “closed” in the website
-   database when staff have no supported way to maintain those states.
-2. **Add a small secure staff state-control surface.** Let staff mark requests
-   as new, in progress, resolved, or closed while retaining the system-delivery
-   audit. This gives stronger operational visibility but introduces the staff
-   tooling explicitly deferred from launch.
-3. **Create staff lifecycle states without a supported interface.** Store new,
-   in-progress, resolved, and closed states and expect technical staff or direct
-   database work to maintain them. This appears complete but creates hidden,
-   unsafe agency work and will quickly become inaccurate.
+1. (recommended): **Bounded safe retries plus an out-of-band recovery alert.**
+   Retry only definitely failed sends with a stable request-and-purpose identity.
+   If delivery remains failed or its handoff is uncertain, stop blind retries
+   and alert a named recovery owner through a separately monitored channel. The
+   alert contains only the reference and failure context, not the visitor's
+   private request. Recovery records its outcome and never asks the visitor to
+   resubmit.
+2. **Alert immediately without automatic retry.** Every failed or uncertain send
+   goes directly to the recovery owner. This avoids automated duplicate risk but
+   creates more manual work for temporary mail-service failures.
+3. **Keep retrying automatically until email succeeds.** This reduces immediate
+   owner involvement but can send delayed duplicates after uncertain handoffs
+   and can leave failures unowned for an unbounded period.
 
 Why this matters:
-An audit field is useful only if a named process keeps it truthful. The accepted
-release sends requests into the agency's existing mailbox and explicitly defers
-a staff dashboard, so invented staff lifecycle states could mislead recovery,
-privacy handling, and future reporting.
+Saving protects the request, but the agency still needs to learn that it exists.
+The normal mail service may be the component that failed, so recovery needs a
+separately monitored route and a named owner. Alerts should not create a second
+copy of the visitor's private submission.
 
 After answer:
 
-- Lock system-owned request and delivery states plus minimum audit history.
-- Update the shared request contract if accepted.
-- Store D-005 as the next question.
+- Lock retry, uncertainty, escalation, and recovery-record behavior.
+- Update the shared delivery contract if accepted.
+- Store D-006 as the next question.

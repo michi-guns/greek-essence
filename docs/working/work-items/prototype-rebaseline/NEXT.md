@@ -154,6 +154,11 @@ architecture rebaseline, and promotion of settled documentation.
   the earlier opaque reference and creates a linked record without overwriting
   history. Exact technical retries resolve idempotently to the same request,
   and no public account or request-history surface is introduced.
+- Request Processing and Communications D-004 limits the website to truthful
+  system-owned acceptance, correction, notification, and acknowledgement
+  states with append-only transition history. Staff handling remains in the
+  agency inbox; unsupported lifecycle fields and direct database maintenance
+  are excluded, and general logs must not copy private request content.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -205,11 +210,11 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Request Processing and Communications with D-004, which decides which
-system-owned states and audit history remain truthful without introducing the
-deferred staff dashboard or hidden direct-database work.
+Continue Request Processing and Communications with D-005, which decides safe
+email retry, uncertain-delivery escalation, and recovery ownership without a
+staff dashboard or additional copies of visitor data.
 
-Completion condition: persist D-004 and its consequences, then store D-005 as
+Completion condition: persist D-005 and its consequences, then store D-006 as
 the single next question.
 
 ## Done When
