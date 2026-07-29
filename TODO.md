@@ -42,9 +42,21 @@ Completed and removed or reconciled into durable project history
 
 ## Planned
 
-No non-active work is currently planned. Requirements rebaseline and
-architecture discovery are active through `NEXT.md`; implementation planning
-must wait for their approved outcomes.
+- [ ] Run a Domain Architecture grilling and consolidation after the remaining
+      feature grills are accepted.
+  - **Desired outcome:** Reconcile the accepted project and feature decisions
+    into canonical domain authority before designing Sanity models, Drizzle
+    schemas, or implementation contracts.
+  - **Inputs:** All accepted `docs/grilling/**/DECISIONS.md` files, the project
+    glossary, and the existing draft Domain Architecture and related working
+    documents.
+  - **Boundary:** Treat the draft architecture as a proposal to validate rather
+    than inherited authority. Cover entities, value objects, ownership,
+    relationships, lifecycle states, historical snapshots, localization,
+    public/private data boundaries, retention, and cross-feature invariants.
+  - **Dependency:** Begin only after General Contact, Request Processing and
+    Communications, Content Operations, and Production Operations grilling is
+    complete.
 
 <!-- Agreed and prioritized work that is not active yet. Link its plan/task when available. -->
 
