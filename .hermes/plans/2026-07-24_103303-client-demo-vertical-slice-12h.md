@@ -8,8 +8,6 @@
 
 **Tech stack:** Next.js 16.2.6, React 19.2.4, TypeScript 6 strict, next-intl 4.13.3, Tailwind CSS 4, Base UI/shadcn primitives, Vitest, Playwright, axe, Unlighthouse, standalone pnpm 11.17.0.
 
-**Implementation depth:** Tier 2 — Prototype.
-
 **Hard ceiling:** 12:00 elapsed working time, including review, fixes, optional preview deployment, and rehearsal. The reviewed plan reserves 1:45 of explicit contingency; feature packages may not consume it by default.
 
 ---

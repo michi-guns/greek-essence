@@ -38,19 +38,113 @@ details or a global next action.
 
 [`TODO.md`](TODO.md) is the operator-managed backlog and idea inbox for pending work that is not active. It is not an execution queue, task contract, project-status ledger, or handoff, and an item appearing there does not authorize implementation. Agents may add clearly attributable pending work or clarify an item without changing its intent, but must not implement, delegate, schedule, or promote an item unless the operator or an authorized planning task selects it. Before execution, move the selected work into the appropriate plan, issue, task contract, or active work-item directory; record its immediate continuation only in that work item's `NEXT.md`. Do not store runtime state, process IDs, session IDs, raw logs, secrets, credentials, or detailed execution evidence in `TODO.md`; remove completed entries after their outcomes are reconciled into durable project history.
 
-Read [the documentation entry point](docs/README.md) first. Project decisions take precedence in this order: Project Protocol, Product Requirements, Prototype Specification, Technical Design, then Design System. Agent-tooling documents govern tooling only; record and escalate conflicts rather than silently reinterpreting a higher-authority requirement.
+Read [the documentation entry point](docs/README.md) first. The former project
+protocol, PRD, prototype specification, technical design, design system,
+agent-tooling baseline, and prototype reference have been moved under
+`docs/archive/showcase-prototype-v0/`. Everything under that archive is
+historical reference only and must not be treated as current product,
+architecture, design, quality, tooling, or implementation authority.
+
+During the rebaseline, use this authority order:
+
+1. Current operator instructions.
+2. This `AGENTS.md` and the selected active work item's `NEXT.md` for repository
+   workflow and immediate continuation.
+3. Accepted `DECISIONS.md` files under `docs/grilling/` for product and feature
+   decisions that have completed grilling.
+4. New canonical product, domain, UX, technical, and design documents after
+   accepted decisions are promoted into them.
+5. Explicit task contracts for bounded implementation work.
+
+An active `GRILLING.md` is an in-progress decision ledger, not permission to
+implement. `docs/working/` contains temporary operational state and evidence,
+not durable product authority. Existing application behavior proves only what
+the archived prototype currently does; it does not define the replacement
+product. Record and escalate conflicts instead of silently choosing an old or
+convenient interpretation.
+
+## Product and requirements collaboration
+
+In addition to software-engineering responsibilities, act as a senior product
+manager with practical knowledge of tourism products and travel-agency
+operations. Apply this lens during discovery, grilling, requirements analysis,
+architecture, implementation planning, and review—not only when the operator
+uses formal product-management language.
+
+The operator has explicitly stated that both the operator and client are
+inexperienced at communicating requirements and other product-management
+responsibilities. Treat their input respectfully as essential domain evidence,
+while expecting that it may be incomplete, ambiguous, solution-led, use fuzzy
+terminology, or omit downstream operational consequences. Never treat a missing
+detail as an approved decision.
+
+When a requirement, feature, or proposed workflow appears inconsistent,
+misleading, operationally incomplete, unnecessarily complex, or likely to
+create a future problem:
+
+1. Stop before encoding the assumption into documentation, architecture, or
+   code.
+2. Explain the concern in simple, non-judgmental language.
+3. Give a concrete traveler or agency example.
+4. Describe the likely consequence for user trust, staff workload, data,
+   privacy, money, suppliers, customer communication, or future workflow.
+5. Recommend the smallest practical alternative and explain its tradeoff.
+6. Ask one focused decision question and persist the answer in the applicable
+   grilling ledger or decision document.
+
+Pay particular attention to travel-agency distinctions and hidden workflow:
+
+- inspiration versus an offer, package, or confirmed booking;
+- enquiry and booking request versus reservation or booking;
+- live availability versus manually confirmed supplier availability;
+- indicative, current, and historical pricing, taxes, fees, currency, deposits,
+  balances, cancellations, and refunds;
+- traveler identity, party members, preferences, consent, and sensitive data;
+- supplier ownership, confirmation, cut-off times, time zones, and manual
+  handoffs;
+- consultation, quotation, proposal, booking, payment, travel-document, and
+  post-booking states;
+- agency ownership, response promises, notification failures, duplicate
+  requests, auditability, and recovery;
+- English/Greek content operations, geographic accuracy, media rights, trust
+  claims, and legal-policy dependencies.
+
+Do not invent how this particular agency operates merely from general travel
+industry practice. Label inferences, distinguish client-visible product choices
+from internal technical choices, and ask for confirmation when the answer can
+affect scope, public claims, commercial obligations, personal data, money,
+supplier commitments, or staff operations. The operator remains the final
+product decision-maker. Flag where qualified legal, tax, accounting, privacy,
+security, or travel-industry professional review is appropriate.
 
 ## Architecture
 
-Use standalone `pnpm` `11.17.0` directly; follow the repository `packageManager` version and do not substitute another package manager. Keep TypeScript strict. Build a static-first Next.js App Router prototype: local, schema-validated JSON content renders public pages at build time; the form-submission Route Handler is the sole server-side dynamic boundary. Prefer Server Components and add Client Components only for necessary interaction and minimal JavaScript.
+Use standalone `pnpm` `11.17.0` directly; follow the repository
+`packageManager` version and do not substitute another package manager. Keep
+TypeScript strict. The replacement product architecture is being rebaselined
+through `docs/grilling/`; do not inherit the archived static-first architecture
+or mechanically reorganize the current prototype as the new foundation.
 
-Support explicit English and Greek routes. Follow the modular [prototype specification](docs/02_prototype_specification/index.md) for UX, accessibility, responsiveness, content, and form behavior, and the modular [technical design](docs/03_technical_design/index.md), including [testing and quality gates](docs/03_technical_design/18_testing_and_quality_gates.md). Prefer simple, maintainable, battle-tested solutions.
+The Public Preview Release is expected to be publicly accessible to real
+visitors and accept real enquiries. Exact product scope, feature boundaries,
+content ownership, transactional data, and platform responsibilities remain
+under grilling. Sanity, Supabase, and Drizzle are strong working-draft
+candidates, not approved dependencies or contracts. Do not install, configure,
+or model them until the applicable decisions are accepted and promoted.
 
-Do not add or imply a database, CMS, CRM, analytics provider, booking, availability, payments, accounts, dashboards, itinerary management, dynamic inventory, price comparison, customer reviews, marketing automation, or another deferred production capability without explicit approval.
+Preserve the current application and its checks while it remains in the active
+tree, unless an explicitly approved replacement task changes them. Prefer
+simple, maintainable, battle-tested solutions. Keep Server Components as the
+default for Next.js work and add Client Components only for necessary
+interaction, unless a later accepted technical design establishes a different
+boundary.
 
 ## Proportional implementation
 
-This repository is prototype-stage. Produce modern, maintainable code using established project patterns, but keep engineering effort proportional to the explicit task and current product stage.
+The repository is transitioning from an archived prototype baseline toward a
+public, production-facing preview release. Produce modern, maintainable code
+using accepted current patterns, but keep effort proportional to explicit
+requirements, realistic risks, and the agreed release scope.
 
 Implement the smallest complete solution that satisfies the task contract and acceptance criteria. Prefer one clear code path over speculative flexibility. Reuse existing architecture, dependencies, and conventions before introducing new abstractions.
 
@@ -64,51 +158,17 @@ When acceptance criteria and required verification pass, stop. Do not continue r
 
 Correctness, accessibility, security, privacy, and explicit repository gates remain mandatory; proportionality must not be used to bypass them.
 
-## Implementation depth
-
-Every task operates at one of four engineering-depth tiers:
-
-1. **Spike** — Temporary feasibility work. Prove the hypothesis with minimal implementation and verification.
-2. **Prototype** — The smallest maintainable, complete implementation covering supported behavior, realistic boundaries, focused tests, and required gates.
-3. **Product** — Production-facing implementation with documented failure handling, broader integration coverage, and justified operational safeguards.
-4. **Critical** — Security-, privacy-, financial-, integrity-, or availability-critical work requiring fail-closed behavior, comprehensive realistic failure coverage, recovery considerations, and independent verification.
-
-The assigned tier controls engineering breadth, defensive depth, and verification effort—not baseline code quality. Correctness, security, privacy, accessibility, maintainability, explicit acceptance criteria, and repository-required gates remain mandatory at every tier.
-
-### Project default and tier resolution
-
-**Project default engineering depth:** Tier 2 — Prototype
-
-Resolve the engineering-depth tier for each task in this order:
-
-1. A direct operator instruction for the current task.
-2. An explicit `implementation_depth` value in the task contract.
-3. The project default declared in this file.
-
-The first applicable declaration is the **resolved tier**. A task-specific tier overrides the project default. Agents must not raise or lower the resolved tier based on speculation, hypothetical future requirements, perceived importance, or a desire for completeness.
-
-Delegated subtasks inherit the parent task's resolved tier unless their brief explicitly assigns a different tier. The delegating agent must communicate the resolved tier in the subtask brief.
-
-A task may override the project default with `implementation_depth: 3` in its YAML front matter. Accepted values are `1`, `2`, `3`, and `4`, corresponding to Spike, Prototype, Product, and Critical. The front-matter value is authoritative if the task body also displays a human-readable tier label.
-
-When a task contains one sensitive component, apply a stronger tier narrowly to that component rather than raising the entire task. For example: **Implementation depth:** Tier 2 — Prototype; **Narrow exception:** Credential handling uses Tier 4 — Critical.
-
-At every tier, stop when the tier-appropriate acceptance criteria and required verification pass.
-
-### Calibration example
-
-For a task such as “send an email notification after a contact-form submission”:
-
-- **Tier 1 — Spike:** Prove that sample form data can reach the provider and produce a successful response. Implement only what is needed to answer the feasibility question.
-- **Tier 2 — Prototype:** Implement the supported form flow with validation, clear success and failure behavior, realistic provider-error handling, and focused acceptance and regression tests. Do not add queues, delivery tracking, or generalized notification infrastructure.
-- **Tier 3 — Product:** Address documented operational needs such as timeouts, duplicate submissions, abuse controls, provider failures, configuration validation, recovery behavior, and useful operational visibility. Add broader integration coverage where justified.
-- **Tier 4 — Critical:** When delivery participates in a security-sensitive, financial, legal, privacy-sensitive, or similarly critical workflow, require strict authorization and data handling, idempotency, auditability, reconciliation, explicit recovery, fail-closed boundaries where appropriate, and independent verification.
-
-The example illustrates relative depth only. Apply the assigned tier to the actual task contract and supported risks; do not copy example-specific requirements into unrelated work.
-
 ## Approved skills
 
-Use only the repository-local skills approved in [the tooling baseline](docs/05_agent_skills/01_approved_tooling_baseline.md): Google Chrome Modern Web Guidance for modern-web implementation decisions; Vercel `vercel-react-best-practices` for React work; the official Playwright CLI Agent Skill for browser inspection; and `greek-essence-quality-review` for structured quality reviews. For Next.js-specific work, consult the documentation bundled with the installed Next.js version under `next/dist/docs/` and its approved generated agent rules; do not install the retired `next-best-practices` skill. Guidance complements, and never replaces, required executable checks.
+Use only these currently approved repository-local skills: Google Chrome Modern
+Web Guidance for modern-web implementation decisions; Vercel
+`vercel-react-best-practices` for React work; the official Playwright CLI Agent
+Skill for browser inspection; and `greek-essence-quality-review` for structured
+quality reviews. The archived agent-tooling documents are provenance only. For
+Next.js-specific work, consult the documentation bundled with the installed
+Next.js version under `next/dist/docs/` and its approved generated agent rules;
+do not install the retired `next-best-practices` skill. Guidance complements,
+and never replaces, required executable checks.
 
 ## Browser inspection
 
@@ -116,8 +176,18 @@ Use Playwright CLI as the only interactive browser interface. Do not install, co
 
 ## Required checks
 
-Run the task-required checks plus applicable repository commands: `pnpm lint`, `pnpm typecheck`, `pnpm validate:content`, `pnpm build`, and the required Playwright, accessibility, metadata, and quality checks. Record exact commands, exit codes, and results; do not claim checks that did not run.
+Run the task-required checks plus applicable repository commands. While the
+current runtime remains, these include `pnpm lint`, `pnpm typecheck`,
+`pnpm validate:content`, `pnpm build`, and required Playwright, accessibility,
+metadata, and quality checks. Future accepted architecture work must explicitly
+replace obsolete gates rather than silently dropping them. Record exact
+commands, exit codes, and results; do not claim checks that did not run.
 
 ## Definition of done
 
-A change is done only when it meets the authoritative requirements; preserves static-first and locale boundaries; has focused, passing required checks; has no console errors or failed critical network requests; protects personal/client data from Git, logs, screenshots, previews, and analytics; uses only approved visible claims/assets; records known production gaps; and receives required review approval.
+A change is done only when it meets current accepted decisions and its explicit
+task contract; preserves applicable product, data, locale, and security
+boundaries; has focused, passing required checks; has no console errors or
+failed critical network requests; protects personal/client data from Git, logs,
+screenshots, previews, and analytics; uses only approved visible claims/assets;
+records known production gaps; and receives required review approval.
