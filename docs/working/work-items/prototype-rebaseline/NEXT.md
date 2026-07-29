@@ -6,7 +6,7 @@ Active
 
 ## Ownership and Scope
 
-Owner: Hermes Agent (`default`)
+Owner: Hermes Agent (`greek-essence`)
 
 Scope: prototype archive verification, curated reference material, active-tree
 retention and removal planning, expanded client-requirements intake,
@@ -116,6 +116,27 @@ architecture rebaseline, and promotion of settled documentation.
   feature-level and launch validation.
 - No application implementation, dependency installation, schema migration,
   or active application path change is authorized by these decisions.
+- General Contact D-001 establishes that Contact accepts ordinary questions
+  outside the dedicated Consultation Request and Booking Request journeys and
+  provides prominent routes to those journeys instead of accepting incomplete
+  travel requests through a catch-all form.
+- General Contact D-002 requires name, email, subject, message, and privacy
+  acknowledgement; email is the sole acknowledgement and follow-up channel,
+  with no telephone field or reply preference.
+- General Contact D-003 uses a short pre-form intent choice: trip planning routes
+  to Consultation Request, specific-Experience interest routes through the
+  catalogue to an eligible Booking Request, and another question reveals the
+  General Contact form, with visible fallback links.
+- General Contact D-004 requires the shared just-in-time privacy explanation,
+  read-only acknowledgement, and persistent warning against passport, payment,
+  or medical information; it excludes blanket and marketing consent.
+- General Contact D-005 distinguishes validation failure, safely saved success,
+  customer-email failure after saving, agency-notification failure after saving,
+  and persistence failure without false receipt or duplicate-producing advice.
+- The operator accepted all five General Contact decisions on 2026-07-29. They
+  are distilled into `docs/grilling/general-contact/DECISIONS.md`. The operator
+  separately approved removal of the raw feature ledger on 2026-07-29; Git
+  history retains it.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -167,11 +188,9 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Begin the General Contact feature grill at
-`docs/grilling/general-contact/GRILLING.md` D-001 and decide which messages belong
-in general contact rather than the dedicated Consultation Request or Booking
-Request journeys. Persist the operator’s answer, consequences, dependencies,
-rejected alternatives, and next question before continuing.
+Request Processing and Communications D-001 is the next feature-grilling
+decision in the accepted sequence. It was not started by the General Contact
+task; begin it only when the operator explicitly continues successor work.
 
 Completion condition: the operator accepts the General Contact decisions, they
 are distilled into that feature’s `DECISIONS.md`, and the raw feature

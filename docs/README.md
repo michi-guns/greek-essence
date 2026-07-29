@@ -76,7 +76,7 @@ task contract. Before committing or publishing any authorized change, follow
 | Document area | Status |
 | --- | --- |
 | Project-level grilling | Accepted and distilled into DECISIONS.md |
-| Feature grilling | Public Brand Pages, Catalogue Discovery, Consultation Request, and Booking Request accepted; General Contact D-001 ready |
+| Feature grilling | Public Brand Pages, Catalogue Discovery, Consultation Request, Booking Request, and General Contact accepted; Request Processing and Communications is next but not started |
 | New canonical PRD | Not yet created |
 | New domain and roadmap documents | Working drafts only |
 | New UX specification | Not yet created |
