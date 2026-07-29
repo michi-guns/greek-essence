@@ -18,7 +18,7 @@ business capabilities.
 
 ## Active Session
 
-- [Consultation request](consultation-request/GRILLING.md) — ready, feature 3 of 8
+- [Booking request](booking-request/GRILLING.md) — ready, feature 4 of 8
 
 ## Accepted Project Decisions
 
@@ -28,12 +28,13 @@ business capabilities.
 
 - [Public Brand Pages decisions](public-brand-pages/DECISIONS.md)
 - [Catalogue Discovery decisions](catalogue-discovery/DECISIONS.md)
+- [Consultation Request decisions](consultation-request/DECISIONS.md)
 
 ## Feature Grilling Sequence
 
 1. [Public brand pages](public-brand-pages/DECISIONS.md) — accepted
 2. [Catalogue discovery](catalogue-discovery/DECISIONS.md) — accepted
-3. [Consultation request](consultation-request/GRILLING.md)
+3. [Consultation request](consultation-request/DECISIONS.md) — accepted
 4. [Booking request](booking-request/GRILLING.md)
 5. [General contact](general-contact/GRILLING.md)
 6. [Request processing and communications](request-processing-and-communications/GRILLING.md)
