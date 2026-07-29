@@ -53,8 +53,9 @@ not a substitute for accepted replacement-product requirements.
 
 1. Read root [`NEXT.md`](../NEXT.md).
 2. Read its linked work-item `NEXT.md`.
-3. Read [`grilling/protocol.md`](grilling/protocol.md).
-4. Continue the applicable `GRILLING.md` from its stored next question.
+3. Read the accepted project [`grilling/DECISIONS.md`](grilling/DECISIONS.md).
+4. Read [`grilling/protocol.md`](grilling/protocol.md).
+5. Continue the applicable feature `GRILLING.md` from its stored next question.
 
 ### Historical research
 
@@ -74,8 +75,8 @@ task contract. Before committing or publishing any authorized change, follow
 
 | Document area | Status |
 | --- | --- |
-| Project-level grilling | Active |
-| Feature grilling | Pending accepted high-level feature map |
+| Project-level grilling | Accepted and distilled into DECISIONS.md |
+| Feature grilling | Ready at Public Brand Pages, feature 1 of 8 |
 | New canonical PRD | Not yet created |
 | New domain and roadmap documents | Working drafts only |
 | New UX specification | Not yet created |
