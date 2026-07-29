@@ -2,8 +2,9 @@
 
 ## Status
 
-Queued as feature 6 of 8. Begin after the three submission-journey grills are
-accepted so their shared needs are known.
+Accepted by the operator on 2026-07-30 after feature grilling. This raw ledger
+remains temporarily until its accepted decisions are verified in a durable
+`DECISIONS.md` and the operator separately approves this file's removal.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).
@@ -207,32 +208,16 @@ None. No unresolved feature decision currently appears capable of materially
 changing request value, scope, workflow, data, ownership, privacy, recovery, or
 implementation boundaries.
 
-## Next Question
+## Acceptance
 
-ID: Acceptance Review
+The operator accepted D-001 through D-006 as the complete Request Processing
+and Communications feature boundary on 2026-07-30.
 
-Topic:
-Acceptance of the complete Request Processing and Communications grill.
+Acceptance closes feature discovery only. It does not authorize application
+implementation, dependency installation, schema migration, deployment, or
+destructive path changes.
 
-Prompt:
-Do you accept the six locked Request Processing and Communications decisions as
-the complete feature boundary, or is there a material correction still needed?
-
-Options:
-
-1. (recommended): **Accept the complete feature grill.** Distill D-001 through
-   D-006 into the feature's durable `DECISIONS.md`, preserving the contracts and
-   named launch validations. This still does not authorize implementation.
-2. **Correct a material decision first.** Identify the decision ID and the
-   practical correction needed before acceptance.
-
-Why this matters:
-Acceptance closes feature discovery only. Distillation produces durable product
-authority; implementation, dependencies, migration, and deployment still need
-later explicit authorization.
-
-After answer:
-
-- Record acceptance or the requested correction before changing feature status.
-- If accepted, distill the final raw ledger without deleting it until separate
-  path-specific approval is obtained.
+Next, distill this final accepted ledger into `DECISIONS.md` and verify that no
+decision, contract, exclusion, dependency, risk, or external validation is lost
+or changed. Do not remove this raw ledger until the operator separately approves
+the exact path.
