@@ -80,51 +80,77 @@ duplicate boundary; D-002 does not authorize overwriting an accepted request.
 The normative recognition boundary is defined in
 [contracts/customer-contact-recognition.md](contracts/customer-contact-recognition.md).
 
+### D-003 — Immutable Chronological History with Explicit Corrections
+
+Every accepted submission creates or resolves to one immutable request record
+in the chronological history grouped by the D-002 normalized email
+relationship. An ordinary submission is a new request by default. Similar
+content, timing, or contact details must not silently turn it into a correction
+or replacement.
+
+A visitor who intends to correct a previous request explicitly chooses the
+correction path and supplies that request's opaque reference. The submitted
+email must resolve to the same contact relationship without revealing whether a
+different email or reference exists. A valid correction creates a new record
+linked to the earlier request; it never overwrites, deletes, or detaches the
+original record.
+
+The chronology preserves each request's reference, type, submitted snapshot,
+acceptance time, explicit correction relationship when applicable, and the
+processing and delivery-state history defined by later decisions. Exact
+technical retries of one submission resolve idempotently to the same accepted
+request rather than creating another history entry.
+
+The chronology is internal agency context, not a customer account or public
+request-history page. Automatic intent inference and email-reuse prompts are
+rejected because they could hide a legitimate additional request, attach a
+correction incorrectly, add friction, or expose prior activity.
+
+The normative chronology, correction, and exact-retry boundary is defined in
+[contracts/request-history-and-duplicates.md](contracts/request-history-and-duplicates.md).
+
 ## Open Questions
 
-- D-003: How are accidental duplicate submissions handled?
 - D-004: What shared request states and audit information are required?
 - D-005: How are notification and acknowledgement failures recovered?
 - D-006: What retention, deletion, logging, and access rules apply?
 
 ## Next Question
 
-ID: D-003
+ID: D-004
 
 Topic:
-Distinguishing a new request, a correction, and an accidental duplicate.
+Shared request states and audit information without a staff dashboard.
 
 Prompt:
-When an email address is used again, how should the visitor distinguish a new
-request from a correction without letting either case overwrite accepted
-history or exposing that the email already has requests?
+Since launch has no staff dashboard or customer-management system, which states
+should the website own and audit while the agency follows up through its
+existing email process?
 
 Options:
 
-1. (recommended): **New by default; explicit correction with the previous
-   reference.** An ordinary submission creates a new request. A visitor who
-   chooses “correct a previous request” must provide its opaque reference; the
-   correction is saved as a linked record and never overwrites the original.
-   Exact transport retries are handled idempotently without creating another
-   request. The site never reveals prior requests from email alone.
-2. **Ask every time an email is reused.** Require “new request” or “correction”
-   whenever the email matches existing records. This sounds direct, but revealing
-   that a match exists leaks private relationship data, while asking without
-   revealing a match adds friction to ordinary new requests.
-3. **Infer the intent automatically.** Treat sufficiently similar submissions
-   as corrections and different ones as new requests. This reduces questions but
-   can overwrite intent, hide a legitimate second booking request, or attach a
-   correction to the wrong request.
+1. (recommended): **Audit system-owned states only; keep manual handling in the
+   agency inbox.** Record durable acceptance, correction links, and independent
+   agency-notification and visitor-acknowledgement outcomes with timestamps and
+   source. Do not claim “in progress,” “resolved,” or “closed” in the website
+   database when staff have no supported way to maintain those states.
+2. **Add a small secure staff state-control surface.** Let staff mark requests
+   as new, in progress, resolved, or closed while retaining the system-delivery
+   audit. This gives stronger operational visibility but introduces the staff
+   tooling explicitly deferred from launch.
+3. **Create staff lifecycle states without a supported interface.** Store new,
+   in-progress, resolved, and closed states and expect technical staff or direct
+   database work to maintain them. This appears complete but creates hidden,
+   unsafe agency work and will quickly become inaccurate.
 
 Why this matters:
-The agency needs to know whether to act on both requests, but an accepted
-request may already have triggered manual work. Keeping history and requiring
-the opaque reference for corrections avoids silent replacement and prevents
-email-address probing from exposing prior activity.
+An audit field is useful only if a named process keeps it truthful. The accepted
+release sends requests into the agency's existing mailbox and explicitly defers
+a staff dashboard, so invented staff lifecycle states could mislead recovery,
+privacy handling, and future reporting.
 
 After answer:
 
-- Lock new-request, correction, and exact-retry behavior.
-- Update the shared contract with the accepted relationship and immutability
-  rules.
-- Store D-004 as the next question.
+- Lock system-owned request and delivery states plus minimum audit history.
+- Update the shared request contract if accepted.
+- Store D-005 as the next question.
