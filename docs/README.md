@@ -1,82 +1,88 @@
 # Greek Essence Documentation
 
-This directory is the entry point for the Greek Essence product, experience, technical, visual, and agent-tooling documentation.
+This directory is the entry point for current Greek Essence discovery,
+requirements grilling, working state, repository guidance, and archived
+documentation.
 
-Greek Essence is currently specified as a private, bilingual client-review prototype for a boutique Greece-focused travel-planning service. The prototype is intended to demonstrate the experience and validate the product direction before a production commercial release. It is not a booking engine, online travel agency, or production-ready lead-management system.
+## Rebaseline Notice
+
+Greek Essence is being redefined from an archived private prototype into a
+public, production-facing preview release expected to receive real visitors and
+real enquiries. Product scope, business workflows, feature boundaries, content
+ownership, transactional data, and platform responsibilities are currently
+being grilled and are not yet complete implementation authority.
+
+The former documentation tree has moved to
+[`archive/showcase-prototype-v0/`](archive/showcase-prototype-v0/). That entire
+tree—including its project protocol, PRD, prototype specification, technical
+design, design system, agent-tooling baseline, and prototype reference—is
+historical reference only. Its internal approval and authority statements apply
+only to the archived prototype and have no current authority.
 
 ## Documentation map
 
-| Area | Owns | Start here |
-|---|---|---|
-| Contributor onboarding | Workstation prerequisites, repository setup, local configuration, doctor checks, Git hooks, and first-run verification | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md) |
-| Git workflow | Required GitHub Flow strategy for branches, pull requests, checks, merges, and cleanup | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) |
-| Project protocol | Documentation governance, responsibilities, and conflict resolution | [`00_project_protocol/index.md`](00_project_protocol/index.md) |
-| Product requirements | Product intent, audience, offer, scope, business rules, and MVP acceptance | [`01_prd/index.md`](01_prd/index.md) |
-| Prototype specification | Information architecture, page composition, interactions, responsive behavior, and prototype flows | [`02_prototype_specification/index.md`](02_prototype_specification/index.md) |
-| Technical design | Prototype architecture, stack, implementation boundaries, testing, deployment, and production gaps | [`03_technical_design/index.md`](03_technical_design/index.md) |
-| Design system | Visual direction, tokens, components, imagery, accessibility, and visual QA | [`04_design/index.md`](04_design/index.md) |
-| Agent skills and tooling | Approved repository-local agent guidance, browser tooling, installation, and maintenance | [`05_agent_skills/index.md`](05_agent_skills/index.md) |
+| Area | Role | Start here |
+| --- | --- | --- |
+| Active product grilling | Stateful project and feature decisions before implementation planning | [`grilling/README.md`](grilling/README.md) |
+| Active work routing | Current multi-session work and immediate continuation | [`../NEXT.md`](../NEXT.md) |
+| Working evidence | Temporary rebaseline operations, requirements intake, draft sources, and decision registers | [`working/work-items/prototype-rebaseline/NEXT.md`](working/work-items/prototype-rebaseline/NEXT.md) |
+| Contributor onboarding | Current workstation setup and local verification | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md) |
+| Git workflow | Current branch, pull-request, checks, merge, and cleanup strategy | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) |
+| Archived prototype documentation | Non-authoritative former protocol, product, UX, technical, design, tooling, and reference material | [`archive/showcase-prototype-v0/README.md`](archive/showcase-prototype-v0/README.md) |
 
 ## Authority and conflict resolution
 
-Read decisions according to the following precedence:
+During the rebaseline, use this order:
 
-1. Project Protocol
-2. Product Requirements Document
-3. Prototype Specification
-4. Technical Design
-5. Design System
+1. Current operator instructions.
+2. Root [`AGENTS.md`](../AGENTS.md) and the selected active work-item `NEXT.md`
+   for workflow and continuation.
+3. Accepted `DECISIONS.md` files under `grilling/`.
+4. New canonical product, domain, UX, technical, and design documents after
+   accepted decisions are promoted.
+5. Explicit task contracts for bounded implementation.
 
-The agent-skills documentation governs tooling and agent workflow only. It does not override product, UX, technical, design, quality, or release requirements owned by the documents above.
-
-When two documents appear to conflict, follow the higher-ranked source and record the discrepancy. Do not silently reinterpret a higher-level requirement in a downstream document or implementation.
+An active `GRILLING.md` preserves in-progress decisions and the next question;
+it does not authorize implementation. `working/` contains temporary state and
+evidence. `archive/` is never current authority. Existing code behavior is also
+not a substitute for accepted replacement-product requirements.
 
 ## Recommended reading paths
 
-### Product or stakeholder review
+### Resume current discovery
 
-1. [`01_prd/document_purpose_and_authority.md`](01_prd/document_purpose_and_authority.md)
-2. [`01_prd/01_executive_summary.md`](01_prd/01_executive_summary.md)
-3. [`01_prd/21_mvp_scope.md`](01_prd/21_mvp_scope.md)
-4. [`01_prd/22_out_of_scope_for_mvp.md`](01_prd/22_out_of_scope_for_mvp.md)
-5. [`01_prd/30_open_product_decisions.md`](01_prd/30_open_product_decisions.md)
-6. [`01_prd/31_mvp_acceptance_criteria.md`](01_prd/31_mvp_acceptance_criteria.md)
+1. Read root [`NEXT.md`](../NEXT.md).
+2. Read its linked work-item `NEXT.md`.
+3. Read [`grilling/protocol.md`](grilling/protocol.md).
+4. Continue the applicable `GRILLING.md` from its stored next question.
 
-### Design and prototype work
+### Historical research
 
-1. Read the product path above.
-2. [`02_prototype_specification/document_purpose_and_authority.md`](02_prototype_specification/document_purpose_and_authority.md)
-3. [`02_prototype_specification/07_page_specifications.md`](02_prototype_specification/07_page_specifications.md)
-4. [`02_prototype_specification/09_custom_trip_form_interaction_specification.md`](02_prototype_specification/09_custom_trip_form_interaction_specification.md)
-5. [`02_prototype_specification/13_prototype_flows_and_scenarios.md`](02_prototype_specification/13_prototype_flows_and_scenarios.md)
-6. [`04_design/index.md`](04_design/index.md)
+Use [`archive/showcase-prototype-v0/`](archive/showcase-prototype-v0/) only when
+a current task benefits from prototype lessons, language, visual reference, or
+decision history. Label all extracted material as historical until it is
+revalidated through grilling.
 
 ### Implementation work
 
-1. Before committing or publishing changes, follow the required GitHub Flow strategy in [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md).
-2. Read the product and prototype sources relevant to the task.
-3. [`03_technical_design/document_purpose_authority_and_scope.md`](03_technical_design/document_purpose_authority_and_scope.md)
-4. [`03_technical_design/01_confirmed_technical_decisions.md`](03_technical_design/01_confirmed_technical_decisions.md)
-5. [`03_technical_design/04_project_and_file_architecture.md`](03_technical_design/04_project_and_file_architecture.md)
-6. [`03_technical_design/18_testing_and_quality_gates.md`](03_technical_design/18_testing_and_quality_gates.md)
-7. [`03_technical_design/22_production_readiness_gap_register.md`](03_technical_design/22_production_readiness_gap_register.md)
-8. [`03_technical_design/25_prototype_definition_of_done.md`](03_technical_design/25_prototype_definition_of_done.md)
-9. Read the relevant Design System sections and the agent-tooling instructions before making changes.
+Implementation of replacement-product features must wait for accepted grilling
+decisions, new canonical documentation where required, and an explicit bounded
+task contract. Before committing or publishing any authorized change, follow
+[`GIT_WORKFLOW.md`](GIT_WORKFLOW.md).
 
 ## Current status
 
-| Document family | Status |
-|---|---|
-| Project Protocol | Present |
-| Product Requirements Document | Complete first draft; approvals pending |
-| Prototype Specification | Complete first draft; approvals pending |
-| Technical Design | Prototype-build design; implementation pending |
-| Design System | Complete first draft; visual and product review pending |
-| Agent skills and tooling | Bootstrap tooling complete; ongoing maintenance follows the approved baseline |
-| Bilingual fixture scaffold | Complete |
-| Product application | Not yet implemented |
-
-The private prototype and the later production MVP have different readiness requirements. Bootstrap tooling and the bilingual fixture scaffold are complete, but product prototype implementation remains pending. A successful prototype review does not authorize public commercial launch. The unresolved production requirements remain recorded in the [production-readiness gap register](03_technical_design/22_production_readiness_gap_register.md).
+| Document area | Status |
+| --- | --- |
+| Project-level grilling | Active |
+| Feature grilling | Pending accepted high-level feature map |
+| New canonical PRD | Not yet created |
+| New domain and roadmap documents | Working drafts only |
+| New UX specification | Not yet created |
+| New technical design | Not yet created |
+| New design system | Not yet created |
+| Former documentation baseline | Archived and non-authoritative |
+| Current application | Preserved prototype implementation; not the replacement-product contract |
 
 ## Development package manager
 
@@ -97,10 +103,12 @@ irm https://get.pnpm.io/install.ps1 | iex
 ## Contributor rules
 
 - Preserve one source of truth for each concern.
+- Assume requirements may be incomplete or use informal terminology; follow the
+  product-and-requirements collaboration rules in root `AGENTS.md`.
 - Do not introduce implementation details into the PRD.
 - Do not change product or UX requirements through implementation choices.
 - Do not invent unresolved business, operational, legal, trust, pricing, or content facts.
 - Treat provisional content and assets as provisional in code, reviews, and demonstrations.
 - Record approved changes in the document that owns the decision and update affected traceability references.
-
-Each documentation family has its own `index.md` for detailed navigation. Start there after selecting the relevant area from the map above.
+- Do not revive archived decisions merely because they are detailed or already
+  implemented.
