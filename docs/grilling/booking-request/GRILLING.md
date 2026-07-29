@@ -48,44 +48,76 @@ Rejected alternatives:
 - Accommodation, transport, budget, and wider itinerary questions belong in the
   separate consultation journey.
 
+### D-002 — Repeated non-confirming wording
+
+The journey must explain at every key decision and confirmation point that a
+booking request is only a request, does not reserve the Experience, and does not
+confirm availability. The agency will check the request and follow up.
+
+Required placements:
+
+- near the form introduction;
+- beside the submit action;
+- in the saved-request acknowledgement shown to the visitor; and
+- in the verification or acknowledgement email sent to the customer.
+
+Repeating concise wording is intentional: the visitor must receive the correct
+expectation before acting and retain it after submission across both on-screen
+and email communication.
+
+Dependencies:
+
+- Content Operations owns approved English and Greek wording.
+- Request Processing and Communications owns the customer email trigger,
+  delivery, failure handling, and recovery behavior.
+- Booking Request success messaging must distinguish a safely saved request from
+  availability, reservation, or confirmation.
+
+Rejected alternatives:
+
+- A single notice beside the submit action is too easy to miss before and after
+  submission.
+- Explaining the distinction only after submission allows the visitor to act
+  under the wrong expectation.
+
 ## Open Questions
 
-- D-002: What wording prevents a confirmation misunderstanding?
 - D-003: How are dates, party size, and special needs represented?
 - D-004: What happens if the Experience changes or is unpublished?
 - D-005: What does the visitor see after success or failure?
 
 ## Next Question
 
-ID: D-002
+ID: D-003
 
 Topic:
-Clear wording that prevents a booking request from being mistaken for a
-reservation or confirmed booking.
+How the request represents dates, party size, and accessibility or other special
+needs without collecting unnecessary sensitive information.
 
 Prompt:
-Where and how should the journey explain that submitting the request does not
-reserve the Experience or confirm availability?
+How should the booking-request form capture dates, party composition, and
+special requirements?
 
 Options:
 
-1. (recommended): **Repeat concise non-confirming wording at the key decision
-   points.** Explain it near the form introduction, beside the submit action,
-   and in the saved-request acknowledgement: this is a request only, nothing is
-   reserved or confirmed, and the agency will check and follow up.
-2. **Use one detailed notice beside the submit action.** This reduces repetition
-   but makes the distinction easier to miss earlier in the journey and after
-   submission.
-3. **Explain it only in the acknowledgement.** This keeps the form visually
-   lighter but allows visitors to submit under the wrong expectation.
+1. (recommended): **Structured essentials with a bounded optional needs field.**
+   Require one preferred date; allow either one alternative date or a flexible
+   dates choice; require adult count and, when children are included, child
+   count; provide an optional short accessibility or practical-needs field with
+   a warning not to include medical, passport, or payment information.
+2. **Mostly free text.** Ask for party size and timing in one notes field. This
+   is flexible but harder to validate, search, and hand off reliably.
+3. **Detailed traveler breakdown.** Collect each traveler’s age, mobility,
+   dietary, and health information. This may help later planning but collects
+   disproportionate personal and potentially sensitive data too early.
 
 Why this matters:
-A visitor may otherwise interpret “booking request” or a successful submission
-as a reservation. The wording must set the correct expectation before the
-visitor acts and preserve it after the request is saved.
+The agency needs enough structured information to investigate the Experience,
+but an initial request should not become a detailed traveler questionnaire or
+collect sensitive data before it is necessary.
 
 After answer:
 
-- Lock the non-confirming wording and its required placements.
-- Record catalogue, content, and shared-communications dependencies.
-- Store D-003 as the next question.
+- Lock the date, party, and special-requirements model.
+- Record privacy, catalogue, and shared-processing dependencies.
+- Store D-004 as the next question.

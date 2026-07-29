@@ -93,7 +93,10 @@ architecture rebaseline, and promotion of settled documentation.
   it. Booking Request D-001 establishes that the selected Experience is carried
   automatically and the visitor provides preferred and optionally alternative
   or flexible dates, party size, contact details, preferred contact method,
-  optional notes, and privacy acknowledgement. Booking Request D-002 is ready.
+  optional notes, and privacy acknowledgement. Booking Request D-002 requires
+  concise non-confirming wording near the form introduction, beside submission,
+  in the saved-request acknowledgement, and in the customer verification or
+  acknowledgement email. Booking Request D-003 is ready.
   Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
@@ -152,10 +155,11 @@ architecture rebaseline, and promotion of settled documentation.
 ## Next Recommended Action
 
 Continue the Booking Request feature grill at
-`docs/grilling/booking-request/GRILLING.md` D-002 and decide where and how the
-journey explains that submitting a request does not reserve the Experience or
-confirm availability. Persist the operator’s answer, consequences,
-dependencies, rejected alternatives, and next question before continuing.
+`docs/grilling/booking-request/GRILLING.md` D-003 and decide how dates, party
+composition, and accessibility or other special needs are represented without
+collecting unnecessary sensitive information. Persist the operator’s answer,
+consequences, dependencies, rejected alternatives, and next question before
+continuing.
 
 Completion condition: the operator accepts the Booking Request decisions, they
 are distilled into that feature's `DECISIONS.md`, and the raw feature
