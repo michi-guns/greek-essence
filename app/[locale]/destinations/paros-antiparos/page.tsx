@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { ParosSections } from "@/components/sections/paros-sections"
 import { routing, type Locale } from "@/i18n/routing"
-import { getShowcaseContent, resolveMedia } from "@/lib/content"
+import { getShowcaseContent } from "@/lib/content"
 import { getLocalizedHref } from "@/lib/routes"
 
 type LocalePageProps = { params: Promise<{ locale: string }> }
@@ -50,13 +50,7 @@ export default async function ParosPage({ params }: LocalePageProps) {
       <SiteHeader locale={locale} routeId="paros" />
       <ParosSections
         content={content}
-        experienceMedia={Object.fromEntries(
-          content.signatureExperiences.items.map((item) => [
-            item.mediaId,
-            resolveMedia(item.mediaId, locale),
-          ])
-        )}
-        heroMedia={resolveMedia(content.hero.mediaId!, locale)}
+        heroMedia={content.hero.media}
         locale={locale}
       />
       <SiteFooter locale={locale} />

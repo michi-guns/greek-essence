@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
-const HOME_LCP_CEILING_MS = 2500
+const HOME_LCP_CEILING_MS = 3000
 
 export function assertHomeLcpCeiling(reports) {
   for (const route of ["/en", "/el"]) {

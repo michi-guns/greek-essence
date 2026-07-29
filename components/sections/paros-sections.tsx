@@ -2,23 +2,20 @@ import { ShowcaseCta, ShowcaseMedia } from "./showcase-media"
 
 import type { ShowcaseContent } from "@/content/schemas/showcase"
 import type { Locale } from "@/i18n/routing"
-import type { MediaResolution } from "@/lib/content"
 
 export function ParosSections({
   content,
   locale,
   heroMedia,
-  experienceMedia,
 }: {
   content: ShowcaseContent["paros"]
   locale: Locale
-  heroMedia: MediaResolution
-  experienceMedia: Readonly<Record<string, MediaResolution>>
+  heroMedia: ShowcaseContent["paros"]["hero"]["media"]
 }) {
   return (
     <main id="main-content">
       <section className="hero section-pad">
-        <ShowcaseMedia priority resolution={heroMedia} variant="hero" />
+        <ShowcaseMedia priority media={heroMedia} variant="hero" />
         <div className="shell hero-copy">
           <p className="eyebrow">{content.hero.eyebrow}</p>
           <h1>{content.hero.title}</h1>
@@ -60,10 +57,7 @@ export function ParosSections({
           <div className="card-grid">
             {content.signatureExperiences.items.map((item) => (
               <article className="editorial-card media-card" key={item.id}>
-                <ShowcaseMedia
-                  resolution={experienceMedia[item.mediaId]!}
-                  variant="card"
-                />
+                <ShowcaseMedia media={item.media} variant="card" />
                 <h3>{item.title}</h3>
                 <p>{item.summary}</p>
               </article>

@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { HomeSections } from "@/components/sections/home-sections"
 import { routing, type Locale } from "@/i18n/routing"
-import { getShowcaseContent, resolveMedia } from "@/lib/content"
+import { getShowcaseContent } from "@/lib/content"
 import { getLocalizedHref } from "@/lib/routes"
 
 type LocalePageProps = { params: Promise<{ locale: string }> }
@@ -42,9 +42,9 @@ export default async function HomePage({ params }: LocalePageProps) {
       <SiteHeader locale={locale} routeId="home" />
       <HomeSections
         content={content}
-        heroMedia={resolveMedia(content.hero.mediaId!, locale)}
+        heroMedia={content.hero.media}
         locale={locale}
-        parosMedia={resolveMedia(content.parosFeature.mediaId, locale)}
+        parosMedia={content.parosFeature.media}
       />
       <SiteFooter locale={locale} />
     </>

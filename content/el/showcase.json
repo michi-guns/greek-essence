@@ -8,7 +8,12 @@
       "eyebrow": "Ταξίδι με φροντίδα",
       "title": "Η Ελλάδα, όπως αξίζει να τη ζήσετε",
       "summary": "Χαμηλώστε τον ρυθμό και ανακαλύψτε ένα νησιωτικό ταξίδι διαμορφωμένο γύρω από τον δικό σας τρόπο εξερεύνησης.",
-      "mediaId": "home-aegean-human-arrival-01",
+      "media": {
+        "src": "/images/01-home-aegean-human-arrival-01-image-set/01-home-aegean-human-arrival-01-3x2.jpg",
+        "width": 2400,
+        "height": 1600,
+        "alt": "Ένας ταξιδιώτης με βαλίτσα γίνεται δεκτός δίπλα σε μια ακτή του Αιγαίου."
+      },
       "primaryCta": {
         "label": "Σχεδιάστε το ταξίδι μου",
         "routeId": "plan-my-trip",
@@ -27,13 +32,18 @@
         "Η Greek Essence συνδυάζει προσεγμένες διαδρομές, αίσθηση του τόπου και ελευθερία να ταξιδεύετε στον δικό σας ρυθμό.",
         "Κάθε ταξίδι ξεκινά από όσα έχουν σημασία για εσάς και όχι από ένα έτοιμο πακέτο."
       ],
-      "mediaId": null
+      "media": null
     },
     "parosFeature": {
       "id": "paros-antiparos",
       "title": "Πάρος & Αντίπαρος",
       "summary": "Λευκά χωριά, διάφανοι όρμοι, γενναιόδωρα τραπέζια και δύο νησιά με ξεχωριστούς αλλά αρμονικούς ρυθμούς.",
-      "mediaId": "destination-paros-antiparos-primary-01",
+      "media": {
+        "src": "/images/03-destination-paros-antiparos-primary-01-image-set/03-destination-paros-antiparos-primary-01-3x2.jpg",
+        "width": 2400,
+        "height": 1600,
+        "alt": "Άνθρωποι περπατούν δίπλα σε ψαρόβαρκες και ασβεστωμένα σπίτια σε μια κυκλαδίτικη προκυμαία."
+      },
       "cta": {
         "label": "Ανακαλύψτε τα νησιά",
         "routeId": "paros",
@@ -64,7 +74,7 @@
         "Πιστεύουμε ότι τα πιο αξέχαστα ταξίδια αφήνουν χώρο στον χαρακτήρα κάθε τόπου: ένα ήσυχο λιμάνι, ένα αργό γεύμα, μια συζήτηση που αλλάζει τη μέρα.",
         "Ο ρόλος μας είναι να συνδέσουμε αυτές τις στιγμές σε ένα ταξίδι προσεγμένο και πραγματικά δικό σας."
       ],
-      "mediaId": null
+      "media": null
     },
     "finalCta": {
       "label": "Ξεκινήστε τον σχεδιασμό",
@@ -81,7 +91,12 @@
       "eyebrow": "Δύο κυκλαδίτικα νησιά",
       "title": "Πάρος & Αντίπαρος, στον δικό σας ρυθμό",
       "summary": "Δύο κοντινά νησιά συνδυάζουν ζωή στα χωριά, ανοιχτή θάλασσα, γενναιόδωρα τραπέζια και ελευθερία στον ρυθμό σας.",
-      "mediaId": "destination-paros-antiparos-primary-01",
+      "media": {
+        "src": "/images/03-destination-paros-antiparos-primary-01-image-set/03-destination-paros-antiparos-primary-01-3x2.jpg",
+        "width": 2400,
+        "height": 1600,
+        "alt": "Άνθρωποι περπατούν δίπλα σε ψαρόβαρκες και ασβεστωμένα σπίτια σε μια κυκλαδίτικη προκυμαία."
+      },
       "primaryCta": {
         "label": "Σχεδιάστε το ταξίδι μου",
         "routeId": "plan-my-trip",
@@ -96,7 +111,7 @@
         "Η Πάρος συνδυάζει ασβεστωμένα σοκάκια, ζωντανά λιμάνια και μια κοινωνική νησιωτική ενέργεια, χωρίς να μοιάζει κάθε μέρα ίδια.",
         "Απέναντι, η Αντίπαρος προσφέρει μια πιο ήσυχη αντίστιξη με απλούς όρμους, χαλαρούς περιπάτους και οικεία κλίμακα."
       ],
-      "mediaId": null
+      "media": null
     },
     "travelerFit": {
       "heading": "Σε ποιους ταιριάζει αυτό το δίδυμο",
@@ -122,14 +137,24 @@
           "id": "culture-gastronomy",
           "title": "Πολιτισμός και γαστρονομία",
           "summary": "Ακολουθήστε τη μέρα από τα σοκάκια και την τοπική δημιουργία μέχρι ένα γενναιόδωρο γεύμα της εποχής.",
-          "mediaId": "paros-antiparos-editorial-culture-food-01",
+          "media": {
+            "src": "/images/06-paros-antiparos-editorial-culture-food-01-image-set/06-paros-antiparos-editorial-culture-food-01-3x2.jpg",
+            "width": 2250,
+            "height": 1500,
+            "alt": "Χέρια ζυμώνουν ψωμί δίπλα σε φρέσκα μυρωδικά σε μια ασβεστωμένη κουζίνα."
+          },
           "cta": null
         },
         {
           "id": "sea-and-local-life",
           "title": "Θάλασσα και τοπική ζωή",
           "summary": "Ισορροπήστε τον χρόνο στο νερό με μικρά λιμάνια, σκιερές παύσεις και πιο αργό νησιωτικό βράδυ.",
-          "mediaId": "paros-antiparos-editorial-local-moment-01",
+          "media": {
+            "src": "/images/08-paros-antiparos-editorial-local-moment-01-image-set/08-paros-antiparos-editorial-local-moment-01-4x5.jpg",
+            "width": 1600,
+            "height": 2000,
+            "alt": "Δύο άνθρωποι μοιράζονται ένα καλάθι με λαχανικά σε μια σκιερή κυκλαδίτικη αυλή."
+          },
           "cta": null
         }
       ]

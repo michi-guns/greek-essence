@@ -43,13 +43,20 @@ The removal deleted 76 tracked files and approximately 12.7 MB from the active
 tree. It did not remove them from Git history or the archive branch. Afterward,
 `pnpm check` and `pnpm build` both passed.
 
+The operator later approved one coordinated correction inside the retained
+prototype: move `assets/imgs/` to Next.js's served `public/images/` path, remove
+`content/shared/media.json`, and replace its approval-gated media IDs with
+direct localized content records. This preserves the complete image library in
+the active tree, makes the referenced images render, and keeps the former
+manifest recoverable from Git history and `archive/showcase-prototype-v0`.
+
 ## Hold for Coordinated Architecture Replacement
 
 Do not remove or reorganize these paths independently. Together they form the
 currently runnable prototype and its executable checks:
 
 - `app/`
-- `assets/`
+- `public/images/`
 - `components/`
 - `content/`
 - `i18n/`

@@ -14,6 +14,12 @@ const ctaSchema = z.union([
     destinationContext: z.literal("paros-antiparos"),
   }),
 ])
+const mediaSchema = z.object({
+  src: z.string().trim().startsWith("/images/"),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  alt: z.string().trim().min(1),
+})
 
 export function validateParosFinalCta(cta: z.infer<typeof ctaSchema>): void {
   if (
@@ -28,7 +34,7 @@ const editorialSchema = z.object({
   eyebrow: z.string().trim().min(1).nullable(),
   heading: z.string().trim().min(1),
   body: z.array(z.string().trim().min(1)).min(1),
-  mediaId: z.string().trim().min(1).nullable(),
+  media: mediaSchema.nullable(),
 })
 const cardSchema = z.object({
   id: z.string().trim().min(1),
@@ -36,7 +42,7 @@ const cardSchema = z.object({
   summary: z.string().trim().min(1),
   cta: ctaSchema.nullable(),
 })
-const mediaCardSchema = cardSchema.extend({ mediaId: z.string().trim().min(1) })
+const mediaCardSchema = cardSchema.extend({ media: mediaSchema })
 
 export const showcaseContentSchema = z.object({
   home: z.object({
@@ -48,12 +54,12 @@ export const showcaseContentSchema = z.object({
       eyebrow: z.string().trim().min(1).nullable(),
       title: z.string().trim().min(1),
       summary: z.string().trim().min(1),
-      mediaId: z.string().trim().min(1).nullable(),
+      media: mediaSchema,
       primaryCta: ctaSchema,
       secondaryCta: ctaSchema.nullable(),
     }),
     promise: editorialSchema,
-    parosFeature: cardSchema.extend({ mediaId: z.string().trim().min(1) }),
+    parosFeature: cardSchema.extend({ media: mediaSchema }),
     howItWorks: z.object({
       heading: z.string().trim().min(1),
       steps: z.tuple([
@@ -83,7 +89,7 @@ export const showcaseContentSchema = z.object({
       eyebrow: z.string().trim().min(1).nullable(),
       title: z.string().trim().min(1),
       summary: z.string().trim().min(1),
-      mediaId: z.string().trim().min(1).nullable(),
+      media: mediaSchema,
       primaryCta: ctaSchema,
       secondaryCta: ctaSchema.nullable(),
     }),

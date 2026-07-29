@@ -8,7 +8,12 @@
       "eyebrow": "Travel, thoughtfully arranged",
       "title": "Greece, experienced with intention",
       "summary": "Slow down, look closer, and discover an island journey shaped around the way you want to travel.",
-      "mediaId": "home-aegean-human-arrival-01",
+      "media": {
+        "src": "/images/01-home-aegean-human-arrival-01-image-set/01-home-aegean-human-arrival-01-3x2.jpg",
+        "width": 2400,
+        "height": 1600,
+        "alt": "A traveler with a suitcase is welcomed beside an Aegean coastline."
+      },
       "primaryCta": {
         "label": "Plan my trip",
         "routeId": "plan-my-trip",
@@ -27,13 +32,18 @@
         "Greek Essence brings together considered routes, a feeling for place, and room to travel at your own rhythm.",
         "Every journey begins with what matters to you, not with a fixed package."
       ],
-      "mediaId": null
+      "media": null
     },
     "parosFeature": {
       "id": "paros-antiparos",
       "title": "Paros & Antiparos",
       "summary": "Whitewashed villages, clear coves, generous tables, and two islands with distinct but complementary rhythms.",
-      "mediaId": "destination-paros-antiparos-primary-01",
+      "media": {
+        "src": "/images/03-destination-paros-antiparos-primary-01-image-set/03-destination-paros-antiparos-primary-01-3x2.jpg",
+        "width": 2400,
+        "height": 1600,
+        "alt": "People walk beside fishing boats and whitewashed houses on a Cycladic waterfront."
+      },
       "cta": {
         "label": "Discover the islands",
         "routeId": "paros",
@@ -64,7 +74,7 @@
         "We believe the most memorable journeys leave space for character: a quiet harbour, an unhurried meal, a conversation that changes the day.",
         "Our role is to connect those moments into a journey that feels considered and genuinely yours."
       ],
-      "mediaId": null
+      "media": null
     },
     "finalCta": {
       "label": "Start planning",
@@ -81,7 +91,12 @@
       "eyebrow": "A Cycladic pairing",
       "title": "Paros & Antiparos, in your own rhythm",
       "summary": "Two close islands bring together village life, open water, generous tables, and room to choose the pace.",
-      "mediaId": "destination-paros-antiparos-primary-01",
+      "media": {
+        "src": "/images/03-destination-paros-antiparos-primary-01-image-set/03-destination-paros-antiparos-primary-01-3x2.jpg",
+        "width": 2400,
+        "height": 1600,
+        "alt": "People walk beside fishing boats and whitewashed houses on a Cycladic waterfront."
+      },
       "primaryCta": {
         "label": "Plan my trip",
         "routeId": "plan-my-trip",
@@ -96,7 +111,7 @@
         "Paros brings whitewashed lanes, working harbours, and a sociable island energy without asking every day to look the same.",
         "Across the water, Antiparos offers a quieter counterpoint of simple coves, unhurried walks, and intimate scale."
       ],
-      "mediaId": null
+      "media": null
     },
     "travelerFit": {
       "heading": "Who this pairing can suit",
@@ -122,14 +137,24 @@
           "id": "culture-gastronomy",
           "title": "Culture and gastronomy",
           "summary": "Follow the day from village streets and local craft to a generous meal shaped by the season.",
-          "mediaId": "paros-antiparos-editorial-culture-food-01",
+          "media": {
+            "src": "/images/06-paros-antiparos-editorial-culture-food-01-image-set/06-paros-antiparos-editorial-culture-food-01-3x2.jpg",
+            "width": 2250,
+            "height": 1500,
+            "alt": "Hands knead bread beside fresh herbs in a whitewashed kitchen."
+          },
           "cta": null
         },
         {
           "id": "sea-and-local-life",
           "title": "Sea time and local life",
           "summary": "Balance time on the water with small harbours, shaded pauses, and a slower island evening.",
-          "mediaId": "paros-antiparos-editorial-local-moment-01",
+          "media": {
+            "src": "/images/08-paros-antiparos-editorial-local-moment-01-image-set/08-paros-antiparos-editorial-local-moment-01-4x5.jpg",
+            "width": 1600,
+            "height": 2000,
+            "alt": "Two people share a basket of vegetables in a shaded Cycladic courtyard."
+          },
           "cta": null
         }
       ]

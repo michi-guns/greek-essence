@@ -3,33 +3,30 @@ import Image from "next/image"
 import type { ShowcaseContent } from "@/content/schemas/showcase"
 import { Link } from "@/i18n/navigation"
 import type { Locale } from "@/i18n/routing"
-import type { MediaResolution } from "@/lib/content"
 import { getCtaPathname } from "@/lib/routes"
 
+type ShowcaseMediaContent = ShowcaseContent["home"]["hero"]["media"]
+
 export function ShowcaseMedia({
-  resolution,
+  media,
   variant,
   priority = false,
 }: {
-  resolution: MediaResolution
+  media: ShowcaseMediaContent
   variant: "hero" | "card"
   priority?: boolean
 }) {
-  if (resolution.kind === "fallback")
-    return <div aria-hidden="true" className="media-fallback" />
-
-  const { media } = resolution
   return (
     <Image
       alt={media.alt}
       className={`showcase-media showcase-media--${variant}`}
+      decoding={priority ? "sync" : "async"}
+      fetchPriority={priority ? "high" : undefined}
       height={media.height}
-      priority={priority}
+      loading={priority ? "eager" : "lazy"}
+      quality={priority ? 60 : 75}
       sizes="(max-width: 767px) 100vw, 50vw"
       src={media.src}
-      style={{
-        objectPosition: `${media.focalPoint.xPercent}% ${media.focalPoint.yPercent}%`,
-      }}
       width={media.width}
     />
   )

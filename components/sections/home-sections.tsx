@@ -2,7 +2,6 @@ import { ShowcaseCta, ShowcaseMedia } from "./showcase-media"
 
 import type { ShowcaseContent } from "@/content/schemas/showcase"
 import type { Locale } from "@/i18n/routing"
-import type { MediaResolution } from "@/lib/content"
 
 export function HomeSections({
   content,
@@ -12,13 +11,13 @@ export function HomeSections({
 }: {
   content: ShowcaseContent["home"]
   locale: Locale
-  heroMedia: MediaResolution
-  parosMedia: MediaResolution
+  heroMedia: ShowcaseContent["home"]["hero"]["media"]
+  parosMedia: ShowcaseContent["home"]["parosFeature"]["media"]
 }) {
   return (
     <main id="main-content">
       <section className="hero section-pad">
-        <ShowcaseMedia priority resolution={heroMedia} variant="hero" />
+        <ShowcaseMedia priority media={heroMedia} variant="hero" />
         <div className="shell hero-copy">
           <p className="eyebrow">{content.hero.eyebrow}</p>
           <h1>{content.hero.title}</h1>
@@ -50,7 +49,7 @@ export function HomeSections({
       </section>
       <section className="section-pad surface">
         <div className="shell split">
-          <ShowcaseMedia resolution={parosMedia} variant="card" />
+          <ShowcaseMedia media={parosMedia} variant="card" />
           <div>
             <p className="eyebrow">
               {locale === "en" ? "An island pairing" : "Δύο νησιά μαζί"}

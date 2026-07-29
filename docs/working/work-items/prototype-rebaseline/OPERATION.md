@@ -46,14 +46,21 @@ focused documentation; this file may be removed when the operation is complete.
 - The preview release is confirmed as public and production-facing; its client
   questions and launch-quality gate are in
   [`PREVIEW_RELEASE_VALIDATION.md`](PREVIEW_RELEASE_VALIDATION.md).
-- Stateful project and feature design now routes through
-  [`../../../grilling/GRILLING.md`](../../../grilling/GRILLING.md), beginning
-  with the high-level public-preview product boundary.
+- The accepted high-level Public Preview Release decisions are distilled in
+  [`../../../grilling/DECISIONS.md`](../../../grilling/DECISIONS.md). The
+  operator approved removal of the raw project ledger on 2026-07-29; Git history
+  retains it and `DECISIONS.md` is the sole project-level grilling authority.
+- Eight confirmed feature-grilling workspaces exist; the continuation begins at
+  [`../../../grilling/public-brand-pages/GRILLING.md`](../../../grilling/public-brand-pages/GRILLING.md).
 - The grilling protocol now requires product-management and travel-agency
   operations coaching when requirements hide ambiguity or operational risk.
 - The closed showcase execution records were removed from `.scratch/` with
   exact user approval; the archive branch retains them.
-- No application files have been moved or removed.
+- With exact operator approval, the prototype media library was moved from the
+  unserved `assets/imgs/` path to `public/images/`, the unused approval-gated
+  `content/shared/media.json` indirection was removed, and the bilingual
+  showcase content now owns direct public paths, dimensions, and localized alt
+  text. The runnable prototype and its checks remain intact.
 
 ## Workstreams
 
@@ -63,10 +70,10 @@ focused documentation; this file may be removed when the operation is complete.
 | Curate reference | Complete | Selected useful screenshots, patterns, and cautions without duplicating source |
 | Archive former documentation | Complete | Preserved the old baseline under one explicitly non-authoritative boundary |
 | Plan retention and removal | Complete | Classified active paths and removed only the explicitly approved closed execution records |
-| Capture expanded requirements | In progress | Batch 01 is a provisional internal baseline; grill preview scope, ingest remaining material, and isolate client-validation needs |
-| Grill product and features | In progress | Lock the high-level preview promise, derive real feature boundaries, then grill each feature statefully |
+| Capture expanded requirements | In progress | Batch 01 remains provisional; accepted project decisions isolate example-led client validation and remaining external gates |
+| Grill product and features | In progress | Project-level grill accepted and distilled; eight feature grills are queued beginning with Public Brand Pages |
 | Establish new architecture | Pending | Select CMS, data, backend, runtime, security, and module boundaries from approved requirements |
-| Promote durable decisions | Pending | Write focused architecture documents and a concise documentation router |
+| Promote durable decisions | In progress | Project decisions are distilled; feature decisions and later canonical documents remain |
 
 ## Approval Gates
 
