@@ -37,9 +37,22 @@ architecture rebaseline, and promotion of settled documentation.
   live availability, confirmed online booking, cancellation/refund handling,
   staff dashboards, customer-management systems, and supplier automation are
   deferred. Newsletter is excluded entirely.
-- Eight feature-grilling workspaces exist in accepted order. The first ready
-  session is `docs/grilling/public-brand-pages/GRILLING.md` D-001. Grill one
-  feature at a time.
+- Eight feature-grilling workspaces exist in accepted order. Public Brand Pages
+  is the accepted first feature. D-001 establishes that
+  Home will lead with useful Greece discovery and make personal agency help
+  available without implying live availability or confirmed booking. D-002
+  permits only client-approved, verifiable trust evidence; unsupported social
+  proof is omitted rather than published provisionally. D-003 makes About the
+  deeper explanation of who the agency is, how its human help works, and why it
+  is credible. D-004 establishes two shared travel-planning paths: catalogue
+  browsing and consultation, while keeping general contact secondary and
+  booking requests Experience-specific. D-005 preserves separately stored
+  English and Greek content, permits AI-assisted drafting, and requires complete
+  human-reviewed language experiences with named client ownership. The five
+  decisions were accepted by the operator on 2026-07-29 and distilled into
+  `docs/grilling/public-brand-pages/DECISIONS.md`. The operator separately
+  approved removal of the raw feature ledger on 2026-07-29; Git history retains
+  it. Catalogue Discovery D-001 is ready. Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
   feature-level and launch validation.
@@ -67,15 +80,24 @@ architecture rebaseline, and promotion of settled documentation.
   referenced images decoded, image requests returned `200`, localized alt text
   was present, and representative 320, 390, 834, and 1440 layouts had no
   horizontal overflow.
+- Public Brand Pages acceptance verification on 2026-07-29: `pnpm
+  format:check` and `git diff --check` exited `0` before the approved raw-ledger
+  removal. After removal and routing updates, `pnpm check:push` exited `0`: the
+  secrets scan found no leaks; the configured audit gate passed while reporting
+  three known dependency findings; formatting, lint, Knip, typecheck, and
+  content validation passed; 40 unit tests passed with coverage; the production
+  build passed; and Playwright completed with 53 passing and 4 intentionally
+  skipped tests.
 
 ## Next Recommended Action
 
-Begin the Public Brand Pages feature grill at
-`docs/grilling/public-brand-pages/GRILLING.md` D-001. Persist the operator's
-answer, consequences, rejected alternatives, and next question before
+Begin the Catalogue Discovery feature grill at
+`docs/grilling/catalogue-discovery/GRILLING.md` D-001 and decide which published
+Experiences may receive a booking request. Persist the operator's answer,
+consequences, dependencies, rejected alternatives, and next question before
 continuing.
 
-Completion condition: the operator accepts the Public Brand Pages decisions,
+Completion condition: the operator accepts the Catalogue Discovery decisions,
 they are distilled into that feature's `DECISIONS.md`, and the raw feature
 `GRILLING.md` is removed only after separate path-specific approval.
 
@@ -116,6 +138,7 @@ state has been reconciled or removed.
 - [Requirements Batch 01 synthesis](REQUIREMENTS_BATCH_01.md)
 - [Public preview release validation](PREVIEW_RELEASE_VALIDATION.md)
 - [Accepted project decisions](../../../grilling/DECISIONS.md)
-- [First feature grill: Public Brand Pages](../../../grilling/public-brand-pages/GRILLING.md)
+- [Accepted Public Brand Pages decisions](../../../grilling/public-brand-pages/DECISIONS.md)
+- [Next feature grill: Catalogue Discovery](../../../grilling/catalogue-discovery/GRILLING.md)
 - [Feature grilling router](../../../grilling/README.md)
 - [Grilling protocol](../../../grilling/protocol.md)

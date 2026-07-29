@@ -76,7 +76,7 @@ task contract. Before committing or publishing any authorized change, follow
 | Document area | Status |
 | --- | --- |
 | Project-level grilling | Accepted and distilled into DECISIONS.md |
-| Feature grilling | Ready at Public Brand Pages, feature 1 of 8 |
+| Feature grilling | Public Brand Pages accepted; Catalogue Discovery D-001 ready |
 | New canonical PRD | Not yet created |
 | New domain and roadmap documents | Working drafts only |
 | New UX specification | Not yet created |
