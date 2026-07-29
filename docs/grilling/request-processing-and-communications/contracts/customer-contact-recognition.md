@@ -18,8 +18,8 @@ decisions own those boundaries.
    context across Consultation Request, Booking Request, and General Contact.
 3. The relationship is not a customer account, login, verified identity, or
    proof that every grouped request came from one person.
-4. Different email addresses remain separate unless authorized staff safely
-   establish the relationship during manual follow-up.
+4. Different email addresses remain separate at launch. Manual merging is not
+   available without a separately accepted and supported staff operation.
 5. The system must not automatically merge relationships using names,
    telephone numbers, or approximate matching.
 
@@ -48,3 +48,17 @@ Public forms must not, based only on a submitted email address:
 
 Any later access to request history requires a separately accepted verification
 boundary. Customer accounts and public request history remain deferred.
+
+## Routine Agency Context
+
+- Agency staff use the existing business inbox rather than production-database
+  access for routine context.
+- Every agency notification identifies the current opaque request reference and
+  submitted reply email. An explicit correction also identifies the submitted
+  earlier opaque reference.
+- Staff may use ordinary inbox search or threading when earlier context is
+  needed.
+- The normalized-email relationship remains internal support for system
+  integrity, correction validation, recovery, and privacy work; it is not a
+  routine staff history interface.
+- Notifications must not include an automatic summary of prior requests.

@@ -71,9 +71,10 @@ personal details merely because someone enters the same email address.
 
 Email matching is useful contact evidence, not proof that every request came
 from one unique person. A shared family or business inbox can therefore group
-several people. Different email addresses remain separate unless staff safely
-establish the relationship during manual follow-up; the system must not infer a
-merge from similar names, telephone numbers, or other approximate details.
+several people. Different email addresses remain separate at launch; D-008
+rejects manual relationship merging without a supported staff tool. The system
+must not infer a merge from similar names, telephone numbers, or other
+approximate details.
 
 The operator identified the related distinction between a visitor correcting a
 bad request and making a new request. D-003 owns that submission-intent and
@@ -227,10 +228,32 @@ The normative correction and retention interaction is defined across
 and
 [contracts/retention-access-and-deletion.md](contracts/retention-access-and-deletion.md).
 
+### D-008 — Routine Staff Context Stays in the Business Inbox
+
+Routine agency staff use the existing business inbox rather than the production
+database to find prior-request context. Every agency notification includes the
+current opaque request reference and submitted reply email. An explicit
+correction also includes the earlier opaque reference. Staff may use ordinary
+inbox search or threading when earlier context is needed.
+
+The D-002 normalized-email relationship remains useful for system integrity,
+correction validation, recovery, and privacy work, but it is not exposed as a
+routine staff history view. Different email relationships cannot be manually
+merged at launch because no supported staff operation exists; a later merge
+capability requires a separately accepted interface and verification boundary.
+
+Automatically copying prior-request summaries into every notification is
+rejected because it would duplicate more historical personal data in email and
+require new summary and redaction rules. A staff request-history interface
+remains deferred with the dashboard.
+
+The normative staff-context boundary is defined in
+[contracts/customer-contact-recognition.md](contracts/customer-contact-recognition.md).
+
 ## Open Questions
 
-- D-008: How can agency staff use email-based request context without a staff
-  dashboard or routine database access?
+- D-009: How do off-provider recovery copies inherit the request retention and
+  deletion rules?
 
 ## Prior Acceptance
 
@@ -240,43 +263,45 @@ raw ledger's removal after verified distillation. The removal did not proceed
 because final review found D-007 before the distillation was merged.
 
 That prior acceptance remains evidence for D-001 through D-006 but is not the
-final feature acceptance while D-008 is open. Nothing here authorizes application
+final feature acceptance while D-009 is open. Nothing here authorizes application
 implementation, dependency installation, schema migration, or deployment.
 
 ## Next Question
 
-ID: D-008
+ID: D-009
 
 Topic:
-Making internal email-based context operational without adding a staff tool.
+Keeping off-provider recovery compatible with the simple retention promise.
 
 Prompt:
-How should agency staff use prior-request context at launch when their supported
-workflow is the business inbox rather than a website dashboard?
+The accepted platform direction requires secure off-provider recovery copies.
+How long should encrypted request-data backups remain after production records
+change or expire?
 
 Options:
 
-1. (recommended): **Keep routine staff context in the business inbox.** Each
-   notification includes the current opaque reference and submitted reply email;
-   an explicit correction also identifies the earlier opaque reference. Staff
-   use ordinary inbox search or threading when prior context is needed. Database
-   grouping supports system integrity, recovery, and privacy work but is not a
-   routine staff view. Different emails cannot be manually merged at launch.
-2. **Include an automated prior-request summary in each agency notification.**
-   This gives immediate context but copies more historical personal data into
-   email and requires new summary and redaction rules.
-3. **Add a small staff request-history interface.** This makes grouping directly
-   usable but introduces authentication, permissions, support, and lifecycle
-   work outside the accepted launch boundary.
+1. (recommended): **Encrypted rolling backups with a 30-day maximum.** Delete
+   each off-provider copy automatically after at most 30 days. A restore occurs
+   only in an isolated, access-restricted environment and reapplies the
+   twelve-month cutoff and verified earlier deletions before returning data to
+   production. The privacy wording states that deleted records may remain in
+   protected backups for up to 30 days.
+2. **Do not back up request data off-provider.** Rely only on Neon's recovery
+   features. This simplifies deletion but contradicts the accepted independent
+   recovery direction and increases provider-loss risk.
+3. **Keep encrypted recovery exports for twelve months.** This gives a much
+   longer recovery window but allows deleted production enquiries to remain in
+   another system for up to an additional year.
 
 Why this matters:
-Email grouping is not useful routine staff context if it exists only in a
-database that agency staff are not allowed to browse. The launch needs either a
-simple inbox behavior or a supported staff interface.
+Without an explicit rolling expiry and restore rule, production deletion can be
+undone by an old export and the claim that enquiries are not kept indefinitely
+is incomplete.
 
 After answer:
 
-- Lock the supported staff-context operation and relationship-merge boundary.
-- Continue resolving the remaining distillation-review findings.
+- Lock the off-provider backup expiry, access, and restore boundary.
+- Reconcile the remaining accepted journey requirements and security wording in
+  the final distillation.
 - Ask the operator to accept or correct the complete grill again before
   distillation.

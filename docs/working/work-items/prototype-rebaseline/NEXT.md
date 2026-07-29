@@ -186,6 +186,11 @@ architecture rebaseline, and promotion of settled documentation.
   twelve months after its own acceptance; a surviving correction may keep the
   submitted prior opaque reference and an expired-target marker but cannot
   retrieve or reconstruct the deleted request.
+- Request Processing and Communications D-008 keeps routine prior-request
+  context in the agency business inbox through the current request reference,
+  submitted reply email, ordinary search or threading, and the prior reference
+  for explicit corrections. Database grouping is not a routine staff view, and
+  different-email relationships cannot be manually merged at launch.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -237,12 +242,12 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Ask Request Processing and Communications D-008 exactly as stored in
+Ask Request Processing and Communications D-009 exactly as stored in
 `docs/grilling/request-processing-and-communications/GRILLING.md`. Do not
 distill or remove the raw ledger until the remaining review findings are settled
 and the complete feature grill is accepted again.
 
-Completion condition: persist D-008 and its consequences, continue resolving
+Completion condition: persist D-009 and its consequences, reconcile the
 remaining material review findings, then ask the operator to accept or correct
 the complete feature grill.
 
