@@ -81,14 +81,16 @@ architecture rebaseline, and promotion of settled documentation.
   and read-only acknowledgement without mislabeling it as consent; actual legal
   facts and wording require client and qualified review. D-005 establishes
   distinct validation, saved, email-failure, and unsaved outcomes with an opaque
-  request reference and no false receipt or resubmission claim. The operator
-  chose to continue grilling rather than accept after D-005. D-006 retains the
-  optional notes field with the nine-word persistent warning “Please don’t
+  request reference and no false receipt or resubmission claim. D-006 retains
+  the optional notes field with the nine-word persistent warning “Please don’t
   include passport, payment, or medical information here”; notes are excluded
   from notification emails, and downstream handling requires privacy review.
   D-007 rejects a special age gate, age data, or child-specific workflow unless
-  later concrete client or qualified-review evidence requires one. All seven
-  decisions are ready for operator acceptance. Grill one feature at a time.
+  later concrete client or qualified-review evidence requires one. The operator
+  accepted the seven decisions on 2026-07-29, and they are distilled into
+  `docs/grilling/consultation-request/DECISIONS.md`. The operator separately
+  approved removal of the raw feature ledger on 2026-07-29; Git history retains
+  it. Booking Request D-001 is ready. Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
   feature-level and launch validation.
@@ -131,17 +133,28 @@ architecture rebaseline, and promotion of settled documentation.
   production build passed; and Playwright completed with 53 passing and 4
   intentionally skipped tests. `git diff --check` also exited `0` after the
   accepted distillation and approved raw-ledger removal.
+- Consultation Request acceptance verification on 2026-07-29: the first `pnpm
+  check:push` run reached Playwright after all preceding gates passed, then
+  exited `1` when one compact-browser navigation case timed out with 52 passing
+  and 4 intentionally skipped tests. The exact failed case immediately passed
+  alone, and the complete `pnpm test:e2e` rerun exited `0` with 53 passing and 4
+  intentionally skipped tests. The final `pnpm check:push` rerun exited `0`:
+  Gitleaks found no leaks; the configured audit gate passed while reporting
+  three known dependency findings; formatting, lint, Knip, typecheck, and
+  content validation passed; 40 unit tests passed with coverage; the production
+  build passed; and Playwright completed with 53 passing and 4 intentionally
+  skipped tests.
 
 ## Next Recommended Action
 
-Continue the Consultation Request feature grill at
-`docs/grilling/consultation-request/GRILLING.md` and ask whether the operator
-accepts D-001 through D-007 for distillation. If accepted, create and verify the
-self-contained `DECISIONS.md`, then obtain separate path-specific approval
-before removing the raw feature ledger.
+Begin the Booking Request feature grill at
+`docs/grilling/booking-request/GRILLING.md` D-001 and decide what information a
+visitor must provide when asking about one specific Experience. Persist the
+operator's answer, consequences, dependencies, rejected alternatives, and next
+question before continuing.
 
-Completion condition: the operator accepts the Consultation Request decisions,
-they are distilled into that feature's `DECISIONS.md`, and the raw feature
+Completion condition: the operator accepts the Booking Request decisions, they
+are distilled into that feature's `DECISIONS.md`, and the raw feature
 `GRILLING.md` is removed only after separate path-specific approval.
 
 ## Done When
@@ -183,6 +196,7 @@ state has been reconciled or removed.
 - [Accepted project decisions](../../../grilling/DECISIONS.md)
 - [Accepted Public Brand Pages decisions](../../../grilling/public-brand-pages/DECISIONS.md)
 - [Accepted Catalogue Discovery decisions](../../../grilling/catalogue-discovery/DECISIONS.md)
-- [Next feature grill: Consultation Request](../../../grilling/consultation-request/GRILLING.md)
+- [Accepted Consultation Request decisions](../../../grilling/consultation-request/DECISIONS.md)
+- [Next feature grill: Booking Request](../../../grilling/booking-request/GRILLING.md)
 - [Feature grilling router](../../../grilling/README.md)
 - [Grilling protocol](../../../grilling/protocol.md)
