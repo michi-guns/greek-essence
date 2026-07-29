@@ -167,48 +167,72 @@ it can create delayed duplicates and ownerless failures.
 The normative delivery contract is updated in
 [contracts/request-acceptance-and-delivery.md](contracts/request-acceptance-and-delivery.md).
 
+### D-006 — Simple Twelve-Month Retention and Named Ownership
+
+Accepted enquiries and their protected website audit history are retained for
+twelve months from each request's durable acceptance time, then deleted from the
+website database. Corresponding agency notification and follow-up email copies
+are deleted from the agency inbox on the same twelve-month rule. The product
+does not keep enquiry records indefinitely.
+
+One named agency owner is responsible for the routine deletion process and for
+handling a verified earlier deletion or data-rights request. Database backups
+are not edited record by record; deleted data disappears through the selected
+provider's documented normal backup-expiry cycle. That cycle must be known and
+consistent with the public privacy explanation before real enquiries are
+accepted.
+
+Routine agency access occurs through the named business-inbox recipients.
+Production database access is restricted to named technical roles and used only
+for authorized recovery, security, or privacy work, not ordinary enquiry
+handling. General logs continue to exclude request content, notes, messages,
+and full contact details under D-004.
+
+The client must approve the simple twelve-month rule, owner, inbox-deletion
+practice, and accurate privacy wording before real launch, with qualified
+privacy or legal validation where appropriate. This is a focused launch check,
+not a requirement for a custom privacy-management system. Synthetic data may be
+used before that approval.
+
+Indefinite retention is rejected as unnecessary exposure. A broader multi-tier
+schedule is deferred unless the agency's real workflow or qualified review
+proves it necessary.
+
+The normative handling boundary is defined in
+[contracts/retention-access-and-deletion.md](contracts/retention-access-and-deletion.md).
+
 ## Open Questions
 
-- D-006: What retention, deletion, logging, and access rules apply?
+None. No unresolved feature decision currently appears capable of materially
+changing request value, scope, workflow, data, ownership, privacy, recovery, or
+implementation boundaries.
 
 ## Next Question
 
-ID: D-006
+ID: Acceptance Review
 
 Topic:
-Retention, deletion, access, and logging for private request records.
+Acceptance of the complete Request Processing and Communications grill.
 
 Prompt:
-What privacy boundary should apply before Greek Essence accepts real requests,
-given that the client and qualified reviewer have not yet approved exact
-retention periods or deletion procedures?
+Do you accept the six locked Request Processing and Communications decisions as
+the complete feature boundary, or is there a material correction still needed?
 
 Options:
 
-1. (recommended): **Make an approved retention and deletion schedule a real-data
-   launch gate.** Until the client and qualified privacy or legal reviewer define
-   the purposes, periods, verified deletion/redaction process, backup expiry, and
-   responsible owner, use synthetic data only. Limit production-record access to
-   named roles, keep request content out of general logs, and retain only the
-   minimal protected audit required for recovery and accountability.
-2. **Choose a provisional fixed retention period now.** Apply a developer-chosen
-   duration, such as twelve months, and revise it later. This enables launch
-   planning but invents a legal and operational rule without evidence and may
-   require difficult cleanup or privacy-notice changes.
-3. **Keep accepted requests indefinitely unless someone asks for deletion.**
-   This is operationally simple but accumulates unnecessary personal data and
-   leaves access, backups, legal duties, and deletion ownership unresolved.
+1. (recommended): **Accept the complete feature grill.** Distill D-001 through
+   D-006 into the feature's durable `DECISIONS.md`, preserving the contracts and
+   named launch validations. This still does not authorize implementation.
+2. **Correct a material decision first.** Identify the decision ID and the
+   practical correction needed before acceptance.
 
 Why this matters:
-Retention is a client and privacy-policy fact, not merely a database setting.
-Inventing a duration could make the public notice false; indefinite storage
-increases exposure. The smallest honest launch boundary is to require an
-approved, testable schedule before real personal data enters the system.
+Acceptance closes feature discovery only. Distillation produces durable product
+authority; implementation, dependencies, migration, and deployment still need
+later explicit authorization.
 
 After answer:
 
-- Lock the real-data launch gate, access, deletion, backup, audit, and logging
-  boundaries.
-- Create or update the normative privacy-handling contract if accepted.
-- If no material question remains, ask the operator to accept or correct the
-  complete feature grill.
+- Record acceptance or the requested correction before changing feature status.
+- If accepted, distill the final raw ledger without deleting it until separate
+  path-specific approval is obtained.
