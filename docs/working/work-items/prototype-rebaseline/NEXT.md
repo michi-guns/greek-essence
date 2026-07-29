@@ -52,7 +52,24 @@ architecture rebaseline, and promotion of settled documentation.
   decisions were accepted by the operator on 2026-07-29 and distilled into
   `docs/grilling/public-brand-pages/DECISIONS.md`. The operator separately
   approved removal of the raw feature ledger on 2026-07-29; Git history retains
-  it. Catalogue Discovery D-001 is ready. Grill one feature at a time.
+  it. Catalogue Discovery D-001 now establishes explicit per-Experience
+  requestability: publishing alone does not enable a booking request, and
+  requestability never means availability or confirmation. D-002 establishes
+  Tour, Activity, and Travel package as the three launch Experience types;
+  Cruise and Transfer are deferred, while real content and package terminology
+  still require client validation. D-003 establishes localized title-and-summary
+  search across Destinations and Experiences, with destination and type filters
+  for Experiences; Interest is conditional on an approved bilingual taxonomy,
+  while price, duration, and difficulty filters are deferred. D-004 permits only
+  structurally complete, client-approved indicative “from” prices with explicit
+  confirmation wording, and prohibits availability claims. D-005 blocks
+  incomplete publication, removes withdrawn Experiences from discovery and new
+  requests, provides a generic recovery page at their former URLs, and preserves
+  historical request intelligibility as a downstream contract. The operator
+  accepted the five decisions on 2026-07-29, and they are distilled into
+  `docs/grilling/catalogue-discovery/DECISIONS.md`. The operator separately
+  approved removal of the raw feature ledger on 2026-07-29; Git history retains
+  it. Consultation Request D-001 is ready. Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
   feature-level and launch validation.
@@ -88,16 +105,23 @@ architecture rebaseline, and promotion of settled documentation.
   content validation passed; 40 unit tests passed with coverage; the production
   build passed; and Playwright completed with 53 passing and 4 intentionally
   skipped tests.
+- Catalogue Discovery acceptance verification on 2026-07-29: `pnpm check:push`
+  exited `0`. Gitleaks found no leaks; the configured audit gate passed while
+  reporting three known dependency findings; formatting, lint, Knip, typecheck,
+  and content validation passed; 40 unit tests passed with coverage; the
+  production build passed; and Playwright completed with 53 passing and 4
+  intentionally skipped tests. `git diff --check` also exited `0` after the
+  accepted distillation and approved raw-ledger removal.
 
 ## Next Recommended Action
 
-Begin the Catalogue Discovery feature grill at
-`docs/grilling/catalogue-discovery/GRILLING.md` D-001 and decide which published
-Experiences may receive a booking request. Persist the operator's answer,
+Begin the Consultation Request feature grill at
+`docs/grilling/consultation-request/GRILLING.md` D-001 and decide how much trip
+information belongs in the initial request. Persist the operator's answer,
 consequences, dependencies, rejected alternatives, and next question before
 continuing.
 
-Completion condition: the operator accepts the Catalogue Discovery decisions,
+Completion condition: the operator accepts the Consultation Request decisions,
 they are distilled into that feature's `DECISIONS.md`, and the raw feature
 `GRILLING.md` is removed only after separate path-specific approval.
 
@@ -139,6 +163,7 @@ state has been reconciled or removed.
 - [Public preview release validation](PREVIEW_RELEASE_VALIDATION.md)
 - [Accepted project decisions](../../../grilling/DECISIONS.md)
 - [Accepted Public Brand Pages decisions](../../../grilling/public-brand-pages/DECISIONS.md)
-- [Next feature grill: Catalogue Discovery](../../../grilling/catalogue-discovery/GRILLING.md)
+- [Accepted Catalogue Discovery decisions](../../../grilling/catalogue-discovery/DECISIONS.md)
+- [Next feature grill: Consultation Request](../../../grilling/consultation-request/GRILLING.md)
 - [Feature grilling router](../../../grilling/README.md)
 - [Grilling protocol](../../../grilling/protocol.md)

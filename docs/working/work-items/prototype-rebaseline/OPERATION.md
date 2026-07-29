@@ -54,7 +54,10 @@ focused documentation; this file may be removed when the operation is complete.
   five Public Brand Pages decisions on 2026-07-29; they are distilled in
   [`../../../grilling/public-brand-pages/DECISIONS.md`](../../../grilling/public-brand-pages/DECISIONS.md).
   The operator separately approved removal of the raw feature ledger on
-  2026-07-29. Git history retains it, and Catalogue Discovery D-001 is the
+  2026-07-29. The operator also accepted the five Catalogue Discovery decisions
+  and separately approved removal of its raw feature ledger on 2026-07-29. Both
+  raw ledgers remain in Git history; their respective `DECISIONS.md` files are
+  the sole accepted feature authorities. Consultation Request D-001 is the
   active continuation.
 - The grilling protocol now requires product-management and travel-agency
   operations coaching when requirements hide ambiguity or operational risk.
@@ -75,9 +78,9 @@ focused documentation; this file may be removed when the operation is complete.
 | Archive former documentation | Complete | Preserved the old baseline under one explicitly non-authoritative boundary |
 | Plan retention and removal | Complete | Classified active paths and removed only the explicitly approved closed execution records |
 | Capture expanded requirements | In progress | Batch 01 remains provisional; accepted project decisions isolate example-led client validation and remaining external gates |
-| Grill product and features | In progress | Project-level and Public Brand Pages grills are accepted and distilled; Catalogue Discovery D-001 is next |
+| Grill product and features | In progress | Project-level, Public Brand Pages, and Catalogue Discovery grills are accepted and distilled; Consultation Request D-001 is next |
 | Establish new architecture | Pending | Select CMS, data, backend, runtime, security, and module boundaries from approved requirements |
-| Promote durable decisions | In progress | Project decisions are distilled; feature decisions and later canonical documents remain |
+| Promote durable decisions | In progress | Project, Public Brand Pages, and Catalogue Discovery decisions are distilled; later feature and canonical documents remain |
 
 ## Approval Gates
 
