@@ -6,7 +6,7 @@ Active
 
 ## Ownership and Scope
 
-Owner: Codex (`/root`)
+Owner: Hermes Agent (`default`)
 
 Scope: prototype archive verification, curated reference material, active-tree
 retention and removal planning, expanded client-requirements intake,
@@ -90,7 +90,11 @@ architecture rebaseline, and promotion of settled documentation.
   accepted the seven decisions on 2026-07-29, and they are distilled into
   `docs/grilling/consultation-request/DECISIONS.md`. The operator separately
   approved removal of the raw feature ledger on 2026-07-29; Git history retains
-  it. Booking Request D-001 is ready. Grill one feature at a time.
+  it. Booking Request D-001 establishes that the selected Experience is carried
+  automatically and the visitor provides preferred and optionally alternative
+  or flexible dates, party size, contact details, preferred contact method,
+  optional notes, and privacy acknowledgement. Booking Request D-002 is ready.
+  Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
   feature-level and launch validation.
@@ -147,11 +151,11 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Begin the Booking Request feature grill at
-`docs/grilling/booking-request/GRILLING.md` D-001 and decide what information a
-visitor must provide when asking about one specific Experience. Persist the
-operator's answer, consequences, dependencies, rejected alternatives, and next
-question before continuing.
+Continue the Booking Request feature grill at
+`docs/grilling/booking-request/GRILLING.md` D-002 and decide where and how the
+journey explains that submitting a request does not reserve the Experience or
+confirm availability. Persist the operator’s answer, consequences,
+dependencies, rejected alternatives, and next question before continuing.
 
 Completion condition: the operator accepts the Booking Request decisions, they
 are distilled into that feature's `DECISIONS.md`, and the raw feature
