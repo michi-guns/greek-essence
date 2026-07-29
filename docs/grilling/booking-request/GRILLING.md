@@ -112,47 +112,81 @@ Rejected alternatives:
 - A per-traveler age, mobility, dietary, or health breakdown would collect too
   much potentially sensitive information at the initial request stage.
 
+### D-004 — Disable new requests while preserving accepted requests
+
+The server must revalidate the selected Experience when the visitor submits. If
+it no longer exists or is no longer requestable, the system must not save a new
+booking request. It must explain that the Experience can no longer be requested
+and offer appropriate catalogue or consultation paths.
+
+If the request was already safely saved before the agency changed or disabled
+the Experience, the request remains intact. Preserve the Experience identifier
+and a bounded snapshot of the customer-visible Experience information needed to
+understand what the visitor originally requested. Expose that the linked live
+Experience is now disabled so the agency can follow up manually, explain the
+change, and offer an alternative where appropriate.
+
+Disabling an Experience must not silently rewrite, detach, delete, reject, or
+automatically cancel an already accepted request. The original acknowledgement
+continues to prove only that a request was received; it never proves
+availability, reservation, or confirmation.
+
+Dependencies:
+
+- Catalogue Discovery owns requestability and withdrawal behavior.
+- Request Processing and Communications owns persistence, agency visibility,
+  customer follow-up, notification, and recovery mechanics.
+- The later data contract must define the minimal historical Experience snapshot
+  without copying unnecessary mutable catalogue content.
+
+Rejected alternatives:
+
+- Accepting new requests for a disabled Experience creates knowingly impossible
+  or misleading work.
+- Automatically rejecting, deleting, or detaching existing requests loses
+  historical meaning and bypasses appropriate agency review and communication.
+- Resolving a saved request only through its live Experience record could rewrite
+  what the visitor originally requested.
+
 ## Open Questions
 
-- D-004: What happens if the Experience changes or is unpublished?
 - D-005: What does the visitor see after success or failure?
 
 ## Next Question
 
-ID: D-004
+ID: D-005
 
 Topic:
-What happens when the selected Experience changes or becomes unrequestable
-before or after the visitor submits the request.
+What the visitor sees when validation, persistence, or customer-email delivery
+succeeds or fails.
 
 Prompt:
-How should the booking-request journey behave if the Experience changes or is
-unpublished?
+Which success and failure outcomes should the booking-request journey show?
 
 Options:
 
-1. (recommended): **Revalidate before saving and preserve a historical
-   snapshot after saving.** At submission, verify that the Experience still
-   exists and is requestable. If not, do not save a new booking request; explain
-   that it can no longer be requested and offer catalogue or consultation paths.
-   Once a request is safely saved, retain the Experience identifier and the
-   customer-visible title/details needed to understand the historical request,
-   even if the live Experience later changes or is withdrawn.
-2. **Always accept against the remembered Experience.** Save the request even if
-   the Experience is no longer requestable and let staff resolve it manually.
-   This avoids blocking visitors but creates misleading or impossible requests.
-3. **Keep only a live Experience link.** Reject unavailable Experiences before
-   submission, but let saved requests display whatever the current Experience
-   says. This is simpler but can rewrite the meaning of historical requests.
+1. (recommended): **Distinguish validation, saved, email-failure, and unsaved
+   outcomes.** Show field-level validation without submission; after a safely
+   saved request, show a non-confirming acknowledgement and opaque reference; if
+   the customer email fails, keep the saved request and honestly say that email
+   delivery could not be confirmed without asking the visitor to resubmit; if
+   saving fails, say the request was not received and allow a safe retry.
+2. **Use one generic success and one generic error.** This is simpler but cannot
+   honestly distinguish a saved request from email delivery or persistence
+   failure.
+3. **Treat customer-email delivery as the success condition.** Show success only
+   when both saving and email complete; otherwise ask the visitor to resubmit.
+   This risks duplicate requests when saving succeeded but email failed.
 
 Why this matters:
-Catalogue decisions already require withdrawn Experiences to disappear from new
-discovery while preserving historical request intelligibility. The booking
-journey must prevent stale submissions without losing what an accepted request
-originally referred to.
+Saving the request and sending email are separate responsibilities. The visitor
+must know whether the agency actually received the request without being given a
+false booking confirmation or creating duplicates through unnecessary retries.
 
 After answer:
 
-- Lock pre-submit revalidation and post-save historical behavior.
-- Record catalogue, persistence, and recovery dependencies.
-- Store D-005 as the next question.
+- Lock the visitor-visible success and failure outcomes.
+- Record persistence, duplicate-protection, email, monitoring, and recovery
+  dependencies for the shared Request Processing and Communications grill.
+- Assess whether any material Booking Request question remains before proposing
+  acceptance and distillation.

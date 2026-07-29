@@ -100,7 +100,10 @@ architecture rebaseline, and promotion of settled documentation.
   optional alternative date or flexible-date indication, adult and conditional
   child counts, and an optional bounded accessibility or practical-needs field
   that warns against medical, passport, or payment information. Booking Request
-  D-004 is ready.
+  D-004 blocks new submissions after an Experience is disabled but preserves
+  already-saved requests, a bounded historical Experience snapshot, and manual
+  agency follow-up without automatic cancellation or deletion. Booking Request
+  D-005 is ready.
   Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
@@ -159,9 +162,9 @@ architecture rebaseline, and promotion of settled documentation.
 ## Next Recommended Action
 
 Continue the Booking Request feature grill at
-`docs/grilling/booking-request/GRILLING.md` D-004 and decide how the journey
-behaves when an Experience changes or becomes unrequestable before or after
-submission. Persist the operator’s answer, consequences, dependencies, rejected
+`docs/grilling/booking-request/GRILLING.md` D-005 and decide the visitor-visible
+outcomes when validation, persistence, or customer-email delivery succeeds or
+fails. Persist the operator’s answer, consequences, dependencies, rejected
 alternatives, and next question before continuing.
 
 Completion condition: the operator accepts the Booking Request decisions, they
