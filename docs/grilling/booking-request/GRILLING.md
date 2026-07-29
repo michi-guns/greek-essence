@@ -148,45 +148,50 @@ Rejected alternatives:
 - Resolving a saved request only through its live Experience record could rewrite
   what the visitor originally requested.
 
+### D-005 — Distinct validation, saved, email-failure, and unsaved outcomes
+
+The journey must distinguish these visitor-visible outcomes:
+
+- Validation failure: show field-level errors and do not claim submission.
+- Safely saved request: show a non-confirming acknowledgement with an opaque
+  request reference. It must not imply availability, reservation, or booking
+  confirmation.
+- Safely saved request with failed or unconfirmed customer-email delivery: keep
+  the accepted request, show the same saved-request truth and opaque reference,
+  and honestly explain that email delivery could not be confirmed. Do not ask
+  the visitor to resubmit.
+- Persistence failure: state that the request was not received and allow a safe
+  retry.
+
+Saving the request and delivering customer email are separate responsibilities.
+A later email failure must not erase or misrepresent an accepted request, and an
+unsaved attempt must never receive success wording.
+
+Dependencies:
+
+- Request Processing and Communications owns transaction boundaries, idempotency
+  and duplicate protection, opaque-reference generation, email delivery,
+  monitoring, retry, recovery, and agency notification behavior.
+- Content Operations owns approved localized wording for each state.
+- Security and privacy review must ensure references and error messages reveal no
+  customer data or internal identifiers.
+
+Rejected alternatives:
+
+- Generic success and error states cannot truthfully identify whether the request
+  was saved.
+- Treating customer-email delivery as the success condition would encourage
+  duplicate resubmission after a saved request whose email failed.
+
 ## Open Questions
 
-- D-005: What does the visitor see after success or failure?
 
 ## Next Question
 
-ID: D-005
+Acceptance check:
 
-Topic:
-What the visitor sees when validation, persistence, or customer-email delivery
-succeeds or fails.
-
-Prompt:
-Which success and failure outcomes should the booking-request journey show?
-
-Options:
-
-1. (recommended): **Distinguish validation, saved, email-failure, and unsaved
-   outcomes.** Show field-level validation without submission; after a safely
-   saved request, show a non-confirming acknowledgement and opaque reference; if
-   the customer email fails, keep the saved request and honestly say that email
-   delivery could not be confirmed without asking the visitor to resubmit; if
-   saving fails, say the request was not received and allow a safe retry.
-2. **Use one generic success and one generic error.** This is simpler but cannot
-   honestly distinguish a saved request from email delivery or persistence
-   failure.
-3. **Treat customer-email delivery as the success condition.** Show success only
-   when both saving and email complete; otherwise ask the visitor to resubmit.
-   This risks duplicate requests when saving succeeded but email failed.
-
-Why this matters:
-Saving the request and sending email are separate responsibilities. The visitor
-must know whether the agency actually received the request without being given a
-false booking confirmation or creating duplicates through unnecessary retries.
-
-After answer:
-
-- Lock the visitor-visible success and failure outcomes.
-- Record persistence, duplicate-protection, email, monitoring, and recovery
-  dependencies for the shared Request Processing and Communications grill.
-- Assess whether any material Booking Request question remains before proposing
-  acceptance and distillation.
+All five Booking Request decisions are locked. Review them for internal
+consistency and material omissions. If the operator accepts the feature grill,
+distill the durable outcomes into `DECISIONS.md`, verify that no accepted
+behavior or dependency is lost, and then request separate explicit approval
+before removing this `GRILLING.md` ledger.

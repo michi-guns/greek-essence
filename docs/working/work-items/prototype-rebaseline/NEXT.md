@@ -103,7 +103,10 @@ architecture rebaseline, and promotion of settled documentation.
   D-004 blocks new submissions after an Experience is disabled but preserves
   already-saved requests, a bounded historical Experience snapshot, and manual
   agency follow-up without automatic cancellation or deletion. Booking Request
-  D-005 is ready.
+  D-005 distinguishes validation failure, safely saved acknowledgement,
+  saved-with-customer-email-failure, and unsaved persistence failure without
+  false confirmation or duplicate-producing resubmission advice. All five
+  Booking Request decisions are locked and ready for acceptance review.
   Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
@@ -161,11 +164,11 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue the Booking Request feature grill at
-`docs/grilling/booking-request/GRILLING.md` D-005 and decide the visitor-visible
-outcomes when validation, persistence, or customer-email delivery succeeds or
-fails. Persist the operator’s answer, consequences, dependencies, rejected
-alternatives, and next question before continuing.
+Review the five locked Booking Request decisions in
+`docs/grilling/booking-request/GRILLING.md` for internal consistency and material
+omissions. If the operator accepts the feature grill, distill it into
+`docs/grilling/booking-request/DECISIONS.md`, verify no accepted outcome is lost,
+and request separate explicit approval before removing the raw ledger.
 
 Completion condition: the operator accepts the Booking Request decisions, they
 are distilled into that feature's `DECISIONS.md`, and the raw feature
