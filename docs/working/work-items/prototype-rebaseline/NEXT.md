@@ -179,8 +179,13 @@ architecture rebaseline, and promotion of settled documentation.
 - The operator approved raw-ledger removal after a draft distillation, but final
   consistency review found that D-003 corrections could outlive their original
   request under D-006 per-request deletion. Removal stopped before commit, the
-  draft was preserved outside the repository, and D-007 reopens only this
+  draft was preserved outside the repository, and D-007 reopened only this
   interaction.
+- Request Processing and Communications D-007 requires every correction to store
+  a complete corrected request. Each original and correction still expires
+  twelve months after its own acceptance; a surviving correction may keep the
+  submitted prior opaque reference and an expired-target marker but cannot
+  retrieve or reconstruct the deleted request.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -232,14 +237,14 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Ask Request Processing and Communications D-007 exactly as stored in
+Ask Request Processing and Communications D-008 exactly as stored in
 `docs/grilling/request-processing-and-communications/GRILLING.md`. Do not
-distill or remove the raw ledger until D-007 is settled and the complete feature
-grill is accepted again.
+distill or remove the raw ledger until the remaining review findings are settled
+and the complete feature grill is accepted again.
 
-Completion condition: persist D-007 and its consequences, recheck the complete
-decision set, then ask the operator to accept or correct the complete feature
-grill.
+Completion condition: persist D-008 and its consequences, continue resolving
+remaining material review findings, then ask the operator to accept or correct
+the complete feature grill.
 
 ## Done When
 

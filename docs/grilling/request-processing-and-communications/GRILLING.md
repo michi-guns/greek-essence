@@ -203,10 +203,34 @@ proves it necessary.
 The normative handling boundary is defined in
 [contracts/retention-access-and-deletion.md](contracts/retention-access-and-deletion.md).
 
+### D-007 — Complete Correction Snapshots with Independent Expiry
+
+Every explicit correction stores a complete corrected request rather than only
+the changed fields. While both records exist, the correction links to the
+earlier request through its opaque reference. The original remains immutable and
+the correction remains independently understandable.
+
+Each record continues to expire twelve months after its own durable acceptance.
+Deleting the earlier request removes its submitted content and audit history; it
+does not extend retention merely because a later correction exists. During the
+correction's own retention period, it may preserve the submitted prior opaque
+reference and a marker that the target has expired, but it cannot retrieve or
+reconstruct the deleted request.
+
+Retaining an entire linked chain until the latest correction expires is rejected
+because repeated corrections could silently extend older personal-data
+retention. Removing the correction path is also rejected because it would add
+agency work and make visitor mistakes harder to resolve clearly.
+
+The normative correction and retention interaction is defined across
+[contracts/request-history-and-duplicates.md](contracts/request-history-and-duplicates.md)
+and
+[contracts/retention-access-and-deletion.md](contracts/retention-access-and-deletion.md).
+
 ## Open Questions
 
-- D-007: How does an explicit correction remain useful when the earlier request
-  reaches its twelve-month deletion date first?
+- D-008: How can agency staff use email-based request context without a staff
+  dashboard or routine database access?
 
 ## Prior Acceptance
 
@@ -216,47 +240,43 @@ raw ledger's removal after verified distillation. The removal did not proceed
 because final review found D-007 before the distillation was merged.
 
 That prior acceptance remains evidence for D-001 through D-006 but is not the
-final feature acceptance while D-007 is open. Nothing here authorizes application
+final feature acceptance while D-008 is open. Nothing here authorizes application
 implementation, dependency installation, schema migration, or deployment.
 
 ## Next Question
 
-ID: D-007
+ID: D-008
 
 Topic:
-Keeping explicit corrections useful without silently extending the accepted
-twelve-month retention period.
+Making internal email-based context operational without adding a staff tool.
 
 Prompt:
-If a correction is submitted near the end of the earlier request's retention
-period, how should it remain understandable after the earlier request is
-deleted?
+How should agency staff use prior-request context at launch when their supported
+workflow is the business inbox rather than a website dashboard?
 
 Options:
 
-1. (recommended): **Every correction contains a complete corrected request.**
-   While both records exist, the correction links to the earlier opaque
-   reference. Each record still expires twelve months after its own acceptance.
-   After the earlier record is deleted, the correction keeps its complete
-   snapshot and the submitted prior reference as provenance but cannot retrieve
-   the deleted request. This preserves the simple retention rule without broken
-   operational content.
-2. **Retain the complete linked chain until twelve months after the latest
-   correction.** This preserves full history but silently extends retention of
-   older requests and lets repeated corrections keep them longer.
-3. **Remove the website correction path.** Every later submission becomes a new
-   request, and visitors must explain any replacement during manual follow-up.
-   This is simpler technically but creates more agency work and makes mistakes
-   harder to correct clearly.
+1. (recommended): **Keep routine staff context in the business inbox.** Each
+   notification includes the current opaque reference and submitted reply email;
+   an explicit correction also identifies the earlier opaque reference. Staff
+   use ordinary inbox search or threading when prior context is needed. Database
+   grouping supports system integrity, recovery, and privacy work but is not a
+   routine staff view. Different emails cannot be manually merged at launch.
+2. **Include an automated prior-request summary in each agency notification.**
+   This gives immediate context but copies more historical personal data into
+   email and requires new summary and redaction rules.
+3. **Add a small staff request-history interface.** This makes grouping directly
+   usable but introduces authentication, permissions, support, and lifecycle
+   work outside the accepted launch boundary.
 
 Why this matters:
-A correction that stores only changed fields becomes incomplete when its target
-is deleted. Keeping the original longer would weaken the accepted simple
-twelve-month promise.
+Email grouping is not useful routine staff context if it exists only in a
+database that agency staff are not allowed to browse. The launch needs either a
+simple inbox behavior or a supported staff interface.
 
 After answer:
 
-- Lock the correction-snapshot and deletion interaction.
-- Recheck whether any other material cross-decision conflict remains.
+- Lock the supported staff-context operation and relationship-merge boundary.
+- Continue resolving the remaining distillation-review findings.
 - Ask the operator to accept or correct the complete grill again before
   distillation.

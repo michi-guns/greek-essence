@@ -30,7 +30,8 @@ decisions own those boundaries.
 2. The submitted normalized email must belong to the same contact relationship
    as the referenced request.
 3. A valid correction creates a new immutable request record linked to the
-   corrected request.
+   corrected request and stores a complete corrected snapshot rather than only
+   changed fields.
 4. The earlier record remains intact because it may already have been notified,
    read, or acted upon by agency staff.
 5. A failed reference-and-email match must not reveal whether either value
@@ -48,8 +49,14 @@ reuse one idempotency identity for a visitor's later intentional request.
 
 ## Minimum Preserved Relationship
 
-Each chronological record must retain enough relationship information to show:
+Each chronological record must retain enough relationship information during
+its own retention period to show:
 
 - whether it is a new request or explicit correction;
-- which earlier request it corrects, when applicable; and
+- the submitted prior opaque reference and whether the earlier target still
+  exists, when applicable; and
 - the processing and delivery-state history accepted by D-004 and D-005.
+
+Each record expires independently under D-006. After an earlier target is
+deleted, the complete correction remains understandable but cannot retrieve or
+reconstruct the deleted request.
