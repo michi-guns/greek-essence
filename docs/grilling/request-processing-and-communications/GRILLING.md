@@ -2,9 +2,10 @@
 
 ## Status
 
-Accepted by the operator on 2026-07-30 after feature grilling. This raw ledger
-remains temporarily until its accepted decisions are verified in a durable
-`DECISIONS.md` and the operator separately approves this file's removal.
+Accepted through D-006 by the operator on 2026-07-30, then reopened only for
+D-007 after distillation review found a material interaction between correction
+history and per-request deletion. Do not remove this ledger or finalize
+`DECISIONS.md` until D-007 is settled and the complete grill is accepted again.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).
@@ -204,20 +205,58 @@ The normative handling boundary is defined in
 
 ## Open Questions
 
-None. No unresolved feature decision currently appears capable of materially
-changing request value, scope, workflow, data, ownership, privacy, recovery, or
-implementation boundaries.
+- D-007: How does an explicit correction remain useful when the earlier request
+  reaches its twelve-month deletion date first?
 
-## Acceptance
+## Prior Acceptance
 
 The operator accepted D-001 through D-006 as the complete Request Processing
-and Communications feature boundary on 2026-07-30.
+and Communications feature boundary on 2026-07-30 and separately approved this
+raw ledger's removal after verified distillation. The removal did not proceed
+because final review found D-007 before the distillation was merged.
 
-Acceptance closes feature discovery only. It does not authorize application
-implementation, dependency installation, schema migration, deployment, or
-destructive path changes.
+That prior acceptance remains evidence for D-001 through D-006 but is not the
+final feature acceptance while D-007 is open. Nothing here authorizes application
+implementation, dependency installation, schema migration, or deployment.
 
-Next, distill this final accepted ledger into `DECISIONS.md` and verify that no
-decision, contract, exclusion, dependency, risk, or external validation is lost
-or changed. Do not remove this raw ledger until the operator separately approves
-the exact path.
+## Next Question
+
+ID: D-007
+
+Topic:
+Keeping explicit corrections useful without silently extending the accepted
+twelve-month retention period.
+
+Prompt:
+If a correction is submitted near the end of the earlier request's retention
+period, how should it remain understandable after the earlier request is
+deleted?
+
+Options:
+
+1. (recommended): **Every correction contains a complete corrected request.**
+   While both records exist, the correction links to the earlier opaque
+   reference. Each record still expires twelve months after its own acceptance.
+   After the earlier record is deleted, the correction keeps its complete
+   snapshot and the submitted prior reference as provenance but cannot retrieve
+   the deleted request. This preserves the simple retention rule without broken
+   operational content.
+2. **Retain the complete linked chain until twelve months after the latest
+   correction.** This preserves full history but silently extends retention of
+   older requests and lets repeated corrections keep them longer.
+3. **Remove the website correction path.** Every later submission becomes a new
+   request, and visitors must explain any replacement during manual follow-up.
+   This is simpler technically but creates more agency work and makes mistakes
+   harder to correct clearly.
+
+Why this matters:
+A correction that stores only changed fields becomes incomplete when its target
+is deleted. Keeping the original longer would weaken the accepted simple
+twelve-month promise.
+
+After answer:
+
+- Lock the correction-snapshot and deletion interaction.
+- Recheck whether any other material cross-decision conflict remains.
+- Ask the operator to accept or correct the complete grill again before
+  distillation.
