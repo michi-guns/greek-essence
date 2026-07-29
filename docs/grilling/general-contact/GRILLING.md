@@ -2,8 +2,7 @@
 
 ## Status
 
-Queued as feature 5 of 8. Begin after Booking Request is accepted, unless the
-operator changes the sequence.
+Ready to begin as feature 5 of 8. Booking Request is accepted and distilled.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).

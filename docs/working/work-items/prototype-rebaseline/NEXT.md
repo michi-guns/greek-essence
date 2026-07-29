@@ -6,7 +6,7 @@ Active
 
 ## Ownership and Scope
 
-Owner: Codex (`/root`)
+Owner: Hermes Agent (`default`)
 
 Scope: prototype archive verification, curated reference material, active-tree
 retention and removal planning, expanded client-requirements intake,
@@ -90,7 +90,27 @@ architecture rebaseline, and promotion of settled documentation.
   accepted the seven decisions on 2026-07-29, and they are distilled into
   `docs/grilling/consultation-request/DECISIONS.md`. The operator separately
   approved removal of the raw feature ledger on 2026-07-29; Git history retains
-  it. Booking Request D-001 is ready. Grill one feature at a time.
+  it. Booking Request D-001 establishes that the selected Experience is carried
+  automatically and the visitor provides preferred and optionally alternative
+  or flexible dates, party size, contact details, preferred contact method,
+  optional notes, and privacy acknowledgement. Booking Request D-002 requires
+  concise non-confirming wording near the form introduction, beside submission,
+  in the saved-request acknowledgement, and in the customer verification or
+  acknowledgement email. Booking Request D-003 requires one preferred date, an
+  optional alternative date or flexible-date indication, adult and conditional
+  child counts, and an optional bounded accessibility or practical-needs field
+  that warns against medical, passport, or payment information. Booking Request
+  D-004 blocks new submissions after an Experience is disabled but preserves
+  already-saved requests, a bounded historical Experience snapshot, and manual
+  agency follow-up without automatic cancellation or deletion. Booking Request
+  D-005 distinguishes validation failure, safely saved acknowledgement,
+  saved-with-customer-email-failure, and unsaved persistence failure without
+  false confirmation or duplicate-producing resubmission advice. The operator accepted
+  all five Booking Request decisions on 2026-07-29; they are distilled into
+  `docs/grilling/booking-request/DECISIONS.md`, and the operator explicitly
+  approved removal of the raw feature ledger and feature-branch cleanup after
+  successful merge.
+  Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
   feature-level and launch validation.
@@ -147,14 +167,14 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Begin the Booking Request feature grill at
-`docs/grilling/booking-request/GRILLING.md` D-001 and decide what information a
-visitor must provide when asking about one specific Experience. Persist the
-operator's answer, consequences, dependencies, rejected alternatives, and next
-question before continuing.
+Begin the General Contact feature grill at
+`docs/grilling/general-contact/GRILLING.md` D-001 and decide which messages belong
+in general contact rather than the dedicated Consultation Request or Booking
+Request journeys. Persist the operator’s answer, consequences, dependencies,
+rejected alternatives, and next question before continuing.
 
-Completion condition: the operator accepts the Booking Request decisions, they
-are distilled into that feature's `DECISIONS.md`, and the raw feature
+Completion condition: the operator accepts the General Contact decisions, they
+are distilled into that feature’s `DECISIONS.md`, and the raw feature
 `GRILLING.md` is removed only after separate path-specific approval.
 
 ## Done When
@@ -197,6 +217,6 @@ state has been reconciled or removed.
 - [Accepted Public Brand Pages decisions](../../../grilling/public-brand-pages/DECISIONS.md)
 - [Accepted Catalogue Discovery decisions](../../../grilling/catalogue-discovery/DECISIONS.md)
 - [Accepted Consultation Request decisions](../../../grilling/consultation-request/DECISIONS.md)
-- [Next feature grill: Booking Request](../../../grilling/booking-request/GRILLING.md)
+- [Accepted Booking Request decisions](../../../grilling/booking-request/DECISIONS.md)
 - [Feature grilling router](../../../grilling/README.md)
 - [Grilling protocol](../../../grilling/protocol.md)
