@@ -55,9 +55,33 @@ unnoticed.
 The normative acceptance and delivery-state boundary is defined in
 [contracts/request-acceptance-and-delivery.md](contracts/request-acceptance-and-delivery.md).
 
+### D-002 — Email-Based Contact Relationship with Immutable Request Snapshots
+
+The normalized submitted email address is the internal identifier used to group
+requests under the same customer-contact relationship. This supports useful
+staff context without introducing customer accounts or asking the visitor to
+sign in.
+
+Each accepted request preserves the name, email, and other contact details that
+were submitted with that request. A later request must not overwrite an earlier
+request's snapshot, and the public forms must not prefill or reveal prior
+personal details merely because someone enters the same email address.
+
+Email matching is useful contact evidence, not proof that every request came
+from one unique person. A shared family or business inbox can therefore group
+several people. Different email addresses remain separate unless staff safely
+establish the relationship during manual follow-up; the system must not infer a
+merge from similar names, telephone numbers, or other approximate details.
+
+The operator identified the related distinction between a visitor correcting a
+bad request and making a new request. D-003 owns that submission-intent and
+duplicate boundary; D-002 does not authorize overwriting an accepted request.
+
+The normative recognition boundary is defined in
+[contracts/customer-contact-recognition.md](contracts/customer-contact-recognition.md).
+
 ## Open Questions
 
-- D-002: How are repeated customers recognized without accounts?
 - D-003: How are accidental duplicate submissions handled?
 - D-004: What shared request states and audit information are required?
 - D-005: How are notification and acknowledgement failures recovered?
@@ -65,38 +89,42 @@ The normative acceptance and delivery-state boundary is defined in
 
 ## Next Question
 
-ID: D-002
+ID: D-003
 
 Topic:
-Recognizing repeated customer contact without introducing accounts.
+Distinguishing a new request, a correction, and an accidental duplicate.
 
 Prompt:
-When the same person submits another request without an account, how should the
-system recognize the relationship without silently merging different people?
+When an email address is used again, how should the visitor distinguish a new
+request from a correction without letting either case overwrite accepted
+history or exposing that the email already has requests?
 
 Options:
 
-1. (recommended): **Link by the same normalized email while preserving each
-   request's submitted contact snapshot.** Give staff the relationship as useful
-   context, but do not expose an account, prefill personal details, or overwrite
-   what was submitted with an earlier request. Different email addresses remain
-   separate unless staff establish the relationship during manual follow-up.
-2. **Keep every request completely independent.** Never create a shared customer
-   relationship. This minimizes identity assumptions but makes repeated context,
-   privacy requests, retention, and staff follow-up harder to reconcile.
-3. **Automatically merge using several matching details.** Combine requests
-   when email, name, telephone, or similar details appear to identify the same
-   person. This may join changed addresses, but risks merging family members,
-   shared inboxes, or coincidentally similar visitors.
+1. (recommended): **New by default; explicit correction with the previous
+   reference.** An ordinary submission creates a new request. A visitor who
+   chooses “correct a previous request” must provide its opaque reference; the
+   correction is saved as a linked record and never overwrites the original.
+   Exact transport retries are handled idempotently without creating another
+   request. The site never reveals prior requests from email alone.
+2. **Ask every time an email is reused.** Require “new request” or “correction”
+   whenever the email matches existing records. This sounds direct, but revealing
+   that a match exists leaks private relationship data, while asking without
+   revealing a match adds friction to ordinary new requests.
+3. **Infer the intent automatically.** Treat sufficiently similar submissions
+   as corrections and different ones as new requests. This reduces questions but
+   can overwrite intent, hide a legitimate second booking request, or attach a
+   correction to the wrong request.
 
 Why this matters:
-Without accounts, an email address is useful contact evidence but not proof of a
-unique person. A wrong merge could expose one visitor's request history during
-staff follow-up or a privacy request; no linking at all creates avoidable agency
-work and fragmented records.
+The agency needs to know whether to act on both requests, but an accepted
+request may already have triggered manual work. Keeping history and requiring
+the opaque reference for corrections avoids silent replacement and prevents
+email-address probing from exposing prior activity.
 
 After answer:
 
-- Lock the customer-recognition and request-snapshot boundary.
-- Update the shared contract if the answer creates a normative identity rule.
-- Store D-003 as the next question.
+- Lock new-request, correction, and exact-retry behavior.
+- Update the shared contract with the accepted relationship and immutability
+  rules.
+- Store D-004 as the next question.

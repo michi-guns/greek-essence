@@ -142,6 +142,12 @@ architecture rebaseline, and promotion of settled documentation.
   visitor email outcomes are recorded and recovered separately; email failure
   cannot revoke acceptance, prompt resubmission, or be ignored. The shared
   acceptance and delivery-state boundary is recorded in the feature contract.
+- Request Processing and Communications D-002 uses normalized submitted email
+  to group an internal customer-contact relationship while preserving the
+  immutable contact snapshot on every request. Email is not proof of a unique
+  person; public forms do not expose or prefill prior details, and approximate
+  identity merging is prohibited. D-003 owns whether a later submission is a
+  new request, an explicit correction, or an accidental duplicate.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -193,11 +199,11 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Request Processing and Communications with D-002, which decides how
-repeated customer contact is recognized without accounts while avoiding unsafe
-identity merges.
+Continue Request Processing and Communications with D-003, which distinguishes
+a new request, an explicit correction, and an accidental duplicate without
+overwriting accepted history or exposing prior activity from email alone.
 
-Completion condition: persist D-002 and its consequences, then store D-003 as
+Completion condition: persist D-003 and its consequences, then store D-004 as
 the single next question.
 
 ## Done When
