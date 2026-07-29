@@ -165,6 +165,13 @@ architecture rebaseline, and promotion of settled documentation.
   data-minimized alert to a named recovery owner. Attempts and recovery outcomes
   are audited, and the owner, alert route, timing, and procedure are launch
   validations before real enquiries.
+- Request Processing and Communications D-006 sets one proportional rule:
+  website enquiry records, protected audit history, and corresponding agency
+  email copies are retained for twelve months from acceptance and then deleted.
+  One named agency owner is responsible; backups expire through the provider's
+  documented cycle; database access is restricted; and private request content
+  remains excluded from general logs. Client approval and accurate privacy
+  wording remain launch validations rather than a custom privacy system.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -216,13 +223,12 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Request Processing and Communications with D-006, which sets the
-real-data launch boundary for retention, deletion, access, backups, audit, and
-logging pending client and qualified privacy or legal review.
+Ask the operator to accept the complete six-decision Request Processing and
+Communications grill or identify one material correction. Do not distill or
+remove the raw ledger before acceptance.
 
-Completion condition: persist D-006 and its consequences, then either identify
-another material unresolved decision or ask the operator to accept or correct
-the complete feature grill.
+Completion condition: record explicit feature acceptance or persist the named
+correction and continue grilling.
 
 ## Done When
 
