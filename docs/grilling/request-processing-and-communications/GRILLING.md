@@ -137,47 +137,78 @@ and future reporting.
 The normative state and audit boundary is defined in
 [contracts/system-states-and-audit.md](contracts/system-states-and-audit.md).
 
+### D-005 — Bounded Safe Retry with Out-of-Band Escalation
+
+Definitely failed agency notifications and visitor acknowledgements receive a
+bounded number of automatic retries using the stable request-and-purpose
+identity established by D-001. A confirmed handoff is not retried. An uncertain
+handoff stops blind automatic retry because the mail service may already have
+accepted the message.
+
+When retries are exhausted or delivery remains uncertain, the system alerts a
+named recovery owner through a separately monitored route that does not depend
+solely on the failing agency mail path. The alert contains only the opaque
+request reference, email purpose, failure category, and minimum diagnostic
+context; it does not copy the visitor's request, message, notes, or contact
+details.
+
+The recovery owner decides the bounded next action for uncertain delivery and
+ensures that a failed agency notification does not leave an accepted request
+unnoticed. Every automated attempt, escalation, authorized recovery action, and
+final outcome is appended to the D-004 audit history. Recovery never changes
+request acceptance and never asks the visitor to resubmit.
+
+The exact retry count and timing, recovery owner, separately monitored alert
+channel, and operational response procedure must be named and tested before
+real enquiries are accepted. Immediate manual handling for every definite
+failure is rejected as avoidable workload; unbounded retry is rejected because
+it can create delayed duplicates and ownerless failures.
+
+The normative delivery contract is updated in
+[contracts/request-acceptance-and-delivery.md](contracts/request-acceptance-and-delivery.md).
+
 ## Open Questions
 
-- D-005: How are notification and acknowledgement failures recovered?
 - D-006: What retention, deletion, logging, and access rules apply?
 
 ## Next Question
 
-ID: D-005
+ID: D-006
 
 Topic:
-Recovering agency-notification and visitor-acknowledgement failures.
+Retention, deletion, access, and logging for private request records.
 
 Prompt:
-When required email cannot be sent after a request is safely accepted, how
-should recovery work without a staff dashboard and without risking silent loss
-or duplicate messages?
+What privacy boundary should apply before Greek Essence accepts real requests,
+given that the client and qualified reviewer have not yet approved exact
+retention periods or deletion procedures?
 
 Options:
 
-1. (recommended): **Bounded safe retries plus an out-of-band recovery alert.**
-   Retry only definitely failed sends with a stable request-and-purpose identity.
-   If delivery remains failed or its handoff is uncertain, stop blind retries
-   and alert a named recovery owner through a separately monitored channel. The
-   alert contains only the reference and failure context, not the visitor's
-   private request. Recovery records its outcome and never asks the visitor to
-   resubmit.
-2. **Alert immediately without automatic retry.** Every failed or uncertain send
-   goes directly to the recovery owner. This avoids automated duplicate risk but
-   creates more manual work for temporary mail-service failures.
-3. **Keep retrying automatically until email succeeds.** This reduces immediate
-   owner involvement but can send delayed duplicates after uncertain handoffs
-   and can leave failures unowned for an unbounded period.
+1. (recommended): **Make an approved retention and deletion schedule a real-data
+   launch gate.** Until the client and qualified privacy or legal reviewer define
+   the purposes, periods, verified deletion/redaction process, backup expiry, and
+   responsible owner, use synthetic data only. Limit production-record access to
+   named roles, keep request content out of general logs, and retain only the
+   minimal protected audit required for recovery and accountability.
+2. **Choose a provisional fixed retention period now.** Apply a developer-chosen
+   duration, such as twelve months, and revise it later. This enables launch
+   planning but invents a legal and operational rule without evidence and may
+   require difficult cleanup or privacy-notice changes.
+3. **Keep accepted requests indefinitely unless someone asks for deletion.**
+   This is operationally simple but accumulates unnecessary personal data and
+   leaves access, backups, legal duties, and deletion ownership unresolved.
 
 Why this matters:
-Saving protects the request, but the agency still needs to learn that it exists.
-The normal mail service may be the component that failed, so recovery needs a
-separately monitored route and a named owner. Alerts should not create a second
-copy of the visitor's private submission.
+Retention is a client and privacy-policy fact, not merely a database setting.
+Inventing a duration could make the public notice false; indefinite storage
+increases exposure. The smallest honest launch boundary is to require an
+approved, testable schedule before real personal data enters the system.
 
 After answer:
 
-- Lock retry, uncertainty, escalation, and recovery-record behavior.
-- Update the shared delivery contract if accepted.
-- Store D-006 as the next question.
+- Lock the real-data launch gate, access, deletion, backup, audit, and logging
+  boundaries.
+- Create or update the normative privacy-handling contract if accepted.
+- If no material question remains, ask the operator to accept or correct the
+  complete feature grill.

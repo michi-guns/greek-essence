@@ -159,6 +159,12 @@ architecture rebaseline, and promotion of settled documentation.
   states with append-only transition history. Staff handling remains in the
   agency inbox; unsupported lifecycle fields and direct database maintenance
   are excluded, and general logs must not copy private request content.
+- Request Processing and Communications D-005 applies bounded automatic retry
+  only to definitely failed email sends. Confirmed handoffs are not retried;
+  uncertain or exhausted delivery escalates through a separately monitored,
+  data-minimized alert to a named recovery owner. Attempts and recovery outcomes
+  are audited, and the owner, alert route, timing, and procedure are launch
+  validations before real enquiries.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -210,12 +216,13 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Request Processing and Communications with D-005, which decides safe
-email retry, uncertain-delivery escalation, and recovery ownership without a
-staff dashboard or additional copies of visitor data.
+Continue Request Processing and Communications with D-006, which sets the
+real-data launch boundary for retention, deletion, access, backups, audit, and
+logging pending client and qualified privacy or legal review.
 
-Completion condition: persist D-005 and its consequences, then store D-006 as
-the single next question.
+Completion condition: persist D-006 and its consequences, then either identify
+another material unresolved decision or ask the operator to accept or correct
+the complete feature grill.
 
 ## Done When
 

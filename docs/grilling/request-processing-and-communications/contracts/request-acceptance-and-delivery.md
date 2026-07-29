@@ -56,13 +56,22 @@ received the message. Customer-facing wording must not overstate that fact.
 
 - A failed or pending agency notification must remain visible to operational
   recovery until it is resolved or explicitly handed to the named owner.
-- Retry must reuse a stable request-and-purpose identity and must not
-  deliberately redispatch an email whose handoff is already confirmed.
-- An uncertain mail handoff must not trigger blind retry. It requires a bounded
-  recovery decision that avoids knowingly sending a duplicate while ensuring
-  the accepted request is not silently abandoned.
+- A definitely failed send receives a bounded number of automatic retries using
+  a stable request-and-purpose identity.
+- A confirmed handoff must not be deliberately redispatched.
+- An uncertain mail handoff stops blind automatic retry because the provider may
+  already have accepted the message.
+- Exhausted or uncertain delivery alerts a named recovery owner through a
+  separately monitored route that does not depend solely on the failing agency
+  mail path.
+- The alert contains only the opaque request reference, email purpose, failure
+  category, and minimum diagnostic context. It excludes request content, notes,
+  messages, and visitor contact details.
+- Every attempt, escalation, authorized recovery action, and outcome is appended
+  to the D-004 audit history.
 - Visitor-acknowledgement failure follows the same recorded recovery principle
-  but never changes request acceptance.
+  but never changes request acceptance or prompts resubmission.
 
-Exact retry timing, terminal states, alert ownership, manual recovery, and
-audit fields remain for D-004 and D-005.
+Before real enquiries are accepted, name and test the retry count and timing,
+recovery owner, separate alert route, and response procedure. D-006 owns
+retention and access to the resulting delivery history.
