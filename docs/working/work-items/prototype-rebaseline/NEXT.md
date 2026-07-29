@@ -105,8 +105,11 @@ architecture rebaseline, and promotion of settled documentation.
   agency follow-up without automatic cancellation or deletion. Booking Request
   D-005 distinguishes validation failure, safely saved acknowledgement,
   saved-with-customer-email-failure, and unsaved persistence failure without
-  false confirmation or duplicate-producing resubmission advice. All five
-  Booking Request decisions are locked and ready for acceptance review.
+  false confirmation or duplicate-producing resubmission advice. The operator accepted
+  all five Booking Request decisions on 2026-07-29; they are distilled into
+  `docs/grilling/booking-request/DECISIONS.md`, and the operator explicitly
+  approved removal of the raw feature ledger and feature-branch cleanup after
+  successful merge.
   Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
   optional Netlify, and Nodemailer as accepted directions with remaining
@@ -164,14 +167,14 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Review the five locked Booking Request decisions in
-`docs/grilling/booking-request/GRILLING.md` for internal consistency and material
-omissions. If the operator accepts the feature grill, distill it into
-`docs/grilling/booking-request/DECISIONS.md`, verify no accepted outcome is lost,
-and request separate explicit approval before removing the raw ledger.
+Begin the General Contact feature grill at
+`docs/grilling/general-contact/GRILLING.md` D-001 and decide which messages belong
+in general contact rather than the dedicated Consultation Request or Booking
+Request journeys. Persist the operator’s answer, consequences, dependencies,
+rejected alternatives, and next question before continuing.
 
-Completion condition: the operator accepts the Booking Request decisions, they
-are distilled into that feature's `DECISIONS.md`, and the raw feature
+Completion condition: the operator accepts the General Contact decisions, they
+are distilled into that feature’s `DECISIONS.md`, and the raw feature
 `GRILLING.md` is removed only after separate path-specific approval.
 
 ## Done When
@@ -214,6 +217,6 @@ state has been reconciled or removed.
 - [Accepted Public Brand Pages decisions](../../../grilling/public-brand-pages/DECISIONS.md)
 - [Accepted Catalogue Discovery decisions](../../../grilling/catalogue-discovery/DECISIONS.md)
 - [Accepted Consultation Request decisions](../../../grilling/consultation-request/DECISIONS.md)
-- [Next feature grill: Booking Request](../../../grilling/booking-request/GRILLING.md)
+- [Accepted Booking Request decisions](../../../grilling/booking-request/DECISIONS.md)
 - [Feature grilling router](../../../grilling/README.md)
 - [Grilling protocol](../../../grilling/protocol.md)
