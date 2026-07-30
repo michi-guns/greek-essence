@@ -202,6 +202,13 @@ metadata, and quality checks. Future accepted architecture work must explicitly
 replace obsolete gates rather than silently dropping them. Record exact
 commands, exit codes, and results; do not claim checks that did not run.
 
+For a non-empty change range containing only `.md` or `.mdx` files, the
+applicable automated gates are Gitleaks and Prettier against the changed
+Markdown files. Do not run application lint, type, content-data, unit, build,
+browser, accessibility, metadata, or quality gates unless the task contract
+separately requires them. Mixed, empty, or unresolved ranges use the full
+applicable gates.
+
 ## Definition of done
 
 A change is done only when it meets current accepted decisions and its explicit
