@@ -119,6 +119,20 @@ Design subtopic normally forms one pull-request unit.
 Per-answer persistence protects continuity; it does not define pull-request
 granularity.
 
+## Change-Appropriate Checks
+
+A non-empty commit range containing only `.md` or `.mdx` files uses the
+Markdown-only gate: redacted Gitleaks plus Prettier against the changed files.
+Application lint, unused-code analysis, type checking, content-data validation,
+tests, coverage, build, browser, accessibility, metadata, and quality checks
+are not applicable unless the task contract separately requires them.
+
+Local pre-push and the required GitHub job classify the complete pushed or
+pull-request range, not the working tree. Any mixed, empty, malformed, or
+unresolved range fails closed to the existing full checks. The GitHub workflow
+always reports the required `Lightweight quality gates` context; do not replace
+this behavior with workflow-level path exclusions.
+
 ## Safety
 
 - Inspect the complete logical diff before staging, before marking a draft ready,
