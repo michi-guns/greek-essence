@@ -2,13 +2,14 @@
 
 ## Authority and Scope
 
-This contract is normative for Request Processing and Communications D-001. It
-defines the shared acceptance boundary and the minimum delivery-state behavior
-for Consultation Requests, Booking Requests, and General Contact messages.
+This contract is normative for Request Processing and Communications D-001 and
+D-005. It defines the shared acceptance boundary, minimum delivery-state
+behavior, and bounded recovery boundary for Consultation Requests, Booking
+Requests, and General Contact messages.
 
 It does not authorize implementation or choose a database schema, queue,
-scheduler, mail provider, retry count, or monitoring product. Later decisions
-own detailed shared states, recovery operations, retention, access, and
+scheduler, mail provider, retry count, or monitoring product. D-004 owns shared
+audit states; D-006 owns retention and access; Production Operations owns
 production monitoring.
 
 ## Acceptance Boundary

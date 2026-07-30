@@ -206,8 +206,17 @@ architecture rebaseline, and promotion of settled documentation.
 - On 2026-07-30, the operator accepted Request Processing and Communications
   D-001 through D-009 and authorized verified distillation, removal of the exact
   feature `GRILLING.md` path, automated pull-request delivery, squash merge, and
-  merged-branch deletion. Preserve the final accepted raw state on `main` before
-  the separately merged distillation/removal change.
+  merged-branch deletion. The final accepted raw state was preserved on `main`
+  before the separately merged distillation/removal change; the durable feature
+  authority is now
+  `docs/grilling/request-processing-and-communications/DECISIONS.md`.
+- Request Processing and Communications distillation verification on 2026-07-30:
+  D-001 through D-009 appear exactly once and in order; all feature-contract and
+  authority links resolve; formatting and diff checks pass; and independent
+  semantic review found no material conflict blocking raw-ledger deletion. Its
+  three non-blocking fidelity omissions—initial email-work completion,
+  non-confirming Booking Request acknowledgement, and owning-journey persistence
+  failure behavior—were added before deletion.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -259,14 +268,12 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-After the accepted raw ledger is durable on `main`, create and semantically
-verify `docs/grilling/request-processing-and-communications/DECISIONS.md`, remove
-the operator-approved `GRILLING.md` path, update the grilling router and this
-handoff, then deliver through the authorized automated squash-merge workflow.
+Continue feature grilling by asking Content Operations D-001 exactly as stored
+in `docs/grilling/content-operations/GRILLING.md`. Do not begin implementation or
+install/configure Sanity merely because the product grill starts.
 
-Completion condition: the verified distillation is authoritative on `main`, the
-approved raw ledger is removed from the live tree but preserved in Git history,
-and the next feature grill is the sole stored continuation.
+Completion condition: persist Content Operations D-001 and its next stored
+question through the repository workflow.
 
 ## Done When
 
@@ -287,8 +294,9 @@ state has been reconciled or removed.
 - Do not install or configure Sanity, Neon, Drizzle, Nodemailer, or another
   backend dependency until a later explicit implementation task authorizes it.
 - Obtain user approval before changing active paths.
-- Vercel's public commercial plan or a validated Netlify replacement remains a
-  production-operations decision before public launch.
+- A commercially eligible zero-cost launch host must be validated in Production
+  Operations. Any later paid Vercel or other upgrade requires visitor-demand
+  evidence and explicit client approval.
 - The operator's personal Gmail may receive only synthetic controlled test
   enquiries; it must not receive real public visitor data.
 
@@ -309,5 +317,6 @@ state has been reconciled or removed.
 - [Accepted Catalogue Discovery decisions](../../../grilling/catalogue-discovery/DECISIONS.md)
 - [Accepted Consultation Request decisions](../../../grilling/consultation-request/DECISIONS.md)
 - [Accepted Booking Request decisions](../../../grilling/booking-request/DECISIONS.md)
+- [Accepted Request Processing and Communications decisions](../../../grilling/request-processing-and-communications/DECISIONS.md)
 - [Feature grilling router](../../../grilling/README.md)
 - [Grilling protocol](../../../grilling/protocol.md)

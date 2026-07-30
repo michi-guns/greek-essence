@@ -2,9 +2,9 @@
 
 ## Authority and Scope
 
-This contract is normative for Request Processing and Communications D-003. It
-defines chronological request history, explicit corrections, and exact
-technical-retry behavior.
+This contract is normative for Request Processing and Communications D-003 and
+D-007. It defines chronological request history, explicit corrections, complete
+corrected snapshots, independent expiry, and exact technical-retry behavior.
 
 It does not define staff lifecycle states, detailed audit fields, retry windows,
 retention, deletion, or a public request-history interface. D-004 and later
