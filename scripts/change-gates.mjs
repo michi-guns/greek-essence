@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process"
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { closeSync, mkdtempSync, openSync, readFileSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, extname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -103,11 +103,9 @@ export function collectRangeChanges(ranges, git = gitOutput) {
 
     const match = treeEntry.match(/^[0-7]+ blob ([0-9a-f]{40,64})\t/)
     if (!match) return undefined
-    const content = git(["cat-file", "blob", match[1]])
-    if (content === undefined) return undefined
 
     seenFiles.add(key)
-    files.push({ head, path, content })
+    files.push({ head, path, blob: match[1] })
   }
   return { paths, files }
 }
@@ -134,6 +132,20 @@ function runPackageScript(script) {
   return run(invocation.command, invocation.args) !== undefined
 }
 
+function writeGitBlob(blob, path) {
+  const descriptor = openSync(path, "w")
+  try {
+    const result = spawnSync("git", ["cat-file", "blob", blob], {
+      cwd: root,
+      stdio: ["ignore", descriptor, "inherit"],
+    })
+    if (result.error) console.error(result.error.message)
+    return !result.error && result.status === 0
+  } finally {
+    closeSync(descriptor)
+  }
+}
+
 function runPrettier(files) {
   if (files.length === 0) {
     console.log("No surviving Markdown files require formatting.")
@@ -142,14 +154,15 @@ function runPrettier(files) {
 
   const directory = mkdtempSync(join(tmpdir(), "greek-essence-markdown-"))
   try {
-    const materializedPaths = files.map((file, index) => {
+    const materializedPaths = []
+    for (const [index, file] of files.entries()) {
       const path = join(
         directory,
         `${index}${extname(file.path).toLowerCase()}`
       )
-      writeFileSync(path, file.content, "utf8")
-      return path
-    })
+      if (!writeGitBlob(file.blob, path)) return false
+      materializedPaths.push(path)
+    }
 
     return (
       run(process.execPath, [

@@ -157,7 +157,8 @@ describe("pushed-tree Markdown collection", () => {
       if (args[0] === "ls-tree" && args.at(-1) === ":(literal)docs/old.md")
         return ""
       if (args[0] === "ls-tree") return `100644 blob ${hash}\tdocs/new.md\0`
-      if (args[0] === "cat-file") return "# Pushed content\n"
+      if (args[0] === "cat-file")
+        throw new Error("blob contents must not be captured in memory")
       return undefined
     })
 
@@ -167,7 +168,7 @@ describe("pushed-tree Markdown collection", () => {
         {
           head: "head",
           path: "docs/new.md",
-          content: "# Pushed content\n",
+          blob: hash,
         },
       ],
     })
@@ -186,11 +187,10 @@ describe("pushed-tree Markdown collection", () => {
     )
   })
 
-  it("fails closed when a surviving blob cannot be read", () => {
-    const hash = "d".repeat(40)
+  it("fails closed when a surviving tree entry is not a blob", () => {
     const git = vi.fn((args: string[]) => {
       if (args[0] === "diff") return "docs/file.md\0"
-      if (args[0] === "ls-tree") return `100644 blob ${hash}\tdocs/file.md\0`
+      if (args[0] === "ls-tree") return "040000 tree invalid\tdocs/file.md\0"
       return undefined
     })
 
