@@ -37,51 +37,79 @@ direction.
 
 ## Locked Decisions
 
-None yet. Decision IDs begin at D-001.
+### D-001 — Useful standalone Destinations may publish independently
+
+A Destination may be published without a published Experience when it is a
+useful standalone discovery page. Publication requires approved English and
+Greek titles and summaries, useful orientation or detail content, applicable
+claims and media approval, and clear paths to continue browsing or request a
+consultation.
+
+When a published Destination currently has no published Experiences, its page
+omits the Experience section rather than showing empty catalogue scaffolding.
+It must not imply that an Experience, supplier availability, reservation, or
+confirmed booking exists.
+
+This keeps the Destination and Experience publication lifecycles independent
+and preserves destination-first inspiration. It does not weaken the accepted
+rule that every published Experience requires a valid published Destination
+relationship.
+
+Requiring at least one published Experience was rejected because it would make
+useful destination-first content dependent on a separate content lifecycle.
+Allowing title-and-summary-only Destinations was rejected because those thin
+pages would not fulfil the accepted discovery promise.
 
 ## Open Questions
 
-- D-001: When is a Destination useful and complete enough to publish, including
-  when it has no published Experiences yet?
 - D-002: What happens when a Destination or other non-Experience public content
   is withdrawn?
 
 ## Next Question
 
-ID: D-001
+ID: D-002
 
 Layer:
 Product and Domain Truth.
 
 Topic:
-Destination publication completeness and its relationship to Experiences.
+Withdrawal behavior for Destinations and other non-Experience public content.
 
 Prompt:
-When should Greek Essence consider a Destination useful and complete enough to
-publish, especially if it has no published Experiences yet?
+What should visitors see, and what should happen to related public content,
+when Greek Essence withdraws a Destination or another non-Experience page?
 
 Options:
 
-1. (recommended): **A useful standalone Destination may publish without a
-   published Experience.** It requires approved English and Greek title,
-   summary, useful orientation/detail content, applicable claims/media approval,
-   and clear browse/consultation paths. If it currently has no Experiences, the
-   page omits an empty Experience section and makes no availability implication.
-2. **Require at least one published Experience.** A Destination remains private
-   until visitors can continue into an Experience. This prevents empty catalogue
-   branches but blocks destination-first inspiration and ties Destination
-   publication to another content lifecycle.
-3. **Allow a minimal title-and-summary Destination.** The record may publish as
-   soon as localized search text exists, even without useful detail or an
-   Experience. This is fastest to populate but risks thin pages that do not
-   fulfil the accepted discovery promise.
+1. (recommended): **Use relationship-aware withdrawal with a generic recovery
+   path.** Withdrawn optional content disappears from navigation, listings, and
+   search, and its former URL shows a generic localized message with relevant
+   routes back to discovery or consultation instead of stale claims. Before a
+   Destination is withdrawn, each affected published Experience must retain
+   another valid published Destination relationship or be withdrawn through the
+   already accepted Experience process. A required service, request, privacy, or
+   legal page must be replaced, redirected, or have its dependent journey
+   honestly disabled; it cannot simply disappear while that journey remains
+   public.
+2. **Treat every withdrawal as ordinary removal.** Remove the content from
+   discovery and let its former URL use the normal not-found page, without
+   relationship-specific recovery. This is simple, but bookmarked visitors lose
+   useful guidance and linked Experiences or required journeys can become
+   inconsistent unless handled separately.
+3. **Keep withdrawn content publicly visible as an archive.** Remove it from
+   normal discovery but retain the former page with an archived or unavailable
+   label. This preserves context, but risks continuing to expose stale claims,
+   media, contact details, or service information after approval has been
+   withdrawn.
 
 Why this matters:
-The answer controls whether Destination and Experience publication lifecycles
-are independent, what a visitor receives from destination-first discovery, and
-which completeness and relationship rules Foundation Design must enforce.
+The answer determines whether withdrawal can leave broken catalogue
+relationships, dead-end visitor journeys, or stale public claims, and which
+lifecycle and reference rules Foundation Design must preserve.
 
 After answer:
 
-- Lock the Destination completeness and Experience-dependency rule.
-- Preserve D-002 as the next unresolved product/domain gap.
+- Lock the visitor-visible withdrawal rule and the treatment of related public
+  content.
+- Check D-001 and D-002 for internal consistency, then present the complete
+  two-decision set for combined acceptance under the grilling protocol.

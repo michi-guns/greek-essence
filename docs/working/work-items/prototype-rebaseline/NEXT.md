@@ -223,6 +223,13 @@ architecture rebaseline, and promotion of settled documentation.
   become responsible for approving business claims. Client approval ownership,
   the technical publisher, and their handoff are Launch Readiness items rather
   than another foundation decision.
+- Content Publication Truth D-001 establishes that a useful standalone
+  Destination may publish without a published Experience when its approved
+  bilingual orientation/detail content and onward paths fulfil the discovery
+  promise. A Destination with no published Experiences omits the empty section
+  and makes no availability implication. Destination and Experience publication
+  lifecycles are independent, while every published Experience still requires a
+  valid published Destination relationship.
 - The operator accepted the three-layer classification and dependency sequence.
   `docs/grilling/CLASSIFICATION.md` now carries accepted product/domain truth,
   locked foundation inputs, Launch Readiness items, deferrals, and promotion
@@ -292,14 +299,15 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Product and Domain Truth by asking Content Publication Truth D-001
+Continue Product and Domain Truth by asking Content Publication Truth D-002
 exactly as stored in
 `docs/grilling/product-domain-truth/content-publication/GRILLING.md`. Do not
 resume either paused mixed-layer ledger.
 
-Completion condition: persist D-001 and its next stored question through the
-repository workflow. After both content-publication gaps are accepted, begin the
-System Boundaries and Domain Representation Foundation Design track.
+Completion condition: persist D-002, verify the complete two-decision set, and
+obtain the combined acceptance required by the grilling protocol. After both
+content-publication gaps are accepted, begin the System Boundaries and Domain
+Representation Foundation Design track.
 
 ## Done When
 
