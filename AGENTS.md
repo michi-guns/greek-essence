@@ -52,9 +52,12 @@ During the rebaseline, use this authority order:
    workflow and immediate continuation.
 3. Accepted `DECISIONS.md` files under `docs/grilling/` for product and feature
    decisions that have completed grilling.
-4. New canonical product, domain, UX, technical, and design documents after
+4. Accepted `docs/grilling/CLASSIFICATION.md` for routing existing outcomes and
+   locked inputs across Product and Domain Truth, Foundation Design, and Launch
+   Readiness; it does not override the meaning of an accepted decision.
+5. New canonical product, domain, UX, technical, and design documents after
    accepted decisions are promoted into them.
-5. Explicit task contracts for bounded implementation work.
+6. Explicit task contracts for bounded implementation work.
 
 An active `GRILLING.md` is an in-progress decision ledger, not permission to
 implement. `docs/working/` contains temporary operational state and evidence,
@@ -126,11 +129,14 @@ through `docs/grilling/`; do not inherit the archived static-first architecture
 or mechanically reorganize the current prototype as the new foundation.
 
 The Public Preview Release is expected to be publicly accessible to real
-visitors and accept real enquiries. Exact product scope, feature boundaries,
-content ownership, transactional data, and platform responsibilities remain
-under grilling. Sanity, Supabase, and Drizzle are strong working-draft
-candidates, not approved dependencies or contracts. Do not install, configure,
-or model them until the applicable decisions are accepted and promoted.
+visitors and accept real enquiries. Accepted decisions select Next.js, Sanity
+for editable public/catalogue content, Neon PostgreSQL for private request data,
+Drizzle ORM, and Nodemailer through the agency mail service. The operator has
+also locked the latest Drizzle release candidate available when implementation
+begins and its first-party Zod integration with the latest Zod v4. These are
+Foundation Design inputs, not permission to install, configure, model, migrate,
+or implement them before accepted foundation decisions are promoted into an
+explicit bounded task contract.
 
 Preserve the current application and its checks while it remains in the active
 tree, unless an explicitly approved replacement task changes them. Prefer

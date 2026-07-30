@@ -25,11 +25,13 @@ to the owning layer instead of silently redefining it.
 
 - [Grilling protocol](protocol.md)
 - [Project glossary](GLOSSARY.md)
+- [Approved classification](CLASSIFICATION.md)
+- [Foundation Design track map](foundation-design/README.md)
 
 ## Artifact Rule
 
 Active `GRILLING.md` ledgers and accepted `DECISIONS.md` files remain the sources
-for their recorded decisions. Existing artifacts stay at their current paths
-until an explicit classification review decides whether any material should be
-retained, promoted, moved, reopened, or dropped. This router does not perform
-that classification and is not implementation authorization.
+for their recorded decisions. Existing artifacts stay at their current paths.
+The approved [classification](CLASSIFICATION.md) determines whether their
+material is retained, promoted, moved, reopened, or dropped; this router does
+not track that work and is not implementation authorization.

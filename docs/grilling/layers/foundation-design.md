@@ -43,3 +43,7 @@ documentation.
 If architecture work exposes missing or contradictory product truth, stop and
 route one focused question back to the Product and Domain Truth layer. Do not
 resolve it through a convenient schema or provider assumption.
+
+Use the dependency-ordered
+[`Foundation Design track map`](../foundation-design/README.md) after its
+upstream Product and Domain Truth gaps are resolved.

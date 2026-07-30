@@ -38,9 +38,12 @@ During the rebaseline, use this order:
 2. Root [`AGENTS.md`](../AGENTS.md) and the selected active work-item `NEXT.md`
    for workflow and continuation.
 3. Accepted `DECISIONS.md` files under `grilling/`.
-4. New canonical product, domain, UX, technical, and design documents after
+4. Accepted [`grilling/CLASSIFICATION.md`](grilling/CLASSIFICATION.md) for
+   routing existing outcomes and locked inputs across the three layers without
+   changing accepted decision meaning.
+5. New canonical product, domain, UX, technical, and design documents after
    accepted decisions are promoted.
-5. Explicit task contracts for bounded implementation.
+6. Explicit task contracts for bounded implementation.
 
 An active `GRILLING.md` preserves in-progress decisions and the next question;
 it does not authorize implementation. `working/` contains temporary state and
@@ -77,7 +80,7 @@ task contract. Before committing or publishing any authorized change, follow
 | Document area | Status |
 | --- | --- |
 | Project-level grilling | Accepted and distilled into DECISIONS.md |
-| Decision grilling | Existing accepted and pending material is preserved; use the active work-item handoff for its classification and continuation under the three-layer model |
+| Decision grilling | Layer classification accepted; two focused Product and Domain Truth gaps precede the dependency-ordered Foundation Design tracks |
 | New canonical PRD | Not yet created |
 | New domain and roadmap documents | Working drafts only |
 | New UX specification | Not yet created |

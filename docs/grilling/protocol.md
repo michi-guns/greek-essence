@@ -43,15 +43,22 @@ docs/grilling/
   GLOSSARY.md              # only when project terms need clarification
 ```
 
-For each confirmed feature:
+For each confirmed Product and Domain feature or Foundation Design topic:
 
 ```text
 docs/grilling/<feature-slug>/
-  GRILLING.md              # active design ledger
-  GLOSSARY.md              # optional, feature terms only
+  GRILLING.md              # existing feature workspaces remain valid
+
+docs/grilling/<layer-slug>/<topic-slug>/
+  GRILLING.md              # new layer-owned topic ledger
+  GLOSSARY.md              # optional, topic terms only
   contracts/               # optional, normative contracts
   examples/                # optional, illustrative examples
 ```
+
+Use a layer-owned topic workspace when a new grill follows the three-layer
+classification. Existing accepted and paused feature workspaces remain at their
+current paths unless a separately approved change moves them.
 
 After a grill is accepted, `DECISIONS.md` replaces `GRILLING.md` at the same
 level. Do not keep both as competing sources of truth. Because replacement
