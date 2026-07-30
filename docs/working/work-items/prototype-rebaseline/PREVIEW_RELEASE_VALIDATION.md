@@ -63,7 +63,7 @@ approve code organization, ORM mechanics, or framework conventions.
 7. **Privacy and legal operation** — confirm controller identity, privacy and
    consent language, retention/deletion expectations, contact channels, cookie
    behavior, and required launch policies.
-8. **Vendor and account ownership** — approve Sanity, Supabase, Vercel, email,
+8. **Vendor and account ownership** — approve Sanity, Neon, Vercel, email,
    monitoring, domain, and other recurring provider accounts or costs owned by
    the client.
 
@@ -73,8 +73,8 @@ Subject to the validated product outcomes above, the development process can
 decide and document:
 
 - Next.js folder and feature boundaries;
-- Drizzle schema and migration mechanics;
-- Supabase connection, RLS, and service-role boundaries;
+- Drizzle schema, migration, transaction, and validation mechanics;
+- Neon connection, role, branch/database, and server-only access boundaries;
 - Sanity query modules and preview implementation;
 - validation, idempotency, rate limiting, and abuse-control mechanisms;
 - caching, revalidation, observability, CI, and deployment mechanics;

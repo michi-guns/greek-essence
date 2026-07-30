@@ -28,8 +28,8 @@ architecture rebaseline, and promotion of settled documentation.
   and general contact. The agency follows up manually through its existing
   email and telephone process.
 - The selected platform direction is Sanity, Neon PostgreSQL, Drizzle, Vercel,
-  and Nodemailer through the agency mail service. Netlify remains an optional
-  later replacement for Vercel.
+  and Nodemailer through the agency mail service. Netlify is only the accepted
+  fallback direction if Vercel fails a mandatory commercial or technical gate.
 - The operator clarified that the Public Preview is commercially a
   market-validation experiment: target zero new recurring platform spend, use
   compliant free quotas until traffic proves demand, and require explicit client
@@ -221,15 +221,26 @@ architecture rebaseline, and promotion of settled documentation.
   approves public content, while a named operator or developer performs the
   technical preview and publication in Sanity. The technical publisher does not
   become responsible for approving business claims. Client approval ownership,
-  the technical publisher, and their handoff must be named before launch;
-  English and Greek accuracy ownership remains D-002.
-- Grilling is paused outside the per-question loop while the remaining decision
-  landscape is reclassified. The workspace now defines three dependency-ordered
-  layers: Product and Domain Truth, Foundation Design, and Launch Readiness.
-  `docs/grilling/README.md` is a thin router rather than a progress tracker, and
-  the protocol requires downstream findings to return to their owning layer.
-  Existing accepted and pending artifacts remain at their current paths and
-  retain their current authority until an explicit classification review.
+  the technical publisher, and their handoff are Launch Readiness items rather
+  than another foundation decision.
+- The operator accepted the three-layer classification and dependency sequence.
+  `docs/grilling/CLASSIFICATION.md` now carries accepted product/domain truth,
+  locked foundation inputs, Launch Readiness items, deferrals, and promotion
+  rules without reopening accepted decisions. The former mixed Content
+  Operations and Production Operations ledgers are paused and preserved at their
+  existing paths rather than deleted.
+- Foundation Design has five accepted tracks in dependency order: System
+  Boundaries and Domain Representation, Editorial Content Platform,
+  Transactional Data Platform, Application Architecture, and Runtime and
+  Production Foundations. Before technology-dependent questions, explain the
+  relevant components and a concrete project workflow without assuming CMS,
+  Sanity, or Neon experience.
+- Locked stack inputs now include Next.js, Sanity, Neon PostgreSQL, the latest
+  Drizzle release candidate available when implementation begins, Drizzle's
+  first-party Zod integration with the latest Zod v4, Nodemailer through the
+  agency mail service, and the current Vercel direction with conditional Netlify
+  fallback. Exact versions are pinned and verified during later authorized
+  implementation rather than reopened in grilling.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -281,16 +292,14 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Classify the existing accepted decisions, pending Content Operations and
-Production Operations questions, and working decision register into Product and
-Domain Truth, Foundation Design, Launch Readiness, reopen, or drop candidates.
-Present the classification and a proposed foundation-grilling sequence for
-operator discussion before changing any existing ledger or accepted decision.
+Continue Product and Domain Truth by asking Content Publication Truth D-001
+exactly as stored in
+`docs/grilling/product-domain-truth/content-publication/GRILLING.md`. Do not
+resume either paused mixed-layer ledger.
 
-Completion condition: the operator accepts or corrects the classification and
-sequence, after which the approved artifact changes are made through the
-repository workflow. Do not resume Content Operations D-002 merely because it
-remains stored in its unchanged ledger.
+Completion condition: persist D-001 and its next stored question through the
+repository workflow. After both content-publication gaps are accepted, begin the
+System Boundaries and Domain Representation Foundation Design track.
 
 ## Done When
 
@@ -311,9 +320,10 @@ state has been reconciled or removed.
 - Do not install or configure Sanity, Neon, Drizzle, Nodemailer, or another
   backend dependency until a later explicit implementation task authorizes it.
 - Obtain user approval before changing active paths.
-- A commercially eligible zero-cost launch host must be validated in Production
-  Operations. Any later paid Vercel or other upgrade requires visitor-demand
-  evidence and explicit client approval.
+- Vercel's commercially eligible zero-cost launch use must be proven in Launch
+  Readiness. Failure of that mandatory gate routes an explicit Foundation Design
+  topology review using the accepted Netlify fallback direction. Any paid host
+  upgrade requires visitor-demand evidence and explicit client approval.
 - The operator's personal Gmail may receive only synthetic controlled test
   enquiries; it must not receive real public visitor data.
 

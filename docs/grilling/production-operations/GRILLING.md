@@ -2,8 +2,11 @@
 
 ## Status
 
-Queued as feature 8 of 8. Begin after the preceding feature grills establish
-their operational needs, unless a platform risk must be validated earlier.
+Paused and preserved as a mixed-layer classification source. Do not begin from
+the stored D-001 question. Its approved disposition is recorded in
+[`../CLASSIFICATION.md`](../CLASSIFICATION.md): durable mechanisms move to
+Foundation Design, named owners and executable evidence move to Launch
+Readiness, and locked provider/cost directions are not reopened by default.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).
@@ -14,8 +17,9 @@ and [../protocol.md](../protocol.md).
 - Commercially, launch is a market-validation experiment targeting zero new
   recurring platform spend. Use compliant free quotas until traffic provides
   evidence for an explicitly client-approved paid upgrade.
-- The current direction is Vercel with optional later Netlify hosting, Sanity,
-  Neon, and the agency mail service.
+- The current direction is Vercel, Sanity, Neon, and the agency mail service.
+  Netlify is only the accepted fallback direction if Vercel fails a mandatory
+  commercial or technical gate.
 - Production accounts and data must be client-controlled.
 - Monitoring, backup, restore, incidents, rollback, and recovery need named
   owners and executable launch evidence.

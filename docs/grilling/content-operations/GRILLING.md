@@ -2,8 +2,12 @@
 
 ## Status
 
-Active as feature 7 of 8 after the visitor and request feature grills were
-accepted and established their content needs.
+Paused and preserved as a mixed-layer classification source. Do not continue
+from the stored D-002 question. Its approved disposition is recorded in
+[`../CLASSIFICATION.md`](../CLASSIFICATION.md); the two remaining upstream gaps
+continue under Product and Domain Truth, while technical mechanisms move to the
+Editorial Content Platform foundation and named people/evidence move to Launch
+Readiness.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).

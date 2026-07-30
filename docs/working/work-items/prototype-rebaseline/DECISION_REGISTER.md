@@ -1,5 +1,9 @@
 # Expanded Product Decision Register
 
+The approved layered disposition is recorded in
+[`../../../grilling/CLASSIFICATION.md`](../../../grilling/CLASSIFICATION.md).
+This working register must not reopen accepted stack or product decisions.
+
 ## Status Model
 
 - **Open:** evidence or requirements are incomplete.
@@ -12,22 +16,22 @@
 
 | ID | Decision | Status | Current evidence | Remaining design or validation |
 | --- | --- | --- | --- | --- |
-| ADR-001 | Product capability and feature boundaries | Approved | Project decisions define eight business and operational feature grills; prior `discovery` proposal is withdrawn | Complete the feature grills, then decide code-module boundaries from accepted behavior |
-| ADR-002 | CMS product and editorial model | Approved | Sanity is selected as public-content owner | Confirm roles, workflow, localization, preview authorization, media, revisions, environments, recovery, and cost through Content Operations |
-| ADR-003 | Managed transactional database boundary | Approved | Neon PostgreSQL supersedes the reported Supabase direction | Validate EU region and DPA, account access, serverless connections, backup/export, restore, monitoring, and upgrade limits |
-| ADR-004 | Drizzle responsibility boundary | Approved | Drizzle is selected for Neon schema access and reproducible migrations | Decide schema/migration ownership, server query boundary, pooling, transactions, generated types, and restore interaction |
-| ADR-005 | Data model and ownership | Candidate | Customer, Consultation, Payment, Meeting, Questionnaire, Booking Request, Contact Message, and optional Newsletter Subscriber are reported | Resolve state/cardinality conflicts, sensitivity, retention, deletion, audit, import, and ownership |
-| ADR-006 | Authentication and authorization | Open | Phase 1 customers are unauthenticated; future customer auth is anticipated | Define Sanity editors, agency operators, future customers, invitations, sessions, and authorization rules |
-| ADR-007 | Rendering, caching, and content freshness | Open | Sanity publishing and draft preview replace local build-only content | Decide publishing latency, preview, dynamic data, caching, invalidation, and SEO behavior |
-| ADR-008 | Runtime and deployment topology | Approved | Vercel is the current host; Netlify remains an optional later replacement; Sanity and Neon are selected | Confirm commercial Vercel plan or validated Netlify move, regions, connections, migrations, secrets, monitoring, recovery, and rollback ownership |
-| ADR-009 | Migration and archive boundary | Open | Prototype is archived; local JSON and prototype structure are superseded candidates | Decide which content/assets are recreated, migrated, or discarded after new models are approved |
-| ADR-010 | Security, privacy, and recovery requirements | Open | Real public traffic, PII submissions, and persistent production data are confirmed | Classify data and workflows; define RLS, service roles, idempotency, abuse controls, privacy, retention, backups, restores, audit, and incidents |
-| ADR-011 | Consultation lifecycle by release | Open | Phase 1 is unpaid/manual; domain state machine begins at `Pending Payment` | Define Phase 1 states and later migration into paid consultation workflow |
-| ADR-012 | Booking Request versus Booking lifecycle | Open | Request must not be a confirmed Booking, but candidate request state is `Confirmed` | Rename/define request terminal states and introduce the separate Booking aggregate for Full MVP |
-| ADR-013 | Sanity-to-transaction reference policy | Open | Booking Request references a Sanity Experience without duplicating content | Define immutable IDs, snapshots, unpublish/delete behavior, and historical display needs |
-| ADR-014 | Search ownership and filter scope | Candidate | Sanity drives search; Phase 1 and full filter lists differ | Confirm Phase 1 indexed types, filters, price ownership, query approach, and scale |
-| ADR-015 | Feature source root and public APIs | Open | Provided Layer 2 brief conflicts with earlier repo working guidance | Choose root versus `src/` feature placement and safe server/client public entry points |
-| ADR-016 | Notification delivery and recovery | Approved | Nodemailer through the agency mail service is selected for agency notifications and visitor acknowledgements | Validate SMTP compatibility and sender authorization; define templates, retry/idempotency, diagnostics, privacy, and manual recovery |
+| ADR-001 | Product capability and feature boundaries | Approved | Accepted project and feature decisions define launch scope and business capabilities | Foundation Design decides code/module boundaries without reopening product scope |
+| ADR-002 | CMS product and editorial model | Approved | Sanity is the locked editable public/catalogue content owner | Foundation Design owns schemas, localization, preview, revisions, and recovery; Launch Readiness owns named reviewers, approvals, and evidence |
+| ADR-003 | Managed transactional database boundary | Approved | Neon PostgreSQL is the locked private request/customer data owner and supersedes Supabase | Foundation Design owns connections and recovery design; Launch Readiness owns region, DPA, account, quota, and restore evidence |
+| ADR-004 | Drizzle and validation responsibility | Approved | Use the latest Drizzle RC at implementation with its first-party Zod integration and latest Zod v4 | Decide schema/migration ownership, connections, transactions, server access, generated database-facing validation/types, and handwritten business validation |
+| ADR-005 | Data model and ownership | Superseded | The reported Customer/Payment/Meeting/Questionnaire/Booking/Newsletter candidate conflicts with accepted launch scope | Replace it through System Boundaries and Transactional Data foundations using the accepted contact relationship, immutable requests, corrections, delivery states, audit, snapshots, and retention |
+| ADR-006 | Authentication and authorization | Open | Public customer authentication is deferred; Sanity and technical access still require boundaries | Foundation Design owns authorization mechanisms; Launch Readiness owns named access holders and evidence |
+| ADR-007 | Rendering, caching, and content freshness | Open | Sanity publishing and draft preview replace local build-only content | Decide rendering, preview, caching, revalidation, localized search, freshness, and SEO behavior after content schemas |
+| ADR-008 | Runtime and deployment topology | Approved | Vercel is the current host direction; Netlify is a conditional fallback; Sanity, Neon, and agency SMTP are locked | Foundation Design owns topology, environments, migrations, secrets, rollback, and recovery; Launch Readiness validates commercial eligibility, quotas, accounts, and evidence |
+| ADR-009 | Migration and archive boundary | Open | Prototype content and structure are not replacement authority | Decide recreate/import/discard only after owning schemas and topology are accepted |
+| ADR-010 | Security, privacy, and recovery requirements | Open | Accepted request contracts define access, retention, deletion, audit, and backup invariants | Foundation Design owns mechanisms; Launch Readiness owns legal approval, named owners, drills, and evidence; do not inherit Supabase RLS assumptions |
+| ADR-011 | Consultation lifecycle by release | Deferred | Launch has an immutable Consultation Request with manual email follow-up and no payment state machine | Revisit only with separately approved paid-consultation scope |
+| ADR-012 | Booking Request versus Booking lifecycle | Approved | Booking Request is non-confirming; the website owns acceptance and communications, not staff lifecycle states | Confirmed Booking remains deferred and no `Confirmed` Booking Request state enters launch schemas |
+| ADR-013 | Sanity-to-transaction reference policy | Open | Accepted requests require stable Sanity identity plus a bounded immutable Experience snapshot; Experience withdrawal behavior is locked | Define the technical contract for submit-time revalidation, snapshot representation, and stale references while enforcing accepted Experience behavior; unresolved non-Experience behavior returns to Product and Domain Truth |
+| ADR-014 | Search ownership and filter scope | Open | Product scope is accepted; Sanity owns editable searchable content | Decide query, indexing, caching, and conditional Interest implementation without reopening accepted filters |
+| ADR-015 | Feature source root and public APIs | Open | Withdrawn root and `src/` proposals conflict and neither is authority | Decide placement, dependency direction, and safe server/browser entry points in Application Architecture |
+| ADR-016 | Notification delivery and recovery | Approved | Nodemailer through the agency mail service is locked; accepted contracts define delivery states and retry meaning | Foundation Design represents and enforces accepted states, idempotency, and retry semantics while deciding scheduling, persistence, and minimization mechanisms; Launch Readiness validates SMTP, sender, limits, owner, timing, and recovery drill |
 
 ## Superseded Direction
 

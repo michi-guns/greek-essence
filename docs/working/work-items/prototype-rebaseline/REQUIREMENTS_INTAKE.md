@@ -57,10 +57,11 @@ Capture the client material across these areas before architecture selection:
   localization, media, SEO, and revision history;
 - persistent domain entities, relationships, ownership, lifecycle, import, and
   retention;
-- Supabase responsibilities: Postgres, Auth, Storage, Realtime, Edge Functions,
-  row-level security, backups, and environments;
+- managed PostgreSQL responsibilities: Neon projects, branches, databases,
+  roles, connections, provider recovery, exports, and environments;
 - Drizzle responsibilities: schema ownership, migrations, query boundary,
-  transactions, generated types, and interaction with Supabase clients/RLS;
+  transactions, generated database-facing validation/types, handwritten Zod v4
+  business validation, and interaction with Neon connections;
 - forms, lead/customer workflows, notifications, assignment, auditability, and
   failure recovery;
 - external integrations, webhooks, email, scheduling, analytics, search, and
@@ -78,10 +79,13 @@ Capture the client material across these areas before architecture selection:
   visitor traffic and enquiries.
 - The earlier static-first, local-JSON-only architecture is no longer an
   adequate basis for the expanded product.
-- CMS, persistent data, ORM, and backend boundaries must be evaluated before
-  final feature or module boundaries are approved.
-- Supabase and Drizzle are named directions, but their exact responsibilities
-  and integration model remain to be clarified.
+- Sanity, Neon PostgreSQL, Drizzle, and the application/backend boundaries are
+  locked directions whose exact responsibilities and integration model must be
+  resolved through Foundation Design before feature/module boundaries are
+  promoted.
+- Use the latest Drizzle release candidate available when implementation begins
+  with its first-party Zod integration and the latest Zod v4; pin exact resolved
+  versions during implementation.
 
 ## Ingested Batches
 

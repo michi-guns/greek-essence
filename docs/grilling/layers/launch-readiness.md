@@ -38,6 +38,7 @@ handoff, and explicit blockers. These outputs may authorize launch only through
 a later bounded release decision; they do not authorize implementation by
 appearing in this layer.
 
-The existing working [Public Preview Release Validation](../../working/work-items/prototype-rebaseline/PREVIEW_RELEASE_VALIDATION.md)
-is evidence for the later classification review, not automatically the complete
-or canonical launch-readiness register.
+The existing working
+[Public Preview Release Validation](../../working/work-items/prototype-rebaseline/PREVIEW_RELEASE_VALIDATION.md)
+is classified Launch Readiness input, not automatically the complete or
+canonical launch-readiness register.

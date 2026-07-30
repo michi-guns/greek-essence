@@ -36,5 +36,5 @@ settled capabilities, concepts, relationships, lifecycles, data sensitivity,
 and business invariants as architectural inputs.
 
 Existing project and feature decision files under `docs/grilling/` retain their
-current authority. Their later classification requires an explicit review; this
-layer definition does not reclassify them automatically.
+current authority. Their approved treatment and the two remaining upstream gaps
+are recorded in [`../CLASSIFICATION.md`](../CLASSIFICATION.md).
