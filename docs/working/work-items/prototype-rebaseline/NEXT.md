@@ -230,6 +230,13 @@ architecture rebaseline, and promotion of settled documentation.
   and makes no availability implication. Destination and Experience publication
   lifecycles are independent, while every published Experience still requires a
   valid published Destination relationship.
+- Content Publication Truth D-002 establishes relationship-aware withdrawal.
+  Withdrawn optional content leaves discovery and its former URL provides a
+  generic bilingual recovery path without stale content. Each affected published
+  Experience must retain another genuinely valid and approved published
+  Destination relationship or also be withdrawn. Required service, request,
+  privacy, or legal pages must be replaced or redirected, or their dependent
+  journey must be disabled honestly.
 - The operator accepted the three-layer classification and dependency sequence.
   `docs/grilling/CLASSIFICATION.md` now carries accepted product/domain truth,
   locked foundation inputs, Launch Readiness items, deferrals, and promotion
@@ -257,21 +264,21 @@ architecture rebaseline, and promotion of settled documentation.
   ms while retaining the Unlighthouse score budgets. Final measured LCP was
   2646.837 ms for `/en` and 2621.026 ms for `/el`.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
-  --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
+--check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
 - Post-deletion verification on 2026-07-29: `pnpm format:check` and `git diff
-  --check` both exited `0`; the raw project ledger is absent. Its two remaining
+--check` both exited `0`; the raw project ledger is absent. Its two remaining
   path mentions are intentional: the reusable protocol names the standard
   project-ledger location, and this handoff records its approved removal.
 - Prototype-media verification on 2026-07-29: `pnpm check` exited `0` with 40
   unit tests passing; `pnpm build` exited `0`; the final `pnpm test:e2e` rerun
   exited `0` with 53 passing and 4 intentionally skipped tests; and `pnpm
-  quality:unlighthouse` exited `0`. Playwright CLI inspection found all
+quality:unlighthouse` exited `0`. Playwright CLI inspection found all
   referenced images decoded, image requests returned `200`, localized alt text
   was present, and representative 320, 390, 834, and 1440 layouts had no
   horizontal overflow.
 - Public Brand Pages acceptance verification on 2026-07-29: `pnpm
-  format:check` and `git diff --check` exited `0` before the approved raw-ledger
+format:check` and `git diff --check` exited `0` before the approved raw-ledger
   removal. After removal and routing updates, `pnpm check:push` exited `0`: the
   secrets scan found no leaks; the configured audit gate passed while reporting
   three known dependency findings; formatting, lint, Knip, typecheck, and
@@ -286,7 +293,7 @@ architecture rebaseline, and promotion of settled documentation.
   intentionally skipped tests. `git diff --check` also exited `0` after the
   accepted distillation and approved raw-ledger removal.
 - Consultation Request acceptance verification on 2026-07-29: the first `pnpm
-  check:push` run reached Playwright after all preceding gates passed, then
+check:push` run reached Playwright after all preceding gates passed, then
   exited `1` when one compact-browser navigation case timed out with 52 passing
   and 4 intentionally skipped tests. The exact failed case immediately passed
   alone, and the complete `pnpm test:e2e` rerun exited `0` with 53 passing and 4
@@ -299,15 +306,18 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Product and Domain Truth by asking Content Publication Truth D-002
-exactly as stored in
+Present Content Publication Truth D-001 and D-002 for the combined acceptance
+required by `docs/grilling/protocol.md`. Name draft pull request #42 and the exact
+raw-ledger path
 `docs/grilling/product-domain-truth/content-publication/GRILLING.md`. Do not
-resume either paused mixed-layer ledger.
+resume either paused mixed-layer ledger or begin Foundation Design before
+acceptance.
 
-Completion condition: persist D-002, verify the complete two-decision set, and
-obtain the combined acceptance required by the grilling protocol. After both
-content-publication gaps are accepted, begin the System Boundaries and Domain
-Representation Foundation Design track.
+Completion condition: obtain combined acceptance or a material correction. If
+accepted with automatic finalization, distill and semantically verify the
+decision set, preserve the final accepted raw ledger in the PR record, remove
+the exact authorized raw-ledger path, complete draft PR #42, and return to clean
+synchronized `main`. Foundation Design remains separate successor work.
 
 ## Done When
 

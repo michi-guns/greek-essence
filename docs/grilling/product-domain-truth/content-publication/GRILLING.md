@@ -60,56 +60,44 @@ useful destination-first content dependent on a separate content lifecycle.
 Allowing title-and-summary-only Destinations was rejected because those thin
 pages would not fulfil the accepted discovery promise.
 
+### D-002 — Relationship-aware withdrawal preserves truthful public journeys
+
+When Greek Essence withdraws optional public content, it disappears from
+navigation, listings, filters, and search. Its former URL shows a generic
+bilingual recovery message with appropriate paths back to discovery or
+consultation, without retaining stale claims, prices, or media.
+
+Before withdrawing a Destination, every affected published Experience must
+retain another genuinely valid and approved published Destination relationship
+or also be withdrawn through the accepted Experience-withdrawal process. An
+Experience must not be assigned an unrelated Destination merely to keep it
+public.
+
+Required service, request, privacy, or legal pages cannot disappear while their
+dependent public journey remains active. The page must be replaced or
+redirected, or the dependent journey must be disabled honestly.
+
+This defines the visitor-visible behavior and relationship invariants that
+Foundation Design must later enforce. It does not choose Sanity schemas,
+validation, permissions, revalidation, redirects, or rendering mechanics.
+
+Ordinary removal was rejected because it would provide poor recovery for old
+links and leave relationship and required-journey consistency dependent on
+manual memory. A public archive was rejected because it could continue exposing
+outdated claims, expired media rights, or misleading service information.
+
 ## Open Questions
 
-- D-002: What happens when a Destination or other non-Experience public content
-  is withdrawn?
+None. D-001 and D-002 form the complete Content Publication Truth decision set
+and await combined acceptance.
 
-## Next Question
+## Acceptance Review
 
-ID: D-002
+The operator must now review D-001 and D-002 together for internal consistency.
+The acceptance question must name draft pull request #42 and the exact raw-ledger
+path:
 
-Layer:
-Product and Domain Truth.
+`docs/grilling/product-domain-truth/content-publication/GRILLING.md`
 
-Topic:
-Withdrawal behavior for Destinations and other non-Experience public content.
-
-Prompt:
-What should visitors see, and what should happen to related public content,
-when Greek Essence withdraws a Destination or another non-Experience page?
-
-Options:
-
-1. (recommended): **Use relationship-aware withdrawal with a generic recovery
-   path.** Withdrawn optional content disappears from navigation, listings, and
-   search, and its former URL shows a generic localized message with relevant
-   routes back to discovery or consultation instead of stale claims. Before a
-   Destination is withdrawn, each affected published Experience must retain
-   another valid published Destination relationship or be withdrawn through the
-   already accepted Experience process. A required service, request, privacy, or
-   legal page must be replaced, redirected, or have its dependent journey
-   honestly disabled; it cannot simply disappear while that journey remains
-   public.
-2. **Treat every withdrawal as ordinary removal.** Remove the content from
-   discovery and let its former URL use the normal not-found page, without
-   relationship-specific recovery. This is simple, but bookmarked visitors lose
-   useful guidance and linked Experiences or required journeys can become
-   inconsistent unless handled separately.
-3. **Keep withdrawn content publicly visible as an archive.** Remove it from
-   normal discovery but retain the former page with an archived or unavailable
-   label. This preserves context, but risks continuing to expose stale claims,
-   media, contact details, or service information after approval has been
-   withdrawn.
-
-Why this matters:
-The answer determines whether withdrawal can leave broken catalogue
-relationships, dead-end visitor journeys, or stale public claims, and which
-lifecycle and reference rules Foundation Design must preserve.
-
-After answer:
-
-- Lock the visitor-visible withdrawal rule and the treatment of related public
-  content.
-- Check D-001 and D-002 for internal consistency, then present the complete
-  two-decision set for combined acceptance under the grilling protocol.
+Acceptance does not authorize application implementation, dependency
+installation, schema migration, or deployment.
