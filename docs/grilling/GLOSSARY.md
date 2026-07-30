@@ -7,7 +7,9 @@ Feature-specific terms belong in that feature's workspace when needed.
 
 **Public Preview Release**: The first publicly accessible Greek Essence release,
 expected to receive real visitors and real enquiries. It is production-facing
-despite the word “preview.”
+despite the word “preview.” Commercially, it is a zero-cost market-validation
+experiment: use compliant free quotas until real demand provides evidence for a
+separately approved paid upgrade.
 _Avoid_: Private prototype, internal demo
 
 **Booking Request**: A visitor's expression of interest in an eligible

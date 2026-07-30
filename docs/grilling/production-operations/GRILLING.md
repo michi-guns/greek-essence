@@ -11,6 +11,9 @@ and [../protocol.md](../protocol.md).
 ## Locked Project Context
 
 - The preview is public, commercial, and accepts real enquiries.
+- Commercially, launch is a market-validation experiment targeting zero new
+  recurring platform spend. Use compliant free quotas until traffic provides
+  evidence for an explicitly client-approved paid upgrade.
 - The current direction is Vercel with optional later Netlify hosting, Sanity,
   Neon, and the agency mail service.
 - Production accounts and data must be client-controlled.
@@ -35,7 +38,8 @@ None yet. Feature decision IDs begin at D-001.
 - D-004: How are Neon backup and restore proven?
 - D-005: What monitoring and notification failures require action?
 - D-006: Who may deploy, migrate, rotate secrets, and roll back?
-- D-007: Which free limits or paid costs require client approval?
+- D-007: How are free quotas monitored, and what evidence triggers a separately
+  approved paid upgrade?
 
 ## Next Question
 
