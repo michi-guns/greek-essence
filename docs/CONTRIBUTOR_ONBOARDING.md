@@ -183,10 +183,10 @@ cp .env.example .env.local
 
 Available variables:
 
-| Variable | Local value | Purpose |
-|---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | Base URL used for canonical metadata. Set the deployed HTTPS origin in production. |
-| `NEXT_PUBLIC_DEFAULT_LOCALE` | `en` | Documents the default locale; explicit English and Greek routes remain authoritative. |
+| Variable                     | Local value             | Purpose                                                                               |
+| ---------------------------- | ----------------------- | ------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`       | `http://localhost:3000` | Base URL used for canonical metadata. Set the deployed HTTPS origin in production.    |
+| `NEXT_PUBLIC_DEFAULT_LOCALE` | `en`                    | Documents the default locale; explicit English and Greek routes remain authoritative. |
 
 All `.env*` files except `.env.example` are ignored by Git. Never commit credentials, client information, or production secrets.
 
@@ -210,22 +210,29 @@ Open [http://localhost:3000/en](http://localhost:3000/en) for English or [http:/
 
 ## 8. Understand the development checks
 
-| Command | Purpose |
-|---|---|
-| `pnpm run doctor` | Diagnose workstation and repository setup. (`pnpm doctor` without `run` invokes pnpm's own diagnostic instead.) |
-| `pnpm check` | Run formatting, linting, unused-code analysis, type checking, content validation, and unit tests. This is the lightweight GitHub Actions gate. |
-| `pnpm check:push` | Run secret scanning, dependency auditing, static checks, coverage, the production build, and Playwright tests. Husky runs this before every push. |
-| `pnpm check:all` | Run the push gate plus the built-site Unlighthouse quality check. |
-| `pnpm test:unit:watch` | Run Vitest interactively while developing. |
-| `pnpm test:a11y` | Run the focused automated accessibility suite. |
-| `pnpm format` | Apply Prettier formatting. |
-| `pnpm lint:fix` | Apply safe ESLint fixes. |
+| Command                | Purpose                                                                                                                                                              |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm run doctor`      | Diagnose workstation and repository setup. (`pnpm doctor` without `run` invokes pnpm's own diagnostic instead.)                                                      |
+| `pnpm check`           | Run formatting, linting, unused-code analysis, type checking, content validation, and unit tests. GitHub Actions runs it for changes that are not Markdown-only.     |
+| `pnpm check:push`      | Run secret scanning, dependency auditing, static checks, coverage, the production build, and Playwright tests. Husky runs it for changes that are not Markdown-only. |
+| `pnpm check:all`       | Run the push gate plus the built-site Unlighthouse quality check.                                                                                                    |
+| `pnpm test:unit:watch` | Run Vitest interactively while developing.                                                                                                                           |
+| `pnpm test:a11y`       | Run the focused automated accessibility suite.                                                                                                                       |
+| `pnpm format`          | Apply Prettier formatting.                                                                                                                                           |
+| `pnpm lint:fix`        | Apply safe ESLint fixes.                                                                                                                                             |
 
 The local Git hooks provide three layers of feedback:
 
-- `pre-commit` runs lint-staged against staged files.
+- `pre-commit` runs lint-staged against staged files and formats staged
+  Markdown even under the normally ignored `docs/` tree.
 - `commit-msg` enforces Conventional Commit messages through commitlint.
-- `pre-push` runs `pnpm check:push`, including the heavier local quality gates.
+- `pre-push` classifies every pushed ref. A non-empty range containing only
+  `.md` or `.mdx` files runs Gitleaks and scoped Prettier. Mixed, empty,
+  malformed, or unresolved ranges run `pnpm check:push`.
+
+GitHub Actions applies the same fail-closed distinction while preserving the
+required `Lightweight quality gates` status. Markdown-only pull requests run
+Gitleaks and scoped Prettier; all other changes run Gitleaks and `pnpm check`.
 
 Hooks can technically be bypassed, but a bypass should be exceptional and agreed by the team. Never bypass a secret-scanning or security failure.
 

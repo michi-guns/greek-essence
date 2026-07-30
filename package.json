@@ -82,6 +82,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,css,scss,md,mdx,yaml,yml}": "prettier --write"
+    "*.{json,css,scss,yaml,yml}": "prettier --write",
+    "*.{md,mdx}": "prettier --write --ignore-path .gitignore"
   }
 }

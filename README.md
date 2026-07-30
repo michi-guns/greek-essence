@@ -53,12 +53,13 @@ gitleaks version
 On macOS, use `brew install gitleaks`. On Linux, install the appropriate binary
 from the [official Gitleaks releases](https://github.com/gitleaks/gitleaks/releases).
 
-Run `pnpm secrets:scan` to scan committed Git history manually. Husky also runs
-the redacted scan as the first part of `pnpm check:push`, so a detected secret
-blocks the push without printing its value. Treat a real finding as compromised:
-revoke or rotate it, remove it from the proposed commits, and rerun the scan.
-Only suppress a verified false positive after review; do not ignore a real or
-unexplained finding.
+Run `pnpm secrets:scan` to scan committed Git history manually. Husky runs the
+redacted scan for every push: directly for Markdown-only changes and through
+`pnpm check:push` for all other changes. GitHub Actions also scans proposed
+changes. A detected secret blocks delivery without printing its value. Treat a
+real finding as compromised: revoke or rotate it, remove it from the proposed
+commits, and rerun the scan. Only suppress a verified false positive after
+review; do not ignore a real or unexplained finding.
 
 ### Dependency auditing
 
