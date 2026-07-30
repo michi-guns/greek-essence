@@ -46,9 +46,11 @@ docs/grilling/<feature-slug>/
 
 After a grill is accepted, `DECISIONS.md` replaces `GRILLING.md` at the same
 level. Do not keep both as competing sources of truth. Because replacement
-removes a file, obtain the repository-required explicit path-level approval
-before deleting the applicable `GRILLING.md`. Git history preserves the raw
-ledger.
+removes a file, the acceptance review must name the exact `GRILLING.md` path.
+The operator may approve acceptance, that path's later removal, and automated
+GitHub delivery in one combined answer. If they do not choose that combined
+option, obtain separate path-level approval before deletion. Git history must
+preserve the final accepted raw ledger.
 
 Use kebab-case feature directory names based on accepted business capabilities.
 Do not create feature directories from speculative architecture or technical
@@ -176,17 +178,47 @@ A grill is ready for acceptance when:
 - necessary glossary terms and contracts are present; and
 - remaining unknowns have named owners or validation actions.
 
-After operator acceptance:
+At acceptance, present one numbered approval question that names the exact raw
+ledger path and offers at least these materially distinct outcomes:
 
-1. Write a self-contained `DECISIONS.md` containing only durable context,
+1. **Accept and finalize automatically** — accept the decisions; authorize the
+   named `GRILLING.md` path's removal after verified distillation; and authorize
+   commits, pushes, pull requests, required-check monitoring, squash merge, and
+   merged-branch deletion without another routine approval request.
+2. **Accept but retain the raw ledger** — record acceptance, but do not delete
+   the ledger or automate final distillation delivery.
+3. **Correct a material decision first** — keep the grill active and name the
+   correction.
+
+After combined acceptance-and-finalization authorization:
+
+1. Persist the operator's acceptance and exact-path authorization in the raw
+   ledger.
+2. If squash merge and branch deletion would otherwise discard that final
+   accepted raw state, first merge it to `main` in its own pull request. The one
+   authorization covers this preservation PR and the later distillation PR.
+3. Write a self-contained `DECISIONS.md` containing only durable context,
    accepted decisions, explicit exclusions, dependencies, risks, and unresolved
    external validations.
-2. Verify it against the active `GRILLING.md` so no accepted decision is lost or
-   silently changed.
-3. Present the exact `GRILLING.md` path and obtain approval to remove it.
-4. Remove `GRILLING.md`, leaving `DECISIONS.md` as the sole accepted design
-   authority at that level.
-5. Update `README.md` and the active work-item continuation.
+4. Verify it structurally and semantically against the accepted raw ledger,
+   every normative contract, higher-level authority, and adjacent accepted
+   feature decisions. Do not delete the raw ledger while a material review
+   finding remains unresolved.
+5. Remove the approved `GRILLING.md` path, leaving `DECISIONS.md` as the sole
+   accepted design authority at that level. Update `README.md` and the active
+   work-item continuation.
+6. Commit and push the finalization branch, open its pull request, and use
+   `gh pr merge --auto --squash --delete-branch` when repository support permits.
+   If auto-merge is unavailable, wait for required checks and run
+   `gh pr merge --squash --delete-branch` without requesting another routine
+   approval. Confirm the merged result on updated local `main`.
+
+Combined authorization does not override failed checks, merge protection,
+unrelated concurrent edits, or a new material product conflict. If semantic
+review changes accepted product truth, stop, preserve the raw ledger, and ask
+one corrected decision; the earlier finalization authorization no longer covers
+the changed grill. It also never authorizes implementation, dependency
+installation, migration, or deployment.
 
 Implementation specifications and tasks are a later workflow. Do not turn
 `DECISIONS.md` into code-level implementation instructions unless a decision

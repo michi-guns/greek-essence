@@ -203,6 +203,11 @@ architecture rebaseline, and promotion of settled documentation.
   thirty days after creation. Restores are isolated and reapply expired and
   verified-deleted records before production use; quota pressure alerts the
   owner and triggers client review rather than an automatic paid upgrade.
+- On 2026-07-30, the operator accepted Request Processing and Communications
+  D-001 through D-009 and authorized verified distillation, removal of the exact
+  feature `GRILLING.md` path, automated pull-request delivery, squash merge, and
+  merged-branch deletion. Preserve the final accepted raw state on `main` before
+  the separately merged distillation/removal change.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -254,13 +259,14 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Ask the renewed Request Processing and Communications acceptance review exactly
-as stored in
-`docs/grilling/request-processing-and-communications/GRILLING.md`. Do not
-distill or remove the raw ledger until the complete feature grill is accepted
-again.
+After the accepted raw ledger is durable on `main`, create and semantically
+verify `docs/grilling/request-processing-and-communications/DECISIONS.md`, remove
+the operator-approved `GRILLING.md` path, update the grilling router and this
+handoff, then deliver through the authorized automated squash-merge workflow.
 
-Completion condition: persist renewed acceptance or the requested correction.
+Completion condition: the verified distillation is authoritative on `main`, the
+approved raw ledger is removed from the live tree but preserved in Git history,
+and the next feature grill is the sole stored continuation.
 
 ## Done When
 
