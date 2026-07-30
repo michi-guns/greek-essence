@@ -13,7 +13,7 @@
 | ID | Decision | Status | Current evidence | Remaining design or validation |
 | --- | --- | --- | --- | --- |
 | ADR-001 | Product capability and feature boundaries | Approved | Project decisions define eight business and operational feature grills; prior `discovery` proposal is withdrawn | Complete the feature grills, then decide code-module boundaries from accepted behavior |
-| ADR-002 | CMS product and editorial model | Approved | Sanity is selected as public-content owner | Confirm roles, workflow, localization, preview authorization, media, revisions, environments, recovery, and cost through Content Operations |
+| ADR-002 | CMS product and editorial model | Approved | Sanity is selected as public-content owner | Define localization, editorial entities and relationships, publication state, application integration, media/evidence records, revisions, recovery, and cost through Content Operations; keep named staffing as launch validation |
 | ADR-003 | Managed transactional database boundary | Approved | Neon PostgreSQL supersedes the reported Supabase direction | Validate EU region and DPA, account access, serverless connections, backup/export, restore, monitoring, and upgrade limits |
 | ADR-004 | Drizzle responsibility boundary | Approved | Drizzle is selected for Neon schema access and reproducible migrations | Decide schema/migration ownership, server query boundary, pooling, transactions, generated types, and restore interaction |
 | ADR-005 | Data model and ownership | Candidate | Customer, Consultation, Payment, Meeting, Questionnaire, Booking Request, Contact Message, and optional Newsletter Subscriber are reported | Resolve state/cardinality conflicts, sensitivity, retention, deletion, audit, import, and ownership |

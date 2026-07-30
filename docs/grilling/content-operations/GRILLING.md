@@ -18,9 +18,11 @@ and [../protocol.md](../protocol.md).
 
 ## Scope
 
-Define content roles, English/Greek workflow, draft review and publishing,
-preview access, required-content validation, media rights, environments,
-revisions, and content recovery.
+Define how Sanity is used: the editorial domain entities and relationships,
+English/Greek content model, draft and publication states, preview and
+application integration, required-content validation, media and claim evidence
+records, revisions, and recovery. Easily changed staffing assignments remain
+launch validations rather than architecture decisions.
 
 ## Locked Decisions
 
@@ -36,51 +38,56 @@ content.
 This deliberately avoids requiring the client to learn the publishing system,
 but every update depends on technical availability. Before launch, the client
 must name who can give publication approval, and the project must name who will
-perform publishing and how approved changes are handed over. English and Greek
-accuracy ownership remains D-002 rather than being implied by the technical
-publisher role.
+perform publishing and how approved changes are handed over. Those named people
+are launch validations, not additional architecture decisions.
 
 Direct client publishing and a mandatory separate editor-and-approver workflow
 were not selected for the preview release.
 
 ## Open Questions
 
-- D-002: Who owns English and Greek accuracy?
-- D-003: What must preview show before publishing?
-- D-004: Which required fields prevent incomplete public pages?
-- D-005: How are licensed media and public claims recorded?
-- D-006: How are mistakes, revisions, and deleted content recovered?
+- D-002: Which editorial entities and relationships does Sanity own?
+- D-003: How are English and Greek variants modeled in Sanity?
+- D-004: What draft, validation, and publication state model is required?
+- D-005: How do preview, rendering, caching, and invalidation integrate with
+  Next.js?
+- D-006: How are media rights and public-claim evidence modeled?
+- D-007: How are revisions, deletions, migration, and content recovery handled?
 
 ## Next Question
 
 ID: D-002
 
 Topic:
-English and Greek content accuracy ownership.
+The core Sanity domain model.
 
 Prompt:
-Who should be responsible for checking and approving the accuracy of the
-English and Greek content before the operator or developer publishes it?
+Which foundational content model should Sanity use for Greek Essence?
 
 Options:
 
-1. (recommended): **Name one responsible human reviewer for each language.**
-   The same bilingual person may own both only if the client confirms they can
-   reliably approve both. Each reviewer checks natural wording, factual
-   accuracy, service boundaries, and meaning parity before publication.
-2. **One client owner approves both languages.** This is the simplest handoff,
-   but it is safe only if that person can genuinely judge both English and
-   Greek; otherwise translation mistakes may be published as approved content.
-3. **Client approves the Greek facts and a named language professional reviews
-   English.** This gives English specialist review while keeping business facts
-   with the client, but adds an external participant and a recurring handoff.
+1. (recommended): **A typed domain model with constrained supporting content.**
+   Destination and Experience are first-class document types; an Experience
+   references one Destination and uses the accepted type values, with Interest
+   added only if its taxonomy is approved. Home, About, Contact, legal content,
+   site settings, and navigation use bounded singleton or supporting document
+   types. This preserves meaningful relationships and validation without
+   creating a general-purpose page builder.
+2. **A generic page-and-block model.** Most public content is assembled from one
+   flexible Page type and reusable blocks. This allows broad layout changes but
+   weakens domain constraints, makes catalogue queries harder, and introduces a
+   page-builder system before the preview needs one.
+3. **A separate document type for every page and catalogue variation.** Home,
+   About, each legal surface, Destinations, Tours, Activities, and Travel
+   packages all get distinct schemas. Validation is explicit, but shared fields
+   and behavior are duplicated and schema maintenance grows quickly.
 
 Why this matters:
-Separate storage does not ensure equivalent meaning. A mistranslated price,
-service promise, or booking-request boundary could mislead one audience even
-when the other language is correct.
+This decides the CMS entities, their relationships, the shape of queries and
+validation, and whether the application is built around stable travel-domain
+concepts or a generic page-building abstraction.
 
 After answer:
 
-- Lock English and Greek accuracy ownership.
-- Store D-003 as the next question.
+- Lock the core Sanity entities and relationship strategy.
+- Store D-003 as the next foundational question.

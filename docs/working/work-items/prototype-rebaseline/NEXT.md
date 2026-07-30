@@ -221,8 +221,13 @@ architecture rebaseline, and promotion of settled documentation.
   approves public content, while a named operator or developer performs the
   technical preview and publication in Sanity. The technical publisher does not
   become responsible for approving business claims. Client approval ownership,
-  the technical publisher, and their handoff must be named before launch;
-  English and Greek accuracy ownership remains D-002.
+  the technical publisher, and their handoff must be named before launch.
+- The operator corrected the remaining grilling direction on 2026-07-30: focus
+  on foundations that constrain development—technology and services, how they
+  are used, project architecture, domain entities, and relationships. Easily
+  changed staffing details do not warrant feature decisions. The former Content
+  Operations D-002 reviewer-assignment question was removed without being
+  locked; D-002 now asks for the core Sanity entities and relationship model.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
