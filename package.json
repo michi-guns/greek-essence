@@ -10,6 +10,7 @@
   },
   "scripts": {
     "doctor": "node scripts/doctor.mjs",
+    "deploy:vercel": "node --env-file-if-exists=.env.local scripts/deploy-vercel.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -22,7 +22,7 @@ Local environment overrides are optional. Copy [`.env.example`](.env.example) to
 - [Documentation entry point](docs/README.md)
 - [Contributor onboarding](docs/CONTRIBUTOR_ONBOARDING.md)
 
-Bootstrap tooling and the bilingual fixture scaffold are complete, and prototype implementation is in progress. This repository does not implement booking, payments, accounts, analytics, or production operations.
+Bootstrap tooling and the bilingual fixture scaffold are complete, and prototype implementation is in progress. This repository does not implement booking, payments, accounts, or analytics.
 
 ## Development
 
@@ -32,6 +32,28 @@ Use standalone pnpm `11.17.0` directly:
 pnpm install --frozen-lockfile
 pnpm dev
 ```
+
+### Manual production deployment
+
+Git pushes do not deploy this project to Vercel. The supported production
+deployment workflow always builds the latest commit on the `main` branch linked
+to the Vercel Deploy Hook, regardless of the caller's local branch.
+
+Add the operator-provided hook to ignored `.env.local`:
+
+```dotenv
+VERCEL_DEPLOY_HOOK_URL=https://api.vercel.com/v1/integrations/deploy/...
+```
+
+Then deliberately trigger one deployment:
+
+```bash
+pnpm deploy:vercel
+```
+
+The command prints the accepted Vercel job ID and state but never the hook URL.
+Vercel account access, hook creation, and hook rotation remain operator
+responsibilities.
 
 On Windows, install the repository-pinned version with the official PowerShell installer, then open a refreshed terminal:
 
