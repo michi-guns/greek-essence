@@ -21,15 +21,15 @@ only to the archived prototype and have no current authority.
 
 ## Documentation map
 
-| Area | Role | Start here |
-| --- | --- | --- |
-| Project actors | Greek Essence, agency, developer, product-management, delegation, and technical-publication responsibilities | [`PROJECT_ACTORS.md`](PROJECT_ACTORS.md) |
-| Layered decision grilling | Product/domain truth, foundation design, and launch readiness before implementation | [`grilling/README.md`](grilling/README.md) |
-| Active work routing | Current multi-session work and immediate continuation | [`../NEXT.md`](../NEXT.md) |
-| Working evidence | Temporary rebaseline operations, requirements intake, draft sources, and decision registers | [`working/work-items/prototype-rebaseline/NEXT.md`](working/work-items/prototype-rebaseline/NEXT.md) |
-| Contributor onboarding | Current workstation setup and local verification | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md) |
-| Git workflow | Current branch, pull-request, checks, merge, and cleanup strategy | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) |
-| Archived prototype documentation | Non-authoritative former protocol, product, UX, technical, design, tooling, and reference material | [`archive/showcase-prototype-v0/README.md`](archive/showcase-prototype-v0/README.md) |
+| Area                             | Role                                                                                                         | Start here                                                                                           |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| Project actors                   | Greek Essence, agency, developer, product-management, delegation, and technical-publication responsibilities | [`PROJECT_ACTORS.md`](PROJECT_ACTORS.md)                                                             |
+| Layered decision grilling        | Product/domain truth, foundation design, and launch readiness before implementation                          | [`grilling/README.md`](grilling/README.md)                                                           |
+| Active work routing              | Current multi-session work and immediate continuation                                                        | [`../NEXT.md`](../NEXT.md)                                                                           |
+| Working evidence                 | Temporary rebaseline operations, requirements intake, draft sources, and decision registers                  | [`working/work-items/prototype-rebaseline/NEXT.md`](working/work-items/prototype-rebaseline/NEXT.md) |
+| Contributor onboarding           | Current workstation setup and local verification                                                             | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md)                                             |
+| Git workflow                     | Current branch, pull-request, checks, merge, and cleanup strategy                                            | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md)                                                                 |
+| Archived prototype documentation | Non-authoritative former protocol, product, UX, technical, design, tooling, and reference material           | [`archive/showcase-prototype-v0/README.md`](archive/showcase-prototype-v0/README.md)                 |
 
 ## Authority and conflict resolution
 
@@ -78,17 +78,17 @@ task contract. Before committing or publishing any authorized change, follow
 
 ## Current status
 
-| Document area | Status |
-| --- | --- |
-| Project-level grilling | Accepted and distilled into DECISIONS.md |
-| Decision grilling | Layer classification accepted; two focused Product and Domain Truth gaps precede the dependency-ordered Foundation Design tracks |
-| New canonical PRD | Not yet created |
-| New domain and roadmap documents | Working drafts only |
-| New UX specification | Not yet created |
-| New technical design | Not yet created |
-| New design system | Not yet created |
-| Former documentation baseline | Archived and non-authoritative |
-| Current application | Preserved prototype implementation; not the replacement-product contract |
+| Document area                    | Status                                                                                                                           |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Project-level grilling           | Accepted and distilled into DECISIONS.md                                                                                         |
+| Decision grilling                | Layer classification accepted; two focused Product and Domain Truth gaps precede the dependency-ordered Foundation Design tracks |
+| New canonical PRD                | Not yet created                                                                                                                  |
+| New domain and roadmap documents | Working drafts only                                                                                                              |
+| New UX specification             | Not yet created                                                                                                                  |
+| New technical design             | Not yet created                                                                                                                  |
+| New design system                | Not yet created                                                                                                                  |
+| Former documentation baseline    | Archived and non-authoritative                                                                                                   |
+| Current application              | Preserved prototype implementation; not the replacement-product contract                                                         |
 
 ## Development package manager
 
