@@ -272,6 +272,7 @@ architecture rebaseline, and promotion of settled documentation.
 - On 2026-07-30, the operator explicitly authorized the first Foundation Design
   track. The active System Boundaries and Domain Representation workspace is
   `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
+  Related decisions accumulate on draft pull request #45.
   Its stored D-001 asks which system authoritatively verifies Booking Request
   eligibility and what Experience information crosses the Sanity–Neon boundary
   at acceptance. No Foundation Design decision is accepted yet.
