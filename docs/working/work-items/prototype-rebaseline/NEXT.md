@@ -217,6 +217,12 @@ architecture rebaseline, and promotion of settled documentation.
   three non-blocking fidelity omissions—initial email-work completion,
   non-confirming Booking Request acknowledgement, and owning-journey persistence
   failure behavior—were added before deletion.
+- Content Operations D-001 establishes that the client supplies and explicitly
+  approves public content, while a named operator or developer performs the
+  technical preview and publication in Sanity. The technical publisher does not
+  become responsible for approving business claims. Client approval ownership,
+  the technical publisher, and their handoff must be named before launch;
+  English and Greek accuracy ownership remains D-002.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -268,11 +274,11 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue feature grilling by asking Content Operations D-001 exactly as stored
+Continue feature grilling by asking Content Operations D-002 exactly as stored
 in `docs/grilling/content-operations/GRILLING.md`. Do not begin implementation or
 install/configure Sanity merely because the product grill starts.
 
-Completion condition: persist Content Operations D-001 and its next stored
+Completion condition: persist Content Operations D-002 and its next stored
 question through the repository workflow.
 
 ## Done When
