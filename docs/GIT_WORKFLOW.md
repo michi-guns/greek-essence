@@ -108,8 +108,10 @@ Design subtopic normally forms one pull-request unit.
   distillation, explicitly authorized raw-ledger deletion, handoff updates,
   verification, and merge.
 - Before deleting an approved raw ledger in that pull request, record the
-  operator's acceptance and exact authorized ledger path in the pull-request
-  description so the authorization remains reviewable after squash merge.
+  operator's acceptance, exact authorized ledger path, and final accepted raw
+  ledger in the pull-request description so the evidence remains reviewable
+  after squash merge. The distilled decision document remains the repository
+  authority.
 - If the discussion exposes a genuinely independent topic, record the dependency
   and give that topic its own coherent pull-request unit rather than mixing it
   into the current one.

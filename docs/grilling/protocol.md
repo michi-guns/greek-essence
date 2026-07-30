@@ -65,8 +65,11 @@ level. Do not keep both as competing sources of truth. Because replacement
 removes a file, the acceptance review must name the exact `GRILLING.md` path.
 The operator may approve acceptance, that path's later removal, and automated
 GitHub delivery in one combined answer. If they do not choose that combined
-option, obtain separate path-level approval before deletion. Git history must
-preserve the final accepted raw ledger.
+option, obtain separate path-level approval before deletion. Before removal,
+the merged pull-request record must preserve the exact acceptance, path-level
+deletion authorization, and final accepted raw ledger as reviewable evidence.
+The resulting `DECISIONS.md`, not that raw evidence, is the repository's
+accepted design authority.
 
 Use kebab-case feature directory names based on accepted business capabilities.
 Do not create feature directories from speculative architecture or technical
@@ -270,7 +273,9 @@ After combined acceptance-and-finalization authorization:
 
 1. Persist the operator's acceptance and exact-path authorization in the raw
    ledger on the existing draft branch and in the draft pull-request
-   description, where it remains reviewable after squash merge.
+   description. Include the final accepted raw ledger in that pull-request
+   record before deleting it from the branch so the evidence remains reviewable
+   after squash merge.
 2. Write a self-contained `DECISIONS.md` containing only durable context,
    accepted decisions, explicit exclusions, dependencies, risks, and unresolved
    external validations.
