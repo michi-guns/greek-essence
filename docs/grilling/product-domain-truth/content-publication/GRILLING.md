@@ -2,7 +2,8 @@
 
 ## Status
 
-Active Product and Domain Truth gap review before Foundation Design.
+Accepted by the operator on 2026-07-30. Pending verified distillation and the
+authorized finalization of draft pull request #42.
 
 This grill does not authorize implementation, dependency installation, schema
 migration, deployment, or destructive path changes. Use
@@ -93,11 +94,19 @@ and await combined acceptance.
 
 ## Acceptance Review
 
-The operator must now review D-001 and D-002 together for internal consistency.
-The acceptance question must name draft pull request #42 and the exact raw-ledger
-path:
+On 2026-07-30, the operator selected combined acceptance option 1 for D-001 and
+D-002. The operator accepted the complete decision set and authorized:
+
+- verified distillation into `DECISIONS.md`;
+- removal of the exact raw-ledger path below after its final accepted contents
+  and this authorization are preserved in draft pull request #42;
+- completion of draft pull request #42, required-check monitoring, squash merge,
+  and merged-branch deletion without another routine approval request.
+
+Authorized raw-ledger path:
 
 `docs/grilling/product-domain-truth/content-publication/GRILLING.md`
 
-Acceptance does not authorize application implementation, dependency
-installation, schema migration, or deployment.
+This acceptance completes the Content Publication Truth Product and Domain Truth
+unit. It does not authorize application implementation, dependency installation,
+schema migration, deployment, or automatic commencement of Foundation Design.

@@ -237,6 +237,12 @@ architecture rebaseline, and promotion of settled documentation.
   Destination relationship or also be withdrawn. Required service, request,
   privacy, or legal pages must be replaced or redirected, or their dependent
   journey must be disabled honestly.
+- On 2026-07-30, the operator accepted Content Publication Truth D-001 and D-002
+  together and selected automatic finalization. The exact raw-ledger removal,
+  verified distillation, required-check monitoring, squash merge, and
+  merged-branch deletion are authorized through draft pull request #42. This
+  does not authorize implementation or automatic commencement of Foundation
+  Design.
 - The operator accepted the three-layer classification and dependency sequence.
   `docs/grilling/CLASSIFICATION.md` now carries accepted product/domain truth,
   locked foundation inputs, Launch Readiness items, deferrals, and promotion
@@ -306,18 +312,18 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Content Publication Truth D-001 and D-002 for the combined acceptance
-required by `docs/grilling/protocol.md`. Name draft pull request #42 and the exact
-raw-ledger path
-`docs/grilling/product-domain-truth/content-publication/GRILLING.md`. Do not
-resume either paused mixed-layer ledger or begin Foundation Design before
-acceptance.
+Finalize the accepted Content Publication Truth unit through draft pull request
+#42: preserve the final accepted raw ledger and exact removal authorization in
+the PR record, distill and semantically verify `DECISIONS.md`, remove the exact
+authorized `docs/grilling/product-domain-truth/content-publication/GRILLING.md`
+path, run the applicable checks, squash-merge, delete the branch, and return to
+clean synchronized `main`.
 
-Completion condition: obtain combined acceptance or a material correction. If
-accepted with automatic finalization, distill and semantically verify the
-decision set, preserve the final accepted raw ledger in the PR record, remove
-the exact authorized raw-ledger path, complete draft PR #42, and return to clean
-synchronized `main`. Foundation Design remains separate successor work.
+Completion condition: the accepted raw source and authorization remain
+reviewable in PR #42, the final tree contains the verified `DECISIONS.md` and no
+raw ledger, all required checks pass, PR #42 is merged, and local `main` matches
+`origin/main`. Foundation Design remains separate successor work and must not
+begin automatically.
 
 ## Done When
 
