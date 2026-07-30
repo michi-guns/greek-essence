@@ -23,7 +23,7 @@ only to the archived prototype and have no current authority.
 
 | Area | Role | Start here |
 | --- | --- | --- |
-| Active product grilling | Stateful project and feature decisions before implementation planning | [`grilling/README.md`](grilling/README.md) |
+| Layered decision grilling | Product/domain truth, foundation design, and launch readiness before implementation | [`grilling/README.md`](grilling/README.md) |
 | Active work routing | Current multi-session work and immediate continuation | [`../NEXT.md`](../NEXT.md) |
 | Working evidence | Temporary rebaseline operations, requirements intake, draft sources, and decision registers | [`working/work-items/prototype-rebaseline/NEXT.md`](working/work-items/prototype-rebaseline/NEXT.md) |
 | Contributor onboarding | Current workstation setup and local verification | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md) |
@@ -53,9 +53,10 @@ not a substitute for accepted replacement-product requirements.
 
 1. Read root [`NEXT.md`](../NEXT.md).
 2. Read its linked work-item `NEXT.md`.
-3. Read the accepted project [`grilling/DECISIONS.md`](grilling/DECISIONS.md).
-4. Read [`grilling/protocol.md`](grilling/protocol.md).
-5. Continue the applicable feature `GRILLING.md` from its stored next question.
+3. Read the layered [`grilling/README.md`](grilling/README.md) router and
+   [`grilling/protocol.md`](grilling/protocol.md).
+4. Read the selected layer definition and its required upstream decisions.
+5. Follow the work-item handoff to the applicable ledger, register, or review.
 
 ### Historical research
 
@@ -76,7 +77,7 @@ task contract. Before committing or publishing any authorized change, follow
 | Document area | Status |
 | --- | --- |
 | Project-level grilling | Accepted and distilled into DECISIONS.md |
-| Feature grilling | Public Brand Pages, Catalogue Discovery, Consultation Request, Booking Request, and General Contact accepted; Request Processing and Communications is next but not started |
+| Decision grilling | Existing accepted and pending material is preserved; use the active work-item handoff for its classification and continuation under the three-layer model |
 | New canonical PRD | Not yet created |
 | New domain and roadmap documents | Working drafts only |
 | New UX specification | Not yet created |

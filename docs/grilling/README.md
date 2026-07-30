@@ -1,48 +1,35 @@
 # Greek Essence Grilling Workspace
 
-This directory stores stateful project and feature design grilling before
-implementation planning. New agents must read [the protocol](protocol.md) before
-continuing an active session.
+This is the thin router for Greek Essence decision grilling. It establishes the
+layer sequence and points to the rules for each layer. It does not track active
+work, completion, or the next question; root [`NEXT.md`](../../NEXT.md) and the
+selected work-item handoff own that state.
 
-## Lifecycle
+## Sequence
 
-`GRILLING.md` is the active decision ledger and next-question store. Once the
-operator accepts a grill, a refined `DECISIONS.md` replaces it. Feature
-directories are created only after the project-level grill confirms real
-business capabilities.
+1. [Product and Domain Truth](layers/product-domain-truth.md) — define what the
+   service means, which capabilities exist, and the business concepts and
+   invariants that later architecture must preserve.
+2. [Foundation Design](layers/foundation-design.md) — choose the technology,
+   service boundaries, architecture, domain representation, integrations, and
+   other durable development foundations.
+3. [Launch Readiness](layers/launch-readiness.md) — verify the owners, approved
+   inputs, provider facts, operating procedures, and evidence required to launch
+   the accepted product and foundation safely.
+
+The sequence is dependency-driven, not an irreversible waterfall. A downstream
+layer may expose a missing upstream decision, but it must route that issue back
+to the owning layer instead of silently redefining it.
 
 ## Permanent Guidance
 
 - [Grilling protocol](protocol.md)
 - [Project glossary](GLOSSARY.md)
 
-## Active Session
+## Artifact Rule
 
-- [Content operations](content-operations/GRILLING.md) — next, feature 7 of 8
-
-## Accepted Project Decisions
-
-- [Public Preview Release decisions](DECISIONS.md)
-
-## Accepted Feature Decisions
-
-- [Public Brand Pages decisions](public-brand-pages/DECISIONS.md)
-- [Catalogue Discovery decisions](catalogue-discovery/DECISIONS.md)
-- [Consultation Request decisions](consultation-request/DECISIONS.md)
-- [Booking Request decisions](booking-request/DECISIONS.md)
-- [General Contact decisions](general-contact/DECISIONS.md)
-- [Request Processing and Communications decisions](request-processing-and-communications/DECISIONS.md)
-
-## Feature Grilling Sequence
-
-1. [Public brand pages](public-brand-pages/DECISIONS.md) — accepted
-2. [Catalogue discovery](catalogue-discovery/DECISIONS.md) — accepted
-3. [Consultation request](consultation-request/DECISIONS.md) — accepted
-4. [Booking request](booking-request/DECISIONS.md) — accepted
-5. [General contact](general-contact/DECISIONS.md) — accepted
-6. [Request processing and communications](request-processing-and-communications/DECISIONS.md) — accepted
-7. [Content operations](content-operations/GRILLING.md)
-8. [Production operations](production-operations/GRILLING.md)
-
-Grill one feature at a time unless the operator explicitly changes the order.
-Feature grills define requirements and do not authorize implementation.
+Active `GRILLING.md` ledgers and accepted `DECISIONS.md` files remain the sources
+for their recorded decisions. Existing artifacts stay at their current paths
+until an explicit classification review decides whether any material should be
+retained, promoted, moved, reopened, or dropped. This router does not perform
+that classification and is not implementation authorization.

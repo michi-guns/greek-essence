@@ -223,6 +223,13 @@ architecture rebaseline, and promotion of settled documentation.
   become responsible for approving business claims. Client approval ownership,
   the technical publisher, and their handoff must be named before launch;
   English and Greek accuracy ownership remains D-002.
+- Grilling is paused outside the per-question loop while the remaining decision
+  landscape is reclassified. The workspace now defines three dependency-ordered
+  layers: Product and Domain Truth, Foundation Design, and Launch Readiness.
+  `docs/grilling/README.md` is a thin router rather than a progress tracker, and
+  the protocol requires downstream findings to return to their owning layer.
+  Existing accepted and pending artifacts remain at their current paths and
+  retain their current authority until an explicit classification review.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -274,12 +281,16 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue feature grilling by asking Content Operations D-002 exactly as stored
-in `docs/grilling/content-operations/GRILLING.md`. Do not begin implementation or
-install/configure Sanity merely because the product grill starts.
+Classify the existing accepted decisions, pending Content Operations and
+Production Operations questions, and working decision register into Product and
+Domain Truth, Foundation Design, Launch Readiness, reopen, or drop candidates.
+Present the classification and a proposed foundation-grilling sequence for
+operator discussion before changing any existing ledger or accepted decision.
 
-Completion condition: persist Content Operations D-002 and its next stored
-question through the repository workflow.
+Completion condition: the operator accepts or corrects the classification and
+sequence, after which the approved artifact changes are made through the
+repository workflow. Do not resume Content Operations D-002 merely because it
+remains stored in its unchanged ledger.
 
 ## Done When
 
