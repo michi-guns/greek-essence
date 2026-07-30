@@ -38,6 +38,12 @@ decisions.
   and human-only archival boundaries.
 - `.github/pull_request_template.md` captures Work Unit identity, outcome,
   boundaries, acceptance, verification, risks, recovery, and completion state.
+- Policy commit `ad148dd0d8d585a3c68a4b7f36c1529c602ff888` is pushed. GitHub
+  `Lightweight quality gates` run `30572363907`, the Vercel deployment status,
+  and Vercel Preview Comments pass.
+- Focused semantic review found no unresolved contract inconsistency. The
+  repository's visual quality-review skill is not applicable to this
+  workflow-only Markdown change.
 - Inbox card
   [#27 — Configure Vercel - manual Re-deploy](https://trello.com/c/16L5cZe0)
   is the selected tracer after this integration contract is established.
@@ -46,14 +52,14 @@ decisions.
 
 ## Next Recommended Action
 
-Verify and review the lifecycle contract and default pull-request template,
-record the results on this work item and draft pull request, then make the pull
-request ready only when WU-20's Review gate is satisfied.
+After this final evidence update passes the same required check, mark pull
+request #44 ready and transition WU-20 to Review. Then wait for fresh explicit
+operator confirmation before any agent merge, while first detecting whether
+the operator has already merged personally.
 
-Completion condition: Markdown-only checks and focused semantic review pass,
-the stable commit is pushed, the draft PR accurately represents the complete
-unit, and WU-20 contains concise review evidence without disturbing the
-Prototype rebaseline work item.
+Completion condition: PR #44 is non-draft with required checks passing, WU-20
+is read-back-confirmed in Review with concise current evidence, and no merge is
+attempted without the required fresh confirmation.
 
 ## Done When
 
