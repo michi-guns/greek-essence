@@ -2,8 +2,8 @@
 
 ## Status
 
-Queued as feature 7 of 8. Begin after the visitor and request feature grills are
-accepted so their content needs are known.
+Active as feature 7 of 8 after the visitor and request feature grills were
+accepted and established their content needs.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).
@@ -24,11 +24,27 @@ revisions, and content recovery.
 
 ## Locked Decisions
 
-None yet. Feature decision IDs begin at D-001.
+### D-001 — Client-approved content, technically published
+
+The client supplies the public content and explicitly approves it for
+publication. A named operator or developer then enters or updates the content,
+checks the preview and applicable publication requirements, and publishes it in
+Sanity. Technical publication does not make the operator or developer the
+approver of agency facts, prices, claims, media rights, or other business
+content.
+
+This deliberately avoids requiring the client to learn the publishing system,
+but every update depends on technical availability. Before launch, the client
+must name who can give publication approval, and the project must name who will
+perform publishing and how approved changes are handed over. English and Greek
+accuracy ownership remains D-002 rather than being implied by the technical
+publisher role.
+
+Direct client publishing and a mandatory separate editor-and-approver workflow
+were not selected for the preview release.
 
 ## Open Questions
 
-- D-001: Who may draft, approve, and publish content?
 - D-002: Who owns English and Greek accuracy?
 - D-003: What must preview show before publishing?
 - D-004: Which required fields prevent incomplete public pages?
@@ -37,33 +53,34 @@ None yet. Feature decision IDs begin at D-001.
 
 ## Next Question
 
-ID: D-001
+ID: D-002
 
 Topic:
-The smallest workable editing and publishing responsibility model.
+English and Greek content accuracy ownership.
 
 Prompt:
-Who should be able to write, approve, and publish public content in Sanity?
+Who should be responsible for checking and approving the accuracy of the
+English and Greek content before the operator or developer publishes it?
 
 Options:
 
-1. (recommended): **Named client content owner with a simple preview step.** One
-   client owner may draft and publish after checking the preview; the operator
-   or developer helps with setup and problems but does not silently approve
-   business claims. Name separate English/Greek reviewers if the owner cannot
-   approve both languages.
-2. **Client supplies content; operator or developer publishes it.** This reduces
-   client training but makes every update depend on technical availability and
-   risks unclear approval responsibility.
-3. **Separate editor and approver roles.** One person drafts and another must
-   approve before publishing. This improves control but requires at least two
-   reliable client participants and a more formal workflow.
+1. (recommended): **Name one responsible human reviewer for each language.**
+   The same bilingual person may own both only if the client confirms they can
+   reliably approve both. Each reviewer checks natural wording, factual
+   accuracy, service boundaries, and meaning parity before publication.
+2. **One client owner approves both languages.** This is the simplest handoff,
+   but it is safe only if that person can genuinely judge both English and
+   Greek; otherwise translation mistakes may be published as approved content.
+3. **Client approves the Greek facts and a named language professional reviews
+   English.** This gives English specialist review while keeping business facts
+   with the client, but adds an external participant and a recurring handoff.
 
 Why this matters:
-The website can only stay accurate if somebody knows they own each language and
-has a practical way to check changes before real visitors see them.
+Separate storage does not ensure equivalent meaning. A mistranslated price,
+service promise, or booking-request boundary could mislead one audience even
+when the other language is correct.
 
 After answer:
 
-- Lock content roles and approval responsibility.
-- Store D-002 as the next question.
+- Lock English and Greek accuracy ownership.
+- Store D-003 as the next question.
