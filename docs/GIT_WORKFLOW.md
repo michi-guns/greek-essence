@@ -107,6 +107,9 @@ Design subtopic normally forms one pull-request unit.
 - At final approval, use the same pull request for accepted decision
   distillation, explicitly authorized raw-ledger deletion, handoff updates,
   verification, and merge.
+- Before deleting an approved raw ledger in that pull request, record the
+  operator's acceptance and exact authorized ledger path in the pull-request
+  description so the authorization remains reviewable after squash merge.
 - If the discussion exposes a genuinely independent topic, record the dependency
   and give that topic its own coherent pull-request unit rather than mixing it
   into the current one.

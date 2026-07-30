@@ -253,7 +253,8 @@ A grill is ready for acceptance when:
 - remaining unknowns have named owners or validation actions.
 
 At acceptance, present one numbered approval question that names the exact raw
-ledger path and offers at least these materially distinct outcomes:
+ledger path and existing draft pull request and offers at least these materially
+distinct outcomes:
 
 1. **Accept and finalize automatically** — accept the decisions; authorize the
    named `GRILLING.md` path's removal after verified distillation; and authorize
@@ -268,7 +269,8 @@ ledger path and offers at least these materially distinct outcomes:
 After combined acceptance-and-finalization authorization:
 
 1. Persist the operator's acceptance and exact-path authorization in the raw
-   ledger on the existing draft branch.
+   ledger on the existing draft branch and in the draft pull-request
+   description, where it remains reviewable after squash merge.
 2. Write a self-contained `DECISIONS.md` containing only durable context,
    accepted decisions, explicit exclusions, dependencies, risks, and unresolved
    external validations.
