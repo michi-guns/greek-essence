@@ -29,17 +29,16 @@ decisions.
   `origin/main` at `ec9fa47980b32ceee038c2ca6f895bf685970ac0` in a separate
   worktree.
 - No matching remote branch or pull request existed before bootstrap.
-- Draft pull request
-  [#44](https://github.com/michi-guns/greek-essence/pull/44) exists for the
-  verified head/base pair and its URL is recorded on WU-20.
+- Pull request [#44](https://github.com/michi-guns/greek-essence/pull/44) is
+  non-draft for the verified head/base pair and its URL is recorded on WU-20.
 - `AGENTS.md` and `docs/GIT_WORKFLOW.md` now define the seven-state lifecycle,
   guarded claim, durable creation order, cross-system recovery, Review gate,
   fresh merge confirmation, operator-performed merge handling, cleanup, Done,
   and human-only archival boundaries.
 - `.github/pull_request_template.md` captures Work Unit identity, outcome,
   boundaries, acceptance, verification, risks, recovery, and completion state.
-- Policy commit `ad148dd0d8d585a3c68a4b7f36c1529c602ff888` is pushed. GitHub
-  `Lightweight quality gates` run `30572363907`, the Vercel deployment status,
+- Final head `1810f007879015103f5c004e95689afb7341484c` is pushed. GitHub
+  `Lightweight quality gates` run `30572523370`, the Vercel deployment status,
   and Vercel Preview Comments pass.
 - Focused semantic review found no unresolved contract inconsistency. The
   repository's visual quality-review skill is not applicable to this
@@ -47,19 +46,24 @@ decisions.
 - Inbox card
   [#27 — Configure Vercel - manual Re-deploy](https://trello.com/c/16L5cZe0)
   is the selected tracer after this integration contract is established.
+- `FLOW-001` records that WU-20 cannot remain in Review before card #27 proves
+  its final acceptance criterion. PR #44 is a complete foundational
+  sub-delivery whose merge enables that tracer; WU-20 is therefore
+  read-back-confirmed In Progress until the independent tracer completes.
 - The unrelated Prototype rebaseline remains owned by Hermes Agent in its own
   work item. The primary checkout's untracked Hermes files remain untouched.
 
 ## Next Recommended Action
 
-After this final evidence update passes the same required check, mark pull
-request #44 ready and transition WU-20 to Review. Then wait for fresh explicit
-operator confirmation before any agent merge, while first detecting whether
-the operator has already merged personally.
+Re-read PR #44 and WU-20, then obtain fresh explicit operator confirmation
+before an agent squash-merges this foundational PR, or detect and accept an
+operator-performed merge. After verified merge and branch cleanup, synchronize
+local `main` and begin same-card design of tracer card #27 through the newly
+merged workflow.
 
-Completion condition: PR #44 is non-draft with required checks passing, WU-20
-is read-back-confirmed in Review with concise current evidence, and no merge is
-attempted without the required fresh confirmation.
+Completion condition: PR #44's merge and cleanup are verified without a second
+merge attempt, and card #27 begins the independent tracer lifecycle while
+WU-20 remains In Progress.
 
 ## Done When
 
