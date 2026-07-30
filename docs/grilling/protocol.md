@@ -178,6 +178,25 @@ feature grill. Setup facts, protocol rules, imported evidence, and already-made
 operator instructions do not consume decision IDs. They belong under context,
 preferences, or constraints.
 
+## Pull-Request Grouping
+
+A feature grill, bounded Product and Domain Truth topic, or coherent Foundation
+Design subtopic normally forms one pull-request unit under
+[`../GIT_WORKFLOW.md`](../GIT_WORKFLOW.md).
+
+- Open one early draft pull request after the first meaningful persisted change.
+- Keep related answers, contracts, examples, handoff updates, semantic review,
+  and final distillation on that same branch and draft pull request.
+- Do not open or merge a pull request for each decision ID, answer, commit, file,
+  or chat session.
+- Keep the draft open while the related decision set remains incomplete.
+- Split only when a discovered topic has its own independently reviewable
+  outcome, risk, dependency, or rollback boundary; do not combine unrelated work
+  merely to reduce pull-request count.
+
+The draft pull request provides durable continuity. It is not acceptance of the
+recorded decisions, implementation authorization, or permission to merge.
+
 ## Persistence Loop
 
 After every operator answer and before asking another question:
@@ -198,7 +217,9 @@ After every operator answer and before asking another question:
 9. Update the active work-item `NEXT.md` when the durable continuation changes.
 
 Do not batch several unanswered questions into one user message. Do not advance
-the stored next question until the current answer is persisted.
+the stored next question until the current answer is persisted. Per-answer
+persistence updates the existing branch and draft pull request; it does not
+create a new pull request or define a merge boundary.
 
 ## Product-and-Domain Root-to-Feature Transition
 
@@ -236,8 +257,9 @@ ledger path and offers at least these materially distinct outcomes:
 
 1. **Accept and finalize automatically** — accept the decisions; authorize the
    named `GRILLING.md` path's removal after verified distillation; and authorize
-   commits, pushes, pull requests, required-check monitoring, squash merge, and
-   merged-branch deletion without another routine approval request.
+   completion of the existing draft pull request, required-check monitoring,
+   squash merge, and merged-branch deletion without another routine approval
+   request.
 2. **Accept but retain the raw ledger** — record acceptance, but do not delete
    the ledger or automate final distillation delivery.
 3. **Correct a material decision first** — keep the grill active and name the
@@ -246,21 +268,19 @@ ledger path and offers at least these materially distinct outcomes:
 After combined acceptance-and-finalization authorization:
 
 1. Persist the operator's acceptance and exact-path authorization in the raw
-   ledger.
-2. If squash merge and branch deletion would otherwise discard that final
-   accepted raw state, first merge it to `main` in its own pull request. The one
-   authorization covers this preservation PR and the later distillation PR.
-3. Write a self-contained `DECISIONS.md` containing only durable context,
+   ledger on the existing draft branch.
+2. Write a self-contained `DECISIONS.md` containing only durable context,
    accepted decisions, explicit exclusions, dependencies, risks, and unresolved
    external validations.
-4. Verify it structurally and semantically against the accepted raw ledger,
+3. Verify it structurally and semantically against the accepted raw ledger,
    every normative contract, higher-level authority, and adjacent accepted
    feature decisions. Do not delete the raw ledger while a material review
    finding remains unresolved.
-5. Remove the approved `GRILLING.md` path, leaving `DECISIONS.md` as the sole
+4. Remove the approved `GRILLING.md` path, leaving `DECISIONS.md` as the sole
    accepted design authority at that level. Update `README.md` and the active
    work-item continuation.
-6. Commit and push the finalization branch, open its pull request, and use
+5. Commit and push the finalization to the same draft pull request. Update its
+   description to represent the complete logical unit, mark it ready, and use
    `gh pr merge --auto --squash --delete-branch` when repository support permits.
    If auto-merge is unavailable, wait for required checks and run
    `gh pr merge --squash --delete-branch` without requesting another routine

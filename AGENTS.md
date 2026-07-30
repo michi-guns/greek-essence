@@ -2,7 +2,16 @@
 
 ## Authority
 
-Use the GitHub Flow strategy in [`docs/GIT_WORKFLOW.md`](docs/GIT_WORKFLOW.md) for every committed change. Keep `main` deployable, never commit or push directly to `main`, and deliver changes through a short-lived branch and pull request. Review approval is not required, but applicable checks must pass before merge. Continue to preserve unrelated and concurrent edits, and never discard or overwrite work without explicit authorization.
+Use the GitHub Flow strategy in
+[`docs/GIT_WORKFLOW.md`](docs/GIT_WORKFLOW.md) for each coherent,
+independently reviewable unit of work. A pull request may contain multiple
+related answers, commits, files, and sessions; do not create one per incremental
+edit. Keep related ongoing work on one short-lived branch and early draft pull
+request. Keep `main` deployable, never commit or push directly to `main`, and do
+not combine unrelated outcomes merely to reduce pull-request count. Review
+approval is not required, but the coherent unit must be complete and applicable
+checks must pass before merge. Continue to preserve unrelated and concurrent
+edits, and never discard or overwrite work without explicit authorization.
 
 ### Work-item continuation
 
