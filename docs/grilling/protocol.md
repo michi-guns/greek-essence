@@ -120,21 +120,6 @@ privacy, security, or travel-industry professional.
 - The operator may answer with an option, combine options, reject all options,
   or provide a new direction.
 
-### Foundation-first filter during the rebaseline
-
-The current rebaseline grill prioritizes decisions that materially constrain
-development: technology and service selection, how selected services divide
-responsibility, project architecture, domain entities and relationships, data
-ownership, and consequential integration boundaries.
-
-Do not consume decision IDs on details that can be assigned or changed at
-launch without altering those foundations, such as naming a particular content
-reviewer, routine staffing, or minor operating cadence. Preserve such details
-as external validations or launch-checklist items when they are still needed.
-Product, privacy, security, money, and truthful-service questions remain in the
-grill only when their answer creates a durable development constraint or blocks
-a safe public release.
-
 Decision IDs begin at `D-001` independently in the root grill and in each
 feature grill. Setup facts, protocol rules, imported evidence, and already-made
 operator instructions do not consume decision IDs. They belong under context,
