@@ -29,6 +29,15 @@ decisions.
   `origin/main` at `ec9fa47980b32ceee038c2ca6f895bf685970ac0` in a separate
   worktree.
 - No matching remote branch or pull request existed before bootstrap.
+- Draft pull request
+  [#44](https://github.com/michi-guns/greek-essence/pull/44) exists for the
+  verified head/base pair and its URL is recorded on WU-20.
+- `AGENTS.md` and `docs/GIT_WORKFLOW.md` now define the seven-state lifecycle,
+  guarded claim, durable creation order, cross-system recovery, Review gate,
+  fresh merge confirmation, operator-performed merge handling, cleanup, Done,
+  and human-only archival boundaries.
+- `.github/pull_request_template.md` captures Work Unit identity, outcome,
+  boundaries, acceptance, verification, risks, recovery, and completion state.
 - Inbox card
   [#27 — Configure Vercel - manual Re-deploy](https://trello.com/c/16L5cZe0)
   is the selected tracer after this integration contract is established.
@@ -37,13 +46,14 @@ decisions.
 
 ## Next Recommended Action
 
-Commit this work-item registration, push the branch, and open its early draft
-pull request. Then add the lifecycle contract and default pull-request template
-on the same branch and pull request.
+Verify and review the lifecycle contract and default pull-request template,
+record the results on this work item and draft pull request, then make the pull
+request ready only when WU-20's Review gate is satisfied.
 
-Completion condition: the draft pull request exists, its URL is recorded on
-WU-20, and the repository contract plus template pass the applicable checks
-without disturbing the Prototype rebaseline work item.
+Completion condition: Markdown-only checks and focused semantic review pass,
+the stable commit is pushed, the draft PR accurately represents the complete
+unit, and WU-20 contains concise review evidence without disturbing the
+Prototype rebaseline work item.
 
 ## Done When
 

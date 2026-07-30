@@ -13,6 +13,33 @@ approval is not required, but the coherent unit must be complete and applicable
 checks must pass before merge. Continue to preserve unrelated and concurrent
 edits, and never discard or overwrite work without explicit authorization.
 
+### Trello Work Unit integration
+
+When a coherent implementation task is backed by a canonical Trello Work Unit,
+follow the lifecycle contract in [`docs/GIT_WORKFLOW.md`](docs/GIT_WORKFLOW.md)
+in addition to the repository work-item rules below.
+
+- Do not create an implementation branch or pull request while the card is in
+  Inbox or In Design. Ready means the contract is complete enough to claim.
+- Claim through the guarded Trello owner update and `Ready → In Progress`
+  transition. Both postconditions must be read back before repository work
+  begins; this sequence is recovery-aware, not an atomic lock.
+- Use one `<type>/wu-<number>-<short-description>` branch from current `main`,
+  one registered repository work item, and one early draft pull request for the
+  coherent unit. Put the direct Trello card URL in the pull request.
+- Before creating durable state, search for a matching work item, branch, and
+  head/base pull request. After interruption or partial failure, re-read Trello,
+  Git, and GitHub and reuse verified matching state. A failed Trello link-back
+  never authorizes a duplicate pull request.
+- Move to Review only when the pull request is non-draft, acceptance criteria
+  are satisfied, and required checks pass.
+- An agent must re-read Trello and GitHub and obtain fresh explicit operator
+  confirmation immediately before merging. The operator may merge personally;
+  detect that result and never attempt a second merge.
+- Move to Done only after the squash merge, short-lived branch cleanup, and a
+  clean local `main` synchronized with `origin/main` are verified. Trello card
+  archival remains human-only.
+
 ### Work-item continuation
 
 At the start of project work, read the repository-root [`NEXT.md`](NEXT.md),
