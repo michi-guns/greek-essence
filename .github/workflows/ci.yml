@@ -27,9 +27,16 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Scan committed changes for secrets
-        uses: gitleaks/gitleaks-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          archive="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          release="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
+          curl --fail --silent --show-error --location "$release/$archive" --output "$RUNNER_TEMP/$archive"
+          curl --fail --silent --show-error --location "$release/gitleaks_${GITLEAKS_VERSION}_checksums.txt" --output "$RUNNER_TEMP/checksums.txt"
+          (cd "$RUNNER_TEMP" && sha256sum --check --ignore-missing checksums.txt)
+          tar --extract --gzip --file "$RUNNER_TEMP/$archive" --directory "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" git --redact --verbose .
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
