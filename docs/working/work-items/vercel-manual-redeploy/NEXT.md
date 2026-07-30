@@ -33,19 +33,34 @@ account administration remains operator-owned.
   `9d5ebf7427d2c874edb0188af37afefd26d5eeb3`.
 - Recovery preflight found no matching local branch, remote branch, worktree,
   or head/base pull request before bootstrap.
-- The original Trello attachment `vercel-deploy-hook-script.js.txt` is retained
-  as implementation input, not authority.
+- Draft pull request
+  [#46](https://github.com/michi-guns/greek-essence/pull/46) is linked from
+  Trello and targets `main` from the verified branch.
+- Implementation commit `90f72cc` adds `git.deploymentEnabled: false`, the
+  dependency-free `pnpm deploy:vercel` command, strict Vercel-hook validation,
+  one bounded POST with timeout, non-secret output, focused tests, environment
+  guidance, and the empty `.env.example` placeholder.
+- The attached reference script was inspected and executed once with explicit
+  authorization. Vercel accepted job `DFkugYrVSy5tJne42VF0` for the hook's
+  configured `main` branch; the hook URL was never printed. This proves the
+  existing hook, not the still-unmerged repository command.
+- Focused verification passes 15 deployment tests. The full `pnpm check:push`
+  gate passes secret scanning, audit policy, formatting, linting, Knip, strict
+  type checking, content validation, 73 unit tests with coverage, production
+  build, and 53 Playwright tests with 4 intentional skips.
 - The active Prototype rebaseline and WU-20 integration work remain separate;
   their files and primary checkout changes are untouched.
 
 ## Next Recommended Action
 
-Commit this registration, push the branch, open one draft pull request against
-`main`, and record its verified URL on WU-27. Then inspect the attached script
-and implement the smallest tested solution matching the approved Work Unit.
+Push the verified implementation and handoff commits, update draft PR #46 with
+the final scope and evidence, then wait for the required
+`Lightweight quality gates` result. Review the complete diff before marking the
+PR ready and moving WU-27 to Review.
 
-Completion condition: the remote branch, draft pull request, and Trello link
-are verified as one matching durable chain with no duplicate state.
+Completion condition: local and remote heads match, PR #46 represents the
+complete implementation, required CI passes, and no material review finding
+remains.
 
 ## Done When
 
