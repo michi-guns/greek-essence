@@ -2,9 +2,10 @@
 
 ## Status
 
-D-001 through D-009 are locked. D-007 through D-009 resolved material findings
-from the first distillation review. Awaiting renewed complete-feature acceptance
-before final distillation and separately approved raw-ledger removal.
+D-001 through D-009 were accepted as the complete feature boundary by the
+operator on 2026-07-30. The operator also authorized verified distillation,
+removal of this exact raw ledger, automated pull-request delivery, squash merge,
+and merged-branch deletion without another routine approval request.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).
@@ -308,43 +309,25 @@ None. No unresolved feature decision currently appears capable of materially
 changing request value, scope, workflow, data, ownership, privacy, recovery,
 cost, or implementation boundaries.
 
-## Prior Acceptance
+## Acceptance and Finalization Authorization
 
 The operator accepted D-001 through D-006 as the complete Request Processing
 and Communications feature boundary on 2026-07-30 and separately approved this
 raw ledger's removal after verified distillation. The removal did not proceed
 because final review found D-007 before the distillation was merged.
 
-That prior acceptance remains evidence for D-001 through D-006. D-007 through
-D-009 now require renewed acceptance of the complete feature. Nothing here
-authorizes application implementation, dependency installation, schema
-migration, or deployment.
+On 2026-07-30, the operator accepted D-001 through D-009 as the complete Request
+Processing and Communications boundary. The same instruction explicitly
+approved removal of
+`docs/grilling/request-processing-and-communications/GRILLING.md` after creation
+and verification of `DECISIONS.md`, and authorized the commit, push, required
+checks, squash merge into `main`, and automatic merged-branch deletion.
 
-## Next Question
+Because the repository squash-merges pull requests, this accepted raw state must
+first be merged to `main`. A second pull request may then distill the decisions
+and remove the approved raw path under the same authorization. No additional
+routine approval is required unless semantic review exposes a material conflict
+that changes accepted product truth.
 
-ID: Acceptance Review
-
-Topic:
-Renewed acceptance of the complete Request Processing and Communications grill.
-
-Prompt:
-Do you accept D-001 through D-009 as the complete Request Processing and
-Communications feature boundary after the distillation-review corrections?
-
-Options:
-
-1. (recommended): **Accept the complete feature grill.** This authorizes final
-   distillation only, not implementation.
-2. **Correct a material decision first.** Name the decision and required
-   correction.
-
-Why this matters:
-Renewed acceptance confirms that the correction-retention, staff-context,
-zero-cost backup, inherited journey, and security boundaries now form one
-coherent feature contract.
-
-After answer:
-
-- Record renewed feature acceptance.
-- Distill the accepted ledger again and verify every decision and contract.
-- Obtain separate path-specific approval before removing this raw ledger.
+This acceptance and delivery authorization does not authorize application
+implementation, dependency installation, schema migration, or deployment.
