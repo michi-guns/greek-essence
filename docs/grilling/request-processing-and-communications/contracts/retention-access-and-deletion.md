@@ -2,9 +2,9 @@
 
 ## Authority and Scope
 
-This contract is normative for Request Processing and Communications D-006. It
-defines the proportional launch rule for private enquiry retention, access,
-deletion, backups, and logging.
+This contract is normative for Request Processing and Communications D-006,
+D-007, and D-009. It defines the proportional launch rule for private enquiry
+retention, correction expiry, access, deletion, backups, restore, and logging.
 
 It does not provide legal advice or authorize real-data launch by itself. The
 client must approve the actual practice and public wording, with qualified

@@ -2,9 +2,9 @@
 
 ## Authority and Scope
 
-This contract is normative for Request Processing and Communications D-002. It
-defines how requests are grouped for internal staff context without customer
-accounts.
+This contract is normative for Request Processing and Communications D-002 and
+D-008. It defines how requests are grouped internally and how routine staff find
+prior-request context without customer accounts or a database history surface.
 
 It does not define correction, duplicate-submission, authentication, retention,
 privacy-request verification, or staff-interface mechanics. D-003 and later
