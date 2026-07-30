@@ -2,7 +2,7 @@
 
 ## Status
 
-Active
+Complete
 
 ## Ownership and Scope
 
@@ -28,15 +28,25 @@ prototype-rebaseline work item's grilling documents.
 - Branch protection strictly requires the exact `Lightweight quality gates`
   context.
 
-## Next Recommended Action
+## Outcome
 
-Implement a fail-closed, tested Markdown-only classifier and wire it into local
-pre-push and the existing required CI job.
+- A tested classifier now selects Gitleaks and scoped Prettier for non-empty
+  `.md`/`.mdx`-only ranges and fails closed to the existing full checks.
+- Pre-commit now formats staged Markdown under `docs/` instead of silently
+  honoring the repository-wide documentation exclusion.
+- Local pre-push classifies all pushed refs. A synthetic Markdown-only push
+  range ran Gitleaks and scoped Prettier; a mixed historical range ran
+  `pnpm check`.
+- GitHub preserves the required `Lightweight quality gates` context, uses the
+  licensed official Gitleaks Action, and runs change-appropriate checks.
+- `pnpm check:push` exited `0`: Gitleaks found no leaks; the configured audit
+  gate passed while reporting three known findings; 54 unit tests passed with
+  coverage; build passed; and Playwright completed with 53 passing and 4
+  intentionally skipped tests.
+- GitHub Actions run `30561310912` exited successfully after the licensed
+  Gitleaks Action and full mixed-change path both passed.
 
-Completion condition: Markdown-only ranges run Gitleaks and scoped Prettier;
-mixed, empty, or unresolved ranges retain the full existing checks; the full
-local gates and both route tests pass; and the real required GitHub check is
-verified.
+No further action is required for this work item.
 
 ## Constraints
 
