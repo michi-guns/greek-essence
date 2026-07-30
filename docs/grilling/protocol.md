@@ -2,9 +2,10 @@
 
 ## Purpose
 
-Use this protocol to run stateful project and feature design interviews before
-implementation planning. A new agent must be able to resume from repository
-state without relying on chat history.
+Use this protocol to run stateful decision interviews across Product and Domain
+Truth, Foundation Design, and Launch Readiness before implementation or public
+release. A new agent must be able to resume from repository state without
+relying on chat history.
 
 This repository adapts the practical mechanics of `jz-feature-grilling` to the
 project-owned `docs/grilling/` workspace. It does not use `.scratch/features/`,
@@ -14,7 +15,11 @@ project-owned `docs/grilling/` workspace. It does not use `.scratch/features/`,
 
 - Current operator instructions override stored grilling state.
 - Root [`NEXT.md`](../../NEXT.md) identifies the active multi-session work item.
+- [`README.md`](README.md) is the thin layer router and owns the dependency
+  sequence, but never active status or the next action.
 - This file owns the grilling process.
+- Each file under [`layers/`](layers/) defines what belongs in that layer and the
+  handoff it produces; layer definitions do not themselves record decisions.
 - Root `GRILLING.md` or `DECISIONS.md` owns project-level product decisions.
 - A feature's `GRILLING.md` or `DECISIONS.md` owns that feature's decisions.
 - Authoritative PRD and technical documents are updated only after accepted
@@ -30,6 +35,10 @@ While project-level grilling is active:
 docs/grilling/
   README.md
   protocol.md
+  layers/
+    product-domain-truth.md
+    foundation-design.md
+    launch-readiness.md
   GRILLING.md
   GLOSSARY.md              # only when project terms need clarification
 ```
@@ -56,25 +65,61 @@ Use kebab-case feature directory names based on accepted business capabilities.
 Do not create feature directories from speculative architecture or technical
 categories.
 
+Layer definitions and routing are structural guidance. Do not move, rename, or
+reclassify existing ledgers and decisions merely because a layer appears to fit;
+perform an explicit classification review and preserve accepted authority.
+
 ## Read Order
 
-For a project-level session:
+For any layered session:
 
 1. Root `NEXT.md` and its linked active work-item `NEXT.md`.
 2. `docs/grilling/protocol.md`.
-3. `docs/grilling/GLOSSARY.md` when present.
-4. `docs/grilling/GRILLING.md`, continuing from `## Next Question`.
+3. `docs/grilling/README.md`.
+4. The selected file under `docs/grilling/layers/`.
+5. Accepted upstream decisions and `docs/grilling/GLOSSARY.md` when relevant.
+6. The selected `GRILLING.md`, continuing from `## Next Question`.
 
-For a feature session:
-
-1. The project-level `DECISIONS.md`, or active root `GRILLING.md` if the
-   high-level grill is not complete.
-2. `docs/grilling/protocol.md`.
-3. The feature's `GLOSSARY.md` when present.
-4. The feature's `GRILLING.md`, continuing from `## Next Question`.
+For a Product and Domain Truth feature session, accepted project decisions come
+before the feature ledger. For Foundation Design, load all accepted product and
+domain inputs that constrain the selected foundation. For Launch Readiness, load
+the accepted product and foundation outcomes whose readiness is being verified.
 
 Inspect relevant repository code and documentation before asking anything that
 can be answered locally.
+
+## Layer Classification and Sequence
+
+Before creating or asking a decision question, classify it by the consequence
+of materially different answers:
+
+1. **Product and Domain Truth** — the answer changes the service, capability,
+   domain meaning, business invariant, user-visible lifecycle, or information
+   the software must preserve.
+2. **Foundation Design** — the answer changes technology or provider use,
+   service ownership, architecture, entities as represented in systems,
+   relationships, schemas, integrations, module boundaries, or costly-to-reverse
+   runtime behavior.
+3. **Launch Readiness** — the matter can be assigned, supplied, approved,
+   evidenced, or changed without redefining product truth or a durable technical
+   foundation.
+
+Use the sequence Product and Domain Truth → Foundation Design → Launch Readiness.
+It is dependency-driven rather than a strict waterfall:
+
+- Foundation Design may expose missing product truth. Stop and route one focused
+  question back upstream rather than deciding through an implementation choice.
+- Launch Readiness may expose a missing product or foundation decision. Record
+  the blocker and route it to its owning layer rather than weakening a gate.
+- Downstream artifacts may reference upstream authority but must not silently
+  amend or duplicate it.
+- Existing accepted and pending material requires an explicit classification
+  review before it is moved, rewritten, reopened, or dropped.
+
+Launch-readiness work normally belongs in a register or checklist with an owner,
+evidence requirement, and blocker state. Use a grilling decision ID there only
+when the operator must choose between materially different product or foundation
+consequences; in that case, route the decision to the owning upstream layer.
 
 ## Product-Management and Travel-Agency Coaching
 
@@ -110,6 +155,7 @@ privacy, security, or travel-industry professional.
 ## Question Protocol
 
 - Ask exactly one decision question at a time.
+- State and verify the owning layer before assigning a decision ID.
 - Use the next decision ID stored in the applicable `GRILLING.md`.
 - Offer two to four reasonable numbered options.
 - Prefix the recommended option exactly with `(recommended):`.
@@ -147,7 +193,7 @@ After every operator answer and before asking another question:
 Do not batch several unanswered questions into one user message. Do not advance
 the stored next question until the current answer is persisted.
 
-## Root-to-Feature Transition
+## Product-and-Domain Root-to-Feature Transition
 
 The root grill should establish enough shared context to identify:
 
