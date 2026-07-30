@@ -78,17 +78,17 @@ task contract. Before committing or publishing any authorized change, follow
 
 ## Current status
 
-| Document area                    | Status                                                                                                                           |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Project-level grilling           | Accepted and distilled into DECISIONS.md                                                                                         |
-| Decision grilling                | Layer classification accepted; two focused Product and Domain Truth gaps precede the dependency-ordered Foundation Design tracks |
-| New canonical PRD                | Not yet created                                                                                                                  |
-| New domain and roadmap documents | Working drafts only                                                                                                              |
-| New UX specification             | Not yet created                                                                                                                  |
-| New technical design             | Not yet created                                                                                                                  |
-| New design system                | Not yet created                                                                                                                  |
-| Former documentation baseline    | Archived and non-authoritative                                                                                                   |
-| Current application              | Preserved prototype implementation; not the replacement-product contract                                                         |
+| Document area                    | Status                                                                                            |
+| -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Project-level grilling           | Accepted and distilled into DECISIONS.md                                                          |
+| Decision grilling                | Product and Domain Truth gaps accepted; Foundation Design is the next separately authorized layer |
+| New canonical PRD                | Not yet created                                                                                   |
+| New domain and roadmap documents | Working drafts only                                                                               |
+| New UX specification             | Not yet created                                                                                   |
+| New technical design             | Not yet created                                                                                   |
+| New design system                | Not yet created                                                                                   |
+| Former documentation baseline    | Archived and non-authoritative                                                                    |
+| Current application              | Preserved prototype implementation; not the replacement-product contract                          |
 
 ## Development package manager
 

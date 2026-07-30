@@ -8,7 +8,7 @@ Product and Domain Truth, Foundation Design, and Launch Readiness.
 
 Classification does not change the meaning or authority of an accepted decision.
 Existing accepted `DECISIONS.md` files and normative contracts remain
- authoritative until their outcomes are promoted into canonical product, domain,
+authoritative until their outcomes are promoted into canonical product, domain,
 or technical documentation.
 
 ## Locked Foundation Inputs
@@ -48,13 +48,16 @@ truthful failure behavior. This includes:
 - complete, meaning-equivalent English and Greek public experiences;
 - accepted exclusions and deferrals.
 
-Two product/domain gaps must be resolved before the relevant Sanity foundation:
+The classification identified two product/domain gaps before the relevant
+Sanity foundation:
 
 1. the minimum publishable completeness for a Destination, after importing the
    already accepted contracts for Home, About, Experiences, request journeys,
    and visitor-visible system states;
 2. withdrawal behavior for Destinations and other non-Experience public content.
 
+Both gaps are accepted and resolved in
+[`product-domain-truth/content-publication/DECISIONS.md`](product-domain-truth/content-publication/DECISIONS.md).
 Accepted Experience completeness and withdrawal rules are imported unchanged.
 
 ## Foundation Design

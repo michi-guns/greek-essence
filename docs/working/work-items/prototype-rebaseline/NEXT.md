@@ -243,6 +243,14 @@ architecture rebaseline, and promotion of settled documentation.
   merged-branch deletion are authorized through draft pull request #42. This
   does not authorize implementation or automatic commencement of Foundation
   Design.
+- Content Publication Truth is distilled into
+  `docs/grilling/product-domain-truth/content-publication/DECISIONS.md`. D-001
+  and D-002 occur exactly once and in order, preserve the accepted rationale and
+  rejected alternatives, align with accepted Catalogue Discovery and Public
+  Brand Pages behavior, and retain product invariants without choosing Sanity
+  mechanics or technical relationship cardinality. The exact authorized raw
+  `GRILLING.md` path is removed, while its final accepted contents and removal
+  authorization remain preserved in pull request #42.
 - The operator accepted the three-layer classification and dependency sequence.
   `docs/grilling/CLASSIFICATION.md` now carries accepted product/domain truth,
   locked foundation inputs, Launch Readiness items, deferrals, and promotion
@@ -312,18 +320,17 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Finalize the accepted Content Publication Truth unit through draft pull request
-#42: preserve the final accepted raw ledger and exact removal authorization in
-the PR record, distill and semantically verify `DECISIONS.md`, remove the exact
-authorized `docs/grilling/product-domain-truth/content-publication/GRILLING.md`
-path, run the applicable checks, squash-merge, delete the branch, and return to
-clean synchronized `main`.
+After pull request #42 is merged and the repository is synchronized, wait for
+explicit operator authorization before starting the System Boundaries and Domain
+Representation Foundation Design track. That separately authorized work must
+create its layer-owned grilling workspace and first stored decision through the
+repository workflow; it must explain relevant components and a concrete Greek
+Essence workflow before asking technology-dependent questions.
 
-Completion condition: the accepted raw source and authorization remain
-reviewable in PR #42, the final tree contains the verified `DECISIONS.md` and no
-raw ledger, all required checks pass, PR #42 is merged, and local `main` matches
-`origin/main`. Foundation Design remains separate successor work and must not
-begin automatically.
+Completion condition: the first Foundation Design workspace is created and its
+first decision is persisted on a new coherent draft pull request, without
+reopening locked stack inputs or accepted Product and Domain Truth. Do not begin
+this successor work automatically as part of pull request #42.
 
 ## Done When
 
