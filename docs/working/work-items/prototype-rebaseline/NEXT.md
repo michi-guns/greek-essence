@@ -269,6 +269,12 @@ architecture rebaseline, and promotion of settled documentation.
   agency mail service, and the current Vercel direction with conditional Netlify
   fallback. Exact versions are pinned and verified during later authorized
   implementation rather than reopened in grilling.
+- On 2026-07-30, the operator explicitly authorized the first Foundation Design
+  track. The active System Boundaries and Domain Representation workspace is
+  `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
+  Its stored D-001 asks which system authoritatively verifies Booking Request
+  eligibility and what Experience information crosses the Sanity–Neon boundary
+  at acceptance. No Foundation Design decision is accepted yet.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -320,17 +326,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-After pull request #42 is merged and the repository is synchronized, wait for
-explicit operator authorization before starting the System Boundaries and Domain
-Representation Foundation Design track. That separately authorized work must
-create its layer-owned grilling workspace and first stored decision through the
-repository workflow; it must explain relevant components and a concrete Greek
-Essence workflow before asking technology-dependent questions.
+Present only System Boundaries and Domain Representation D-001 from
+`docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
+After the operator answers, persist the selected boundary before presenting the
+next single question. Keep related answers and eventual acceptance on the same
+coherent draft pull request.
 
-Completion condition: the first Foundation Design workspace is created and its
-first decision is persisted on a new coherent draft pull request, without
-reopening locked stack inputs or accepted Product and Domain Truth. Do not begin
-this successor work automatically as part of pull request #42.
+Completion condition: D-001 is persisted with its rationale and consequences,
+and the next highest-value question is stored without choosing exact Sanity
+fields, a Neon/Drizzle table layout, or snapshot contents prematurely.
 
 ## Done When
 
