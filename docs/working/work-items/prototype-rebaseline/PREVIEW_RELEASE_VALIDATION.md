@@ -9,6 +9,27 @@ production-facing Phase 1 release, not a private client demonstration.
 This confirmation does not by itself approve every feature, provider, public
 claim, legal text, cost, or operational commitment in the working drafts.
 
+## Market-Validation and Cost Boundary
+
+The Public Preview is a real-data service operated as a market-validation
+experiment. Its launch objective is zero new recurring platform spend: use free
+provider plans and quotas wherever they meet the minimum production-facing
+requirements, and do not buy hypothetical capacity before visitors demonstrate
+demand.
+
+Traffic that approaches or exceeds a free limit is successful validation and
+triggers an evidence-led client decision about a bounded paid upgrade. Until
+that decision, the service may degrade or stop the affected operation honestly,
+but it must not silently lose accepted enquiries, misrepresent delivery, expose
+personal data, or bypass an accepted privacy, security, accessibility, or
+recovery boundary.
+
+Before launch, verify that the selected free plans permit the intended public
+and commercial use, identify their enforceable quotas, monitor those quotas, and
+name who receives a threshold or failure alert. If no free route can satisfy a
+mandatory safeguard, escalate the blocker rather than silently purchasing a
+service or weakening the gate.
+
 ## Confirmed Internally
 
 - Public access and real visitor traffic are in scope.

@@ -30,6 +30,13 @@ architecture rebaseline, and promotion of settled documentation.
 - The selected platform direction is Sanity, Neon PostgreSQL, Drizzle, Vercel,
   and Nodemailer through the agency mail service. Netlify remains an optional
   later replacement for Vercel.
+- The operator clarified that the Public Preview is commercially a
+  market-validation experiment: target zero new recurring platform spend, use
+  compliant free quotas until traffic proves demand, and require explicit client
+  approval for a later paid upgrade. Visitor-driven quota pressure is a positive
+  validation signal; unrelated CI or operational exhaustion is not. Neither
+  case authorizes silent enquiry loss, unsafe data handling, or misleading
+  failure behavior.
 - Example-led client validation is required. Prepare realistic drafts,
   templates, and mockups, but do not publish unapproved legal text, prices,
   claims, testimonials, media rights, response promises, or other client facts.
@@ -191,6 +198,11 @@ architecture rebaseline, and promotion of settled documentation.
   submitted reply email, ordinary search or threading, and the prior reference
   for explicit corrections. Database grouping is not a routine staff view, and
   different-email relationships cannot be manually merged at launch.
+- Request Processing and Communications D-009 uses encrypted off-provider
+  request-data backups within zero-cost quotas, each expiring no later than
+  thirty days after creation. Restores are isolated and reapply expired and
+  verified-deleted records before production use; quota pressure alerts the
+  owner and triggers client review rather than an automatic paid upgrade.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -242,14 +254,13 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Ask Request Processing and Communications D-009 exactly as stored in
+Ask the renewed Request Processing and Communications acceptance review exactly
+as stored in
 `docs/grilling/request-processing-and-communications/GRILLING.md`. Do not
-distill or remove the raw ledger until the remaining review findings are settled
-and the complete feature grill is accepted again.
+distill or remove the raw ledger until the complete feature grill is accepted
+again.
 
-Completion condition: persist D-009 and its consequences, reconcile the
-remaining material review findings, then ask the operator to accept or correct
-the complete feature grill.
+Completion condition: persist renewed acceptance or the requested correction.
 
 ## Done When
 

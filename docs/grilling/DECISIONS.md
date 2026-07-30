@@ -23,6 +23,21 @@ The Public Preview Release is a real public service expected to receive real
 visitors and enquiries. It is not a private demonstration, even though
 controlled demonstrations may be used during development and client review.
 
+Its commercial purpose is market validation: learn whether the public site
+attracts meaningful visitors and genuine enquiries before asking the client to
+fund expanded capacity. Launch should therefore use free provider plans and
+quotas wherever they satisfy the minimum real-data, privacy, security,
+reliability, and truthful-failure requirements. Do not buy capacity in advance
+for hypothetical traffic.
+
+Approaching or exceeding a free limit because of real visitor activity is a
+positive demand signal and triggers an evidence-led client discussion about a
+bounded paid upgrade. Non-traffic exhaustion remains an operational constraint,
+not evidence of demand. Neither case may silently lose an accepted enquiry or
+weaken a required safeguard. If durable saving is unavailable, the site reports
+an honest temporary failure and alerts the named operational owner rather than
+pretending that the request was received.
+
 The release remains targeted for the end of August in the current working
 roadmap. The exact date, public domain, served markets, and languages require
 example-led client confirmation before scope freeze.
@@ -140,10 +155,19 @@ Before accepting real visitor data, validate for Neon:
 
 Neon Free's six-hour restore window cannot be the only recovery plan.
 
-Vercel may be used for development and controlled demonstrations. If it hosts
-the commercial public release, it requires an eligible commercial plan. A move
-to Netlify Free remains an available cost-saving decision and must be validated
-before public launch if zero-cash hosting is required.
+Vercel may be used for development and controlled demonstrations. If its terms
+require a commercial plan for this public use, it is not the zero-cost launch
+host unless the client later approves that cost. The public preview must use a
+validated commercially eligible free-hosting route, such as a validated
+Netlify Free replacement, or return the cost decision to the client. Provider
+terms, quotas, and technical fit must be checked before launch.
+
+The launch target is zero new recurring platform spend using free quotas and
+existing approved agency services. Free limits must be monitored, and no paid
+upgrade may be introduced without a later explicit client decision. If no free
+option can meet a mandatory privacy, security, durability, or truthful-service
+boundary, surface that launch blocker rather than silently paying or weakening
+the requirement.
 
 Nodemailer is a library, not the mail provider. The agency's mail service must
 permit secure automated SMTP, provide appropriate password or OAuth access,
@@ -255,8 +279,9 @@ have named owners or later feature grills and may still change launch details:
 
 - Client: public scope, content, workflows, owners, claims, media, policies,
   accounts, and acceptable costs.
-- Operator and development team: Vercel commercial plan versus validated
-  Netlify replacement.
+- Operator and development team: a validated commercially eligible zero-cost
+  launch host; any later paid Vercel or other upgrade requires traffic evidence
+  and explicit client approval.
 - Development team with client account owner: Neon region, privacy agreement,
   access, recovery, and upgrade limits.
 - Development team with agency mail owner: SMTP authentication, sender domain,

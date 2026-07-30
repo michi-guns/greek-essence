@@ -2,10 +2,9 @@
 
 ## Status
 
-Accepted through D-006 by the operator on 2026-07-30, then reopened only for
-D-007 after distillation review found a material interaction between correction
-history and per-request deletion. Do not remove this ledger or finalize
-`DECISIONS.md` until D-007 is settled and the complete grill is accepted again.
+D-001 through D-009 are locked. D-007 through D-009 resolved material findings
+from the first distillation review. Awaiting renewed complete-feature acceptance
+before final distillation and separately approved raw-ledger removal.
 
 This grill does not authorize implementation. Use [../DECISIONS.md](../DECISIONS.md)
 and [../protocol.md](../protocol.md).
@@ -41,6 +40,10 @@ email was delivered when delivery is failed or unconfirmed, and it must not ask
 the visitor to resubmit an already accepted request. If visitor acknowledgement
 delivery fails or cannot be confirmed, the website also explains that email
 delivery could not be confirmed.
+
+A confirmed handoff means only that the configured mail service accepted the
+message for delivery. It is not proof that the recipient read or ultimately
+received it, and public wording must not overstate that outcome.
 
 Each required email outcome is recorded against the accepted request. Failed
 agency notification must enter a safe recovery path: retry only when doing so
@@ -191,6 +194,9 @@ for authorized recovery, security, or privacy work, not ordinary enquiry
 handling. General logs continue to exclude request content, notes, messages,
 and full contact details under D-004.
 
+Production credentials and records must also remain out of source control,
+screenshots, demonstrations, and persistent project memory.
+
 The client must approve the simple twelve-month rule, owner, inbox-deletion
 practice, and accurate privacy wording before real launch, with qualified
 privacy or legal validation where appropriate. This is a focused launch check,
@@ -250,10 +256,57 @@ remains deferred with the dashboard.
 The normative staff-context boundary is defined in
 [contracts/customer-contact-recognition.md](contracts/customer-contact-recognition.md).
 
+### D-009 — Zero-Cost Encrypted Rolling Backups with Thirty-Day Expiry
+
+The Public Preview uses encrypted off-provider request-data backups within
+zero-cost provider quotas. Each backup copy expires automatically no later than
+thirty days after creation. The later technical design may select free scheduled
+automation and private object storage but must not require a VPS or paid service
+for launch.
+
+Backups are not a history interface and are accessible only to named technical
+recovery roles. A restore first enters an isolated, access-restricted
+environment, then reapplies the twelve-month cutoff and verified earlier
+deletions before any data returns to production. A minimal protected deletion
+manifest may be retained only as needed to prevent an eligible backup from
+resurrecting a deleted request.
+
+The privacy explanation states that a deleted request may remain in protected
+backups for up to thirty additional days. Free-quota use must be monitored.
+Visitor-volume pressure on a free allowance is evidence of demand and triggers
+an explicit client discussion about a bounded paid upgrade. CI or operational
+misuse is not demand evidence and must be corrected separately. Neither case
+authorizes silent data loss, an unapproved charge, or weakened safeguards.
+
+If the backup operation cannot complete, the named owner is alerted. If a free
+limit prevents durable request acceptance, the website returns an honest
+temporary failure rather than claiming receipt. Exact providers, schedules,
+quota thresholds, and restore commands belong to Production Operations and the
+later technical design.
+
+The normative backup boundary is defined in
+[contracts/retention-access-and-deletion.md](contracts/retention-access-and-deletion.md).
+
+## Inherited Cross-Journey Requirements
+
+The owning Consultation Request, Booking Request, and General Contact decisions
+remain authoritative beyond visitor wording. Final distillation and later
+implementation contracts must preserve these accepted consequences:
+
+- Consultation notes do not enter agency notification emails.
+- Visitor-provided text is safely rendered, minimized in notifications, and
+  covered by redaction and incident handling.
+- A Booking Request stores only the smallest historical Experience snapshot
+  needed to identify what the visitor requested without copying unnecessary
+  mutable catalogue content.
+- Production credentials and records never appear in source control,
+  screenshots, demonstrations, general logs, or persistent project memory.
+
 ## Open Questions
 
-- D-009: How do off-provider recovery copies inherit the request retention and
-  deletion rules?
+None. No unresolved feature decision currently appears capable of materially
+changing request value, scope, workflow, data, ownership, privacy, recovery,
+cost, or implementation boundaries.
 
 ## Prior Acceptance
 
@@ -262,46 +315,36 @@ and Communications feature boundary on 2026-07-30 and separately approved this
 raw ledger's removal after verified distillation. The removal did not proceed
 because final review found D-007 before the distillation was merged.
 
-That prior acceptance remains evidence for D-001 through D-006 but is not the
-final feature acceptance while D-009 is open. Nothing here authorizes application
-implementation, dependency installation, schema migration, or deployment.
+That prior acceptance remains evidence for D-001 through D-006. D-007 through
+D-009 now require renewed acceptance of the complete feature. Nothing here
+authorizes application implementation, dependency installation, schema
+migration, or deployment.
 
 ## Next Question
 
-ID: D-009
+ID: Acceptance Review
 
 Topic:
-Keeping off-provider recovery compatible with the simple retention promise.
+Renewed acceptance of the complete Request Processing and Communications grill.
 
 Prompt:
-The accepted platform direction requires secure off-provider recovery copies.
-How long should encrypted request-data backups remain after production records
-change or expire?
+Do you accept D-001 through D-009 as the complete Request Processing and
+Communications feature boundary after the distillation-review corrections?
 
 Options:
 
-1. (recommended): **Encrypted rolling backups with a 30-day maximum.** Delete
-   each off-provider copy automatically after at most 30 days. A restore occurs
-   only in an isolated, access-restricted environment and reapplies the
-   twelve-month cutoff and verified earlier deletions before returning data to
-   production. The privacy wording states that deleted records may remain in
-   protected backups for up to 30 days.
-2. **Do not back up request data off-provider.** Rely only on Neon's recovery
-   features. This simplifies deletion but contradicts the accepted independent
-   recovery direction and increases provider-loss risk.
-3. **Keep encrypted recovery exports for twelve months.** This gives a much
-   longer recovery window but allows deleted production enquiries to remain in
-   another system for up to an additional year.
+1. (recommended): **Accept the complete feature grill.** This authorizes final
+   distillation only, not implementation.
+2. **Correct a material decision first.** Name the decision and required
+   correction.
 
 Why this matters:
-Without an explicit rolling expiry and restore rule, production deletion can be
-undone by an old export and the claim that enquiries are not kept indefinitely
-is incomplete.
+Renewed acceptance confirms that the correction-retention, staff-context,
+zero-cost backup, inherited journey, and security boundaries now form one
+coherent feature contract.
 
 After answer:
 
-- Lock the off-provider backup expiry, access, and restore boundary.
-- Reconcile the remaining accepted journey requirements and security wording in
-  the final distillation.
-- Ask the operator to accept or correct the complete grill again before
-  distillation.
+- Record renewed feature acceptance.
+- Distill the accepted ledger again and verify every decision and contract.
+- Obtain separate path-specific approval before removing this raw ledger.

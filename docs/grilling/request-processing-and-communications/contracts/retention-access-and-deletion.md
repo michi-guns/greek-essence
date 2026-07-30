@@ -57,6 +57,25 @@ documented normal backup-expiry cycle; backups are not edited record by record.
 The cycle and recovery behavior must be known and reflected accurately in the
 approved privacy explanation before real enquiries are accepted.
 
+Off-provider request-data backups are encrypted and use a rolling expiry of no
+more than thirty days from each copy's creation. They are stored outside Neon,
+remain unavailable to routine agency staff, and are accessible only to named
+technical recovery roles. Launch uses zero-cost provider quotas; the exact free
+scheduler and private storage provider belong to later technical and Production
+Operations decisions.
+
+A restore first enters an isolated, access-restricted environment. Before any
+data returns to production, the recovery procedure reapplies the twelve-month
+cutoff and every verified earlier deletion that could be present in the selected
+backup. A minimal protected deletion manifest may remain only as long as needed
+to prevent an eligible backup from resurrecting the deleted request.
+
+The public privacy explanation states that deleted requests may remain in
+protected backups for up to thirty additional days. Free quotas are monitored.
+Visitor-volume pressure triggers an alert and evidence-led client review;
+non-traffic exhaustion is corrected as an operational constraint. Neither case
+causes an automatic paid upgrade or weakened safeguard.
+
 General application, monitoring, and error logs must not contain request bodies,
 notes, messages, full email addresses, or other unnecessary visitor details.
 The protected request record and audit remain the authoritative private sources
@@ -70,6 +89,9 @@ Before accepting real enquiries, confirm and test:
 - the named agency deletion and data-rights owner;
 - the agency-inbox deletion practice;
 - provider backup expiry and recovery behavior; and
+- encrypted off-provider backup creation, automatic thirty-day expiry,
+  restricted access, deletion-safe isolated restore, free-quota monitoring, and
+  alert ownership;
 - accurate privacy wording and any qualified review required for the actual
   processing.
 
