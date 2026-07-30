@@ -2,7 +2,7 @@
 
 ## Status
 
-Active
+Complete
 
 ## Ownership and Scope
 
@@ -46,11 +46,15 @@ prototype-rebaseline work item's grilling documents.
 - GitHub Actions run `30561310912` exited successfully after the licensed
   Gitleaks Action and full mixed-change path both passed.
 
-Independent review found three blocking issues: Gitleaks could be skipped after
-an earlier CI failure, pre-push Prettier read the working tree instead of the
-pushed commit, and deleted or renamed Markdown paths were passed to Prettier as
-missing files. Correct these issues and reverify both routes before completing
-the work item.
+Independent review findings were corrected: Gitleaks now runs even after an
+earlier CI failure; scoped Prettier reads immutable blobs from the pushed tree;
+deletions and renames exclude nonexistent paths; and large blobs stream without
+Node's bounded capture buffer. A synthetic 2 MiB Markdown blob passed on
+Windows, while an unavailable blob failed closed. The final independent review
+approved commit `4becf6c` with no blocking findings. `pnpm run check`,
+`pnpm check:push`, and GitHub Actions run `30563565282` passed.
+
+No further action is required for this work item.
 
 ## Constraints
 
