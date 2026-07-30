@@ -54,6 +54,10 @@ agent-tooling baseline, and prototype reference have been moved under
 historical reference only and must not be treated as current product,
 architecture, design, quality, tooling, or implementation authority.
 
+Before interpreting or assigning responsibility among Greek Essence, Giorgos,
+agency personnel, Dimitri, or the technical publisher, read
+[`docs/PROJECT_ACTORS.md`](docs/PROJECT_ACTORS.md).
+
 During the rebaseline, use this authority order:
 
 1. Current operator instructions.

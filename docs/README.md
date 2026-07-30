@@ -23,6 +23,7 @@ only to the archived prototype and have no current authority.
 
 | Area | Role | Start here |
 | --- | --- | --- |
+| Project actors | Greek Essence, agency, developer, product-management, delegation, and technical-publication responsibilities | [`PROJECT_ACTORS.md`](PROJECT_ACTORS.md) |
 | Layered decision grilling | Product/domain truth, foundation design, and launch readiness before implementation | [`grilling/README.md`](grilling/README.md) |
 | Active work routing | Current multi-session work and immediate continuation | [`../NEXT.md`](../NEXT.md) |
 | Working evidence | Temporary rebaseline operations, requirements intake, draft sources, and decision registers | [`working/work-items/prototype-rebaseline/NEXT.md`](working/work-items/prototype-rebaseline/NEXT.md) |
