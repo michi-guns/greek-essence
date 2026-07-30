@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest"
 
 import {
   classifyChangedPaths,
+  collectRangeChanges,
   packageScriptInvocation,
   parseNulPaths,
   resolvePrePushRanges,
@@ -132,5 +133,69 @@ describe("package script execution", () => {
     expect(() =>
       packageScriptInvocation("linux", "arbitrary-command", "")
     ).toThrow("Unsupported package script")
+  })
+})
+
+describe("pushed-tree Markdown collection", () => {
+  it("does not read blobs after a mixed range selects full checks", () => {
+    const git = vi.fn((args: string[]) => {
+      if (args[0] === "diff") return "README.md\0public/image.jpg\0"
+      throw new Error("mixed ranges must not read blobs")
+    })
+
+    expect(collectRangeChanges([{ base: "base", head: "head" }], git)).toEqual({
+      paths: ["README.md", "public/image.jpg"],
+      files: [],
+    })
+    expect(git).toHaveBeenCalledTimes(1)
+  })
+
+  it("reads surviving files from the pushed commit and excludes deletions", () => {
+    const hash = "c".repeat(40)
+    const git = vi.fn((args: string[]) => {
+      if (args[0] === "diff") return "docs/old.md\0docs/new.md\0"
+      if (args[0] === "ls-tree" && args.at(-1) === ":(literal)docs/old.md")
+        return ""
+      if (args[0] === "ls-tree") return `100644 blob ${hash}\tdocs/new.md\0`
+      if (args[0] === "cat-file") return "# Pushed content\n"
+      return undefined
+    })
+
+    expect(collectRangeChanges([{ base: "base", head: "head" }], git)).toEqual({
+      paths: ["docs/old.md", "docs/new.md"],
+      files: [
+        {
+          head: "head",
+          path: "docs/new.md",
+          content: "# Pushed content\n",
+        },
+      ],
+    })
+  })
+
+  it("keeps a pure Markdown deletion on the fast path without a file to format", () => {
+    const git = vi.fn((args: string[]) =>
+      args[0] === "diff" ? "docs/removed.md\0" : ""
+    )
+
+    const changes = collectRangeChanges([{ base: "base", head: "head" }], git)
+
+    expect(changes).toEqual({ paths: ["docs/removed.md"], files: [] })
+    expect(classifyChangedPaths(changes?.paths ?? []).kind).toBe(
+      "markdown-only"
+    )
+  })
+
+  it("fails closed when a surviving blob cannot be read", () => {
+    const hash = "d".repeat(40)
+    const git = vi.fn((args: string[]) => {
+      if (args[0] === "diff") return "docs/file.md\0"
+      if (args[0] === "ls-tree") return `100644 blob ${hash}\tdocs/file.md\0`
+      return undefined
+    })
+
+    expect(
+      collectRangeChanges([{ base: "base", head: "head" }], git)
+    ).toBeUndefined()
   })
 })

@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process"
-import { readFileSync } from "node:fs"
-import { dirname, resolve } from "node:path"
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { dirname, extname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
@@ -65,12 +66,13 @@ function gitOutput(args) {
   return run("git", args, { capture: true })
 }
 
-function changedPathsForRanges(ranges) {
+export function collectRangeChanges(ranges, git = gitOutput) {
   if (!ranges) return undefined
 
   const paths = []
+  const entries = []
   for (const { base, head } of ranges) {
-    const output = gitOutput([
+    const output = git([
       "diff",
       "--no-renames",
       "--name-only",
@@ -80,9 +82,34 @@ function changedPathsForRanges(ranges) {
       "--",
     ])
     if (output === undefined) return undefined
-    paths.push(...parseNulPaths(output))
+    const rangePaths = parseNulPaths(output)
+    paths.push(...rangePaths)
+    entries.push(...rangePaths.map((path) => ({ head, path })))
   }
-  return paths
+
+  if (classifyChangedPaths(paths).kind === "full") {
+    return { paths, files: [] }
+  }
+
+  const files = []
+  const seenFiles = new Set()
+  for (const { head, path } of entries) {
+    const key = `${head}\0${path}`
+    if (seenFiles.has(key)) continue
+
+    const treeEntry = git(["ls-tree", "-z", head, "--", `:(literal)${path}`])
+    if (treeEntry === undefined) return undefined
+    if (!treeEntry) continue
+
+    const match = treeEntry.match(/^[0-7]+ blob ([0-9a-f]{40,64})\t/)
+    if (!match) return undefined
+    const content = git(["cat-file", "blob", match[1]])
+    if (content === undefined) return undefined
+
+    seenFiles.add(key)
+    files.push({ head, path, content })
+  }
+  return { paths, files }
 }
 
 export function packageScriptInvocation(platform, script, commandInterpreter) {
@@ -107,28 +134,49 @@ function runPackageScript(script) {
   return run(invocation.command, invocation.args) !== undefined
 }
 
-function runPrettier(paths) {
-  return (
-    run(process.execPath, [
-      resolve(root, "node_modules/prettier/bin/prettier.cjs"),
-      "--check",
-      "--ignore-path",
-      ".gitignore",
-      "--",
-      ...paths,
-    ]) !== undefined
-  )
+function runPrettier(files) {
+  if (files.length === 0) {
+    console.log("No surviving Markdown files require formatting.")
+    return true
+  }
+
+  const directory = mkdtempSync(join(tmpdir(), "greek-essence-markdown-"))
+  try {
+    const materializedPaths = files.map((file, index) => {
+      const path = join(
+        directory,
+        `${index}${extname(file.path).toLowerCase()}`
+      )
+      writeFileSync(path, file.content, "utf8")
+      return path
+    })
+
+    return (
+      run(process.execPath, [
+        resolve(root, "node_modules/prettier/bin/prettier.cjs"),
+        "--check",
+        "--config",
+        resolve(root, ".prettierrc"),
+        "--ignore-path",
+        resolve(root, ".gitignore"),
+        "--",
+        ...materializedPaths,
+      ]) !== undefined
+    )
+  } finally {
+    rmSync(directory, { recursive: true, force: true })
+  }
 }
 
-function runSelectedGates(paths, fullScript, scanSecrets) {
-  const classification = classifyChangedPaths(paths ?? [])
+function runSelectedGates(changes, fullScript, scanSecrets) {
+  const classification = classifyChangedPaths(changes?.paths ?? [])
 
   if (classification.kind === "markdown-only") {
     console.log(
       `Markdown-only change detected (${classification.paths.length} file${classification.paths.length === 1 ? "" : "s"}).`
     )
     if (scanSecrets && !runPackageScript("secrets:scan")) return 1
-    return runPrettier(classification.paths) ? 0 : 1
+    return runPrettier(changes.files) ? 0 : 1
   }
 
   console.log("Mixed or uncertain change scope; running full checks.")
@@ -151,7 +199,7 @@ function runCli() {
     const [base, head, fullScript = "check"] = args
     const ranges = base && head ? [{ base, head }] : undefined
     return runSelectedGates(
-      changedPathsForRanges(ranges),
+      collectRangeChanges(ranges),
       fullScript,
       args.includes("--secrets")
     )
@@ -163,7 +211,7 @@ function runCli() {
     const ranges = remoteName
       ? resolvePrePushRanges(input, remoteName, mergeBase)
       : undefined
-    return runSelectedGates(changedPathsForRanges(ranges), "check:push", true)
+    return runSelectedGates(collectRangeChanges(ranges), "check:push", true)
   }
 
   console.error("Usage: change-gates.mjs range|pre-push ...")

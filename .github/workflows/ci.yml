@@ -45,6 +45,7 @@ jobs:
         run: node scripts/change-gates.mjs range "$BASE_SHA" "$HEAD_SHA" check
 
       - name: Scan committed changes for secrets
+        if: ${{ always() }}
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

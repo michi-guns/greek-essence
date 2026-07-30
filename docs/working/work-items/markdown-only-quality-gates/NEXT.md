@@ -2,7 +2,7 @@
 
 ## Status
 
-Complete
+Active
 
 ## Ownership and Scope
 
@@ -46,7 +46,11 @@ prototype-rebaseline work item's grilling documents.
 - GitHub Actions run `30561310912` exited successfully after the licensed
   Gitleaks Action and full mixed-change path both passed.
 
-No further action is required for this work item.
+Independent review found three blocking issues: Gitleaks could be skipped after
+an earlier CI failure, pre-push Prettier read the working tree instead of the
+pushed commit, and deleted or renamed Markdown paths were passed to Prettier as
+missing files. Correct these issues and reverify both routes before completing
+the work item.
 
 ## Constraints
 
