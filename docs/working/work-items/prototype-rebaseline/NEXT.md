@@ -223,6 +223,34 @@ architecture rebaseline, and promotion of settled documentation.
   become responsible for approving business claims. Client approval ownership,
   the technical publisher, and their handoff are Launch Readiness items rather
   than another foundation decision.
+- Content Publication Truth D-001 establishes that a useful standalone
+  Destination may publish without a published Experience when its approved
+  bilingual orientation/detail content and onward paths fulfil the discovery
+  promise. A Destination with no published Experiences omits the empty section
+  and makes no availability implication. Destination and Experience publication
+  lifecycles are independent, while every published Experience still requires a
+  valid published Destination relationship.
+- Content Publication Truth D-002 establishes relationship-aware withdrawal.
+  Withdrawn optional content leaves discovery and its former URL provides a
+  generic bilingual recovery path without stale content. Each affected published
+  Experience must retain another genuinely valid and approved published
+  Destination relationship or also be withdrawn. Required service, request,
+  privacy, or legal pages must be replaced or redirected, or their dependent
+  journey must be disabled honestly.
+- On 2026-07-30, the operator accepted Content Publication Truth D-001 and D-002
+  together and selected automatic finalization. The exact raw-ledger removal,
+  verified distillation, required-check monitoring, squash merge, and
+  merged-branch deletion are authorized through draft pull request #42. This
+  does not authorize implementation or automatic commencement of Foundation
+  Design.
+- Content Publication Truth is distilled into
+  `docs/grilling/product-domain-truth/content-publication/DECISIONS.md`. D-001
+  and D-002 occur exactly once and in order, preserve the accepted rationale and
+  rejected alternatives, align with accepted Catalogue Discovery and Public
+  Brand Pages behavior, and retain product invariants without choosing Sanity
+  mechanics or technical relationship cardinality. The exact authorized raw
+  `GRILLING.md` path is removed, while its final accepted contents and removal
+  authorization remain preserved in pull request #42.
 - The operator accepted the three-layer classification and dependency sequence.
   `docs/grilling/CLASSIFICATION.md` now carries accepted product/domain truth,
   locked foundation inputs, Launch Readiness items, deferrals, and promotion
@@ -250,21 +278,21 @@ architecture rebaseline, and promotion of settled documentation.
   ms while retaining the Unlighthouse score budgets. Final measured LCP was
   2646.837 ms for `/en` and 2621.026 ms for `/el`.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
-  --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
+--check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
 - Post-deletion verification on 2026-07-29: `pnpm format:check` and `git diff
-  --check` both exited `0`; the raw project ledger is absent. Its two remaining
+--check` both exited `0`; the raw project ledger is absent. Its two remaining
   path mentions are intentional: the reusable protocol names the standard
   project-ledger location, and this handoff records its approved removal.
 - Prototype-media verification on 2026-07-29: `pnpm check` exited `0` with 40
   unit tests passing; `pnpm build` exited `0`; the final `pnpm test:e2e` rerun
   exited `0` with 53 passing and 4 intentionally skipped tests; and `pnpm
-  quality:unlighthouse` exited `0`. Playwright CLI inspection found all
+quality:unlighthouse` exited `0`. Playwright CLI inspection found all
   referenced images decoded, image requests returned `200`, localized alt text
   was present, and representative 320, 390, 834, and 1440 layouts had no
   horizontal overflow.
 - Public Brand Pages acceptance verification on 2026-07-29: `pnpm
-  format:check` and `git diff --check` exited `0` before the approved raw-ledger
+format:check` and `git diff --check` exited `0` before the approved raw-ledger
   removal. After removal and routing updates, `pnpm check:push` exited `0`: the
   secrets scan found no leaks; the configured audit gate passed while reporting
   three known dependency findings; formatting, lint, Knip, typecheck, and
@@ -279,7 +307,7 @@ architecture rebaseline, and promotion of settled documentation.
   intentionally skipped tests. `git diff --check` also exited `0` after the
   accepted distillation and approved raw-ledger removal.
 - Consultation Request acceptance verification on 2026-07-29: the first `pnpm
-  check:push` run reached Playwright after all preceding gates passed, then
+check:push` run reached Playwright after all preceding gates passed, then
   exited `1` when one compact-browser navigation case timed out with 52 passing
   and 4 intentionally skipped tests. The exact failed case immediately passed
   alone, and the complete `pnpm test:e2e` rerun exited `0` with 53 passing and 4
@@ -292,14 +320,17 @@ architecture rebaseline, and promotion of settled documentation.
 
 ## Next Recommended Action
 
-Continue Product and Domain Truth by asking Content Publication Truth D-001
-exactly as stored in
-`docs/grilling/product-domain-truth/content-publication/GRILLING.md`. Do not
-resume either paused mixed-layer ledger.
+After pull request #42 is merged and the repository is synchronized, wait for
+explicit operator authorization before starting the System Boundaries and Domain
+Representation Foundation Design track. That separately authorized work must
+create its layer-owned grilling workspace and first stored decision through the
+repository workflow; it must explain relevant components and a concrete Greek
+Essence workflow before asking technology-dependent questions.
 
-Completion condition: persist D-001 and its next stored question through the
-repository workflow. After both content-publication gaps are accepted, begin the
-System Boundaries and Domain Representation Foundation Design track.
+Completion condition: the first Foundation Design workspace is created and its
+first decision is persisted on a new coherent draft pull request, without
+reopening locked stack inputs or accepted Product and Domain Truth. Do not begin
+this successor work automatically as part of pull request #42.
 
 ## Done When
 
