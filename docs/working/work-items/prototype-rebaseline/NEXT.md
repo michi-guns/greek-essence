@@ -288,8 +288,11 @@ architecture rebaseline, and promotion of settled documentation.
   relationship is derived only from retained immutable Requests, with no
   separate contact entity or indefinite customer directory. D-006 is accepted:
   all valid Destination relationships are equal; there is no primary or role
-  taxonomy. Stored D-007 asks how a correction retains safe relationship meaning
-  after its earlier Request expires independently.
+  taxonomy. D-007 is accepted: a correction stores its intent and submitted prior
+  opaque reference after private reference-and-email validation, without a
+  foreign key or correction-link entity; routine staff context remains in email.
+  No material question remains in this track, which is ready for combined
+  operator acceptance on draft PR #45.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -341,15 +344,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present only System Boundaries and Domain Representation D-007 from
-`docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
-After the operator answers, persist the selected boundary before presenting the
-next single question. Keep related answers and eventual acceptance on the same
-coherent draft pull request.
+Present the combined acceptance question for System Boundaries and Domain
+Representation, naming raw ledger
+`docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`
+and existing draft PR #45. Offer accept-and-finalize, accept-but-retain, and
+correct-first choices exactly as required by `docs/grilling/protocol.md`.
 
-Completion condition: D-007 is persisted with its rationale and consequences,
-and the next highest-value question is stored without choosing exact Sanity
-fields or a Neon/Drizzle table layout prematurely.
+Completion condition: the operator either authorizes a protocol-compliant
+acceptance path or identifies one material correction; do not infer raw-ledger
+deletion or merge authorization.
 
 ## Done When
 

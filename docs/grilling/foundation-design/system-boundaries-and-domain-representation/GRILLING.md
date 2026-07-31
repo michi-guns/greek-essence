@@ -2,8 +2,9 @@
 
 ## Status
 
-Active Foundation Design interview. No decision is accepted until the operator
-selects or formulates an option and that answer is persisted here.
+Ready for combined acceptance. D-001 through D-007 have each been selected and
+persisted, but this raw ledger remains the interview source until the operator
+accepts or corrects the complete decision set.
 
 This grill does not authorize application implementation, dependency
 installation, schema migration, deployment, or production-data handling. Use
@@ -227,61 +228,65 @@ editorial and navigation edge cases. Role-labelled relationships were rejected
 because they introduce an unapproved bilingual itinerary taxonomy and validation
 burden beyond launch catalogue discovery.
 
+### D-007 — Reference-Only Correction Relationship
+
+An explicit correction is a complete new immutable Request. Before accepting it,
+the server privately confirms that the submitted earlier opaque reference exists
+among retained Requests and that its stored normalized email matches the
+correction's normalized submitted email. A failure returns one generic result
+that does not reveal whether the reference or email exists.
+
+The accepted correction stores its `correction` intent and the submitted earlier
+opaque reference, but no internal foreign key or separate correction-link entity.
+The reference itself is the durable relationship. While the earlier Request
+exists, authorized technical processing can derive that state by reference
+lookup. After the earlier Request expires independently, the same lookup no
+longer resolves; no deletion-time update, reconstruction, or retained target
+content is required. The correction's complete submitted snapshot remains
+independently understandable until its own expiry.
+
+Agency and visitor emails clearly distinguish the submission as a correction
+and include the submitted earlier reference. Routine operational history remains
+in the agency inbox through ordinary search or threading. Email delivery does
+not replace Neon acceptance: agency and visitor delivery may each fail, while
+the durably saved correction remains accepted and recoverable under the existing
+delivery and audit boundary.
+
+An illustrative `requests` representation uses `intent` and optional
+`prior_request_reference` values beside the complete typed Request snapshot.
+Exact columns, lookup constraints, normalization, and indexes belong to the
+Transactional Data Platform track. A nullable foreign key plus target-expiry
+mutation was rejected as unnecessary lifecycle machinery. A separate link entity
+was rejected because each correction has one direct target at launch. Extending
+the earlier Request's retention was rejected because corrections must expire
+independently.
+
 ## Open Questions
 
-- D-007: How should an explicit correction retain its relationship to an earlier
-  Request after that earlier Request expires independently?
-- Later: Which lifecycle invariants cross service boundaries, and which remain
-  owned by one downstream platform track?
+None within this track.
 
-## Next Question
+## Acceptance Readiness
 
-ID: D-007
+The seven decisions close the material System Boundaries and Domain
+Representation questions for the Public Preview Release:
 
-Topic:
-Correction relationship after target expiry.
+- Sanity owns editable catalogue truth and live Experience eligibility;
+- Neon owns immutable accepted Request meaning and its independent retention;
+- Sanity changes never cascade into accepted Neon records, and Neon expiry never
+  mutates Sanity content;
+- mail is a downstream operational surface whose delivery never determines
+  request acceptance;
+- stable Experience identity and bounded historical snapshots cross the Sanity
+  to Neon boundary;
+- one typed Request family represents private submissions without a generic
+  catch-all, permanent customer entity, or routine history interface;
+- Destination relationships remain equal; and
+- corrections preserve only the minimum safe reference relationship while the
+  inbox owns routine staff context.
 
-Prompt:
-How should a correction remain independently understandable after the earlier
-Request it corrects reaches its own deletion date?
-
-Options:
-
-1. (recommended): **Keep the correction relationship on the correction Request
-   itself.** While the earlier Request exists, the correction has an optional
-   internal reference to it. The correction also permanently stores the prior
-   opaque reference submitted by the visitor. When the earlier Request expires,
-   deletion removes the internal reference and marks the target expired, while
-   the correction's complete snapshot and submitted prior reference remain until
-   the correction's own expiry.
-2. **Create a separate correction-link entity.** A relationship record joins the
-   earlier and correcting Requests and carries the submitted prior reference and
-   target state. This makes correction links independently queryable, but adds a
-   new entity, retention ownership, and deletion ordering even though each
-   correction has only one direct target at launch.
-3. **Keep the earlier Request until every correction that references it expires.**
-   This preserves a simple database reference, but silently extends the earlier
-   Request's retention and can keep old personal data indefinitely through a
-   correction chain. It conflicts with the accepted independent-expiry rule.
-
-Why this matters:
-
-A January Request may expire before a correction accepted in June. The June
-correction must remain complete and useful until its own expiry, but it cannot
-retrieve or reconstruct the deleted January content. It may preserve only the
-opaque reference the visitor submitted and the truth that the earlier target has
-expired.
-
-Technically, option 1 could use nullable `corrects_request_id`, immutable
-`submitted_prior_reference`, and a target-state value on the common `requests`
-record. On target deletion, the internal reference becomes null while the safe
-historical markers remain. Exact foreign-key actions, columns, and deletion jobs
-belong to the Transactional Data Platform track.
-
-After answer:
-
-- Lock correction-link ownership and post-expiry meaning without choosing exact
-  foreign keys, columns, or deletion jobs.
-- Reconcile the remaining question order against that boundary.
-- Store the next highest-value System Boundaries and Domain Representation
-  question.
+Exact Sanity schemas, Neon and Drizzle structures, validation mechanics,
+transactions, deletion jobs, application modules, runtime configuration, named
+owners, and launch evidence remain assigned to their downstream Foundation
+Design or Launch Readiness tracks. No unresolved question here materially changes
+the established service ownership, entities, relationships, identity, lifecycle,
+or cross-service data contract.
