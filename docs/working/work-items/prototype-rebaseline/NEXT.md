@@ -269,6 +269,39 @@ architecture rebaseline, and promotion of settled documentation.
   agency mail service, and the current Vercel direction with conditional Netlify
   fallback. Exact versions are pinned and verified during later authorized
   implementation rather than reopened in grilling.
+- On 2026-07-30, the operator explicitly authorized the first Foundation Design
+  track. The accepted System Boundaries and Domain Representation authority is
+  `docs/grilling/foundation-design/system-boundaries-and-domain-representation/DECISIONS.md`.
+  Related work is finalized through pull request #45.
+  D-001 is accepted: Sanity authoritatively verifies current Booking Request
+  eligibility, while Neon preserves the stable Experience reference and bounded
+  acceptance snapshot. Distinct disabled, withdrawn, and temporary-verification
+  failures never claim receipt; exact approved direct-contact fallbacks remain
+  Launch Readiness work. D-002 is accepted: the immutable published Sanity
+  document ID is the shared Experience identity across Sanity and Neon; titles,
+  slugs, and URLs remain editable attributes. D-003 is accepted: each Booking
+  Request freezes the bounded localized Experience context and any complete
+  indicative-price context shown to the visitor, while excluding the full
+  catalogue document. D-004 is accepted: one shared Request envelope has exactly
+  one strongly typed journey detail; a wide nullable table and generic catch-all
+  payload are excluded. D-005 is accepted: the normalized-email contact
+  relationship is derived only from retained immutable Requests, with no
+  separate contact entity or indefinite customer directory. D-006 is accepted:
+  all valid Destination relationships are equal; there is no primary or role
+  taxonomy. D-007 is accepted: a correction stores its intent and submitted prior
+  opaque reference after private reference-and-email validation, without a
+  foreign key or correction-link entity; routine staff context remains in email.
+  No material question remains in this track. On 2026-07-31 the operator accepted
+  D-001 through D-007 and authorized verified distillation, exact raw-ledger
+  removal, checks, squash merge, feature-branch deletion, and isolated-worktree
+  cleanup on PR #45. The final accepted raw ledger and exact deletion
+  authorization are preserved in the pull-request record. Independent semantic
+  review initially found four editorial fidelity omissions concerning deletion
+  residue, inbox notification context, production database access, and delivery
+  recovery. After correction, the completed rerun passed with no remaining
+  semantic conflicts, weakened obligations, or unresolved fidelity findings. The
+  authorized raw `GRILLING.md` path is removed; `DECISIONS.md` is the sole
+  accepted authority at this level.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -320,17 +353,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-After pull request #42 is merged and the repository is synchronized, wait for
-explicit operator authorization before starting the System Boundaries and Domain
-Representation Foundation Design track. That separately authorized work must
-create its layer-owned grilling workspace and first stored decision through the
-repository workflow; it must explain relevant components and a concrete Greek
-Essence workflow before asking technology-dependent questions.
+After PR #45 is merged and local `main` is synchronized, ask the operator whether
+to start the next dependency-ordered Foundation Design track, Editorial Content
+Platform, as a new coherent work unit. Do not create its ledger, branch, or draft
+pull request without that successor-work authorization.
 
-Completion condition: the first Foundation Design workspace is created and its
-first decision is persisted on a new coherent draft pull request, without
-reopening locked stack inputs or accepted Product and Domain Truth. Do not begin
-this successor work automatically as part of pull request #42.
+Completion condition: the operator explicitly authorizes the Editorial Content
+Platform track or provides a different next direction.
 
 ## Done When
 
