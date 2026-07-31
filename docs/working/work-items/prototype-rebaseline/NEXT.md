@@ -286,9 +286,10 @@ architecture rebaseline, and promotion of settled documentation.
   one strongly typed journey detail; a wide nullable table and generic catch-all
   payload are excluded. D-005 is accepted: the normalized-email contact
   relationship is derived only from retained immutable Requests, with no
-  separate contact entity or indefinite customer directory. Stored D-006 asks
-  whether an Experience's one-or-more Destination relationships are equal,
-  primary-and-secondary, or role-labelled.
+  separate contact entity or indefinite customer directory. D-006 is accepted:
+  all valid Destination relationships are equal; there is no primary or role
+  taxonomy. Stored D-007 asks how a correction retains safe relationship meaning
+  after its earlier Request expires independently.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -340,13 +341,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present only System Boundaries and Domain Representation D-006 from
+Present only System Boundaries and Domain Representation D-007 from
 `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
 After the operator answers, persist the selected boundary before presenting the
 next single question. Keep related answers and eventual acceptance on the same
 coherent draft pull request.
 
-Completion condition: D-006 is persisted with its rationale and consequences,
+Completion condition: D-007 is persisted with its rationale and consequences,
 and the next highest-value question is stored without choosing exact Sanity
 fields or a Neon/Drizzle table layout prematurely.
 

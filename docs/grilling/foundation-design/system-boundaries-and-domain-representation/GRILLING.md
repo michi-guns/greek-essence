@@ -203,64 +203,85 @@ different people, typo records would persist, and it would introduce deferred
 customer-management scope and indefinite security obligations without current
 visitor or agency value.
 
+### D-006 — Destination Relationships Are Equal
+
+An Experience has one or more equally valid published Destination relationships.
+There is no required primary Destination and no role taxonomy such as starts in,
+visits, or ends in. The Experience appears in discovery for every related
+Destination and remains publishable while at least one genuinely valid published
+Destination relationship remains.
+
+The Experience's canonical identity and public URL do not depend on one
+Destination. Withdrawing a Destination removes that relationship; the Experience
+must retain another valid published Destination or be withdrawn through the
+accepted product rule.
+
+An illustrative Sanity representation is an array of Destination references on
+the Experience. A relational equivalent would be an
+`experience_destinations` join containing only the two identities. These examples
+do not lock exact Sanity fields, validation, or query implementation.
+
+A required primary Destination was rejected because multi-destination packages
+may have no truthful main place and changing that arbitrary designation adds
+editorial and navigation edge cases. Role-labelled relationships were rejected
+because they introduce an unapproved bilingual itinerary taxonomy and validation
+burden beyond launch catalogue discovery.
+
 ## Open Questions
 
-- D-006: Should an Experience's one-or-more Destination relationships be equal,
-  primary-and-secondary, or role-labelled?
-- Later: How should contact relationships, corrections, and independently
-  expiring records remain linked without reconstructing deleted data?
+- D-007: How should an explicit correction retain its relationship to an earlier
+  Request after that earlier Request expires independently?
 - Later: Which lifecycle invariants cross service boundaries, and which remain
   owned by one downstream platform track?
 
 ## Next Question
 
-ID: D-006
+ID: D-007
 
 Topic:
-Destination–Experience relationship roles.
+Correction relationship after target expiry.
 
 Prompt:
-When one Experience can relate to multiple Destinations, should those
-relationships be equal or should the content model require a primary or
-role-labelled Destination?
+How should a correction remain independently understandable after the earlier
+Request it corrects reaches its own deletion date?
 
 Options:
 
-1. (recommended): **Treat all valid Destination relationships as equal.** An
-   Experience has one or more Destinations, appears in discovery for each, and
-   remains publishable while at least one valid published relationship remains.
-   Its canonical public identity and URL do not depend on choosing one
-   Destination. Technically, this could be an `experience_destinations` join
-   table containing only `experience_id` and `destination_id`.
-2. **Require one primary Destination and allow additional Destinations.** The
-   primary relationship supplies the default editorial context, breadcrumb, or
-   grouping; additional relationships still support discovery and withdrawal.
-   Technically, the join could add `is_primary` with a constraint that each
-   Experience has exactly one. This gives deterministic presentation but creates
-   an editorial choice that may be arbitrary for multi-destination packages and
-   must be maintained when relationships change.
-3. **Give every Destination relationship a business role**, such as starts in,
-   visits, or ends in. Technically, the join stores a controlled role value. This
-   can describe itineraries more precisely, but introduces a new bilingual
-   taxonomy and validation burden not required by current catalogue discovery.
+1. (recommended): **Keep the correction relationship on the correction Request
+   itself.** While the earlier Request exists, the correction has an optional
+   internal reference to it. The correction also permanently stores the prior
+   opaque reference submitted by the visitor. When the earlier Request expires,
+   deletion removes the internal reference and marks the target expired, while
+   the correction's complete snapshot and submitted prior reference remain until
+   the correction's own expiry.
+2. **Create a separate correction-link entity.** A relationship record joins the
+   earlier and correcting Requests and carries the submitted prior reference and
+   target state. This makes correction links independently queryable, but adds a
+   new entity, retention ownership, and deletion ordering even though each
+   correction has only one direct target at launch.
+3. **Keep the earlier Request until every correction that references it expires.**
+   This preserves a simple database reference, but silently extends the earlier
+   Request's retention and can keep old personal data indefinitely through a
+   correction chain. It conflicts with the accepted independent-expiry rule.
 
 Why this matters:
 
-A Travel package may genuinely cover Athens, Paros, and Santorini. The accepted
-product rules already allow more than one Destination relationship and require
-an affected Experience to retain another valid Destination or be withdrawn when
-one is removed. The unresolved design question is whether one relationship must
-be treated as more important than the others.
+A January Request may expire before a correction accepted in June. The June
+correction must remain complete and useful until its own expiry, but it cannot
+retrieve or reconstruct the deleted January content. It may preserve only the
+opaque reference the visitor submitted and the truth that the earlier target has
+expired.
 
-The answer shapes the conceptual relationship, later Sanity references, filter
-behavior, withdrawal validation, and public navigation. It does not choose exact
-Sanity fields or final SQL, because catalogue relationships remain editorial
-content owned by Sanity rather than duplicated into Neon.
+Technically, option 1 could use nullable `corrects_request_id`, immutable
+`submitted_prior_reference`, and a target-state value on the common `requests`
+record. On target deletion, the internal reference becomes null while the safe
+historical markers remain. Exact foreign-key actions, columns, and deletion jobs
+belong to the Transactional Data Platform track.
 
 After answer:
 
-- Lock Destination–Experience relationship roles without choosing exact Sanity
-  fields, validation code, or query implementation.
+- Lock correction-link ownership and post-expiry meaning without choosing exact
+  foreign keys, columns, or deletion jobs.
 - Reconcile the remaining question order against that boundary.
 - Store the next highest-value System Boundaries and Domain Representation
   question.
