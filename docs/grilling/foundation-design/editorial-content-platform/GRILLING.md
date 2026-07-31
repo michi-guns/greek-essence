@@ -109,10 +109,36 @@ shared core plus separate English and Greek content documents was rejected
 because three records per item would add joins, validation, and recovery paths
 without proportionate launch value.
 
+### D-002 — Explicit Documents, Controlled Singletons, and Embedded Objects
+
+Greek Essence uses explicit Sanity document types for materially different
+public content items. Destinations and Experiences are repeatable document
+types. Each confirmed unique public page, including Home and About, has one
+controlled singleton record so the publisher cannot create competing copies.
+Any confirmed shared site concern that requires one authoritative editable
+record may use the same singleton pattern.
+
+Reusable structures—such as localized text, calls to action, media with
+approval metadata, and structured page sections—are reusable object definitions
+embedded within the document that owns their values. They are not independent
+public documents with separate publication, approval, reference, or withdrawal
+lifecycles.
+
+This makes Sanity Studio correspond to content items the agency recognizes,
+supports type-specific validation, and prevents accidental duplicate one-off
+pages. It accepts a modest number of clear schema types instead of one generic
+page builder. Only confirmed public surfaces may receive a document or singleton
+type; the classification does not invent content, claims, or launch approval.
+
+One generic Page document type was rejected because materially different pages
+would depend on conditional fields and editor discipline rather than clear
+page-specific structure and publication rules. Independently managed reusable
+section documents were rejected because their extra records, references,
+approval coordination, and withdrawal paths add complexity without
+proportionate preview-release value.
+
 ## Open Questions
 
-- D-002: Which public surfaces require dedicated Sanity documents, reusable
-  objects, or singleton records?
 - D-003: Which validation and approval state must gate publication and
   requestability?
 - D-004: How should claim, price, and media evidence metadata support technical
@@ -124,58 +150,64 @@ without proportionate launch value.
 
 ## Next Question
 
-ID: D-002
+ID: D-003
 
 Owning layer: Foundation Design.
 
 Topic:
-Sanity document types, singleton pages, and reusable content objects.
+Publication validation and approval state.
 
 Prompt:
-How should Greek Essence divide its confirmed public content among repeatable
-Sanity document types, one-off singleton page records, and reusable embedded
-objects?
+What must Sanity verify and record before a bilingual public document can be
+published, and how should later edits affect that approval?
 
 Options:
 
-1. (recommended): **Use explicit document types for real public items, one
-   controlled singleton record for each unique page or shared site concern, and
-   reusable objects only inside those records.** Destinations and Experiences
-   are repeatable documents. Confirmed one-off surfaces such as Home and About
-   each have one editable record rather than an unlimited collection. Shared
-   structures such as localized text, calls to action, media with approval
-   metadata, and structured page sections are reusable object definitions
-   embedded in the owning document, not independently publishable content.
-2. **Use specialized Destination and Experience documents but one generic Page
-   document type for all other public pages.** This reduces the number of schema
-   types, but Home, About, request introductions, and required policy or service
-   pages would rely more heavily on conditional fields and editor discipline,
-   making page-specific publication rules less explicit.
-3. **Build pages primarily from independently managed reusable section
-   documents.** Home, About, and other pages assemble references to shared hero,
-   text, media, or action records. This maximizes reuse and rearrangement, but
-   creates more records, reference states, approval coordination, and withdrawal
-   paths than the preview currently needs.
+1. (recommended): **Require both automated publication validation and explicit
+   current business approval.** Sanity blocks publishing until the document is
+   structurally complete for both languages, all applicable relationships and
+   conditional fields pass, required claim/media/price evidence is present, and
+   the current public meaning has recorded agency approval. The technical
+   publisher separately confirms preview and technical readiness. A material
+   edit to approved public meaning makes the relevant approval stale and the
+   changed draft cannot publish until it is reapproved. Requestability remains
+   an explicit shared Experience choice and is effective only on a currently
+   published, otherwise eligible Experience.
+2. **Use automated validation plus one combined “ready to publish” state set by
+   the technical publisher.** The publisher confirms that external approval was
+   obtained and that technical checks pass, but Sanity does not preserve the
+   business-approval boundary separately. This is simpler but makes it harder to
+   show whether Giorgos or an authorized delegate approved the current meaning,
+   and risks transferring practical approval responsibility to the publisher.
+3. **Use automated structural validation only and keep approval outside
+   Sanity.** Sanity blocks incomplete fields and relationships, while approval is
+   coordinated through email or conversation and the publisher uses the normal
+   Publish action. This has the least CMS workflow, but approval can become
+   detached from the exact revision being published and later edits may retain
+   no visible indication that reapproval is needed.
 
 Why this matters:
 
-This decision controls what the technical publisher sees in Sanity Studio and
-where validation belongs. For example, the recommended model gives the
-publisher a list of many Destination and Experience records but exactly one
-Home record and one About record. A reusable call-to-action object defines a
-consistent field shape inside those pages without creating a separate public
-record that could be edited or withdrawn out of context.
+Sanity normally keeps edits as a private draft until someone publishes them, and
+its validation errors can block the standard Publish action. Validation can
+prove facts such as “both titles exist” or “this Experience has a published
+Destination reference,” but software cannot decide whether a commercial claim
+is true or whether media use was approved. The document therefore needs a clear
+boundary between automatic completeness checks, agency approval of business
+meaning, and the publisher's technical preview check.
 
-The recommendation makes each editorial record correspond to something the
-agency recognizes, allows specific validation for materially different content,
-and prevents accidental duplicate Home or About pages. It still reuses field
-structures where that reduces inconsistency, without turning small page sections
-into a web of separately published records. Its tradeoff is a modest number of
-clear schema types rather than one highly generic page builder.
+For example, an Experience draft may have complete English and Greek copy and a
+valid Destination but contain a claim about local expertise. Automated
+validation can confirm that required approval evidence is attached; Giorgos or
+an authorized delegate must still approve the claim itself. If the claim is
+later rewritten, the earlier approval must not silently authorize the changed
+meaning. The recommendation keeps that distinction explicit without adding a
+large editorial workflow system. Exact evidence fields, approver metadata, and
+change-invalidation mechanics remain D-004 or bounded technical design.
 
 After answer:
 
-- Lock the public document, singleton, and embedded-object boundaries.
-- Record only confirmed public surfaces; do not invent actual content or launch
-  approval through the schema classification.
-- Store D-003 as the next question.
+- Lock the publication validation, approval, edit-invalidation, and
+  requestability gate boundaries.
+- Preserve exact evidence fields and approver metadata for D-004.
+- Store D-004 as the next question.
