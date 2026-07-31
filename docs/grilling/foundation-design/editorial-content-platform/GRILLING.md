@@ -2,9 +2,32 @@
 
 ## Status
 
-Active Foundation Design grill. This ledger does not authorize application
-implementation, dependency installation, Sanity project configuration, schema
-migration, deployment, or production access.
+Accepted by the operator on 2026-07-31. D-001 through D-006 are complete;
+no material Editorial Content Platform question remains.
+
+This acceptance does not authorize application implementation, dependency
+installation, Sanity project configuration, schema migration, deployment, or
+production access.
+
+## Acceptance and Finalization Authorization
+
+On 2026-07-31, after reviewing the complete six-decision set and the three
+acceptance outcomes, the operator stated: “I accept and approve everything,
+continue.” This accepts D-001 through D-006 and explicitly authorizes:
+
+- verified distillation into `DECISIONS.md`;
+- removal of the exact raw ledger path
+  `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` only
+  after structural and semantic verification;
+- completion of existing draft pull request #48;
+- required-check monitoring and squash merge; and
+- merged-branch deletion and local synchronization without another routine
+  approval request.
+
+The authorization stops if verification fails, a material product conflict
+appears, merge protection blocks delivery, or unrelated concurrent work would
+be overwritten. It does not authorize implementation or automatic commencement
+of a successor track.
 
 ## Owning Layer and Purpose
 
