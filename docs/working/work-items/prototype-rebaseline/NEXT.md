@@ -270,9 +270,9 @@ architecture rebaseline, and promotion of settled documentation.
   fallback. Exact versions are pinned and verified during later authorized
   implementation rather than reopened in grilling.
 - On 2026-07-30, the operator explicitly authorized the first Foundation Design
-  track. The active System Boundaries and Domain Representation workspace is
-  `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
-  Related decisions accumulate on draft pull request #45.
+  track. The accepted System Boundaries and Domain Representation authority is
+  `docs/grilling/foundation-design/system-boundaries-and-domain-representation/DECISIONS.md`.
+  Related work is finalized through pull request #45.
   D-001 is accepted: Sanity authoritatively verifies current Booking Request
   eligibility, while Neon preserves the stable Experience reference and bounded
   acceptance snapshot. Distinct disabled, withdrawn, and temporary-verification
@@ -294,7 +294,14 @@ architecture rebaseline, and promotion of settled documentation.
   No material question remains in this track. On 2026-07-31 the operator accepted
   D-001 through D-007 and authorized verified distillation, exact raw-ledger
   removal, checks, squash merge, feature-branch deletion, and isolated-worktree
-  cleanup on PR #45.
+  cleanup on PR #45. The final accepted raw ledger and exact deletion
+  authorization are preserved in the pull-request record. Independent semantic
+  review initially found four editorial fidelity omissions concerning deletion
+  residue, inbox notification context, production database access, and delivery
+  recovery. After correction, the completed rerun passed with no remaining
+  semantic conflicts, weakened obligations, or unresolved fidelity findings. The
+  authorized raw `GRILLING.md` path is removed; `DECISIONS.md` is the sole
+  accepted authority at this level.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -346,15 +353,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Complete the authorized System Boundaries and Domain Representation finalization
-on PR #45: preserve the exact accepted raw ledger and authorization in the PR
-record, distill and semantically verify `DECISIONS.md`, remove only the authorized
-raw path, reconcile routing and this handoff, run required checks, squash merge,
-delete the merged branch, and synchronize local `main`.
+After PR #45 is merged and local `main` is synchronized, ask the operator whether
+to start the next dependency-ordered Foundation Design track, Editorial Content
+Platform, as a new coherent work unit. Do not create its ledger, branch, or draft
+pull request without that successor-work authorization.
 
-Completion condition: merged PR #45 preserves reviewable raw evidence, the final
-tree contains the semantically verified `DECISIONS.md` and omits the authorized
-`GRILLING.md`, all required checks pass, and local `main` matches `origin/main`.
+Completion condition: the operator explicitly authorizes the Editorial Content
+Platform track or provides a different next direction.
 
 ## Done When
 
