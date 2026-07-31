@@ -18,6 +18,71 @@ Greek Essence uses GitHub Flow with one branch and pull request for each
   required checks must pass before merge.
 - Squash-merge the pull request, then delete its short-lived branch.
 
+## Trello Work Unit Lifecycle
+
+For work selected from the Greek Essence Trello board, Trello owns Work Unit
+identity, owner, lifecycle, and concise evidence. Git owns branch and commit
+state; GitHub owns pull-request, review, check, and merge state; repository
+artifacts own detailed design and verification.
+
+| Trello state | Git and pull-request meaning                                                                    | Evidence required to advance                                                                                            |
+| ------------ | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Inbox        | Unselected intake. No task branch or pull request.                                              | The original card remains available for same-card Work Unit design.                                                     |
+| In Design    | Contract clarification. No implementation branch or pull request.                               | Objective, boundaries, acceptance, dependencies, and verification are being resolved.                                   |
+| Ready        | Complete and claimable. No implementation has started.                                          | No material pending question or blocker remains.                                                                        |
+| In Progress  | One confirmed owner; one branch and linked draft PR exist, or same-intent recovery is underway. | Owner and status read-back, current-main branch point, repository work-item registration, draft PR, and Trello PR link. |
+| Blocked      | The existing branch and PR are retained.                                                        | The blocker, responsible unblocker, safe resume action, and durable recovery references are recorded.                   |
+| Review       | The PR is non-draft and ready for disposition.                                                  | Acceptance is satisfied, required verification passes, and no known blocker remains.                                    |
+| Done         | Delivery and local cleanup are verified; the card remains unarchived.                           | Squash merge, short-lived branch cleanup, and clean synchronized local `main`.                                          |
+
+### Guarded claim and bootstrap
+
+1. Re-read the Ready Work Unit. Stop for a conflicting owner, blocker, status,
+   or repository authority.
+2. Apply the stable owner update and read it back.
+3. Re-read, transition `Ready → In Progress`, and confirm both expected owner
+   and status. Trello does not make these two operations atomic.
+4. Fetch current `origin/main`. Search local and remote branches, repository
+   work-item routing, and GitHub PRs by intended head/base before creating
+   anything.
+5. Create a separate worktree and one
+   `<type>/wu-<number>-<short-description>` branch from current `main`.
+6. Add the work-item directory and preserved root-router link as the first
+   meaningful commit. Push the branch and open one early draft pull request.
+7. Put the Work Unit's direct Trello URL in the PR and the verified PR URL in
+   the Work Unit.
+
+### Cross-system recovery
+
+Durable creation order is branch → work-item registration → push → draft PR →
+Trello link-back. After an interruption or failed step:
+
+1. Re-read Trello, local Git, the remote branch, root work-item routing, and
+   GitHub head/base PR state.
+2. Reuse state whose identity and intent match the Work Unit.
+3. Create only the earliest missing artifact. Never create a second branch,
+   work item, or PR merely because a response or Trello link-back was lost.
+4. Preserve conflicts and stop instead of overwriting a different owner or
+   incompatible durable state.
+
+An unsuccessful Trello PR-link update leaves the GitHub PR authoritative for
+its own existence. Recover the link; do not create another PR.
+
+### Review, merge, and completion
+
+- Before moving to Review, update the same PR to represent the complete unit,
+  run applicable final checks, resolve material findings, and mark it
+  non-draft. The Work Unit must contain concise current evidence.
+- Immediately before an agent merge, re-read the Work Unit and PR and obtain
+  fresh explicit operator confirmation. Earlier design approval, approval to
+  begin work, or a standing autonomy rule is not merge confirmation.
+- The operator may merge the PR personally. If GitHub already reports it
+  merged, do not issue another merge call; continue verification and cleanup.
+- Use squash merge and delete the short-lived branch. Synchronize local `main`
+  with `origin/main` and verify it is clean before moving the Work Unit to Done.
+- Done ends agent lifecycle mutation. A human may later review and archive the
+  Trello card manually.
+
 ## Coherent Pull-Request Units
 
 A coherent unit has one outcome that a reviewer can understand, verify, accept,

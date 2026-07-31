@@ -20,6 +20,7 @@ export default defineConfig({
         "i18n/**/*.{ts,tsx}",
         "lib/**/*.{ts,tsx}",
         "scripts/assert-unlighthouse-lcp.mjs",
+        "scripts/deploy-vercel.mjs",
       ],
       reporter: ["text", "html"],
       thresholds: {
