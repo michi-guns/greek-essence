@@ -273,9 +273,12 @@ architecture rebaseline, and promotion of settled documentation.
   track. The active System Boundaries and Domain Representation workspace is
   `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
   Related decisions accumulate on draft pull request #45.
-  Its stored D-001 asks which system authoritatively verifies Booking Request
-  eligibility and what Experience information crosses the Sanity–Neon boundary
-  at acceptance. No Foundation Design decision is accepted yet.
+  D-001 is accepted: Sanity authoritatively verifies current Booking Request
+  eligibility, while Neon preserves the stable Experience reference and bounded
+  acceptance snapshot. Distinct disabled, withdrawn, and temporary-verification
+  failures never claim receipt; exact approved direct-contact fallbacks remain
+  Launch Readiness work. Stored D-002 asks which immutable Experience identity
+  should cross from Sanity into Neon.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -327,13 +330,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present only System Boundaries and Domain Representation D-001 from
+Present only System Boundaries and Domain Representation D-002 from
 `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
 After the operator answers, persist the selected boundary before presenting the
 next single question. Keep related answers and eventual acceptance on the same
 coherent draft pull request.
 
-Completion condition: D-001 is persisted with its rationale and consequences,
+Completion condition: D-002 is persisted with its rationale and consequences,
 and the next highest-value question is stored without choosing exact Sanity
 fields, a Neon/Drizzle table layout, or snapshot contents prematurely.
 
