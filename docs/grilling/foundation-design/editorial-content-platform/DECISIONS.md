@@ -117,13 +117,15 @@ commercially approved, media rights are valid, or legal wording is appropriate.
 Giorgos or an authorized agency delegate remains responsible for approving that
 business meaning.
 
-Business approval and technical operation are separate. The technical publisher
-may perform the entire edit, authenticated preview, publish, verification, and
-withdrawal pipeline alone; no second technical publisher or technical approver
-is required. A specific instruction from the agency approver is sufficient
-approval for that exact business change. For example, an instruction to replace
-an indicative price with an approved value and publish it does not require the
-technical publisher to send the implemented value back for redundant approval.
+Business approval and technical operation are separate. Before publishing, the
+technical publisher must check the authenticated preview and technical
+readiness. The technical publisher may perform the entire edit, preview,
+publish, public verification, and withdrawal pipeline alone; no second technical
+publisher or technical approver is required. A specific instruction from the
+agency approver is sufficient approval for that exact business change. For
+example, an instruction to replace an indicative price with an approved value
+and publish it does not require the technical publisher to send the implemented
+value back for redundant approval.
 
 Meaning-preserving corrections may be published without renewed business
 approval. These include spelling, punctuation, formatting, intended internal
