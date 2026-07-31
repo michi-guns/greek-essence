@@ -335,7 +335,12 @@ architecture rebaseline, and promotion of settled documentation.
   reporting three known findings; formatting, lint, Knip, typecheck, and content
   validation passed; 73 unit tests passed with coverage; the production build
   passed; and Playwright completed with 53 passing and 4 intentionally skipped
-  tests.
+  tests. Independent semantic review then identified four fidelity omissions in
+  the first distillation; the accepted standalone-Destination and equal-
+  relationship inputs, shared-site singleton scope, mandatory publisher preview
+  and technical-readiness check, and ordinary-copy evidence exclusion were
+  restored. A fresh independent comparison of the corrected `DECISIONS.md`
+  against the final accepted raw ledger returned `PASS`.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
