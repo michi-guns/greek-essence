@@ -80,12 +80,37 @@ layout, deployment topology, or production operations owned by later tracks.
 
 ## Locked Decisions
 
-None yet.
+### D-001 — One Bilingual Sanity Document per Public Content Item
+
+Each public content item is represented by one Sanity document containing
+separate English and Greek values for visitor-facing content. Shared facts and
+relationships—such as Experience type, Destination references, requestability,
+and the item's stable identity—exist once in that document rather than being
+duplicated per language.
+
+The document may publish only when both complete language experiences and their
+applicable human approvals satisfy the publication gate. English and Greek
+therefore publish, revise, and withdraw together at the document level rather
+than operating on independent public schedules. The localized copy remains
+separately written and approved, may be natural rather than literal, must be
+meaning-equivalent, and cannot use silent fallback or machine-only text as
+finished public content.
+
+This preserves one accepted business item and one immutable published Sanity
+document ID across editorial and Request boundaries. It also avoids duplicated
+Destination relationships, requestability, withdrawal state, and
+cross-language coordination. Exact localized field and object types remain for
+the document-structure decision and bounded technical design.
+
+Separate linked documents per language were rejected because they would make
+identity, relationships, completeness, requestability, and withdrawal harder to
+coordinate without providing a needed independent publication schedule. A
+shared core plus separate English and Greek content documents was rejected
+because three records per item would add joins, validation, and recovery paths
+without proportionate launch value.
 
 ## Open Questions
 
-- D-001: How should one public content item represent its English and Greek
-  content in Sanity?
 - D-002: Which public surfaces require dedicated Sanity documents, reusable
   objects, or singleton records?
 - D-003: Which validation and approval state must gate publication and
@@ -99,56 +124,58 @@ None yet.
 
 ## Next Question
 
-ID: D-001
+ID: D-002
 
 Owning layer: Foundation Design.
 
 Topic:
-Bilingual Sanity representation and publication coupling.
+Sanity document types, singleton pages, and reusable content objects.
 
 Prompt:
-How should one Greek Essence public content item—such as an Experience,
-Destination, Home, or About—represent its English and Greek content in Sanity?
+How should Greek Essence divide its confirmed public content among repeatable
+Sanity document types, one-off singleton page records, and reusable embedded
+objects?
 
 Options:
 
-1. (recommended): **Keep one Sanity document per content item, with localized
-   English and Greek values inside it.** Shared facts and relationships—such as
-   Experience type, Destination references, and requestability—exist once, while
-   title, summary, detail copy, slug, labels, and other visitor-facing wording
-   have separate English and Greek values. The document publishes only when both
-   complete language experiences and their approvals satisfy the relevant gate.
-2. **Keep a separate linked Sanity document for each language.** English and
-   Greek can have independent drafts and publication timing, but identity,
-   references, withdrawal, requestability, completeness, and cross-language
-   consistency must be coordinated across multiple documents. This adds a
-   translation relationship and makes the already accepted single shared
-   Experience identity harder to preserve cleanly.
-3. **Use a shared core document plus separate English and Greek content
-   documents.** Shared facts and relationships live in the core while each
-   language has its own linked content record. This separates responsibilities
-   explicitly but creates three records and additional joins, validation, and
-   recovery paths for every bilingual item.
+1. (recommended): **Use explicit document types for real public items, one
+   controlled singleton record for each unique page or shared site concern, and
+   reusable objects only inside those records.** Destinations and Experiences
+   are repeatable documents. Confirmed one-off surfaces such as Home and About
+   each have one editable record rather than an unlimited collection. Shared
+   structures such as localized text, calls to action, media with approval
+   metadata, and structured page sections are reusable object definitions
+   embedded in the owning document, not independently publishable content.
+2. **Use specialized Destination and Experience documents but one generic Page
+   document type for all other public pages.** This reduces the number of schema
+   types, but Home, About, request introductions, and required policy or service
+   pages would rely more heavily on conditional fields and editor discipline,
+   making page-specific publication rules less explicit.
+3. **Build pages primarily from independently managed reusable section
+   documents.** Home, About, and other pages assemble references to shared hero,
+   text, media, or action records. This maximizes reuse and rearrangement, but
+   creates more records, reference states, approval coordination, and withdrawal
+   paths than the preview currently needs.
 
 Why this matters:
 
-This decision becomes the base for every later Sanity schema, relationship,
-publication check, preview, revision, query, and search index. For example, if a
-technical publisher corrects a Greek Experience summary, the chosen model
-controls whether they edit one bilingual Experience or a separate Greek record,
-how the English equivalent and shared requestability state are checked, and
-which immutable Sanity ID a later Booking Request uses.
+This decision controls what the technical publisher sees in Sanity Studio and
+where validation belongs. For example, the recommended model gives the
+publisher a list of many Destination and Experience records but exactly one
+Home record and one About record. A reusable call-to-action object defines a
+consistent field shape inside those pages without creating a separate public
+record that could be edited or withdrawn out of context.
 
-The recommendation keeps one accepted business item and one stable identity,
-avoids duplicated relationship and withdrawal state, and matches the release
-rule that both English and Greek must be complete before the item is public. It
-still permits natural, non-literal copy in each language. Its tradeoff is that
-English and Greek publish together rather than on independent schedules, which
-is consistent with the current two-language launch boundary.
+The recommendation makes each editorial record correspond to something the
+agency recognizes, allows specific validation for materially different content,
+and prevents accidental duplicate Home or About pages. It still reuses field
+structures where that reduces inconsistency, without turning small page sections
+into a web of separately published records. Its tradeoff is a modest number of
+clear schema types rather than one highly generic page builder.
 
 After answer:
 
-- Lock the bilingual document representation and publication coupling.
-- Preserve exact field types and Studio implementation for bounded technical
-  design unless they are required by the chosen foundation.
-- Store D-002 as the next question.
+- Lock the public document, singleton, and embedded-object boundaries.
+- Record only confirmed public surfaces; do not invent actual content or launch
+  approval through the schema classification.
+- Store D-003 as the next question.
