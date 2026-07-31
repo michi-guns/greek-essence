@@ -310,37 +310,32 @@ architecture rebaseline, and promotion of settled documentation.
 - The operator set the prototype's custom bilingual Home LCP ceiling to 3000
   ms while retaining the Unlighthouse score budgets. Final measured LCP was
   2646.837 ms for `/en` and 2621.026 ms for `/el`.
-- On 2026-07-31, the operator authorized the Editorial Content Platform
-  Foundation Design track as a new coherent grilling unit. Its active ledger is
-  `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md`, and
-  its early collaboration surface is draft pull request #48. D-001 establishes
-  one Sanity document per public content item, with separately written English
-  and Greek values, shared facts and relationships, and coupled publication only
-  after both complete language experiences and applicable approvals pass. D-002
-  establishes explicit repeatable document types for Destinations and
-  Experiences, controlled singleton records for confirmed unique pages such as
-  Home and About, and reusable structures embedded in their owning documents
-  rather than independently published section records. D-003 establishes
-  automated publication validation plus current agency approval of material
-  business meaning, while allowing the technical publisher to execute the whole
-  pipeline alone for specifically pre-approved changes, meaning-preserving
-  corrections, and protective withdrawal. No second technical approver is
-  required; materially changed meaning requires current agency approval before
-  publication. D-004 establishes compact evidence metadata beside each governed
-  claim, indicative price, and media use; document readiness is derived from
-  current item-level evidence, while sensitive source files remain in an
-  appropriate agency-controlled location outside Sanity. D-005 is the stored
-  decision and establishes private drafts, authenticated Next.js preview,
-  coupled bilingual publication, provider-bounded revision history, and a
-  minimal published withdrawn version under the same stable ID for generic
-  recovery at former localized URLs without stale public fields. D-006
-  establishes cached published Sanity content in Next.js, precise secured-webhook
-  invalidation across related bilingual surfaces, a published localized-search
-  projection, conservative fallback expiry, and public verification of material
-  publications and withdrawals. No material Editorial Content Platform question
-  remains; D-001 through D-006 await operator acceptance. This work does not
-  authorize Sanity installation, configuration, schemas, migration, or
-  application implementation.
+- On 2026-07-31, the operator accepted Editorial Content Platform D-001 through
+  D-006 and selected automatic verified finalization through pull request #48.
+  [`docs/grilling/foundation-design/editorial-content-platform/DECISIONS.md`](../../../grilling/foundation-design/editorial-content-platform/DECISIONS.md)
+  is the sole accepted authority. It establishes one bilingual Sanity document
+  per public content item; explicit repeatable types, controlled singletons, and
+  embedded objects; structural validation plus meaning-based agency approval;
+  compact item-level evidence metadata; authenticated draft preview and minimal
+  withdrawn versions; and cached published content with precise secured-webhook
+  revalidation, localized published-only search, bounded fallback expiry, and
+  public verification of material changes. The final accepted raw ledger is
+  preserved in pull request #48, and the operator authorized removal of the
+  exact repository path
+  `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` after
+  verified distillation. Acceptance does not authorize Sanity installation,
+  configuration, schemas, migration, or application implementation.
+- Editorial Content Platform finalization verification on 2026-07-31: pull
+  request #48 was read back after its description preserved the exact final
+  accepted raw ledger and finalization authorization; the staged structural
+  check confirmed one accepted `DECISIONS.md` with D-001 through D-006 exactly
+  once and the authorized raw path absent; `git diff --cached --check`, focused
+  Prettier, and staged Gitleaks checks passed. `pnpm check:push` then exited `0`:
+  the full Gitleaks scan found no leaks; the configured audit gate passed while
+  reporting three known findings; formatting, lint, Knip, typecheck, and content
+  validation passed; 73 unit tests passed with coverage; the production build
+  passed; and Playwright completed with 53 passing and 4 intentionally skipped
+  tests.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -384,15 +379,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Editorial Content Platform D-001 through D-006 for operator acceptance
-through the existing draft pull request #48. Name the exact raw ledger path and
-offer automatic verified finalization, acceptance while retaining the raw
-ledger, or correction of a material decision.
+After Editorial Content Platform pull request #48 is merged and the repository
+is synchronized, wait for explicit operator authorization before opening the
+next Foundation Design grilling unit, Transactional Data Platform. Do not begin
+implementation or the successor track automatically.
 
-Completion condition: the operator selects an acceptance outcome for
-`docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` and the
-authorized path is followed without treating acceptance as implementation
-permission.
+Completion condition: the repository remains clean on synchronized `main`, and
+the operator explicitly authorizes the next coherent grilling or implementation
+unit before work starts.
 
 ## Done When
 
