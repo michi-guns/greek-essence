@@ -137,10 +137,49 @@ section documents were rejected because their extra records, references,
 approval coordination, and withdrawal paths add complexity without
 proportionate preview-release value.
 
+### D-003 — One-Person Technical Publishing with Meaning-Based Approval Gates
+
+Sanity must combine automated publication validation with explicit current
+agency approval of material business meaning. Automated errors block publishing
+when bilingual completeness, required relationships, conditional fields, or
+required claim, media, price, and requestability evidence does not satisfy the
+applicable content contract. The technical publisher separately checks the
+preview and technical readiness before publishing; no second technical approver
+is required.
+
+Giorgos or an authorized agency delegate must approve new or materially changed
+business meaning, including prices and inclusions, availability wording,
+Experience facts, commercial or trust claims, media rights, and legal or policy
+wording. An instruction approving a specific change before implementation is
+sufficient approval for that exact change: the technical publisher may then
+edit, validate, preview, and publish it without a second post-edit approval.
+
+The technical publisher may independently publish meaning-preserving
+corrections to already approved content, such as typography, formatting, an
+internal link repaired to its approved intended target, or replacement of a
+technically broken asset with the same approved media. These corrections must
+not expand or reinterpret the approved claim, offer, obligation, or media use.
+A material edit makes the affected approval stale and blocks publication until
+the changed meaning is approved.
+
+The technical publisher may also withdraw misleading, stale, unsafe, or
+technically broken content immediately to protect visitors. Protective
+withdrawal does not approve replacement content or permit materially altered
+content to be republished without the normal approval gate.
+
+Requestability remains an explicit shared Experience choice, separate from
+publication. It is effective only for a currently published Experience that
+satisfies the applicable eligibility and approval gates. Exact evidence fields,
+approval identity representation, and change-invalidation mechanics remain
+D-004 or bounded technical design.
+
+A combined publisher-owned “ready to publish” state was rejected because it
+would blur agency approval of business meaning with technical execution.
+Approval kept only in informal external conversation was rejected because it
+could become detached from the revision and meaning being published.
+
 ## Open Questions
 
-- D-003: Which validation and approval state must gate publication and
-  requestability?
 - D-004: How should claim, price, and media evidence metadata support technical
   publication checks without transferring business approval?
 - D-005: How should drafts, preview, revisions, withdrawal, and former-URL
@@ -150,64 +189,60 @@ proportionate preview-release value.
 
 ## Next Question
 
-ID: D-003
+ID: D-004
 
 Owning layer: Foundation Design.
 
 Topic:
-Publication validation and approval state.
+Claim, indicative-price, and media evidence metadata.
 
 Prompt:
-What must Sanity verify and record before a bilingual public document can be
-published, and how should later edits affect that approval?
+How should Sanity record enough evidence information for the technical publisher
+to verify claims, indicative prices, and media before publication without
+turning Sanity into a large approval or document-management system?
 
 Options:
 
-1. (recommended): **Require both automated publication validation and explicit
-   current business approval.** Sanity blocks publishing until the document is
-   structurally complete for both languages, all applicable relationships and
-   conditional fields pass, required claim/media/price evidence is present, and
-   the current public meaning has recorded agency approval. The technical
-   publisher separately confirms preview and technical readiness. A material
-   edit to approved public meaning makes the relevant approval stale and the
-   changed draft cannot publish until it is reapproved. Requestability remains
-   an explicit shared Experience choice and is effective only on a currently
-   published, otherwise eligible Experience.
-2. **Use automated validation plus one combined “ready to publish” state set by
-   the technical publisher.** The publisher confirms that external approval was
-   obtained and that technical checks pass, but Sanity does not preserve the
-   business-approval boundary separately. This is simpler but makes it harder to
-   show whether Giorgos or an authorized delegate approved the current meaning,
-   and risks transferring practical approval responsibility to the publisher.
-3. **Use automated structural validation only and keep approval outside
-   Sanity.** Sanity blocks incomplete fields and relationships, while approval is
-   coordinated through email or conversation and the publisher uses the normal
-   Publish action. This has the least CMS workflow, but approval can become
-   detached from the exact revision being published and later edits may retain
-   no visible indication that reapproval is needed.
+1. (recommended): **Keep compact evidence metadata beside each governed claim,
+   price, or media use and derive the document's readiness from it.** Record the
+   approval status and scope, approving role or identity, approval time, a short
+   evidence or source reference, and a review or expiry date only when the item
+   requires one. Price metadata also carries its already required currency,
+   charging basis, inclusions, review date, and confirmation warning. Media
+   metadata identifies the approved asset and use scope. Sensitive contracts,
+   identity documents, or unrelated business files remain outside Sanity in an
+   appropriate agency-controlled location; Sanity stores only the bounded
+   publication reference needed for the check.
+2. **Keep one document-level approval summary.** Record who approved the whole
+   page, when, and where supporting evidence can be found. This is simpler, but a
+   single changed image, price, or claim can make the whole approval ambiguous
+   and gives the publisher less help identifying what needs reapproval.
+3. **Create separate reusable Evidence documents and reference them from every
+   claim, price, and media use.** This supports one evidence record shared across
+   several pages, but introduces another independently managed record family,
+   reference lifecycle, permissions surface, and withdrawal problem that may be
+   disproportionate for the preview.
 
 Why this matters:
 
-Sanity normally keeps edits as a private draft until someone publishes them, and
-its validation errors can block the standard Publish action. Validation can
-prove facts such as “both titles exist” or “this Experience has a published
-Destination reference,” but software cannot decide whether a commercial claim
-is true or whether media use was approved. The document therefore needs a clear
-boundary between automatic completeness checks, agency approval of business
-meaning, and the publisher's technical preview check.
+The publisher needs to answer a practical question before pressing Publish:
+“What proves that this particular claim, price, or image is approved for this
+use?” A simple page-level checkbox cannot reliably answer that when one element
+changes. At the other extreme, a separate evidence-management application would
+add unnecessary work and may place sensitive agency records in the CMS.
 
-For example, an Experience draft may have complete English and Greek copy and a
-valid Destination but contain a claim about local expertise. Automated
-validation can confirm that required approval evidence is attached; Giorgos or
-an authorized delegate must still approve the claim itself. If the claim is
-later rewritten, the earlier approval must not silently authorize the changed
-meaning. The recommendation keeps that distinction explicit without adding a
-large editorial workflow system. Exact evidence fields, approver metadata, and
-change-invalidation mechanics remain D-004 or bounded technical design.
+For example, the Paros Sailing Tour may show one approved image and an indicative
+“from €150 per person” price. The recommended model keeps a small approval and
+source record next to the image use and another next to the price. Sanity can
+then flag an expired media use or overdue price review without deciding whether
+the rights or commercial terms are legally valid. Giorgos or an authorized
+delegate still owns that approval; the metadata only helps the technical
+publisher verify that the required evidence exists and is current.
 
 After answer:
 
-- Lock the publication validation, approval, edit-invalidation, and
-  requestability gate boundaries.
-- Preserve exact evidence fields and approver metadata for D-004.
-- Store D-004 as the next question.
+- Lock the evidence-metadata placement, minimum categories, sensitive-file
+  boundary, and publication-readiness relationship.
+- Preserve exact field names and Sanity Studio presentation for bounded
+  technical design.
+- Store D-005 as the next question.

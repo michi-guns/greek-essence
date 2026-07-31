@@ -320,11 +320,17 @@ architecture rebaseline, and promotion of settled documentation.
   establishes explicit repeatable document types for Destinations and
   Experiences, controlled singleton records for confirmed unique pages such as
   Home and About, and reusable structures embedded in their owning documents
-  rather than independently published section records. D-003 is the stored next
-  decision and asks which automated validation, agency approval, technical
-  readiness, edit-invalidation, and requestability states must gate publication.
-  This work does not authorize Sanity installation, configuration, schemas,
-  migration, or application implementation.
+  rather than independently published section records. D-003 establishes
+  automated publication validation plus current agency approval of material
+  business meaning, while allowing the technical publisher to execute the whole
+  pipeline alone for specifically pre-approved changes, meaning-preserving
+  corrections, and protective withdrawal. No second technical approver is
+  required; materially changed meaning requires current agency approval before
+  publication. D-004 is the stored next decision and asks how compact claim,
+  indicative-price, and media evidence metadata should support publication
+  checks without turning Sanity into a large approval or document-management
+  system. This work does not authorize Sanity installation, configuration,
+  schemas, migration, or application implementation.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -368,13 +374,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Editorial Content Platform D-003 from
+Present Editorial Content Platform D-004 from
 `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` and
 persist the operator's answer in the same ledger and coherent draft pull request
-before advancing to D-004.
+before advancing to D-005.
 
-Completion condition: D-003 is durably persisted with its rationale,
-consequences, and rejected alternatives, and D-004 is stored as the single next
+Completion condition: D-004 is durably persisted with its rationale,
+consequences, and rejected alternatives, and D-005 is stored as the single next
 question.
 
 ## Done When
