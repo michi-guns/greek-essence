@@ -177,12 +177,36 @@ rules out of the structural model. Three unrelated request models were rejected
 because they would repeat shared acceptance, chronology, retention, audit, and
 delivery invariants.
 
+### D-005 — Derive Contact Relationships from Retained Requests
+
+The internal customer-contact relationship is derived from the normalized email
+stored on each retained immutable Request. Greek Essence does not create a
+separate contact entity or customer directory at launch.
+
+Each Request preserves both the contact values submitted with that request and
+the normalized email used for exact grouping and correction validation. While
+related requests remain within retention, a lookup can group them by that stored
+normalized value. Each Request still expires independently. When a Request is
+deleted, its normalized value disappears with it; after the final related
+Request is deleted, no empty or orphaned customer record remains.
+
+An illustrative implementation is a normalized-email column and index on the
+common `requests` table. This example does not lock the exact normalization
+algorithm, column name, index, or query contract, which belong to the later
+Transactional Data Platform track.
+
+A separate temporary contact entity was rejected because it adds creation,
+concurrency, orphan-cleanup, and deletion rules without a launch account, CRM,
+or staff history interface. A permanent contact directory was rejected because
+email is not verified person identity, shared or reassigned addresses can join
+different people, typo records would persist, and it would introduce deferred
+customer-management scope and indefinite security obligations without current
+visitor or agency value.
+
 ## Open Questions
 
-- D-005: Should the normalized-email contact relationship be a separate retained
-  entity or be derived only from retained immutable requests?
-- Later: What relationship rules should Destinations and Experiences use across
-  editorial revisions and withdrawal?
+- D-006: Should an Experience's one-or-more Destination relationships be equal,
+  primary-and-secondary, or role-labelled?
 - Later: How should contact relationships, corrections, and independently
   expiring records remain linked without reconstructing deleted data?
 - Later: Which lifecycle invariants cross service boundaries, and which remain
@@ -190,55 +214,53 @@ delivery invariants.
 
 ## Next Question
 
-ID: D-005
+ID: D-006
 
 Topic:
-Contact-relationship representation and expiry.
+Destination–Experience relationship roles.
 
 Prompt:
-How should the normalized-email relationship that groups retained requests be
-represented without creating an indefinite customer directory or weakening
-correction validation?
+When one Experience can relate to multiple Destinations, should those
+relationships be equal or should the content model require a primary or
+role-labelled Destination?
 
 Options:
 
-1. (recommended): **Derive the relationship from normalized email stored on each
-   retained Request; do not create a separate contact entity at launch.** Each
-   immutable Request keeps both its submitted contact snapshot and the normalized
-   email used for exact grouping and correction validation. An indexed lookup can
-   find retained related requests. When requests expire independently, their
-   values disappear with them; after the last one is deleted, no separate contact
-   record remains.
-2. **Create a separate contact entity with a generated ID and normalized email.**
-   Requests point to that entity while preserving their own submitted snapshots.
-   The contact record is deleted when no retained Request refers to it. This makes
-   the relationship explicit and avoids repeating the normalized value, but adds
-   creation, concurrency, orphan cleanup, and deletion rules for a relationship
-   that has no launch account or staff interface.
-3. **Keep a separate contact entity indefinitely as a customer directory.** This
-   gives future enquiries a permanent relationship anchor, but silently creates
-   the deferred customer-management system and retains personal data beyond the
-   accepted request lifecycle. It conflicts with the launch boundary.
+1. (recommended): **Treat all valid Destination relationships as equal.** An
+   Experience has one or more Destinations, appears in discovery for each, and
+   remains publishable while at least one valid published relationship remains.
+   Its canonical public identity and URL do not depend on choosing one
+   Destination. Technically, this could be an `experience_destinations` join
+   table containing only `experience_id` and `destination_id`.
+2. **Require one primary Destination and allow additional Destinations.** The
+   primary relationship supplies the default editorial context, breadcrumb, or
+   grouping; additional relationships still support discovery and withdrawal.
+   Technically, the join could add `is_primary` with a constraint that each
+   Experience has exactly one. This gives deterministic presentation but creates
+   an editorial choice that may be arbitrary for multi-destination packages and
+   must be maintained when relationships change.
+3. **Give every Destination relationship a business role**, such as starts in,
+   visits, or ends in. Technically, the join stores a controlled role value. This
+   can describe itineraries more precisely, but introduces a new bilingual
+   taxonomy and validation burden not required by current catalogue discovery.
 
 Why this matters:
 
-Suppose one email address submits a Consultation Request in January and a Booking
-Request in June. While both records remain, the system must recognize their
-private relationship for integrity and correction checks without exposing it to
-the visitor or routine agency staff. The January record still expires on its own
-schedule; the June request must not extend it. After the final retained request
-expires, keeping an otherwise empty contact record would preserve personal data
-without an accepted launch purpose.
+A Travel package may genuinely cover Athens, Paros, and Santorini. The accepted
+product rules already allow more than one Destination relationship and require
+an affected Experience to retain another valid Destination or be withdrawn when
+one is removed. The unresolved design question is whether one relationship must
+be treated as more important than the others.
 
-Technically, option 1 could use a normalized-email column and index on the common
-`requests` table. Option 2 could use a `customer_contacts` table referenced by
-`requests`. This decision chooses the domain representation and lifecycle, not
-the exact column names, normalization algorithm, indexes, or deletion job.
+The answer shapes the conceptual relationship, later Sanity references, filter
+behavior, withdrawal validation, and public navigation. It does not choose exact
+Sanity fields or final SQL, because catalogue relationships remain editorial
+content owned by Sanity rather than duplicated into Neon.
 
 After answer:
 
-- Lock the contact-relationship representation and expiry boundary without
-  choosing exact columns, indexes, normalization code, or deletion jobs.
+- Lock Destination–Experience relationship roles without choosing exact Sanity
+  fields, validation code, or query implementation.
 - Reconcile the remaining question order against that boundary.
 - Store the next highest-value System Boundaries and Domain Representation
   question.
