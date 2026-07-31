@@ -149,14 +149,40 @@ the complete published Experience was rejected because it would create an
 unnecessary second catalogue in Neon and expand retention, backup, migration,
 and stale-content handling.
 
+### D-004 — Shared Request Envelope with One Typed Journey Detail
+
+Consultation Requests, Booking Requests, and General Contact messages form one
+conceptual Request family. Every accepted submission has one shared envelope
+that owns its core identity, request type, durable acceptance time, contact
+relationship, opaque reference, correction relationship where applicable,
+audit and delivery boundaries, and retention deadline.
+
+Each Request has exactly one immutable typed detail: Consultation Request,
+Booking Request, or General Contact. The typed detail owns only that journey's
+accepted fields and meaning. A Booking Request therefore cannot also carry
+Consultation or General Contact detail, and shared processing cannot erase the
+journeys' different validation and privacy boundaries.
+
+An illustrative relational implementation is one common `requests` table plus
+exactly one row in `consultation_request_details`, `booking_request_details`, or
+`general_contact_details`. Delivery attempts and audit transitions may use
+their own related tables. This example explains the domain boundary but does not
+lock the later Transactional Data Platform track to exact table names, columns,
+or physical layout.
+
+One wide table containing every journey field with type-dependent nullable
+columns is excluded. A generic catch-all payload is also excluded. Both would
+make invalid field combinations easier and move important domain and privacy
+rules out of the structural model. Three unrelated request models were rejected
+because they would repeat shared acceptance, chronology, retention, audit, and
+delivery invariants.
+
 ## Open Questions
 
-- D-004: How should the three accepted submission journeys form one domain model
-  without erasing their different meanings and fields?
+- D-005: Should the normalized-email contact relationship be a separate retained
+  entity or be derived only from retained immutable requests?
 - Later: What relationship rules should Destinations and Experiences use across
   editorial revisions and withdrawal?
-- Later: What exact bounded Experience snapshot should a Booking Request
-  preserve?
 - Later: How should contact relationships, corrections, and independently
   expiring records remain linked without reconstructing deleted data?
 - Later: Which lifecycle invariants cross service boundaries, and which remain
@@ -164,54 +190,55 @@ and stale-content handling.
 
 ## Next Question
 
-ID: D-004
+ID: D-005
 
 Topic:
-Shared request family and journey-specific meaning.
+Contact-relationship representation and expiry.
 
 Prompt:
-How should Consultation Requests, Booking Requests, and General Contact messages
-share acceptance, references, contact grouping, audit, retention, and email
-recovery while preserving their different business meanings and fields?
+How should the normalized-email relationship that groups retained requests be
+represented without creating an indefinite customer directory or weakening
+correction validation?
 
 Options:
 
-1. (recommended): **Use one shared Request envelope with exactly one typed,
-   immutable journey detail.** Every accepted submission shares its core
-   identity, acceptance time, contact relationship, opaque reference, audit and
-   delivery boundaries, and retention rule. Its detail is exactly one
-   Consultation Request, Booking Request, or General Contact snapshot with that
-   journey's own required fields and meaning. Later tracks may choose the
-   physical table layout but must preserve this domain split.
-2. **Use three independent request entities that reuse shared processing
-   services.** Each journey owns its complete identity and lifecycle model;
-   common services implement contact matching, audit, retention, and email. This
-   gives strong isolation, but repeats shared invariants and makes one contact's
-   private cross-journey chronology and recovery behavior harder to keep
-   consistent.
-3. **Use one generic Request entity with a flexible journey payload.** A type
-   label selects conditional validation over a flexible data object. This
-   minimizes the initial domain model, but weakens structural guarantees, permits
-   more invalid field combinations, and makes migrations and privacy review
-   harder for real enquiries.
+1. (recommended): **Derive the relationship from normalized email stored on each
+   retained Request; do not create a separate contact entity at launch.** Each
+   immutable Request keeps both its submitted contact snapshot and the normalized
+   email used for exact grouping and correction validation. An indexed lookup can
+   find retained related requests. When requests expire independently, their
+   values disappear with them; after the last one is deleted, no separate contact
+   record remains.
+2. **Create a separate contact entity with a generated ID and normalized email.**
+   Requests point to that entity while preserving their own submitted snapshots.
+   The contact record is deleted when no retained Request refers to it. This makes
+   the relationship explicit and avoids repeating the normalized value, but adds
+   creation, concurrency, orphan cleanup, and deletion rules for a relationship
+   that has no launch account or staff interface.
+3. **Keep a separate contact entity indefinitely as a customer directory.** This
+   gives future enquiries a permanent relationship anchor, but silently creates
+   the deferred customer-management system and retains personal data beyond the
+   accepted request lifecycle. It conflicts with the launch boundary.
 
 Why this matters:
 
-A Consultation Request may contain timing and budget guidance. A Booking Request
-contains dates, party composition, and the D-003 Experience snapshot. General
-Contact contains a subject and message. After any one is accepted, however, it
-uses the same kind of opaque reference, belongs to the appropriate email-based
-contact relationship, records independent agency and visitor email outcomes,
-and follows the same twelve-month rule.
+Suppose one email address submits a Consultation Request in January and a Booking
+Request in June. While both records remain, the system must recognize their
+private relationship for integrity and correction checks without exposing it to
+the visitor or routine agency staff. The January record still expires on its own
+schedule; the June request must not extend it. After the final retained request
+expires, keeping an otherwise empty contact record would preserve personal data
+without an accepted launch purpose.
 
-This decision determines whether later domain contracts and transactional design
-start from one typed request family or three unrelated records. It does not
-choose exact Neon tables, Drizzle schemas, or application modules.
+Technically, option 1 could use a normalized-email column and index on the common
+`requests` table. Option 2 could use a `customer_contacts` table referenced by
+`requests`. This decision chooses the domain representation and lifecycle, not
+the exact column names, normalization algorithm, indexes, or deletion job.
 
 After answer:
 
-- Lock the conceptual request-family boundary without choosing exact Neon tables,
-  Drizzle schemas, or application modules.
+- Lock the contact-relationship representation and expiry boundary without
+  choosing exact columns, indexes, normalization code, or deletion jobs.
 - Reconcile the remaining question order against that boundary.
 - Store the next highest-value System Boundaries and Domain Representation
   question.

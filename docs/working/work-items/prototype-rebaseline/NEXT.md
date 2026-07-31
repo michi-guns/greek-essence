@@ -282,8 +282,10 @@ architecture rebaseline, and promotion of settled documentation.
   slugs, and URLs remain editable attributes. D-003 is accepted: each Booking
   Request freezes the bounded localized Experience context and any complete
   indicative-price context shown to the visitor, while excluding the full
-  catalogue document. Stored D-004 asks how the three submission journeys share
-  a request-family boundary without losing their distinct meaning.
+  catalogue document. D-004 is accepted: one shared Request envelope has exactly
+  one strongly typed journey detail; a wide nullable table and generic catch-all
+  payload are excluded. Stored D-005 asks whether the normalized-email contact
+  relationship is separately retained or derived only from retained requests.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -335,13 +337,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present only System Boundaries and Domain Representation D-004 from
+Present only System Boundaries and Domain Representation D-005 from
 `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
 After the operator answers, persist the selected boundary before presenting the
 next single question. Keep related answers and eventual acceptance on the same
 coherent draft pull request.
 
-Completion condition: D-004 is persisted with its rationale and consequences,
+Completion condition: D-005 is persisted with its rationale and consequences,
 and the next highest-value question is stored without choosing exact Sanity
 fields or a Neon/Drizzle table layout prematurely.
 
