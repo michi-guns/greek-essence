@@ -326,11 +326,14 @@ architecture rebaseline, and promotion of settled documentation.
   pipeline alone for specifically pre-approved changes, meaning-preserving
   corrections, and protective withdrawal. No second technical approver is
   required; materially changed meaning requires current agency approval before
-  publication. D-004 is the stored next decision and asks how compact claim,
-  indicative-price, and media evidence metadata should support publication
-  checks without turning Sanity into a large approval or document-management
-  system. This work does not authorize Sanity installation, configuration,
-  schemas, migration, or application implementation.
+  publication. D-004 establishes compact evidence metadata beside each governed
+  claim, indicative price, and media use; document readiness is derived from
+  current item-level evidence, while sensitive source files remain in an
+  appropriate agency-controlled location outside Sanity. D-005 is the stored
+  next decision and asks how private drafts, authenticated preview, published
+  revisions, withdrawal, and generic recovery at former localized URLs should
+  work together. This work does not authorize Sanity installation,
+  configuration, schemas, migration, or application implementation.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -374,13 +377,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Editorial Content Platform D-004 from
+Present Editorial Content Platform D-005 from
 `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` and
 persist the operator's answer in the same ledger and coherent draft pull request
-before advancing to D-005.
+before advancing to D-006.
 
-Completion condition: D-004 is durably persisted with its rationale,
-consequences, and rejected alternatives, and D-005 is stored as the single next
+Completion condition: D-005 is durably persisted with its rationale,
+consequences, and rejected alternatives, and D-006 is stored as the single next
 question.
 
 ## Done When

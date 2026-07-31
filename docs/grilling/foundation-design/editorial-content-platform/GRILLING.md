@@ -178,10 +178,39 @@ would blur agency approval of business meaning with technical execution.
 Approval kept only in informal external conversation was rejected because it
 could become detached from the revision and meaning being published.
 
+### D-004 — Compact Item-Level Evidence Metadata
+
+Each governed claim, indicative price, and media use carries compact evidence
+metadata beside that item in its owning Sanity document. The document's
+publication readiness is derived from the current state of every applicable
+item rather than from one page-level approval checkbox.
+
+The metadata records the approval status and scope, the approving role or
+configured identity, approval time, a short evidence or source reference, and a
+review or expiry date only when applicable. Exact named production approvers
+and access remain Launch Readiness matters. A changed governed item must no
+longer inherit metadata that approved materially different meaning or use.
+
+Indicative-price metadata also preserves the already required currency,
+charging basis, key inclusions, review date, and confirmation warning. Media
+metadata identifies the approved asset and its approved use scope. Ordinary
+copy that does not carry a governed claim, price, or media-rights dependency
+does not receive this additional evidence record.
+
+Sensitive contracts, identity documents, and unrelated business files remain
+outside Sanity in an appropriate agency-controlled location. Sanity stores only
+the bounded reference needed for the technical publication check; the metadata
+does not assert that the underlying evidence is legally or commercially valid
+and does not transfer approval responsibility to the technical publisher.
+
+One document-level approval summary was rejected because changing one image,
+price, or claim would make the whole approval ambiguous. Separate reusable
+Evidence documents were rejected because their additional record family,
+permissions, references, and lifecycle would add disproportionate complexity
+for the preview.
+
 ## Open Questions
 
-- D-004: How should claim, price, and media evidence metadata support technical
-  publication checks without transferring business approval?
 - D-005: How should drafts, preview, revisions, withdrawal, and former-URL
   recovery work together?
 - D-006: How should Next.js rendering, caching, revalidation, localized search,
@@ -189,60 +218,65 @@ could become detached from the revision and meaning being published.
 
 ## Next Question
 
-ID: D-004
+ID: D-005
 
 Owning layer: Foundation Design.
 
 Topic:
-Claim, indicative-price, and media evidence metadata.
+Drafts, preview, revisions, withdrawal, and former-URL recovery.
 
 Prompt:
-How should Sanity record enough evidence information for the technical publisher
-to verify claims, indicative prices, and media before publication without
-turning Sanity into a large approval or document-management system?
+How should one Sanity document move from private draft to public revision and
+later withdrawal while preserving a truthful generic recovery page at its former
+English and Greek URLs?
 
 Options:
 
-1. (recommended): **Keep compact evidence metadata beside each governed claim,
-   price, or media use and derive the document's readiness from it.** Record the
-   approval status and scope, approving role or identity, approval time, a short
-   evidence or source reference, and a review or expiry date only when the item
-   requires one. Price metadata also carries its already required currency,
-   charging basis, inclusions, review date, and confirmation warning. Media
-   metadata identifies the approved asset and use scope. Sensitive contracts,
-   identity documents, or unrelated business files remain outside Sanity in an
-   appropriate agency-controlled location; Sanity stores only the bounded
-   publication reference needed for the check.
-2. **Keep one document-level approval summary.** Record who approved the whole
-   page, when, and where supporting evidence can be found. This is simpler, but a
-   single changed image, price, or claim can make the whole approval ambiguous
-   and gives the publisher less help identifying what needs reapproval.
-3. **Create separate reusable Evidence documents and reference them from every
-   claim, price, and media use.** This supports one evidence record shared across
-   several pages, but introduces another independently managed record family,
-   reference lifecycle, permissions surface, and withdrawal problem that may be
-   disproportionate for the preview.
+1. (recommended): **Use Sanity's normal draft and published versions, an
+   authenticated Next.js preview, and a minimal withdrawn version of the same
+   document.** Editors preview the complete bilingual draft against the website;
+   visitors read only the published version. Publishing replaces both languages
+   together and records the source revision. Withdrawal publishes a minimal
+   shell under the same stable document ID containing only withdrawal state and
+   the former localized route information needed for generic recovery; stale
+   detail copy, claims, prices, and media are absent from the public version.
+   Discovery excludes the shell, while both former URLs render the accepted
+   generic recovery journey. Any later republication starts from private content
+   and must pass current validation and approval again.
+2. **Unpublish the content document and create a separate Withdrawal Route
+   document.** The separate record stores the former localized URLs and generic
+   recovery type while the original remains private. This keeps withdrawal data
+   isolated but adds another record, reference, identity, and cleanup lifecycle
+   for every withdrawn item.
+3. **Keep the complete withdrawn document published with a withdrawal flag and
+   rely on Next.js queries to hide its stale fields.** This is mechanically
+   simple and keeps restoration easy, but stale claims, prices, and media remain
+   in the published data and could be exposed by an incorrect query or another
+   consumer.
 
 Why this matters:
 
-The publisher needs to answer a practical question before pressing Publish:
-“What proves that this particular claim, price, or image is approved for this
-use?” A simple page-level checkbox cannot reliably answer that when one element
-changes. At the other extreme, a separate evidence-management application would
-add unnecessary work and may place sensitive agency records in the CMS.
+Sanity can keep a private draft alongside the currently published version.
+Next.js can use an authenticated preview mode so the publisher sees that draft
+inside the real site layout without exposing it to ordinary visitors. Sanity
+also retains revision history for the provider's available retention period,
+but that history is not treated as a permanent public archive.
 
-For example, the Paros Sailing Tour may show one approved image and an indicative
-“from €150 per person” price. The recommended model keeps a small approval and
-source record next to the image use and another next to the price. Sanity can
-then flag an expired media use or overdue price review without deciding whether
-the rights or commercial terms are legally valid. Giorgos or an authorized
-delegate still owns that approval; the metadata only helps the technical
-publisher verify that the required evidence exists and is current.
+Withdrawal needs more than deleting the document. For example, an old link to
+the Paros Sailing Tour must show a generic bilingual “no longer listed” journey,
+not a normal not-found page and not the old price and imagery. The recommended
+minimal withdrawn shell lets the same immutable document identity and former
+localized URLs answer that request without leaving stale visitor content in the
+published version or introducing a second withdrawal-record family.
+
+This optional-content mechanism does not satisfy withdrawal of a required
+service, request, privacy, or legal page. Such a page must still be replaced or
+redirected, or its dependent journey disabled honestly, as already accepted.
 
 After answer:
 
-- Lock the evidence-metadata placement, minimum categories, sensitive-file
-  boundary, and publication-readiness relationship.
-- Preserve exact field names and Sanity Studio presentation for bounded
-  technical design.
-- Store D-005 as the next question.
+- Lock the draft/published preview boundary, revision use, withdrawal
+  representation, former-route recovery, and republication gate.
+- Preserve exact preview integration and field names for bounded technical
+  design.
+- Store D-006 as the next question.
