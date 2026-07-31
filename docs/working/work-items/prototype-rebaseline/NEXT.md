@@ -310,6 +310,14 @@ architecture rebaseline, and promotion of settled documentation.
 - The operator set the prototype's custom bilingual Home LCP ceiling to 3000
   ms while retaining the Unlighthouse score budgets. Final measured LCP was
   2646.837 ms for `/en` and 2621.026 ms for `/el`.
+- On 2026-07-31, the operator authorized the Editorial Content Platform
+  Foundation Design track as a new coherent grilling unit. Its active ledger is
+  `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md`.
+  D-001 is the stored next decision and asks how each public content item should
+  represent English and Greek content in Sanity while preserving the accepted
+  single identity and complete bilingual publication boundary. This work does
+  not authorize Sanity installation, configuration, schemas, migration, or
+  application implementation.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -353,13 +361,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-After PR #45 is merged and local `main` is synchronized, ask the operator whether
-to start the next dependency-ordered Foundation Design track, Editorial Content
-Platform, as a new coherent work unit. Do not create its ledger, branch, or draft
-pull request without that successor-work authorization.
+Present Editorial Content Platform D-001 from
+`docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` and
+persist the operator's answer in the same ledger and coherent draft pull request
+before advancing to D-002.
 
-Completion condition: the operator explicitly authorizes the Editorial Content
-Platform track or provides a different next direction.
+Completion condition: D-001 is durably persisted with its rationale,
+consequences, and rejected alternatives, and D-002 is stored as the single next
+question.
 
 ## Done When
 
