@@ -312,12 +312,13 @@ architecture rebaseline, and promotion of settled documentation.
   2646.837 ms for `/en` and 2621.026 ms for `/el`.
 - On 2026-07-31, the operator authorized the Editorial Content Platform
   Foundation Design track as a new coherent grilling unit. Its active ledger is
-  `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md`.
-  D-001 is the stored next decision and asks how each public content item should
-  represent English and Greek content in Sanity while preserving the accepted
-  single identity and complete bilingual publication boundary. This work does
-  not authorize Sanity installation, configuration, schemas, migration, or
-  application implementation.
+  `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md`, and
+  its early collaboration surface is draft pull request #48. D-001 is the stored
+  next decision and asks how each public content item should represent English
+  and Greek content in Sanity while preserving the accepted single identity and
+  complete bilingual publication boundary. This work does not authorize Sanity
+  installation, configuration, schemas, migration, or application
+  implementation.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
