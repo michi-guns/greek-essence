@@ -333,11 +333,14 @@ architecture rebaseline, and promotion of settled documentation.
   decision and establishes private drafts, authenticated Next.js preview,
   coupled bilingual publication, provider-bounded revision history, and a
   minimal published withdrawn version under the same stable ID for generic
-  recovery at former localized URLs without stale public fields. D-006 is the
-  stored final decision and asks how Next.js rendering, caching, revalidation,
-  localized search, and fallback freshness should preserve published Sanity
-  truth. This work does not authorize Sanity installation, configuration,
-  schemas, migration, or application implementation.
+  recovery at former localized URLs without stale public fields. D-006
+  establishes cached published Sanity content in Next.js, precise secured-webhook
+  invalidation across related bilingual surfaces, a published localized-search
+  projection, conservative fallback expiry, and public verification of material
+  publications and withdrawals. No material Editorial Content Platform question
+  remains; D-001 through D-006 await operator acceptance. This work does not
+  authorize Sanity installation, configuration, schemas, migration, or
+  application implementation.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -381,15 +384,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Editorial Content Platform D-006 from
-`docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` and
-persist the operator's answer in the same ledger and coherent draft pull request
-before presenting the complete decision set for acceptance.
+Present Editorial Content Platform D-001 through D-006 for operator acceptance
+through the existing draft pull request #48. Name the exact raw ledger path and
+offer automatic verified finalization, acceptance while retaining the raw
+ledger, or correction of a material decision.
 
-Completion condition: D-006 is durably persisted with its rationale,
-consequences, and rejected alternatives, no material Editorial Content Platform
-question remains, and the complete decision set is ready for operator
-acceptance.
+Completion condition: the operator selects an acceptance outcome for
+`docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` and the
+authorized path is followed without treating acceptance as implementation
+permission.
 
 ## Done When
 

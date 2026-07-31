@@ -242,76 +242,42 @@ Keeping the complete stale document in the published perspective behind a
 withdrawal flag was rejected because an incorrect query or another consumer
 could expose old claims, prices, or media.
 
+### D-006 — Cached Published Content with Precise Webhook Revalidation
+
+Public Next.js Server Components read only Sanity's published perspective and
+cache editorial data for fast delivery and controlled provider usage. Cached
+data is associated with the content identity and every affected catalogue,
+relationship, route, and localized-search surface rather than being refreshed
+only by broad route clearing or a website deployment.
+
+After a publication or withdrawal, Sanity sends a secured, verified webhook to
+a Next.js Route Handler. The handler invalidates every affected cache group for
+both languages. The next request regenerates from current published Sanity
+truth. A conservative time-based expiry is also required so a missed webhook
+cannot leave stale content online indefinitely; exact tag names, cache APIs,
+signature mechanics, and fallback interval remain bounded technical-design
+choices.
+
+Localized search uses a cached projection containing only published titles and
+summaries for the visitor's selected language. It never exposes drafts, content
+from the other language, or withdrawn items. Publication and withdrawal refresh
+the applicable search projections together with detail routes, listings,
+related content, and former-URL recovery.
+
+The technical publisher verifies material publications and withdrawals on the
+public site after publishing. Exact monitoring, operational alerting, and proof
+of provider behavior remain Runtime Foundations and Launch Readiness work; no
+named owner or production configuration is assigned here.
+
+Sanity's Live Content API was rejected because near-real-time behavior exceeds
+the editorial need and current first-party Next.js 16 guidance identifies extra
+Sanity-request and Vercel-write risks that conflict with the zero-recurring-spend
+market-validation boundary. Uncached Sanity queries on every public request were
+rejected because they add latency, runtime dependency, and quota use. Build-time
+content with a required redeployment was rejected because it would make routine
+publication and urgent withdrawal depend on a technical deployment.
+
 ## Open Questions
 
-- D-006: How should Next.js rendering, caching, revalidation, localized search,
-  and freshness preserve published Sanity truth?
-
-## Next Question
-
-ID: D-006
-
-Owning layer: Foundation Design.
-
-Topic:
-Next.js rendering, caching, revalidation, localized search, and freshness.
-
-Prompt:
-How should Next.js serve fast public pages and localized search while ensuring a
-Sanity publication or withdrawal refreshes every affected public surface without
-requiring a website deployment?
-
-Options:
-
-1. (recommended): **Cache published Sanity content in Next.js and use a secured
-   Sanity webhook for precise on-demand revalidation.** Public Server Components
-   read only published content and tag cached data by content identity and
-   affected catalogue, relationship, route, and language-search surfaces. After
-   publication or withdrawal, Sanity calls a verified Next.js Route Handler,
-   which invalidates the affected tags for both languages; the next request
-   regenerates from current published truth. Localized search uses a cached
-   projection of published titles and summaries for the selected language and
-   never includes drafts or the other language. A conservative time-based expiry
-   prevents a missed webhook from leaving content stale indefinitely, and the
-   publisher verifies material publications and withdrawals on the public site.
-2. **Use Sanity's Live Content API for automatic live updates and cache
-   revalidation.** This provides very rapid freshness with less custom webhook
-   routing, but real-time behavior exceeds the editorial need and current
-   first-party guidance warns that Next.js 16 prefetch and re-render patterns can
-   create additional Sanity requests and Vercel writes, increasing free-quota
-   risk for the market-validation release.
-3. **Query Sanity without persistent content caching on every page and search
-   request.** This makes publication freshness straightforward, but increases
-   response latency, creates a runtime dependency for every visitor request, and
-   consumes more Sanity API quota.
-4. **Render content only at build time and redeploy after editorial changes.**
-   This minimizes runtime CMS reads but turns every publication or withdrawal
-   into a technical deployment and can leave stale public content online when
-   that deployment is delayed or fails.
-
-Why this matters:
-
-Caching lets Next.js reuse previously fetched content so visitors receive fast
-pages without a new Sanity request for every visit. Revalidation tells Next.js
-that a cached result is no longer current. Current Next.js 16 guidance prefers
-tag-based invalidation for CMS content because one publication can refresh every
-cache entry that depends on the changed item more precisely than clearing broad
-routes or waiting for a timer.
-
-For example, publishing a corrected Paros Destination can affect its English and
-Greek detail routes, the Destination listing, related Experience pages, and both
-localized search projections. The recommended webhook invalidates those related
-surfaces as one publication consequence. Withdrawal additionally refreshes the
-former routes into generic recovery and removes the item from discovery. Exact
-tag names, fallback interval, webhook signature mechanism, and operational alert
-belong to bounded technical design and Runtime or Launch Readiness verification;
-the durable rule is that a missed event cannot leave stale content indefinitely.
-
-After answer:
-
-- Lock rendering ownership, cache invalidation, localized-search projection,
-  fallback freshness, and post-publication verification boundaries.
-- Preserve exact cache APIs, tag names, webhook signature mechanics, and timing
-  for bounded technical design and later operational proof.
-- Remove the next-question section and prepare the complete Editorial Content
-  Platform decision set for operator acceptance.
+None. The Editorial Content Platform decision set is ready for operator
+acceptance review. This state does not authorize implementation or merge.
