@@ -209,74 +209,109 @@ Evidence documents were rejected because their additional record family,
 permissions, references, and lifecycle would add disproportionate complexity
 for the preview.
 
+### D-005 — Authenticated Draft Preview and Minimal Withdrawn Version
+
+Each Sanity content document uses the provider's normal private draft and
+published versions. The technical publisher previews the complete bilingual
+draft through authenticated Next.js Draft Mode against the real website layout;
+ordinary visitors and public search read only the published perspective.
+Publishing replaces the English and Greek public experience together and makes
+the published source revision available for downstream capture and diagnosis.
+
+Sanity's revision history may support comparison or restoration during the
+provider's available retention period, but it is not a permanent public archive
+or the source of accepted Request history. Republishing older or reconstructed
+content always requires a new private draft and current validation and approval.
+
+Withdrawing optional content publishes a minimal withdrawn version under the
+same immutable Sanity document ID. That public version retains only withdrawal
+state and the former localized route information required to recognize the old
+English and Greek URLs. Stale detail copy, claims, prices, and media are absent
+from the published version. Catalogue, navigation, filters, and search exclude
+the withdrawn document, while its former routes render the accepted generic
+bilingual recovery journey.
+
+The minimal withdrawn version is not sufficient for a required service,
+request, privacy, or legal page. Such a page must be replaced or redirected, or
+its dependent journey disabled honestly, under the accepted Product and Domain
+Truth boundary.
+
+A separate Withdrawal Route document was rejected because it would create a
+second identity, reference, and cleanup lifecycle for every withdrawn item.
+Keeping the complete stale document in the published perspective behind a
+withdrawal flag was rejected because an incorrect query or another consumer
+could expose old claims, prices, or media.
+
 ## Open Questions
 
-- D-005: How should drafts, preview, revisions, withdrawal, and former-URL
-  recovery work together?
 - D-006: How should Next.js rendering, caching, revalidation, localized search,
   and freshness preserve published Sanity truth?
 
 ## Next Question
 
-ID: D-005
+ID: D-006
 
 Owning layer: Foundation Design.
 
 Topic:
-Drafts, preview, revisions, withdrawal, and former-URL recovery.
+Next.js rendering, caching, revalidation, localized search, and freshness.
 
 Prompt:
-How should one Sanity document move from private draft to public revision and
-later withdrawal while preserving a truthful generic recovery page at its former
-English and Greek URLs?
+How should Next.js serve fast public pages and localized search while ensuring a
+Sanity publication or withdrawal refreshes every affected public surface without
+requiring a website deployment?
 
 Options:
 
-1. (recommended): **Use Sanity's normal draft and published versions, an
-   authenticated Next.js preview, and a minimal withdrawn version of the same
-   document.** Editors preview the complete bilingual draft against the website;
-   visitors read only the published version. Publishing replaces both languages
-   together and records the source revision. Withdrawal publishes a minimal
-   shell under the same stable document ID containing only withdrawal state and
-   the former localized route information needed for generic recovery; stale
-   detail copy, claims, prices, and media are absent from the public version.
-   Discovery excludes the shell, while both former URLs render the accepted
-   generic recovery journey. Any later republication starts from private content
-   and must pass current validation and approval again.
-2. **Unpublish the content document and create a separate Withdrawal Route
-   document.** The separate record stores the former localized URLs and generic
-   recovery type while the original remains private. This keeps withdrawal data
-   isolated but adds another record, reference, identity, and cleanup lifecycle
-   for every withdrawn item.
-3. **Keep the complete withdrawn document published with a withdrawal flag and
-   rely on Next.js queries to hide its stale fields.** This is mechanically
-   simple and keeps restoration easy, but stale claims, prices, and media remain
-   in the published data and could be exposed by an incorrect query or another
-   consumer.
+1. (recommended): **Cache published Sanity content in Next.js and use a secured
+   Sanity webhook for precise on-demand revalidation.** Public Server Components
+   read only published content and tag cached data by content identity and
+   affected catalogue, relationship, route, and language-search surfaces. After
+   publication or withdrawal, Sanity calls a verified Next.js Route Handler,
+   which invalidates the affected tags for both languages; the next request
+   regenerates from current published truth. Localized search uses a cached
+   projection of published titles and summaries for the selected language and
+   never includes drafts or the other language. A conservative time-based expiry
+   prevents a missed webhook from leaving content stale indefinitely, and the
+   publisher verifies material publications and withdrawals on the public site.
+2. **Use Sanity's Live Content API for automatic live updates and cache
+   revalidation.** This provides very rapid freshness with less custom webhook
+   routing, but real-time behavior exceeds the editorial need and current
+   first-party guidance warns that Next.js 16 prefetch and re-render patterns can
+   create additional Sanity requests and Vercel writes, increasing free-quota
+   risk for the market-validation release.
+3. **Query Sanity without persistent content caching on every page and search
+   request.** This makes publication freshness straightforward, but increases
+   response latency, creates a runtime dependency for every visitor request, and
+   consumes more Sanity API quota.
+4. **Render content only at build time and redeploy after editorial changes.**
+   This minimizes runtime CMS reads but turns every publication or withdrawal
+   into a technical deployment and can leave stale public content online when
+   that deployment is delayed or fails.
 
 Why this matters:
 
-Sanity can keep a private draft alongside the currently published version.
-Next.js can use an authenticated preview mode so the publisher sees that draft
-inside the real site layout without exposing it to ordinary visitors. Sanity
-also retains revision history for the provider's available retention period,
-but that history is not treated as a permanent public archive.
+Caching lets Next.js reuse previously fetched content so visitors receive fast
+pages without a new Sanity request for every visit. Revalidation tells Next.js
+that a cached result is no longer current. Current Next.js 16 guidance prefers
+tag-based invalidation for CMS content because one publication can refresh every
+cache entry that depends on the changed item more precisely than clearing broad
+routes or waiting for a timer.
 
-Withdrawal needs more than deleting the document. For example, an old link to
-the Paros Sailing Tour must show a generic bilingual “no longer listed” journey,
-not a normal not-found page and not the old price and imagery. The recommended
-minimal withdrawn shell lets the same immutable document identity and former
-localized URLs answer that request without leaving stale visitor content in the
-published version or introducing a second withdrawal-record family.
-
-This optional-content mechanism does not satisfy withdrawal of a required
-service, request, privacy, or legal page. Such a page must still be replaced or
-redirected, or its dependent journey disabled honestly, as already accepted.
+For example, publishing a corrected Paros Destination can affect its English and
+Greek detail routes, the Destination listing, related Experience pages, and both
+localized search projections. The recommended webhook invalidates those related
+surfaces as one publication consequence. Withdrawal additionally refreshes the
+former routes into generic recovery and removes the item from discovery. Exact
+tag names, fallback interval, webhook signature mechanism, and operational alert
+belong to bounded technical design and Runtime or Launch Readiness verification;
+the durable rule is that a missed event cannot leave stale content indefinitely.
 
 After answer:
 
-- Lock the draft/published preview boundary, revision use, withdrawal
-  representation, former-route recovery, and republication gate.
-- Preserve exact preview integration and field names for bounded technical
-  design.
-- Store D-006 as the next question.
+- Lock rendering ownership, cache invalidation, localized-search projection,
+  fallback freshness, and post-publication verification boundaries.
+- Preserve exact cache APIs, tag names, webhook signature mechanics, and timing
+  for bounded technical design and later operational proof.
+- Remove the next-question section and prepare the complete Editorial Content
+  Platform decision set for operator acceptance.
