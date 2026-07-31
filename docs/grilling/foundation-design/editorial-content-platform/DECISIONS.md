@@ -27,9 +27,13 @@ launch evidence remain downstream work.
 - English and Greek public experiences must be complete, separately authored,
   meaning-equivalent, and approved before publication. Missing content is not
   copied silently from the other language.
+- A useful standalone Destination may publish without a published Experience
+  when it satisfies the accepted Destination completeness boundary.
 - Every published Experience has at least one genuinely valid published
   Destination relationship, one accepted launch type, approved public content
   and media, and an explicit requestability choice.
+- All genuinely valid Destination relationships on an Experience are equal.
+  There is no required primary Destination or relationship-role taxonomy.
 - Requestability means only that Greek Essence is willing to receive a Booking
   Request. It does not assert availability, reservation, or confirmed booking.
 - Greek Essence, acting through Giorgos or an authorized agency delegate,
@@ -65,7 +69,10 @@ the finished public Experience while the other remains an incomplete draft.
 Separate English and Greek documents were rejected because they would duplicate
 identity and shared relationships and permit lifecycle drift. A single-language
 record with translation fallback was rejected because it would weaken the
-accepted complete bilingual release.
+accepted complete bilingual release. A shared core plus separate English and
+Greek content documents was rejected because three coordinated records per item
+would add joins, validation, and recovery paths without proportionate launch
+value.
 
 ## D-002 — Explicit Document Types, Controlled Singletons, and Embedded Objects
 
@@ -74,8 +81,10 @@ Their names and structure reflect the accepted catalogue concepts rather than a
 generic page abstraction.
 
 Home, About, and any other page confirmed to be unique are controlled singleton
-records. Singleton behavior must prevent accidental duplicate public records;
-it does not create a new business concept or approve additional pages.
+records. Any confirmed shared site concern that requires one authoritative
+editable record may use the same singleton pattern. Singleton behavior must
+prevent accidental duplicate records; it does not create a new business concept
+or approve additional public content.
 
 Smaller structures that have no independent public identity or lifecycle are
 reusable objects embedded in their owning document. Representative examples
@@ -136,9 +145,11 @@ eligibility gates pass.
 A required second technical approver was rejected because it would create an
 unaccepted staffing bottleneck without improving business authority. Informal
 memory alone was rejected because it cannot support reliable publication or
-later diagnosis. Treating every technical correction as new business approval
-was rejected because it would add redundant agency work without protecting
-meaning.
+later diagnosis. A combined publisher-owned “ready to publish” state was
+rejected because it would blur agency approval of business meaning with
+technical execution. Treating every technical correction as new business
+approval was rejected because it would add redundant agency work without
+protecting meaning.
 
 ## D-004 — Compact Item-Level Evidence Metadata
 
@@ -169,6 +180,9 @@ business files remain in an appropriate agency-controlled location outside
 Sanity. Sanity stores only a bounded reference; the metadata does not prove legal
 or commercial validity and does not transfer approval responsibility to the
 technical publisher.
+
+Ordinary copy that does not contain a governed claim, indicative price, or
+media-rights dependency does not receive this additional evidence metadata.
 
 One document-level approval summary was rejected because changing one image,
 price, or claim would make the whole approval ambiguous. Separate reusable
