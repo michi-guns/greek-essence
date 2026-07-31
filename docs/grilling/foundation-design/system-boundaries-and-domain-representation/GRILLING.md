@@ -123,11 +123,35 @@ validation path must preserve without a current need to decouple from Sanity.
 Slug or URL identity was rejected because editorial and localization changes
 must not rewrite historical relationships.
 
+### D-003 — Preserve a Bounded Customer-Visible Experience Snapshot
+
+Every accepted Booking Request stores a bounded immutable request-context
+snapshot alongside the published Sanity Experience ID. The snapshot preserves:
+
+- the source Sanity revision;
+- the visitor's locale;
+- the localized title and summary shown in that locale;
+- the Experience type;
+- associated Destination labels;
+- the public URL shown at acceptance; and
+- when an indicative price was displayed, its complete accepted context: amount
+  or “from” value, currency, charging basis, key inclusions, review date, and
+  confirmation warning.
+
+The snapshot excludes long detail copy, media, search metadata, other-language
+variants, and unrelated editorial fields. It is part of the private accepted
+request record, follows that request's twelve-month retention and deletion
+boundary, and cannot be rewritten by later Sanity edits or withdrawal.
+
+Identification-only storage was rejected because the immutable ID and title
+would not preserve the proposition or indicative price the visitor saw. Copying
+the complete published Experience was rejected because it would create an
+unnecessary second catalogue in Neon and expand retention, backup, migration,
+and stale-content handling.
+
 ## Open Questions
 
-- D-003: Which bounded customer-visible Experience facts should be frozen with
-  each accepted Booking Request?
-- Later: How should the three accepted submission journeys form one domain model
+- D-004: How should the three accepted submission journeys form one domain model
   without erasing their different meanings and fields?
 - Later: What relationship rules should Destinations and Experiences use across
   editorial revisions and withdrawal?
@@ -140,54 +164,54 @@ must not rewrite historical relationships.
 
 ## Next Question
 
-ID: D-003
+ID: D-004
 
 Topic:
-Bounded historical Experience snapshot.
+Shared request family and journey-specific meaning.
 
 Prompt:
-Which customer-visible Experience facts should Neon freeze with an accepted
-Booking Request so the agency can understand what the visitor saw without
-copying the complete mutable Sanity document?
+How should Consultation Requests, Booking Requests, and General Contact messages
+share acceptance, references, contact grouping, audit, retention, and email
+recovery while preserving their different business meanings and fields?
 
 Options:
 
-1. (recommended): **Store a bounded request-context snapshot.** Preserve the
-   published Sanity ID and source revision, visitor locale, localized title and
-   summary, Experience type, associated Destination labels, and public URL shown
-   at acceptance. If an indicative price was displayed, preserve its complete
-   accepted price context: amount or “from” value, currency, charging basis, key
-   inclusions, review date, and confirmation warning. Exclude long detail copy,
-   media, search metadata, and other editorial fields.
-2. **Store identification only.** Preserve the Sanity ID, visitor locale,
-   localized title, Experience type, and Destination labels, but no summary,
-   historical URL, revision, or displayed-price context. This minimizes Neon
-   data, but after withdrawal or a material edit the agency may know which
-   Experience was selected without knowing the proposition or indicative price
-   the visitor actually saw.
-3. **Store the complete published Experience document.** Preserve all localized
-   text, price content, relationships, metadata, and media references as they
-   existed at acceptance. This maximizes historical detail, but copies far more
-   catalogue data than the manual enquiry workflow needs and expands retention,
-   backup, migration, and stale-content handling.
+1. (recommended): **Use one shared Request envelope with exactly one typed,
+   immutable journey detail.** Every accepted submission shares its core
+   identity, acceptance time, contact relationship, opaque reference, audit and
+   delivery boundaries, and retention rule. Its detail is exactly one
+   Consultation Request, Booking Request, or General Contact snapshot with that
+   journey's own required fields and meaning. Later tracks may choose the
+   physical table layout but must preserve this domain split.
+2. **Use three independent request entities that reuse shared processing
+   services.** Each journey owns its complete identity and lifecycle model;
+   common services implement contact matching, audit, retention, and email. This
+   gives strong isolation, but repeats shared invariants and makes one contact's
+   private cross-journey chronology and recovery behavior harder to keep
+   consistent.
+3. **Use one generic Request entity with a flexible journey payload.** A type
+   label selects conditional validation over a flexible data object. This
+   minimizes the initial domain model, but weakens structural guarantees, permits
+   more invalid field combinations, and makes migrations and privacy review
+   harder for real enquiries.
 
 Why this matters:
 
-Suppose a visitor requests “Paros Sunset Sailing” after seeing an indicative
-“from €120 per person” price. Six months later, the Experience is renamed, its
-summary changes, and that price disappears. The immutable Sanity ID proves which
-Experience was selected, but it does not by itself tell agency staff what
-customer-visible proposition influenced the request.
+A Consultation Request may contain timing and budget guidance. A Booking Request
+contains dates, party composition, and the D-003 Experience snapshot. General
+Contact contains a subject and message. After any one is accepted, however, it
+uses the same kind of opaque reference, belongs to the appropriate email-based
+contact relationship, records independent agency and visitor email outcomes,
+and follows the same twelve-month rule.
 
-The snapshot should preserve enough context for honest follow-up and historical
-intelligibility while remaining smaller than a second catalogue. This decision
-sets that information boundary; the Transactional Data Platform track will later
-choose exact columns, value-object representation, and constraints.
+This decision determines whether later domain contracts and transactional design
+start from one typed request family or three unrelated records. It does not
+choose exact Neon tables, Drizzle schemas, or application modules.
 
 After answer:
 
-- Lock the bounded Experience snapshot contents without choosing exact Neon
-  columns or Drizzle schema layout.
+- Lock the conceptual request-family boundary without choosing exact Neon tables,
+  Drizzle schemas, or application modules.
 - Reconcile the remaining question order against that boundary.
 - Store the next highest-value System Boundaries and Domain Representation
   question.
