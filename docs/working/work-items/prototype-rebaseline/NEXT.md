@@ -310,6 +310,37 @@ architecture rebaseline, and promotion of settled documentation.
 - The operator set the prototype's custom bilingual Home LCP ceiling to 3000
   ms while retaining the Unlighthouse score budgets. Final measured LCP was
   2646.837 ms for `/en` and 2621.026 ms for `/el`.
+- On 2026-07-31, the operator accepted Editorial Content Platform D-001 through
+  D-006 and selected automatic verified finalization through pull request #48.
+  [`docs/grilling/foundation-design/editorial-content-platform/DECISIONS.md`](../../../grilling/foundation-design/editorial-content-platform/DECISIONS.md)
+  is the sole accepted authority. It establishes one bilingual Sanity document
+  per public content item; explicit repeatable types, controlled singletons, and
+  embedded objects; structural validation plus meaning-based agency approval;
+  compact item-level evidence metadata; authenticated draft preview and minimal
+  withdrawn versions; and cached published content with precise secured-webhook
+  revalidation, localized published-only search, bounded fallback expiry, and
+  public verification of material changes. The final accepted raw ledger is
+  preserved in pull request #48, and the operator authorized removal of the
+  exact repository path
+  `docs/grilling/foundation-design/editorial-content-platform/GRILLING.md` after
+  verified distillation. Acceptance does not authorize Sanity installation,
+  configuration, schemas, migration, or application implementation.
+- Editorial Content Platform finalization verification on 2026-07-31: pull
+  request #48 was read back after its description preserved the exact final
+  accepted raw ledger and finalization authorization; the staged structural
+  check confirmed one accepted `DECISIONS.md` with D-001 through D-006 exactly
+  once and the authorized raw path absent; `git diff --cached --check`, focused
+  Prettier, and staged Gitleaks checks passed. `pnpm check:push` then exited `0`:
+  the full Gitleaks scan found no leaks; the configured audit gate passed while
+  reporting three known findings; formatting, lint, Knip, typecheck, and content
+  validation passed; 73 unit tests passed with coverage; the production build
+  passed; and Playwright completed with 53 passing and 4 intentionally skipped
+  tests. Independent semantic review then identified four fidelity omissions in
+  the first distillation; the accepted standalone-Destination and equal-
+  relationship inputs, shared-site singleton scope, mandatory publisher preview
+  and technical-readiness check, and ordinary-copy evidence exclusion were
+  restored. A fresh independent comparison of the corrected `DECISIONS.md`
+  against the final accepted raw ledger returned `PASS`.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -353,13 +384,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-After PR #45 is merged and local `main` is synchronized, ask the operator whether
-to start the next dependency-ordered Foundation Design track, Editorial Content
-Platform, as a new coherent work unit. Do not create its ledger, branch, or draft
-pull request without that successor-work authorization.
+After Editorial Content Platform pull request #48 is merged and the repository
+is synchronized, wait for explicit operator authorization before opening the
+next Foundation Design grilling unit, Transactional Data Platform. Do not begin
+implementation or the successor track automatically.
 
-Completion condition: the operator explicitly authorizes the Editorial Content
-Platform track or provides a different next direction.
+Completion condition: the repository remains clean on synchronized `main`, and
+the operator explicitly authorizes the next coherent grilling or implementation
+unit before work starts.
 
 ## Done When
 
