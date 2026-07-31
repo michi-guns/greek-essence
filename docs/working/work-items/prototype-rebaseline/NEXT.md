@@ -277,8 +277,11 @@ architecture rebaseline, and promotion of settled documentation.
   eligibility, while Neon preserves the stable Experience reference and bounded
   acceptance snapshot. Distinct disabled, withdrawn, and temporary-verification
   failures never claim receipt; exact approved direct-contact fallbacks remain
-  Launch Readiness work. Stored D-002 asks which immutable Experience identity
-  should cross from Sanity into Neon.
+  Launch Readiness work. D-002 is accepted: the immutable published Sanity
+  document ID is the shared Experience identity across Sanity and Neon; titles,
+  slugs, and URLs remain editable attributes. Stored D-003 asks which bounded
+  customer-visible Experience facts Neon freezes with an accepted Booking
+  Request.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -330,15 +333,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present only System Boundaries and Domain Representation D-002 from
+Present only System Boundaries and Domain Representation D-003 from
 `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`.
 After the operator answers, persist the selected boundary before presenting the
 next single question. Keep related answers and eventual acceptance on the same
 coherent draft pull request.
 
-Completion condition: D-002 is persisted with its rationale and consequences,
+Completion condition: D-003 is persisted with its rationale and consequences,
 and the next highest-value question is stored without choosing exact Sanity
-fields, a Neon/Drizzle table layout, or snapshot contents prematurely.
+fields or a Neon/Drizzle table layout prematurely.
 
 ## Done When
 

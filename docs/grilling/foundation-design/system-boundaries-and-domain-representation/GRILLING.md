@@ -105,10 +105,28 @@ Experience into Neon was rejected because it duplicates mutable catalogue
 content and expands retention, backup, migration, and stale-claim complexity
 without improving historical request meaning.
 
+### D-002 — Published Sanity Document ID Is the Shared Experience Identity
+
+The immutable published Sanity document `_id` is the shared Experience identity
+across Sanity and Neon. It is generated once as an opaque, non-semantic value
+when the Experience is created. Draft and release-version prefixes resolve to
+that published root ID before it crosses the service boundary.
+
+Neon stores the published root ID with every accepted Booking Request snapshot.
+Localized titles, slugs, and public URLs remain editable attributes and never
+become identity. Renaming or translating an Experience therefore cannot detach
+an accepted request or make the same Experience appear to be a new one.
+
+A separate Greek Essence domain-ID field was rejected because it would add a
+second required unique value that every creation, import, duplication, and
+validation path must preserve without a current need to decouple from Sanity.
+Slug or URL identity was rejected because editorial and localization changes
+must not rewrite historical relationships.
+
 ## Open Questions
 
-- D-002: Which stable Experience identity should cross from Sanity into Neon and
-  remain separate from editable URLs and titles?
+- D-003: Which bounded customer-visible Experience facts should be frozen with
+  each accepted Booking Request?
 - Later: How should the three accepted submission journeys form one domain model
   without erasing their different meanings and fields?
 - Later: What relationship rules should Destinations and Experiences use across
@@ -122,53 +140,54 @@ without improving historical request meaning.
 
 ## Next Question
 
-ID: D-002
+ID: D-003
 
 Topic:
-Stable cross-service Experience identity.
+Bounded historical Experience snapshot.
 
 Prompt:
-Which immutable identifier should represent the same Experience across Sanity
-and an accepted Neon Booking Request while titles, localized URLs, drafts, and
-published content can change?
+Which customer-visible Experience facts should Neon freeze with an accepted
+Booking Request so the agency can understand what the visitor saw without
+copying the complete mutable Sanity document?
 
 Options:
 
-1. (recommended): **Use the immutable published Sanity document ID as the shared
-   Experience identity.** Generate it once as an opaque, non-semantic value when
-   the Experience is created. Sanity drafts and release versions resolve to that
-   published root ID; Neon stores the same ID with the accepted snapshot. Titles,
-   slugs, and localized URLs remain editable and never become identity. This uses
-   Sanity's existing immutable identity without adding a second identifier.
-2. **Add a separate immutable domain ID field shared by Sanity and Neon.** Sanity
-   keeps its internal document ID, while a second opaque identifier represents
-   the Experience across systems. This reduces coupling to Sanity identity and
-   may simplify a future CMS migration, but creates another required unique value
-   that every creation, import, duplication, and validation path must preserve.
-3. **Use the public slug or URL key as the shared identity.** This is readable and
-   initially simple, but a title correction, localization change, or URL rename
-   can make the same Experience look like a new one or force historical records
-   to follow mutable editorial naming. This is not recommended for immutable
-   requests.
+1. (recommended): **Store a bounded request-context snapshot.** Preserve the
+   published Sanity ID and source revision, visitor locale, localized title and
+   summary, Experience type, associated Destination labels, and public URL shown
+   at acceptance. If an indicative price was displayed, preserve its complete
+   accepted price context: amount or “from” value, currency, charging basis, key
+   inclusions, review date, and confirmation warning. Exclude long detail copy,
+   media, search metadata, and other editorial fields.
+2. **Store identification only.** Preserve the Sanity ID, visitor locale,
+   localized title, Experience type, and Destination labels, but no summary,
+   historical URL, revision, or displayed-price context. This minimizes Neon
+   data, but after withdrawal or a material edit the agency may know which
+   Experience was selected without knowing the proposition or indicative price
+   the visitor actually saw.
+3. **Store the complete published Experience document.** Preserve all localized
+   text, price content, relationships, metadata, and media references as they
+   existed at acceptance. This maximizes historical detail, but copies far more
+   catalogue data than the manual enquiry workflow needs and expands retention,
+   backup, migration, and stale-content handling.
 
 Why this matters:
 
-Suppose an Experience begins as `/en/experiences/paros-sailing`, receives a
-Booking Request, and is later renamed or given a corrected Greek URL. The
-accepted request must still point to the same Experience without freezing its
-old URL as identity. Sanity already assigns every document an immutable `_id`
-and uses prefixes to associate drafts and versions with the published root ID.
-The choice is whether that existing identity crosses the service boundary or
-whether Greek Essence maintains a second domain identifier.
+Suppose a visitor requests “Paros Sunset Sailing” after seeing an indicative
+“from €120 per person” price. Six months later, the Experience is renamed, its
+summary changes, and that price disappears. The immutable Sanity ID proves which
+Experience was selected, but it does not by itself tell agency staff what
+customer-visible proposition influenced the request.
 
-This decision constrains Sanity creation and duplication, Neon references,
-snapshot provenance, imports, and later relationship contracts. It does not
-choose public URL structure, exact schema fields, or snapshot contents.
+The snapshot should preserve enough context for honest follow-up and historical
+intelligibility while remaining smaller than a second catalogue. This decision
+sets that information boundary; the Transactional Data Platform track will later
+choose exact columns, value-object representation, and constraints.
 
 After answer:
 
-- Lock the stable cross-service Experience identity without choosing public URL
-  structure, exact Sanity schemas, or Neon table layout.
+- Lock the bounded Experience snapshot contents without choosing exact Neon
+  columns or Drizzle schema layout.
 - Reconcile the remaining question order against that boundary.
 - Store the next highest-value System Boundaries and Domain Representation
   question.
