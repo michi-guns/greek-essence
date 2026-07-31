@@ -291,8 +291,10 @@ architecture rebaseline, and promotion of settled documentation.
   taxonomy. D-007 is accepted: a correction stores its intent and submitted prior
   opaque reference after private reference-and-email validation, without a
   foreign key or correction-link entity; routine staff context remains in email.
-  No material question remains in this track, which is ready for combined
-  operator acceptance on draft PR #45.
+  No material question remains in this track. On 2026-07-31 the operator accepted
+  D-001 through D-007 and authorized verified distillation, exact raw-ledger
+  removal, checks, squash merge, feature-branch deletion, and isolated-worktree
+  cleanup on PR #45.
 - A separate explicit operator instruction corrected the retained prototype's
   media path: `assets/imgs/` moved to `public/images/`, the approval-gated
   `content/shared/media.json` was removed, and direct localized image records
@@ -344,15 +346,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present the combined acceptance question for System Boundaries and Domain
-Representation, naming raw ledger
-`docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`
-and existing draft PR #45. Offer accept-and-finalize, accept-but-retain, and
-correct-first choices exactly as required by `docs/grilling/protocol.md`.
+Complete the authorized System Boundaries and Domain Representation finalization
+on PR #45: preserve the exact accepted raw ledger and authorization in the PR
+record, distill and semantically verify `DECISIONS.md`, remove only the authorized
+raw path, reconcile routing and this handoff, run required checks, squash merge,
+delete the merged branch, and synchronize local `main`.
 
-Completion condition: the operator either authorizes a protocol-compliant
-acceptance path or identifies one material correction; do not infer raw-ledger
-deletion or merge authorization.
+Completion condition: merged PR #45 preserves reviewable raw evidence, the final
+tree contains the semantically verified `DECISIONS.md` and omits the authorized
+`GRILLING.md`, all required checks pass, and local `main` matches `origin/main`.
 
 ## Done When
 

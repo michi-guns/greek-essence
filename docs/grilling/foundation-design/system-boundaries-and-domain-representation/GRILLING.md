@@ -2,9 +2,9 @@
 
 ## Status
 
-Ready for combined acceptance. D-001 through D-007 have each been selected and
-persisted, but this raw ledger remains the interview source until the operator
-accepts or corrects the complete decision set.
+Accepted on 2026-07-31. D-001 through D-007 form the complete accepted System
+Boundaries and Domain Representation decision set. Verified distillation and
+authorized finalization remain in progress on draft PR #45.
 
 This grill does not authorize application implementation, dependency
 installation, schema migration, deployment, or production-data handling. Use
@@ -290,3 +290,28 @@ owners, and launch evidence remain assigned to their downstream Foundation
 Design or Launch Readiness tracks. No unresolved question here materially changes
 the established service ownership, entities, relationships, identity, lifecycle,
 or cross-service data contract.
+
+## Combined Acceptance and Finalization Authorization
+
+On 2026-07-31, the operator selected **Option 1 — Accept and finalize
+automatically** for D-001 through D-007 and stated:
+
+> I choose option one and you also have all my approvals for the merging,
+> pushing, deleting feature brands. If you have created an isolated work tree,
+> you got permission for everything.
+
+This accepts the complete decision set and explicitly authorizes:
+
+- verified distillation into `DECISIONS.md`;
+- removal of
+  `docs/grilling/foundation-design/system-boundaries-and-domain-representation/GRILLING.md`
+  after its exact final accepted content and this authorization are preserved in
+  PR #45;
+- commits and pushes required to complete that same coherent pull request;
+- required-check monitoring, squash merge, and deletion of the merged feature
+  branch; and
+- cleanup of any isolated worktree created for this unit.
+
+The authorization does not permit application implementation, dependency
+installation, database migration, deployment, production-data handling, or
+deletion of unrelated branches, worktrees, or untracked files.
