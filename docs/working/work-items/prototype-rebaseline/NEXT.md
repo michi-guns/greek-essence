@@ -387,11 +387,15 @@ architecture rebaseline, and promotion of settled documentation.
   `../greek-essence.worktrees/application-architecture`. The active source ledger
   is
   [`docs/grilling/foundation-design/application-architecture/GRILLING.md`](../../../grilling/foundation-design/application-architecture/GRILLING.md).
-  Application Architecture D-001 is stored and pending; no option is selected.
-  The authorization permits decision grilling and its normal early draft pull
-  request, not implementation, provider configuration, migration, deployment,
-  production-data handling, Runtime and Production Foundations, Launch
-  Readiness, or another work unit.
+  Application Architecture D-001 is stored with four materially distinct
+  server-side composition options and pending; no option is selected. Independent
+  authority review confirmed this as the first costly-to-reverse unresolved seam
+  and found no upstream conflict. Draft pull request #52 is open from the task
+  branch, the branch is synchronized with its remote, and the latest lightweight
+  Markdown quality gate passed. The authorization permits decision grilling and
+  this early draft pull request, not implementation, provider configuration,
+  migration, deployment, production-data handling, Runtime and Production
+  Foundations, Launch Readiness, or another work unit.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -436,8 +440,8 @@ check:push` run reached Playwright after all preceding gates passed, then
 ## Next Recommended Action
 
 Ask the operator to choose, modify, reject, or defer the fully qualified
-Application Architecture D-001 options for the server-only application boundary
-and dependency direction recorded in the active ledger.
+Application Architecture D-001 options for server-side composition and dependency
+direction recorded in the active ledger.
 
 Completion condition: Application Architecture D-001 is explicitly accepted and
 the ledger stores exactly one pending Application Architecture D-002 question
