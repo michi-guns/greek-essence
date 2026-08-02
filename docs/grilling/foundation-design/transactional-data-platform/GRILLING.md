@@ -277,26 +277,25 @@ ID: D-005
 Owning layer: Foundation Design.
 
 Topic:
-Private correction validation under independent Request expiry.
+Proportional private correction validation.
 
 Prompt:
 How should the server validate an explicit correction against a retained earlier
-Request without revealing prior activity, creating a foreign-key lifecycle, or
-racing with retention deletion?
+Request without revealing prior activity or creating a foreign-key lifecycle?
 
 Options:
 
-1. (recommended): **Validate and briefly lock the earlier Request inside the
-   correction's D-001 transaction.** Query the uniquely indexed submitted public
+1. (recommended): **Perform one simple indexed private check immediately before
+   acceptance, without a row lock.** Query the uniquely indexed submitted public
    reference together with the normalized submitted email and require the target
-   still to be retained. Hold a bounded row lock until the complete correction
-   commits, then store only the correction intent and submitted prior reference.
-   Retention deletion may continue afterward without updating the correction.
-2. **Check the reference and normalized email before starting the acceptance
-   transaction.** This keeps the transaction slightly simpler, but the earlier
-   Request could expire or be deleted after validation and before the correction
-   commits, so the accepted correction would rely on a relationship that was no
-   longer valid at its acceptance event.
+   to be retained at check time. On a match, the D-001 transaction stores the
+   correction's complete independent snapshot, correction intent, and submitted
+   prior reference. It stores no internal target link or copied earlier content.
+2. **Perform the same check and hold a database row lock until the correction
+   commits.** This serializes correction acceptance against retention deletion,
+   but adds lock behavior to protect an extremely unlikely and harmless race for
+   a Public Preview with low request volume and a scheduled twelve-month
+   deletion process.
 3. **Store the earlier Request's internal ID as a nullable foreign key with
    `ON DELETE SET NULL`.** This gives the database a direct relationship while
    both records exist, but deletion mutates the later immutable correction and
@@ -311,24 +310,27 @@ correction's normalized submitted email. Failure returns the same generic result
 whether the reference is unknown, expired, deleted, or belongs to another email;
 the response must not reveal which input matched.
 
-The row lock closes a small but real race. For example, an earlier Request could
-reach its twelve-month deletion time while its correction is being accepted. In
-option 1, either deletion finishes first and validation fails generically, or the
-correction locks and validates the retained row, commits its complete independent
-snapshot, and deletion proceeds afterward.
+The server needs only to establish that the supplied reference and email matched
+a retained Request when it checked them. A theoretical deletion in the tiny
+interval between that check and the correction commit has no material business
+consequence: the correction is already a complete independent Request, the
+earlier Request was due to disappear under its accepted retention rule, and no
+customer-visible history, booking promise, or mutable staff workflow depends on
+the live relationship. Adding lock orchestration for that scenario would be
+disproportionate to a small-agency Public Preview.
 
 The correction stores no target content or internal relationship. While the
 earlier Request remains retained, authorized processing may resolve the submitted
 prior reference. After deletion, the correction remains understandable from its
 own complete snapshot and prior reference but reports only that the target is no
 longer retained. No deletion-time mutation, reconstruction, or retention
-extension is required. Exact SQL locking mode, transaction isolation, and error
-mapping remain bounded technical design.
+extension is required. Exact query composition and error mapping remain bounded
+technical design.
 
 After answer:
 
-- Lock correction validation, transaction concurrency, generic failure, and
-  post-expiry relationship behavior.
-- Preserve exact SQL, lock mode, and public error copy for bounded technical and
-  content design.
+- Lock correction validation, generic failure, and post-expiry relationship
+  behavior without adding a concurrency mechanism for a theoretical race.
+- Preserve exact SQL and public error copy for bounded technical and content
+  design.
 - Store D-006 as the next question.

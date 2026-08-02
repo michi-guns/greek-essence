@@ -355,9 +355,9 @@ architecture rebaseline, and promotion of settled documentation.
   separate internal Request IDs, public references, normalized-email grouping,
   and idempotency identities; exact retries compare canonical validated fields
   directly rather than storing a payload digest. D-005 is the stored next
-  decision about private correction validation and retention-deletion
-  concurrency. Draft pull request #49 is the coherent collaboration and review
-  surface. Work uses branch
+  decision about a proportional private correction check without a foreign-key
+  lifecycle or a lock for a theoretical retention-deletion race. Draft pull
+  request #49 is the coherent collaboration and review surface. Work uses branch
   `docs/transactional-data-platform` in a separate worktree so unrelated
   concurrent migration-documentation changes remain untouched. This authority
   does not permit Neon or Drizzle installation,
