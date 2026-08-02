@@ -346,80 +346,116 @@ Exact cleanup cadence and batch size remain bounded technical and Runtime
 Foundations design. D-009 separately owns the minimum backup-restore and deletion
 manifest representation; D-007 does not add that machinery pre-emptively.
 
+### D-008 — Neon WebSocket Runtime and Separately Applied Reviewed Migrations
+
+Accepted on 2026-08-02. Runtime database work uses Drizzle's Neon serverless
+WebSocket driver so the D-001 acceptance path can perform conditional work and
+dependent writes inside one interactive PostgreSQL transaction. The Public
+Preview keeps one runtime database path; it does not also introduce the HTTP
+driver without a measured need.
+
+Drizzle Kit generates SQL migrations and their metadata into the repository for
+review and testing. An authorized deployment step applies each pending migration
+once before the changed application serves traffic. A migration failure stops
+that deployment. Public request handlers and application startup never create,
+push, or migrate production schema.
+
+The application uses one configured production Neon database within the accepted
+free-quota boundary. Pull requests and preview deployments do not automatically
+provision Neon branches or databases and never run migrations against production.
+Connection URLs are environment secrets and do not enter source, migration
+files, logs, screenshots, or generated evidence.
+
+Redesigning D-001 around HTTP-only non-interactive batching was rejected because
+it adds complexity to accommodate a transport limitation. Production schema
+push and application-startup migration were rejected because they bypass
+reviewed durable SQL or allow serverless instances to race while serving
+requests. Future destructive or data-transforming changes require their own
+bounded migration and rollback contract; no generic zero-downtime framework is
+added for the initial Public Preview.
+
+Exact deployment command, connection lifetime, test database, and future
+destructive-migration procedure remain bounded implementation and Runtime
+Foundations design. First-party capability references:
+
+- <https://orm.drizzle.team/docs/get-started/neon-new>
+- <https://neon.com/docs/connect/choose-connection>
+- <https://orm.drizzle.team/docs/kit-overview>
+
 ## Open Questions
 
-- D-008: What migration and Neon connection-handling contract should preserve
-  safe deploys and transactions within the accepted free-quota boundary?
 - D-009: What transactional backup and restore representation is required to
   reapply expiry and verified deletions without making backups an active history
   surface?
 
 ## Next Question
 
-ID: D-008
+ID: D-009
 
 Owning layer: Foundation Design.
 
 Topic:
-Runtime Neon connection and reviewed migration boundary.
+Minimal off-provider backup and deletion-manifest representation.
 
 Prompt:
-How should the Public Preview connect to Neon for D-001 interactive transactions
-and apply Drizzle schema migrations without request-time migration races or
-automatic per-preview database growth?
+How should the already accepted encrypted rolling backup preserve one restorable
+Request-data snapshot while ensuring that an older backup cannot revive expired
+or earlier-verified-deleted Requests?
 
 Options:
 
-1. (recommended): **Use Drizzle's Neon serverless WebSocket driver for runtime
-   database work and reviewed Drizzle migrations as a separate deployment
-   action.** WebSocket sessions support the interactive transaction required by
-   D-001. Generate SQL migration files into the repository, review and test them,
-   then run the migration command once from an authorized deployment step before
-   the changed application serves traffic. Runtime handlers never migrate. Do not
-   automatically create a Neon branch or database for every preview deployment.
-2. **Use Neon's HTTP driver and redesign D-001 as a non-interactive batch.** HTTP
-   is efficient for isolated queries and non-interactive transactions, but D-001
-   needs conditional idempotency and correction handling inside its acceptance
-   transaction. Reshaping the accepted contract around a driver limitation would
-   add complexity rather than reduce it.
-3. **Use schema push or application-startup migration against production.** This
-   reduces deployment configuration, but bypasses reviewed durable SQL or lets
-   multiple serverless instances race to change production schema while handling
-   requests.
+1. (recommended): **Create one encrypted logical snapshot of the private
+   transactional schema plus a separate minimal protected deletion manifest.**
+   Each backup expires automatically within thirty days. The manifest records
+   only the random internal Request ID and the time until relevant backups can no
+   longer contain it; it stores no public reference, email, Request content, or
+   deletion reason. Before an earlier verified deletion is reported complete,
+   its manifest entry must be durably protected outside the snapshot being
+   deleted. Restore always occurs in isolation, reapplies the twelve-month cutoff
+   and current manifest, verifies the result, and only then may return to
+   production.
+2. **Export each Request as separate application JSON and selectively restore
+   files.** This makes per-Request deletion straightforward, but creates a second
+   application-owned schema and serialization path that can omit typed details,
+   delivery history, audit rows, or later migrations.
+3. **Rely only on Neon-managed restore capability.** This is simpler, but does not
+   satisfy the already accepted off-provider recovery copy and cannot by itself
+   carry the latest earlier-deletion manifest when restoring an older snapshot.
 
 Why this matters:
 
-D-001 performs conditional work and multiple dependent writes before one commit,
-so it needs an interactive transaction rather than only an array of independent
-queries. Current first-party Drizzle and Neon guidance assigns that workload to
-the Neon serverless WebSocket driver; the HTTP transport remains available for
-simple non-interactive queries if a later implementation has a measured reason
-to use both, but the Public Preview does not need two runtime database paths.
+The accepted Product and Domain Truth already requires encrypted off-provider
+rolling backups with automatic expiry no later than thirty days. This Foundation
+decision only chooses the smallest complete database representation; provider,
+schedule, encryption key custody, monitoring, and restore commands remain
+Runtime Foundations and Launch Readiness work.
 
-Schema evolution is deployment work, not public request work. Generated SQL and
-Drizzle migration metadata provide a reviewable, repeatable history. A failed
-migration stops that deployment rather than leaving application instances to
-improvise. Destructive or data-transforming future migrations require their own
-explicit migration and rollback contract; the initial Public Preview does not
-need a generic zero-downtime migration framework.
+A logical snapshot follows the PostgreSQL schema and migration history already
+owned by Drizzle rather than inventing a parallel backup data model. It contains
+private Request data, so it is encrypted, never inspected as ordinary history,
+and is available only to named technical recovery roles.
 
-The application uses one configured production Neon database within the accepted
-free-quota boundary. Preview builds and pull requests may run local or isolated
-tests but do not automatically provision Neon branches or run migrations against
-production. Connection URLs remain environment secrets and never enter source,
-logs, screenshots, or generated migration files.
+The manifest is needed only for rare earlier verified deletions. Routine
+twelve-month expiry is recomputed from each restored Request's `expires_at`. An
+earlier deletion, however, may remove a Request before its natural expiry while
+an older backup still contains it. One minimal external manifest entry prevents
+that record from returning during the backup's remaining maximum thirty-day
+life, then expires with that risk. This is not a customer history, privacy
+platform, or permanent deletion ledger.
 
-Current first-party capability references:
-
-- <https://orm.drizzle.team/docs/get-started/neon-new>
-- <https://neon.com/docs/connect/choose-connection>
-- <https://orm.drizzle.team/docs/kit-overview>
+A restore first enters an isolated access-restricted environment. It restores a
+compatible schema, deletes every now-expired Request, applies all still-relevant
+manifest IDs through the D-007 aggregate deletion, and runs focused integrity
+checks. No restored database serves staff or public traffic before those steps
+succeed. Exact archive format, object layout, encryption mechanism, manifest
+write order, expiry automation, and restore commands remain bounded downstream
+design and testing.
 
 After answer:
 
-- Lock one interactive Neon runtime path, reviewed generated migrations, and no
-  automatic per-preview database provisioning.
-- Preserve exact deployment command, connection lifetime, test database, and
-  future destructive-migration procedures for bounded implementation and Runtime
-  Foundations.
-- Store D-009 as the next question.
+- Lock the logical-snapshot boundary, minimum short-lived deletion manifest, and
+  isolated restore ordering.
+- Preserve provider, schedule, encryption, storage layout, monitoring, and exact
+  commands for Runtime Foundations and Launch Readiness.
+- Close the raw question set and request explicit authorization to distill the
+  accepted Transactional Data Platform decisions.
