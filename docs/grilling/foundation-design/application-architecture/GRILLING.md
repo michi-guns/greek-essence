@@ -128,14 +128,22 @@ None yet.
 ID: D-001
 
 Topic:
-Server-only application boundary and dependency direction.
+Server-side composition and dependency direction.
 
 Context:
-In Next.js, pages and layouts are Server Components by default and may technically
-query APIs or databases directly. Route Handlers provide HTTP mutation entry
-points. Client Components and everything they import form a browser bundle, so
-provider clients, credentials, private Request records, and server orchestration
-must never cross that boundary.
+In Next.js, an **App Router entry point** is a framework-facing page, Server
+Action, or Route Handler. Pages and layouts are Server Components by default and
+may technically query APIs or databases directly. A **server-only module** may
+hold credentials, query Sanity or Neon, and perform trusted orchestration; a
+browser import must fail. A **feature application workflow** coordinates a
+complete use case such as rendering an Experience page or submitting a Booking
+Request. A **provider gateway** is the narrow module through which a workflow
+uses Sanity, Neon/Drizzle, or mail; it does not require dependency injection,
+generic repositories, or a separate deployed service.
+
+Client Components and everything they import form a browser bundle, so provider
+clients, credentials, private Request records, and server orchestration must
+never cross that boundary.
 
 A concrete Greek Essence journey touches several authorities. An Experience page
 reads published Sanity content; a Booking Request separately verifies live
@@ -145,40 +153,55 @@ so route files do not each recreate that sequence or accidentally expose private
 provider data.
 
 Prompt:
-How should App Router pages and Route Handlers reach Sanity, Neon, and mail
-delivery for the replacement Public Preview?
+Which durable application boundary should App Router entry points use to reach
+Greek Essence's trusted content, Request, and delivery behavior?
 
 Options:
 
-1. (recommended): **Use thin App Router entry points over feature-oriented,
-   server-only application modules and narrow provider modules.** A page or
-   layout asks a feature read service for the minimal public view model it needs;
-   a Route Handler translates the HTTP request and response while a journey
-   application service owns validation and the accepted orchestration sequence.
-   Only narrow server-only modules import Sanity, Drizzle/Neon, Nodemailer,
-   environment secrets, or private persistence shapes. Shared domain rules and
-   public contracts do not import Next.js or provider SDKs. This adds a small
-   explicit boundary, but keeps the multi-provider workflow in one testable place
-   without a generic framework or an interface for every function.
-2. **Let each page and Route Handler call provider libraries directly, with
-   shared helper functions where duplication appears.** This begins with fewer
-   modules and Next.js permits server-side data access in Server Components, but
-   content mapping, validation, transaction orchestration, data minimization,
-   and failure translation can spread across route files as the three Request
-   journeys grow.
-3. **Put every provider operation behind internal HTTP Route Handlers and make
+1. (recommended): **Use one feature-first Next.js modular monolith with thin App
+   Router adapters, feature-owned server workflows, and narrow server-only
+   provider gateways.** App Router files own URL, form or HTTP, rendering, and
+   framework translation. A page asks a feature read workflow for the minimal
+   public view model it needs; a mutation adapter invokes one journey workflow
+   that owns validation and the accepted orchestration sequence. Only narrow
+   server-only modules import Sanity, Drizzle/Neon, Nodemailer, environment
+   secrets, or private persistence shapes. Shared domain rules and public
+   contracts do not import Next.js or provider SDKs. Server Components call
+   internal read workflows directly rather than the application's own HTTP
+   endpoints. Cross-feature modules hold only genuinely shared Request, locale,
+   outcome, and validation concepts—not a generic `utils` dumping ground. This
+   adds a small explicit boundary without separate services, a dependency-
+   injection container, or an interface for every function.
+2. **Use route-centric slices with orchestration colocated in each App Router
+   segment.** Each page and mutation entry point directly imports the required
+   Sanity, Drizzle, and mail modules; shared helpers appear only after duplication
+   is observed. This starts with fewer files, but framework entry points become
+   the application layer. Validation, transaction ordering, data minimization,
+   and truthful failure handling can drift across the three Request journeys,
+   retries, and later recovery entry points, while complete workflow tests become
+   framework-aware.
+3. **Use global horizontal layers shared by every feature.** All App Router entry
+   points call common application services, which call domain, repository, and
+   provider layers—for example, a global `RequestService`, `ContentService`,
+   `RequestRepository`, and `MailService`. Provider access is explicit and
+   centralized, but Consultation, Booking, and Contact changes can spread across
+   broad shared services. It also encourages generic repositories and interfaces
+   before this one-application, one-writer Public Preview has multiple
+   implementations that justify them.
+4. **Put every provider operation behind internal HTTP Route Handlers and make
    both Server and Client Components call that internal API.** This creates one
    uniform API boundary, but same-application Server Components would incur an
    unnecessary HTTP hop and the application would need to maintain transport
    contracts for internal reads that do not require a separately deployable API.
 
 Recommendation rationale:
-Option 1 gives this small real-data application one auditable server boundary
-without enterprise layering. For example, the Booking page receives only an
-approved localized Experience view model, while the Booking submission service
-alone coordinates the live Sanity check, Neon acceptance, and post-commit mail
-work. Provider credentials and private rows cannot become Client Component props
-by convenience, and focused tests can exercise the accepted sequence without
+Option 1 is the smallest architecture that protects the accepted cross-provider
+and privacy boundaries without introducing a separate backend or generic
+enterprise framework. For example, the Booking page receives only an approved
+localized Experience view model, while the Booking submission workflow alone
+coordinates the live Sanity check, Neon acceptance, and post-commit mail work.
+Provider credentials and private rows cannot become Client Component props by
+convenience, and focused tests can exercise the accepted sequence without
 rendering a route or making every provider call over HTTP.
 
 Why this matters:
@@ -188,6 +211,17 @@ and coordinated across multiple pages and handlers. If the boundary is too
 heavy, a solo developer instead maintains abstractions and internal network
 calls that add no Public Preview value. This decision sets the dependency
 direction before exact folders and handlers make it expensive to change.
+
+Deferred from D-001:
+
+- Server Actions versus Route Handlers for visitor form submission;
+- exact directories, filenames, aliases, interface syntax, and data-transfer
+  field names;
+- exact cache APIs, tags, webhook signatures, and fallback intervals;
+- exact outcome-union names and HTTP status mapping;
+- Node versus Edge runtime placement and WebSocket lifetime;
+- retry scheduling, escalation transport, and production ownership; and
+- detailed test doubles, package versions, and implementation tasks.
 
 First-party Next.js references:
 
