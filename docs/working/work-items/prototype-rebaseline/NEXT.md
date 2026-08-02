@@ -387,24 +387,24 @@ architecture rebaseline, and promotion of settled documentation.
   `../greek-essence.worktrees/application-architecture`. The active source ledger
   is
   [`docs/grilling/foundation-design/application-architecture/GRILLING.md`](../../../grilling/foundation-design/application-architecture/GRILLING.md).
-  Application Architecture D-001 is stored with four materially distinct
-  server-side composition options and pending; no option is selected. Independent
-  authority review confirmed this as the first costly-to-reverse unresolved seam
-  and found no upstream conflict. Draft pull request #52 is open from the task
-  branch, the branch is synchronized with its remote, and the latest lightweight
-  Markdown quality gate passed. The authorization permits decision grilling and
-  this early draft pull request, not implementation, provider configuration,
+  Independent authority review confirmed D-001 as the first costly-to-reverse
+  unresolved seam and found no upstream conflict. Draft pull request #52 is open
+  from the task branch. The authorization permits decision grilling and this
+  early draft pull request, not implementation, provider configuration,
   migration, deployment, production-data handling, Runtime and Production
   Foundations, Launch Readiness, or another work unit.
-- Before selecting D-001, the operator supplied a non-authoritative architecture
-  reference and asked that only its documentation discipline and architecture be
-  considered, not its conflicting travel-domain choices. D-001 option 1 is now
-  refined as a domain-centered, feature-first modular monolith delivered through
-  vertical slices: thin App Router presentation adapters, capability-owned
+- Application Architecture D-001 is accepted. Greek Essence will use one
+  domain-centered, feature-first Next.js modular monolith delivered through
+  vertical slices, with thin App Router presentation adapters, capability-owned
   application workflows, framework-independent domain behavior where justified,
-  and narrow server-only infrastructure adapters. Empty layer scaffolding and
-  speculative abstractions remain excluded. The operator considers adoption of
-  this pattern highly likely, but no D-001 option has yet been selected.
+  narrow server-only infrastructure adapters, and inward source dependencies.
+  Shared code remains small; empty layer scaffolding and speculative entities,
+  repositories, interfaces, or dependency injection are excluded. This adapts
+  the operator-provided reference architecture without importing its conflicting
+  travel-domain choices; its documentation protocol remains informative rather
+  than part of D-001. D-002 is pending on the division of responsibility between
+  Server Actions for website-owned visitor forms and Route Handlers for machine
+  or other explicit HTTP callers.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -449,11 +449,11 @@ check:push` run reached Playwright after all preceding gates passed, then
 ## Next Recommended Action
 
 Ask the operator to choose, modify, reject, or defer the fully qualified
-Application Architecture D-001 options for server-side composition and dependency
-direction recorded in the active ledger.
+Application Architecture D-002 options for visitor and machine mutation entry
+points recorded in the active ledger.
 
-Completion condition: Application Architecture D-001 is explicitly accepted and
-the ledger stores exactly one pending Application Architecture D-002 question
+Completion condition: Application Architecture D-002 is explicitly accepted and
+the ledger stores exactly one pending Application Architecture D-003 question
 without answering it.
 
 ## Done When

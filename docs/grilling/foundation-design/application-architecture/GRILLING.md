@@ -116,143 +116,171 @@ production data, or begin Runtime and Production Foundations.
 
 ## Locked Decisions
 
-None yet.
+### D-001 — Domain-Centered Feature-First Modular Monolith with Vertical Slices
+
+Greek Essence will use one deployable Next.js application organized primarily
+by accepted business capability. Work will be delivered through complete
+vertical slices rather than global technical layers or speculative modelling of
+the wider travel industry.
+
+Within a capability, thin App Router presentation adapters call capability-owned
+application workflows. Those workflows coordinate the complete accepted use case
+and use framework-independent domain behavior and contracts where a real business
+rule or testing seam justifies them. Narrow server-only infrastructure adapters
+provide Sanity, Drizzle/Neon, and mail behavior without exposing provider SDKs,
+credentials, environment secrets, raw provider records, or private persistence
+shapes outside the trusted server boundary.
+
+The source dependency direction remains inward:
+
+- presentation depends on application behavior;
+- application depends on domain rules or narrow contracts where needed, not on
+  Next.js presentation types or raw provider SDKs; and
+- infrastructure implements the narrow capability contracts it needs and is
+  wired to the application at the server composition boundary.
+
+Server Components call internal feature read workflows directly rather than the
+application's own HTTP endpoints. Pages receive bounded public view models, and
+Client Components receive only minimized, serializable, public values. A mutation
+adapter invokes one journey workflow that owns the accepted validation and
+orchestration sequence instead of reproducing it in a route file.
+
+Cross-feature code is limited to genuinely shared concepts such as Request,
+locale, public outcome, and shared validation rules. A generic `utils` layer or
+broad global services must not become an alternative ownership model.
+
+The architecture remains proportional. `domain`, `application`,
+`infrastructure`, and `presentation` folders appear only when they contain real
+code. Greek Essence will not create an entity, repository, interface,
+dependency-injection container, or empty architectural scaffold merely to match
+a methodology. Exact capability names, directories, aliases, contract syntax,
+and composition mechanics remain bounded implementation design.
+
+This decision adapts the architecture from the operator-provided domain-centered
+vertical-slice reference, but imports none of that reference's conflicting
+Customers, Travelers, Quotes, confirmed Bookings, Payments, lifecycle rules, or
+commercial workflows. Greek Essence's accepted Product and Domain Truth remains
+authoritative. The reference's documentation protocol remains informative rather
+than becoming part of this architecture decision.
+
+Route-centric orchestration was rejected because validation, transaction order,
+data minimization, and truthful failure handling could drift across Request and
+recovery entry points. Global horizontal services and repositories were rejected
+because capability changes would spread through premature abstractions. An
+internal HTTP boundary for every provider operation was rejected because
+same-application Server Components do not need an extra transport hop or public
+transport contract.
 
 ## Open Questions
 
-- D-001: What server-only application boundary and dependency direction should
-  connect App Router entry points to Sanity, Neon, and mail delivery?
+- D-002: Which Next.js mutation entry points should carry website-owned visitor
+  forms and independent machine callers into the accepted application workflows?
 
 ## Next Question
 
-ID: D-001
+ID: D-002
 
 Topic:
-Server-side composition and dependency direction.
+Visitor and machine mutation entry points.
 
 Context:
-In Next.js, an **App Router entry point** is a framework-facing page, Server
-Action, or Route Handler. Pages and layouts are Server Components by default and
-may technically query APIs or databases directly. A **server-only module** may
-hold credentials, query Sanity or Neon, and perform trusted orchestration; a
-browser import must fail. A **feature application workflow** coordinates a
-complete use case such as rendering an Experience page or submitting a Booking
-Request. A **provider gateway** is the narrow module through which a workflow
-uses Sanity, Neon/Drizzle, or mail; it does not require dependency injection,
-generic repositories, or a separate deployed service.
+Next.js offers two relevant mutation adapters. A **Server Action** is a server
+function invoked through React's form or action mechanisms. It receives untrusted
+input through a framework-managed POST, can return a bounded result to
+`useActionState`, and supports progressive form enhancement and a single response
+containing both the result and refreshed UI. It is still publicly reachable and
+must perform the same input and authority checks as any public endpoint. Its
+build-generated action identity may become stale when an already-open page
+submits after a new deployment, so the UI needs a safe refresh-and-retry path
+that preserves entered values and the accepted idempotency identity.
 
-The operator also supplied a non-authoritative travel-application architecture
-reference for this question. Its conflicting product entities, lifecycle rules,
-and commercial workflows are excluded. Its relevant architectural pattern is a
-**domain-centered modular monolith delivered through vertical feature slices**:
-one deployable Next.js application organized first by business capability, with
-presentation, application, domain, and infrastructure responsibilities separated
-inside a capability only when real code needs them. The pattern keeps Next.js
-and provider SDKs outside domain behavior, keeps shared code small, and forbids
-empty folder scaffolding or abstractions created only to resemble a methodology.
-The operator expects Greek Essence will probably adopt this pattern, but has not
-yet selected a D-001 option.
+A **Route Handler** is a stable URL and HTTP contract using `Request` and
+`Response`. It is the natural boundary for callers that are not participating in
+the React page interaction, such as the secured Sanity publication webhook and
+later protected delivery-recovery or retention entry points. Route Handlers are
+also publicly reachable and must authenticate or verify machine callers, validate
+their bounded input, and translate only safe outcomes.
 
-Client Components and everything they import form a browser bundle, so provider
-clients, credentials, private Request records, and server orchestration must
-never cross that boundary.
-
-A concrete Greek Essence journey touches several authorities. An Experience page
-reads published Sanity content; a Booking Request separately verifies live
-Sanity eligibility, atomically writes private Request state to Neon, then calls
-the mail service after commit. The application needs one clear dependency rule
-so route files do not each recreate that sequence or accidentally expose private
-provider data.
+D-001 now keeps both adapters thin: neither owns business rules, provider access,
+or Request orchestration. The open choice is whether website-owned Consultation,
+Booking Request, and General Contact forms should use React's Server Action path
+or the same explicit HTTP endpoints required by independent machine callers.
 
 Prompt:
-Which durable application boundary should App Router entry points use to reach
-Greek Essence's trusted content, Request, and delivery behavior?
+Which Next.js entry-point split should invoke Greek Essence's accepted mutation
+workflows?
 
 Options:
 
-1. (recommended): **Use one domain-centered, feature-first Next.js modular
-   monolith delivered through vertical slices.** Thin App Router presentation
-   adapters call capability-owned application workflows; those workflows use
-   framework-independent domain behavior and contracts where the accepted rules
-   justify them, plus narrow server-only infrastructure adapters for Sanity,
-   Drizzle/Neon, and mail. The source dependency direction is inward:
-   presentation depends on application behavior, application depends on domain
-   rules or contracts where needed, and provider infrastructure implements the
-   narrow contracts required by the capability. A page asks a feature read
-   workflow for the minimal public view model it needs; a mutation adapter invokes
-   one journey workflow that owns validation and the accepted orchestration
-   sequence. Only server-only infrastructure modules import provider SDKs,
-   environment secrets, or private persistence shapes. Server Components call
-   internal read workflows directly rather than the application's own HTTP
-   endpoints. Cross-feature code holds only genuinely shared Request, locale,
-   outcome, and validation concepts—not a generic `utils` dumping ground. Exact
-   folders emerge with real code: no empty `domain`, `application`,
-   `infrastructure`, or `presentation` scaffolding, and no entity, repository,
-   interface, or dependency-injection abstraction without a concrete rule or
-   testing boundary that needs it.
-2. **Use route-centric slices with orchestration colocated in each App Router
-   segment.** Each page and mutation entry point directly imports the required
-   Sanity, Drizzle, and mail modules; shared helpers appear only after duplication
-   is observed. This starts with fewer files, but framework entry points become
-   the application layer. Validation, transaction ordering, data minimization,
-   and truthful failure handling can drift across the three Request journeys,
-   retries, and later recovery entry points, while complete workflow tests become
-   framework-aware.
-3. **Use global horizontal layers shared by every feature.** All App Router entry
-   points call common application services, which call domain, repository, and
-   provider layers—for example, a global `RequestService`, `ContentService`,
-   `RequestRepository`, and `MailService`. Provider access is explicit and
-   centralized, but Consultation, Booking, and Contact changes can spread across
-   broad shared services. It also encourages generic repositories and interfaces
-   before this one-application, one-writer Public Preview has multiple
-   implementations that justify them.
-4. **Put every provider operation behind internal HTTP Route Handlers and make
-   both Server and Client Components call that internal API.** This creates one
-   uniform API boundary, but same-application Server Components would incur an
-   unnecessary HTTP hop and the application would need to maintain transport
-   contracts for internal reads that do not require a separately deployable API.
+1. (recommended): **Use Server Actions for the three website-owned visitor forms
+   and Route Handlers only for callers that require an explicit HTTP endpoint.**
+   Each form action is a thin public presentation adapter that validates and maps
+   its untrusted form payload, invokes the owning application workflow, and
+   returns only the bounded public outcome needed by that form. Secured Sanity
+   webhooks and later protected operational callers use thin Route Handlers that
+   invoke their own application workflows. Both adapters share inner contracts
+   where behavior is genuinely shared; neither calls the other. This follows the
+   installed Next.js 16 form path, retains progressive enhancement and
+   `useActionState`, avoids creating a public Request API with no external
+   consumer, and still provides stable HTTP contracts where machines require
+   them. The form experience must handle a stale action after deployment through
+   a truthful refresh-and-safe-retry path without claiming receipt or discarding
+   entered information.
+2. **Use Route Handlers for all mutations, including visitor forms.** Each form
+   submits to a stable journey-specific HTTP endpoint through browser code or a
+   native form POST, and the presentation layer maps HTTP responses back into
+   field and outcome state. This creates explicit stable transport contracts and
+   avoids build-generated Server Action identity, but Greek Essence must own more
+   browser request, progressive-enhancement, response, and form-state plumbing
+   for three website-only submission journeys.
+3. **Expose both Server Actions and parallel Route Handlers for every visitor
+   Request journey.** The website uses Server Actions while a first-class public
+   HTTP API exposes the same Consultation, Booking Request, and General Contact
+   submissions. Both adapters call the same application workflows, but the
+   release must maintain and protect two public mutation surfaces despite having
+   no accepted external Request client. This preserves future API flexibility at
+   the cost of duplicate contracts, tests, abuse controls, and deployment surface
+   now.
 
 Recommendation rationale:
-Option 1 adapts the useful part of the operator-provided domain-centered
-vertical-slice reference to Greek Essence's already accepted domain instead of
-importing that reference's Customers, Quotes, confirmed Bookings, Payments, or
-other conflicting scope. It is the smallest architecture that protects the
-accepted cross-provider and privacy boundaries without introducing a separate
-backend or generic enterprise framework. For example, the Booking Request page
-receives only an approved localized Experience view model, while the Booking
-Request submission workflow alone coordinates the live Sanity check, Neon
-acceptance, and post-commit mail work. Provider credentials and private rows
-cannot become Client Component props by convenience, and focused tests can
-exercise the accepted sequence without rendering a route or making every
-provider call over HTTP. Vertical delivery can complete one real Greek Essence
-workflow at a time without modelling every future travel-agency capability.
+Option 1 assigns each framework mechanism to the caller it naturally serves. A
+visitor submitting the Booking Request form receives the progressive,
+UI-integrated Server Action path, while Sanity receives a stable signed webhook
+URL and operational automation later receives separately protected endpoints.
+The accepted application workflows remain reusable and testable below both
+adapters. The one additional Server Action deployment failure mode is real but
+bounded: no Request has been accepted when the action cannot be found, and the
+form can preserve the visitor's data and idempotency identity through a refresh
+and safe retry rather than creating a second API surface for every form.
 
 Why this matters:
-If route files directly own provider access and orchestration, later changes to
-validation, idempotency, eligibility, or truthful failure handling must be found
-and coordinated across multiple pages and handlers. If the boundary is too
-heavy, a solo developer instead maintains abstractions and internal network
-calls that add no Public Preview value. This decision sets the dependency
-direction before exact folders and handlers make it expensive to change.
+Server Actions and Route Handlers are both public mutation boundaries, not
+trusted shortcuts. Choosing their responsibilities now sets the browser form
+contract, progressive-enhancement behavior, stable machine endpoints, and the
+number of externally reachable adapters that must remain consistent and tested.
 
-Deferred from D-001:
+Deferred from D-002:
 
-- Server Actions versus Route Handlers for visitor form submission;
-- exact directories, filenames, aliases, interface syntax, and data-transfer
-  field names;
-- exact cache APIs, tags, webhook signatures, and fallback intervals;
-- exact outcome-union names and HTTP status mapping;
+- exact action names, Route Handler URLs, directories, files, and exports;
+- exact public form payloads, `FormData` mapping, result-union names, status codes,
+  and field-error representation;
+- exact Sanity webhook signature and operational authorization mechanisms;
+- exact stale-action detection copy and implementation;
+- abuse controls, rate thresholds, and production deployment configuration;
 - Node versus Edge runtime placement and WebSocket lifetime;
-- retry scheduling, escalation transport, and production ownership; and
-- detailed test doubles, package versions, and implementation tasks.
+- recovery schedules, escalation transport, and named ownership; and
+- detailed implementation and test mechanics.
 
-First-party Next.js references:
+Installed Next.js 16.2.12 references:
 
-- <https://nextjs.org/docs/app/getting-started/server-and-client-components>
+- <https://nextjs.org/docs/app/getting-started/mutating-data>
+- <https://nextjs.org/docs/app/guides/forms>
+- <https://nextjs.org/docs/app/guides/server-actions>
 - <https://nextjs.org/docs/app/getting-started/route-handlers>
+- <https://nextjs.org/docs/app/guides/backend-for-frontend>
 - <https://nextjs.org/docs/app/guides/data-security>
 
 After answer:
 
-- Lock the selected server-only application boundary and dependency direction.
-- Store D-002 as the next question without answering it.
+- Lock the visitor-form and machine-caller entry-point responsibilities.
+- Store D-003 as the next question without answering it.
