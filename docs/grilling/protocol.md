@@ -235,18 +235,20 @@ A grill is ready for acceptance when:
 - necessary glossary terms and contracts are present; and
 - remaining unknowns have named owners or validation actions.
 
-At acceptance, present one plain approval question that names the exact raw ledger
-path and existing draft pull request and offers exactly two outcomes:
+At acceptance, ask only: **“Should I finalize this grilling subject, or do you
+want to make any changes?”** The fully qualified active subject and its durable
+repository state identify the raw ledger and existing draft pull request. Do not
+repeat their paths, identifiers, or the routine finalization mechanics in the
+question. It offers exactly two outcomes:
 
 1. **Finalize the grilling subject** — accept the complete decision set and
-   authorize the named `GRILLING.md` path's removal after verified distillation,
+   authorize the active subject's `GRILLING.md` removal after verified distillation,
    completion of the existing draft pull request, required-check monitoring,
    squash merge, merged-branch deletion, worktree cleanup, and final `main`
    synchronization without another routine approval request.
 2. **Make changes first** — keep the grill active and let the operator name any
    correction, retained artifact, or narrower delivery boundary.
 
-Do not require the operator to remember or restate the finalization mechanics.
 Retaining the raw ledger or narrowing automation is a requested change under
 option 2, not a third standard option.
 

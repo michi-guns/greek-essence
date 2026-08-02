@@ -474,10 +474,10 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present the streamlined two-option Application Architecture completion question
-for the exact raw ledger path and existing draft pull request #52: finalize the
-grilling subject, or make changes first. The operator does not need to restate the
-finalization mechanics.
+Ask only: “Should I finalize this grilling subject, or do you want to make any
+changes?” The active Application Architecture subject identifies its raw ledger
+and draft pull request #52; do not repeat those identifiers or the routine
+finalization mechanics in the operator-facing question.
 
 Completion condition: the operator explicitly selects one of the two outcomes. If
 finalization is authorized, follow the grilling protocol's verified distillation,
