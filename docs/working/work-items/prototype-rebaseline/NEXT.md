@@ -439,6 +439,17 @@ architecture rebaseline, and promotion of settled documentation.
   and deletion authorization preserved in pull request #52. Independent semantic
   review passed after restoring the external-reference authority boundary, exact
   retry and correction privacy semantics, and minimum inbox-notification context.
+- On 2026-08-02, the operator explicitly authorized the Runtime and Production
+  Foundations subject. Work is isolated on branch
+  `docs/runtime-production-foundations` in the Git-managed sibling worktree
+  `../greek-essence.worktrees/runtime-production-foundations`. The active source
+  ledger is
+  [`docs/grilling/foundation-design/runtime-and-production-foundations/GRILLING.md`](../../../grilling/foundation-design/runtime-and-production-foundations/GRILLING.md).
+  Runtime and Production Foundations D-001 is pending and asks for the stable
+  environment boundary across local development, Vercel previews, and production.
+  The bootstrap permits decision grilling and an early draft pull request, not
+  implementation, provider configuration, migration, deployment, production-data
+  handling, Launch Readiness, or another work unit.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -482,13 +493,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Recommend Runtime and Production Foundations as the next dependency-ordered
-grilling subject. Wait for explicit operator authorization before creating its
-branch, isolated worktree, ledger, or draft pull request.
+Present Runtime and Production Foundations D-001 — environment isolation exactly
+as stored in the active ledger. Persist the operator's answer before drafting or
+presenting the next runtime decision.
 
-Completion condition: the operator explicitly authorizes that subject and its
-bootstrap, or selects a different pending work item. Subject recommendation alone
-must not create durable Git or GitHub state.
+Completion condition: D-001 is locked with its rationale and consequences, the
+next highest-value runtime question is stored, and the same branch and draft pull
+request preserve the resumable state.
 
 ## Done When
 
