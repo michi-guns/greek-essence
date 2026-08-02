@@ -447,6 +447,8 @@ architecture rebaseline, and promotion of settled documentation.
   [`docs/grilling/foundation-design/runtime-and-production-foundations/GRILLING.md`](../../../grilling/foundation-design/runtime-and-production-foundations/GRILLING.md).
   Runtime and Production Foundations D-001 is pending and asks for the stable
   environment boundary across local development, Vercel previews, and production.
+  Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
+  is open from the task branch to preserve the active decision set.
   The bootstrap permits decision grilling and an early draft pull request, not
   implementation, provider configuration, migration, deployment, production-data
   handling, Launch Readiness, or another work unit.
