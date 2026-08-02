@@ -341,6 +341,42 @@ architecture rebaseline, and promotion of settled documentation.
   and technical-readiness check, and ordinary-copy evidence exclusion were
   restored. A fresh independent comparison of the corrected `DECISIONS.md`
   against the final accepted raw ledger returned `PASS`.
+- On 2026-08-02, the operator accepted Transactional Data Platform D-001 through
+  D-009 and authorized verified automatic finalization through pull request #49.
+  [`docs/grilling/foundation-design/transactional-data-platform/DECISIONS.md`](../../../grilling/foundation-design/transactional-data-platform/DECISIONS.md)
+  is the sole accepted authority. It establishes atomic Request acceptance and
+  delivery intents; one shared envelope with three typed detail tables; layered
+  public, authority, persistence, and database validation; purpose-specific
+  internal, public, contact, and retry identities; a simple private correction
+  check without a lock or foreign key; bounded current delivery state with
+  append-only attempts and audit; hard Request-root deletion through database
+  cascades; Neon WebSocket transactions and separately applied reviewed Drizzle
+  migrations; and encrypted logical backups with a short-lived earlier-deletion
+  manifest and isolated restore cleanup. The final accepted raw ledger and exact
+  authorization to remove
+  `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` are
+  preserved in pull request #49. This authority does not permit Neon or Drizzle
+  installation, configuration, schema creation, migration execution,
+  application implementation, deployment, production-data handling, or
+  automatic commencement of Application Architecture.
+- During Transactional Data Platform finalization, the operator explicitly
+  authorized the small related workflow clarification in
+  [`docs/GIT_WORKFLOW.md`](../../../GIT_WORKFLOW.md). Every newly authorized
+  coherent unit now defaults to its own isolated worktree under the sibling
+  `greek-essence.worktrees/` directory. Git must create and remove the registered
+  worktree, the original checkout and unrelated worktrees remain untouched, and
+  verified post-merge cleanup removes the remote branch, worktree, local branch,
+  and stale worktree metadata.
+- Transactional Data Platform finalization verification on 2026-08-02 confirmed
+  `DECISIONS.md` contains D-001 through D-009 exactly once and the authorized raw
+  path is absent. The pull-request description's embedded raw ledger exactly
+  matches the final committed source. A final independent comparison of the
+  corrected distillation against that raw source and accepted upstream authority
+  returned `PASS`. `docs/grilling/CLASSIFICATION.md` and both Foundation routing
+  documents remain structurally correct and require no status edit. Focused
+  Prettier, `gitleaks dir --redact --no-banner docs`, and `git diff --check`
+  exited `0` before staging; the committed Markdown-only range still requires
+  the repository range gate and GitHub read-back before readiness.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -384,14 +420,16 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-After Editorial Content Platform pull request #48 is merged and the repository
-is synchronized, wait for explicit operator authorization before opening the
-next Foundation Design grilling unit, Transactional Data Platform. Do not begin
-implementation or the successor track automatically.
+Complete authorized pull request #49 delivery: verify semantic parity and the
+complete Markdown-only change range, mark the draft ready, re-read GitHub, and
+obtain the fresh explicit operator confirmation required immediately before an
+agent merge.
 
-Completion condition: the repository remains clean on synchronized `main`, and
-the operator explicitly authorizes the next coherent grilling or implementation
-unit before work starts.
+Completion condition: pull request #49 is squash-merged, its short-lived remote
+branch and isolated worktree are removed, and local `main` is clean and
+synchronized with `origin/main`. Stop afterward; Application Architecture,
+Runtime and Production Foundations, Launch Readiness, and implementation each
+require separate authorization.
 
 ## Done When
 
