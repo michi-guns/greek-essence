@@ -430,7 +430,15 @@ architecture rebaseline, and promotion of settled documentation.
   audit found no further costly-to-reverse Application Architecture seam; exact
   files, types, wiring, tests, and small helper extractions remain implementation
   choices, while runtime and operational concerns stay routed to Runtime and
-  Production Foundations. The subject is ready for acceptance review.
+  Production Foundations.
+- The operator accepted and authorized finalization of the complete Application
+  Architecture subject on 2026-08-02. Its D-001 through D-004 outcomes are
+  distilled into
+  `docs/grilling/foundation-design/application-architecture/DECISIONS.md`; the
+  approved raw `GRILLING.md` is removed, with its exact final accepted contents
+  and deletion authorization preserved in pull request #52. Independent semantic
+  review passed after restoring the external-reference authority boundary, exact
+  retry and correction privacy semantics, and minimum inbox-notification context.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -474,17 +482,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Complete the operator-authorized Application Architecture finalization on draft
-pull request #52: preserve the final accepted raw ledger in the PR record, distill
-and semantically verify `DECISIONS.md`, remove the authorized `GRILLING.md`, update
-routing and handoff context, run applicable gates, squash merge, clean up the
-branch and isolated worktree, and synchronize `main`.
+Recommend Runtime and Production Foundations as the next dependency-ordered
+grilling subject. Wait for explicit operator authorization before creating its
+branch, isolated worktree, ledger, or draft pull request.
 
-Completion condition: PR #52 is merged; the accepted raw ledger and deletion
-authorization remain verifiably preserved in its record; `main` contains the
-accepted `DECISIONS.md` and omits the raw ledger; Git and worktree cleanup is
-verified; and the next dependency-ordered grilling subject is recommended without
-creating its branch, worktree, ledger, or draft PR.
+Completion condition: the operator explicitly authorizes that subject and its
+bootstrap, or selects a different pending work item. Subject recommendation alone
+must not create durable Git or GitHub state.
 
 ## Done When
 

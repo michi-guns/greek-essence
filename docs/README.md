@@ -88,7 +88,7 @@ relevant accepted decisions, and the explicit task contract before coding. Use
 | Document area                    | Status                                                                                          |
 | -------------------------------- | ----------------------------------------------------------------------------------------------- |
 | Project-level grilling           | Accepted and distilled into DECISIONS.md                                                        |
-| Decision grilling                | Foundation Design tracks 1–3 accepted; Application Architecture requires separate authorization |
+| Decision grilling                | Foundation Design tracks 1–4 accepted; Runtime and Production Foundations requires authorization |
 | New canonical PRD                | Not yet created                                                                                 |
 | New domain and roadmap documents | Working drafts only                                                                             |
 | New UX specification             | Not yet created                                                                                 |
