@@ -141,6 +141,18 @@ Request. A **provider gateway** is the narrow module through which a workflow
 uses Sanity, Neon/Drizzle, or mail; it does not require dependency injection,
 generic repositories, or a separate deployed service.
 
+The operator also supplied a non-authoritative travel-application architecture
+reference for this question. Its conflicting product entities, lifecycle rules,
+and commercial workflows are excluded. Its relevant architectural pattern is a
+**domain-centered modular monolith delivered through vertical feature slices**:
+one deployable Next.js application organized first by business capability, with
+presentation, application, domain, and infrastructure responsibilities separated
+inside a capability only when real code needs them. The pattern keeps Next.js
+and provider SDKs outside domain behavior, keeps shared code small, and forbids
+empty folder scaffolding or abstractions created only to resemble a methodology.
+The operator expects Greek Essence will probably adopt this pattern, but has not
+yet selected a D-001 option.
+
 Client Components and everything they import form a browser bundle, so provider
 clients, credentials, private Request records, and server orchestration must
 never cross that boundary.
@@ -158,20 +170,26 @@ Greek Essence's trusted content, Request, and delivery behavior?
 
 Options:
 
-1. (recommended): **Use one feature-first Next.js modular monolith with thin App
-   Router adapters, feature-owned server workflows, and narrow server-only
-   provider gateways.** App Router files own URL, form or HTTP, rendering, and
-   framework translation. A page asks a feature read workflow for the minimal
-   public view model it needs; a mutation adapter invokes one journey workflow
-   that owns validation and the accepted orchestration sequence. Only narrow
-   server-only modules import Sanity, Drizzle/Neon, Nodemailer, environment
-   secrets, or private persistence shapes. Shared domain rules and public
-   contracts do not import Next.js or provider SDKs. Server Components call
+1. (recommended): **Use one domain-centered, feature-first Next.js modular
+   monolith delivered through vertical slices.** Thin App Router presentation
+   adapters call capability-owned application workflows; those workflows use
+   framework-independent domain behavior and contracts where the accepted rules
+   justify them, plus narrow server-only infrastructure adapters for Sanity,
+   Drizzle/Neon, and mail. The source dependency direction is inward:
+   presentation depends on application behavior, application depends on domain
+   rules or contracts where needed, and provider infrastructure implements the
+   narrow contracts required by the capability. A page asks a feature read
+   workflow for the minimal public view model it needs; a mutation adapter invokes
+   one journey workflow that owns validation and the accepted orchestration
+   sequence. Only server-only infrastructure modules import provider SDKs,
+   environment secrets, or private persistence shapes. Server Components call
    internal read workflows directly rather than the application's own HTTP
-   endpoints. Cross-feature modules hold only genuinely shared Request, locale,
-   outcome, and validation concepts—not a generic `utils` dumping ground. This
-   adds a small explicit boundary without separate services, a dependency-
-   injection container, or an interface for every function.
+   endpoints. Cross-feature code holds only genuinely shared Request, locale,
+   outcome, and validation concepts—not a generic `utils` dumping ground. Exact
+   folders emerge with real code: no empty `domain`, `application`,
+   `infrastructure`, or `presentation` scaffolding, and no entity, repository,
+   interface, or dependency-injection abstraction without a concrete rule or
+   testing boundary that needs it.
 2. **Use route-centric slices with orchestration colocated in each App Router
    segment.** Each page and mutation entry point directly imports the required
    Sanity, Drizzle, and mail modules; shared helpers appear only after duplication
@@ -195,14 +213,19 @@ Options:
    contracts for internal reads that do not require a separately deployable API.
 
 Recommendation rationale:
-Option 1 is the smallest architecture that protects the accepted cross-provider
-and privacy boundaries without introducing a separate backend or generic
-enterprise framework. For example, the Booking page receives only an approved
-localized Experience view model, while the Booking submission workflow alone
-coordinates the live Sanity check, Neon acceptance, and post-commit mail work.
-Provider credentials and private rows cannot become Client Component props by
-convenience, and focused tests can exercise the accepted sequence without
-rendering a route or making every provider call over HTTP.
+Option 1 adapts the useful part of the operator-provided domain-centered
+vertical-slice reference to Greek Essence's already accepted domain instead of
+importing that reference's Customers, Quotes, confirmed Bookings, Payments, or
+other conflicting scope. It is the smallest architecture that protects the
+accepted cross-provider and privacy boundaries without introducing a separate
+backend or generic enterprise framework. For example, the Booking Request page
+receives only an approved localized Experience view model, while the Booking
+Request submission workflow alone coordinates the live Sanity check, Neon
+acceptance, and post-commit mail work. Provider credentials and private rows
+cannot become Client Component props by convenience, and focused tests can
+exercise the accepted sequence without rendering a route or making every
+provider call over HTTP. Vertical delivery can complete one real Greek Essence
+workflow at a time without modelling every future travel-agency capability.
 
 Why this matters:
 If route files directly own provider access and orchestration, later changes to

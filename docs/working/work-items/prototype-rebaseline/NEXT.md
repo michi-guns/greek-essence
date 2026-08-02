@@ -396,6 +396,15 @@ architecture rebaseline, and promotion of settled documentation.
   this early draft pull request, not implementation, provider configuration,
   migration, deployment, production-data handling, Runtime and Production
   Foundations, Launch Readiness, or another work unit.
+- Before selecting D-001, the operator supplied a non-authoritative architecture
+  reference and asked that only its documentation discipline and architecture be
+  considered, not its conflicting travel-domain choices. D-001 option 1 is now
+  refined as a domain-centered, feature-first modular monolith delivered through
+  vertical slices: thin App Router presentation adapters, capability-owned
+  application workflows, framework-independent domain behavior where justified,
+  and narrow server-only infrastructure adapters. Empty layer scaffolding and
+  speculative abstractions remain excluded. The operator considers adoption of
+  this pattern highly likely, but no D-001 option has yet been selected.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
