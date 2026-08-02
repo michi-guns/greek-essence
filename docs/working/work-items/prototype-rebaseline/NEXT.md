@@ -362,9 +362,11 @@ architecture rebaseline, and promotion of settled documentation.
   of the Request root and database-cascade removal of its owned aggregate. D-008
   now locks the Neon serverless WebSocket runtime path, separately applied
   reviewed Drizzle migrations, and no automatic per-preview Neon databases.
-  D-009 is the stored final question about the off-provider logical snapshot and
-  short-lived deletion manifest. Draft pull request #49 is the coherent
-  collaboration and review surface. Work uses branch
+  D-009 now locks one encrypted off-provider logical snapshot, a minimal
+  short-lived earlier-deletion manifest, and isolated restore cleanup. All nine
+  raw Transactional Data Platform questions are accepted; distillation still
+  requires explicit operator authorization. Draft pull request #49 is the
+  coherent collaboration and review surface. Work uses branch
   `docs/transactional-data-platform` in a separate worktree so unrelated
   concurrent migration-documentation changes remain untouched. This authority
   does not permit Neon or Drizzle installation,
@@ -413,14 +415,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Transactional Data Platform D-009 from
-`docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` and
-persist the operator's answer in the same ledger and coherent draft pull request
-before requesting explicit authorization to distill the complete accepted unit.
+Request explicit operator authorization to distill Transactional Data Platform
+D-001 through D-009 into `DECISIONS.md`, reconcile the relevant classification
+and Foundation status documentation, and remove the raw ledger only after the
+distillation is verified.
 
-Completion condition: D-009 is durably persisted with its rationale,
-consequences, and rejected alternatives, no raw questions remain, and the
-operator is asked whether to authorize distillation.
+Completion condition: the operator either authorizes or declines the bounded
+distillation; no distillation, merge, or new Foundation subject begins merely
+because the raw question set is complete.
 
 ## Done When
 

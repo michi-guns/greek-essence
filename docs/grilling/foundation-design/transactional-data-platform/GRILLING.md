@@ -382,80 +382,51 @@ Foundations design. First-party capability references:
 - <https://neon.com/docs/connect/choose-connection>
 - <https://orm.drizzle.team/docs/kit-overview>
 
-## Open Questions
+### D-009 — Encrypted Logical Snapshot With a Short-Lived Deletion Manifest
 
-- D-009: What transactional backup and restore representation is required to
-  reapply expiry and verified deletions without making backups an active history
-  surface?
+Accepted on 2026-08-02. Each off-provider recovery copy is one encrypted logical
+snapshot of the private PostgreSQL transactional schema and expires automatically
+no later than thirty days after creation. It follows the schema and migration
+history already owned by Drizzle rather than creating a parallel per-Request
+application serialization. Backups are not history or reporting surfaces and are
+available only to named technical recovery roles.
 
-## Next Question
-
-ID: D-009
-
-Owning layer: Foundation Design.
-
-Topic:
-Minimal off-provider backup and deletion-manifest representation.
-
-Prompt:
-How should the already accepted encrypted rolling backup preserve one restorable
-Request-data snapshot while ensuring that an older backup cannot revive expired
-or earlier-verified-deleted Requests?
-
-Options:
-
-1. (recommended): **Create one encrypted logical snapshot of the private
-   transactional schema plus a separate minimal protected deletion manifest.**
-   Each backup expires automatically within thirty days. The manifest records
-   only the random internal Request ID and the time until relevant backups can no
-   longer contain it; it stores no public reference, email, Request content, or
-   deletion reason. Before an earlier verified deletion is reported complete,
-   its manifest entry must be durably protected outside the snapshot being
-   deleted. Restore always occurs in isolation, reapplies the twelve-month cutoff
-   and current manifest, verifies the result, and only then may return to
-   production.
-2. **Export each Request as separate application JSON and selectively restore
-   files.** This makes per-Request deletion straightforward, but creates a second
-   application-owned schema and serialization path that can omit typed details,
-   delivery history, audit rows, or later migrations.
-3. **Rely only on Neon-managed restore capability.** This is simpler, but does not
-   satisfy the already accepted off-provider recovery copy and cannot by itself
-   carry the latest earlier-deletion manifest when restoring an older snapshot.
-
-Why this matters:
-
-The accepted Product and Domain Truth already requires encrypted off-provider
-rolling backups with automatic expiry no later than thirty days. This Foundation
-decision only chooses the smallest complete database representation; provider,
-schedule, encryption key custody, monitoring, and restore commands remain
-Runtime Foundations and Launch Readiness work.
-
-A logical snapshot follows the PostgreSQL schema and migration history already
-owned by Drizzle rather than inventing a parallel backup data model. It contains
-private Request data, so it is encrypted, never inspected as ordinary history,
-and is available only to named technical recovery roles.
-
-The manifest is needed only for rare earlier verified deletions. Routine
-twelve-month expiry is recomputed from each restored Request's `expires_at`. An
-earlier deletion, however, may remove a Request before its natural expiry while
-an older backup still contains it. One minimal external manifest entry prevents
-that record from returning during the backup's remaining maximum thirty-day
-life, then expires with that risk. This is not a customer history, privacy
-platform, or permanent deletion ledger.
+Routine twelve-month expiry needs no separate manifest entry because every
+restored Request retains its `expires_at` value and the cutoff is reapplied before
+production use. An earlier verified deletion receives one minimal protected
+manifest entry before deletion is reported complete. The entry contains only the
+random internal Request ID and the time when the last eligible backup that could
+contain it will have expired. It stores no public reference, email, Request
+content, or deletion reason and is removed when no eligible backup can revive the
+Request.
 
 A restore first enters an isolated access-restricted environment. It restores a
-compatible schema, deletes every now-expired Request, applies all still-relevant
-manifest IDs through the D-007 aggregate deletion, and runs focused integrity
+compatible schema, removes every now-expired Request, applies every still-relevant
+manifest ID through the D-007 cascade deletion, and runs focused integrity
 checks. No restored database serves staff or public traffic before those steps
-succeed. Exact archive format, object layout, encryption mechanism, manifest
-write order, expiry automation, and restore commands remain bounded downstream
-design and testing.
+succeed.
 
-After answer:
+Per-Request application JSON exports were rejected because they would create a
+second schema and serialization path that could omit typed details, delivery
+history, audit rows, or later migrations. Neon-managed recovery alone was
+rejected because it does not satisfy the accepted off-provider copy or carry the
+latest earlier-deletion state when restoring an older snapshot.
 
-- Lock the logical-snapshot boundary, minimum short-lived deletion manifest, and
-  isolated restore ordering.
-- Preserve provider, schedule, encryption, storage layout, monitoring, and exact
-  commands for Runtime Foundations and Launch Readiness.
-- Close the raw question set and request explicit authorization to distill the
-  accepted Transactional Data Platform decisions.
+The manifest is temporary restore-safety state, not a permanent deletion ledger,
+customer history, or privacy-management platform. Exact provider, schedule,
+archive and manifest layout, encryption and key custody, monitoring, write order,
+expiry automation, and restore commands remain Runtime Foundations and Launch
+Readiness work.
+
+## Open Questions
+
+None. Transactional Data Platform D-001 through D-009 are accepted in the raw
+ledger.
+
+## Next Step
+
+Request explicit operator authorization to distill the accepted Transactional
+Data Platform decisions into `DECISIONS.md`, reconcile classification and
+Foundation status documentation, remove this raw ledger only after verified
+distillation, run the applicable Markdown/change gates, update draft pull request
+#49, and stop before merge authorization or another Foundation Design subject.
