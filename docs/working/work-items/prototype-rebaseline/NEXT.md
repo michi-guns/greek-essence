@@ -346,9 +346,13 @@ architecture rebaseline, and promotion of settled documentation.
   `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md`, and
   D-001 now locks one atomic Neon transaction for the complete Request acceptance
   aggregate and both durable email-delivery intents; mail-service calls remain
-  post-commit. D-002 is the stored next decision about the relational Request
-  envelope and exactly-one typed-detail enforcement. Draft pull request #49 is
-  the coherent collaboration and review surface. Work uses branch
+  post-commit. D-002 now locks one shared Request table plus three one-to-one
+  typed detail tables, ordinary relational type constraints, and exact-one
+  enforcement through the trusted transaction writer and integration tests
+  rather than a custom database trigger. D-003 is the stored next decision about
+  validation ownership across PostgreSQL, Drizzle-generated Zod, handwritten
+  journey schemas, and server authority checks. Draft pull request #49 is the
+  coherent collaboration and review surface. Work uses branch
   `docs/transactional-data-platform` in a separate worktree so unrelated
   concurrent migration-documentation changes remain untouched. This authority
   does not permit Neon or Drizzle installation,
@@ -397,13 +401,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Transactional Data Platform D-002 from
+Present Transactional Data Platform D-003 from
 `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` and
 persist the operator's answer in the same ledger and coherent draft pull request
-before advancing to D-003.
+before advancing to D-004.
 
-Completion condition: D-002 is durably persisted with its rationale,
-consequences, and rejected alternatives, and D-003 is stored as the single next
+Completion condition: D-003 is durably persisted with its rationale,
+consequences, and rejected alternatives, and D-004 is stored as the single next
 question.
 
 ## Done When

@@ -146,10 +146,37 @@ Exact tables, columns, transaction APIs, retry timing, and mail scheduling remai
 downstream schema, Application Architecture, Runtime Foundations, or bounded
 technical-design responsibilities.
 
+### D-002 — Shared Request Envelope with Three Typed Detail Tables
+
+Accepted on 2026-08-02. Neon uses one shared Request table and three one-to-one
+typed detail tables for Consultation Request, Booking Request, and General
+Contact. Each detail row uses its Request ID as its primary and foreign key. A
+fixed detail type and composite relationship to the Request ID and discriminator
+prevent a detail from attaching to an envelope of the wrong journey type.
+
+The one supported server-side acceptance writer derives the typed table from the
+validated journey type and inserts exactly one matching detail within the D-001
+transaction. Ordinary PostgreSQL primary-key, foreign-key, unique, check, and
+composite constraints reject duplicate details in one typed table, orphaned
+details, and envelope/detail type mismatch. Focused integration tests verify the
+remaining aggregate invariant that every accepted Request has one and only one
+row across the three sibling detail tables.
+
+A custom deferred PostgreSQL trigger that counts across all typed tables was
+rejected as disproportionate. It would protect against arbitrary privileged SQL
+but add custom trigger and raw-migration behavior to a system with one supported
+writer and no routine database editing. An intermediate generic detail-container
+table was rejected because it adds a table and join without eliminating the need
+for application logic or a trigger to guarantee one subtype.
+
+This choice accepts the bounded tradeoff that arbitrary privileged SQL could
+bypass the final cross-table invariant. Such writes are outside supported agency
+and application operation; production database access remains restricted to
+authorized technical recovery, security, or privacy work. Exact names and
+journey columns remain bounded schema design.
+
 ## Open Questions
 
-- D-002: How should the shared Request envelope and exactly one typed journey
-  detail be represented and constrained relationally?
 - D-003: Which validation belongs to PostgreSQL and Drizzle-derived Zod, and which
   remains handwritten journey validation?
 - D-004: How should opaque references, normalized email, and bounded idempotency
@@ -168,71 +195,73 @@ technical-design responsibilities.
 
 ## Next Question
 
-ID: D-002
+ID: D-003
 
 Owning layer: Foundation Design.
 
 Topic:
-Relational Request envelope and typed-detail enforcement.
+Database, generated-schema, and journey-validation responsibilities.
 
 Prompt:
-How should Neon and Drizzle represent one shared Request envelope with exactly
-one correctly typed journey detail without introducing a wide nullable table or
-generic payload?
+How should Greek Essence divide validation among PostgreSQL constraints,
+Drizzle-generated Zod schemas, handwritten journey schemas, and server-side
+authority checks?
 
 Options:
 
-1. (recommended): **Use one shared `requests` table and three one-to-one typed
-   detail tables, with ordinary relational constraints and one trusted
-   transactional writer.** Each detail row uses its Request ID as its primary and
-   foreign key. A fixed detail type plus a composite foreign key to the Request's
-   ID and discriminator prevents a Consultation detail from belonging to a
-   Booking or Contact envelope. The acceptance transaction chooses the one typed
-   table from the server-validated journey type and inserts exactly one detail.
-   Focused integration tests verify that every accepted aggregate has one and
-   only one matching detail.
-2. **Use the same shared and typed tables, plus a custom deferred PostgreSQL
-   constraint trigger that counts across all three detail tables at commit.**
-   This makes the database reject a Request with zero, multiple, or mismatched
-   typed details regardless of the writer. It provides stronger defence against
-   arbitrary direct SQL, but adds custom trigger code, raw migration SQL, and
-   more complex insert, deletion, and migration behavior for a system with one
-   supported application writer and no routine database editing.
-3. **Add an intermediate one-to-one `request_details` record before the three
-   typed subtype tables.** The intermediate row guarantees one detail container
-   per Request, while each subtype stores its journey fields. It adds another
-   table and join but still needs application logic or a trigger to guarantee
-   exactly one subtype, so it does not remove the central enforcement problem.
+1. (recommended): **Use four explicit validation layers with different
+   responsibilities.** PostgreSQL constraints protect durable relational
+   invariants. Drizzle-generated Zod insert and select schemas validate the
+   internal persistence shape. Handwritten Zod schemas validate each public
+   journey's untrusted form input and cross-field rules before mapping it to the
+   internal aggregate. Server orchestration separately performs authority checks
+   that schemas cannot prove, such as current Sanity requestability and private
+   correction-reference matching.
+2. **Use refined Drizzle-generated insert schemas directly as the public form and
+   Route Handler schemas.** This minimizes repeated primitive field definitions,
+   but couples the visitor contract to database columns, nullability, defaults,
+   and migrations. Server-owned fields must continually be omitted, and a storage
+   refactor could unintentionally change accepted form behavior.
+3. **Use fully handwritten Zod schemas for both public input and internal
+   persistence, with PostgreSQL constraints as the final guard.** This keeps
+   visitor and storage contracts explicit, but duplicates the table shape in a
+   second handwritten schema and underuses the selected first-party Drizzle–Zod
+   integration.
 
 Why this matters:
 
-The **envelope** contains facts common to every Request, such as identity,
-reference, journey type, submitted contact snapshot, acceptance and expiry
-times, correction intent, and normalized email. A **typed detail** contains only
-the fields belonging to one journey: trip-planning information, one specific
-Experience request, or a general message. Keeping those details in distinct
-tables prevents a Booking Request from silently acquiring Consultation fields
-and avoids dozens of irrelevant nullable columns.
+Validation answers different questions at different boundaries:
 
-For option 1, a Booking detail can carry a fixed `booking` discriminator and
-reference only a `requests` row whose discriminator is also `booking`. The
-database therefore rejects the wrong detail type and duplicate detail rows in
-the same table. The D-001 acceptance transaction and its integration tests
-enforce the remaining cross-table rule that exactly one of the three typed
-tables receives a row.
+- **PostgreSQL** can guarantee durable facts such as non-null required columns,
+  accepted enum or check values, unique opaque references and idempotency
+  identities, valid foreign keys, and bounded numeric ranges. It cannot establish
+  that a Sanity Experience is currently requestable.
+- **Drizzle-generated Zod schemas** mirror the selected table shape at runtime.
+  Current first-party Drizzle guidance supports generated select, insert, and
+  update schemas and field refinement through `drizzle-orm/zod` with Zod v4.
+- **Handwritten journey schemas** can express the visitor contract without
+  exposing server-managed fields. For example, Booking Request validation can
+  require one preferred date, allow either an alternative date or flexible-date
+  indication, bound adult and child counts, and keep a short optional practical-
+  needs field.
+- **Server authority checks** query other trusted state. A browser-provided
+  Experience ID may be structurally valid but is not eligible until the server
+  verifies the current published Sanity record. A correction reference and email
+  may be well formed but are accepted only after private Neon matching.
 
-PostgreSQL does not provide a simple ordinary foreign-key or check constraint
-that counts children across three sibling tables. Enforcing that last rule
-inside the database therefore requires custom trigger logic. The recommendation
-avoids that machinery because Greek Essence has one supported server-side writer,
-atomic acceptance, no routine direct database editing, and focused tests as a
-practical enforcement boundary. The tradeoff is that arbitrary privileged SQL
-could bypass the aggregate writer; such SQL is already outside normal agency and
-application operation.
+The recommendation intentionally repeats a small amount of primitive validation,
+such as string lengths or email shape, at the public and persistence boundaries.
+That duplication prevents a database migration from silently changing what the
+public form accepts and keeps internal IDs, timestamps, normalized values, audit
+states, and delivery fields outside visitor-controlled input.
+
+First-party reference consulted for current capability, not exact implementation
+authorization: <https://orm.drizzle.team/docs/zod>.
 
 After answer:
 
-- Lock the Request envelope, typed-detail table shape, and exact-one enforcement
-  boundary.
-- Preserve exact field names and journey columns for bounded schema design.
-- Store D-003 as the next question.
+- Lock validation ownership across the public, orchestration, persistence, and
+  database boundaries.
+- Preserve exact schema composition, error mapping, and field limits for bounded
+  technical design and accepted journey contracts.
+- Store D-004 as the next question.
