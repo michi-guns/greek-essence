@@ -186,17 +186,16 @@ granularity.
 
 ## Change-Appropriate Checks
 
-A non-empty commit range containing only `.md` or `.mdx` files uses the
-Markdown-only gate: redacted Gitleaks plus Prettier against the changed files.
-Application lint, unused-code analysis, type checking, content-data validation,
-tests, coverage, build, browser, accessibility, metadata, and quality checks
-are not applicable unless the task contract separately requires them.
+Before claiming that a change is ready for review or completion, read and
+follow [`QUALITY_GATES.md`](QUALITY_GATES.md). That document owns change
+classification, required verification, evidence reporting, and the definition
+of done.
 
 Local pre-push and the required GitHub job classify the complete pushed or
 pull-request range, not the working tree. Any mixed, empty, malformed, or
-unresolved range fails closed to the existing full checks. The GitHub workflow
-always reports the required `Lightweight quality gates` context; do not replace
-this behavior with workflow-level path exclusions.
+unresolved range fails closed to the full gates defined there. The GitHub
+workflow always reports the required `Lightweight quality gates` context; do
+not replace this behavior with workflow-level path exclusions.
 
 ## Safety
 
