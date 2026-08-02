@@ -16,8 +16,9 @@ strategies yet.
 
 ## Current State
 
-- Branch `docs/migration-v4` starts at current `origin/main` commit
-  `978136091639aa473b8b384b6b9ee8382da040c3`.
+- Branch `docs/migration-v4` originally started at `origin/main` commit
+  `978136091639aa473b8b384b6b9ee8382da040c3` and now includes current `main`
+  through merge commit `7f29a2f`.
 - `docs/new-proposed-docs/` contains 41 candidate documents covering a proposed
   documentation system, domain model, architecture, data ownership,
   development guidance, ADRs, assumptions, and runbooks.
@@ -38,6 +39,10 @@ strategies yet.
   authority boundaries, and fresh-review task.
 - Prettier, redacted Gitleaks, commit and pre-push hooks, and a local Markdown
   link-target audit pass for the published proposal.
+- Pull request [#51](https://github.com/michi-guns/greek-essence/pull/51) merged
+  the agent-guidance decomposition into `main` at `1860bfc`. Its compact root
+  guidance and policy-owner documents are current authority and must be included
+  in the fresh comparison against this proposal.
 
 ## Next Recommended Action
 
