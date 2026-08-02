@@ -235,19 +235,22 @@ A grill is ready for acceptance when:
 - necessary glossary terms and contracts are present; and
 - remaining unknowns have named owners or validation actions.
 
-At acceptance, present one numbered approval question that names the exact raw
-ledger path and existing draft pull request and offers at least these materially
-distinct outcomes:
+At acceptance, ask only: **“Should I finalize this grilling subject, or do you
+want to make any changes?”** The fully qualified active subject and its durable
+repository state identify the raw ledger and existing draft pull request. Do not
+repeat their paths, identifiers, or the routine finalization mechanics in the
+question. It offers exactly two outcomes:
 
-1. **Accept and finalize automatically** — accept the decisions; authorize the
-   named `GRILLING.md` path's removal after verified distillation; and authorize
+1. **Finalize the grilling subject** — accept the complete decision set and
+   authorize the active subject's `GRILLING.md` removal after verified distillation,
    completion of the existing draft pull request, required-check monitoring,
-   squash merge, and merged-branch deletion without another routine approval
-   request.
-2. **Accept but retain the raw ledger** — record acceptance, but do not delete
-   the ledger or automate final distillation delivery.
-3. **Correct a material decision first** — keep the grill active and name the
-   correction.
+   squash merge, merged-branch deletion, worktree cleanup, and final `main`
+   synchronization without another routine approval request.
+2. **Make changes first** — keep the grill active and let the operator name any
+   correction, retained artifact, or narrower delivery boundary.
+
+Retaining the raw ledger or narrowing automation is a requested change under
+option 2, not a third standard option.
 
 After combined acceptance-and-finalization authorization:
 
@@ -272,6 +275,9 @@ After combined acceptance-and-finalization authorization:
    If auto-merge is unavailable, wait for required checks and run
    `gh pr merge --squash --delete-branch` without requesting another routine
    approval. Confirm the merged result on updated local `main`.
+6. Recommend the next dependency-ordered grilling subject, but wait for explicit
+   operator authorization before creating its branch, worktree, ledger, or draft
+   pull request.
 
 Combined authorization does not override failed checks, merge protection,
 unrelated concurrent edits, or a new material product conflict. If semantic
