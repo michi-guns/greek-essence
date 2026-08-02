@@ -24,9 +24,13 @@ only to the archived prototype and have no current authority.
 | Area                             | Role                                                                                                         | Start here                                                                                           |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
 | Project actors                   | Greek Essence, agency, developer, product-management, delegation, and technical-publication responsibilities | [`PROJECT_ACTORS.md`](PROJECT_ACTORS.md)                                                             |
+| Product collaboration            | Requirements clarification, travel-agency distinctions, product risks, and decision boundaries               | [`PRODUCT_COLLABORATION.md`](PRODUCT_COLLABORATION.md)                                               |
 | Layered decision grilling        | Product/domain truth, foundation design, and launch readiness before implementation                          | [`grilling/README.md`](grilling/README.md)                                                           |
 | Active work routing              | Current multi-session work and immediate continuation                                                        | [`../NEXT.md`](../NEXT.md)                                                                           |
 | Working evidence                 | Temporary rebaseline operations, requirements intake, draft sources, and decision registers                  | [`working/work-items/prototype-rebaseline/NEXT.md`](working/work-items/prototype-rebaseline/NEXT.md) |
+| Development standards            | Stable implementation defaults, proportionality, testing scope, and stopping conditions                      | [`DEVELOPMENT_STANDARDS.md`](DEVELOPMENT_STANDARDS.md)                                               |
+| Quality gates                    | Change classification, executable checks, evidence, and definition of done                                   | [`QUALITY_GATES.md`](QUALITY_GATES.md)                                                               |
+| Agent tooling                    | Approved skills, browser boundary, and tool-specific documentation                                           | [`AGENT_TOOLING.md`](AGENT_TOOLING.md)                                                               |
 | Contributor onboarding           | Current workstation setup and local verification                                                             | [`CONTRIBUTOR_ONBOARDING.md`](CONTRIBUTOR_ONBOARDING.md)                                             |
 | Git workflow                     | Current branch, pull-request, checks, merge, and cleanup strategy                                            | [`GIT_WORKFLOW.md`](GIT_WORKFLOW.md)                                                                 |
 | Archived prototype documentation | Non-authoritative former protocol, product, UX, technical, design, tooling, and reference material           | [`archive/showcase-prototype-v0/README.md`](archive/showcase-prototype-v0/README.md)                 |
@@ -73,8 +77,11 @@ revalidated through grilling.
 
 Implementation of replacement-product features must wait for accepted grilling
 decisions, new canonical documentation where required, and an explicit bounded
-task contract. Before committing or publishing any authorized change, follow
-[`GIT_WORKFLOW.md`](GIT_WORKFLOW.md).
+task contract. Read [`DEVELOPMENT_STANDARDS.md`](DEVELOPMENT_STANDARDS.md), the
+relevant accepted decisions, and the explicit task contract before coding. Use
+[`AGENT_TOOLING.md`](AGENT_TOOLING.md) for approved skills and browser tooling,
+[`QUALITY_GATES.md`](QUALITY_GATES.md) before claiming completion, and
+[`GIT_WORKFLOW.md`](GIT_WORKFLOW.md) before committing or publishing.
 
 ## Current status
 
@@ -110,7 +117,7 @@ irm https://get.pnpm.io/install.ps1 | iex
 
 - Preserve one source of truth for each concern.
 - Assume requirements may be incomplete or use informal terminology; follow the
-  product-and-requirements collaboration rules in root `AGENTS.md`.
+  rules in [`PRODUCT_COLLABORATION.md`](PRODUCT_COLLABORATION.md).
 - Do not introduce implementation details into the PRD.
 - Do not change product or UX requirements through implementation choices.
 - Do not invent unresolved business, operational, legal, trust, pricing, or content facts.
