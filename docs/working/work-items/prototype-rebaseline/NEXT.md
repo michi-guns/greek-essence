@@ -474,17 +474,17 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only: “Should I finalize this grilling subject, or do you want to make any
-changes?” The active Application Architecture subject identifies its raw ledger
-and draft pull request #52; do not repeat those identifiers or the routine
-finalization mechanics in the operator-facing question.
+Complete the operator-authorized Application Architecture finalization on draft
+pull request #52: preserve the final accepted raw ledger in the PR record, distill
+and semantically verify `DECISIONS.md`, remove the authorized `GRILLING.md`, update
+routing and handoff context, run applicable gates, squash merge, clean up the
+branch and isolated worktree, and synchronize `main`.
 
-Completion condition: the operator explicitly selects one of the two outcomes. If
-finalization is authorized, follow the grilling protocol's verified distillation,
-exact-path deletion, pull-request completion, merge, synchronization, and cleanup
-sequence without treating it as implementation or successor-subject authorization.
-After completion, recommend the next dependency-ordered subject and wait for
-explicit approval before creating its branch, worktree, ledger, or draft PR.
+Completion condition: PR #52 is merged; the accepted raw ledger and deletion
+authorization remain verifiably preserved in its record; `main` contains the
+accepted `DECISIONS.md` and omits the raw ledger; Git and worktree cleanup is
+verified; and the next dependency-ordered grilling subject is recommended without
+creating its branch, worktree, ledger, or draft PR.
 
 ## Done When
 

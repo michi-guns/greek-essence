@@ -287,6 +287,21 @@ ownership decision.
 
 - None.
 
+## Final Acceptance
+
+On 2026-08-02, the operator selected “Finalize this grilling subject.” This
+accepts Application Architecture D-001 through D-004 and authorizes verified
+distillation to `DECISIONS.md`, preservation of this final accepted ledger in
+pull request #52, removal of the exact path
+`docs/grilling/foundation-design/application-architecture/GRILLING.md`, required
+routing and handoff updates, commit and push, required-check monitoring, squash
+merge, branch and isolated-worktree cleanup, and final `main` synchronization
+without another routine approval.
+
+This authorization does not permit application implementation, dependency or
+provider setup, migration, deployment, production-data access, or automatic
+bootstrap of the next grilling subject.
+
 ## Next Question
 
 None. An authority and scope audit found no remaining unresolved question that
