@@ -341,37 +341,42 @@ architecture rebaseline, and promotion of settled documentation.
   and technical-readiness check, and ordinary-copy evidence exclusion were
   restored. A fresh independent comparison of the corrected `DECISIONS.md`
   against the final accepted raw ledger returned `PASS`.
-- On 2026-07-31, the operator authorized Transactional Data Platform as the next
-  coherent Foundation Design grilling unit. Its active ledger is
-  `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md`, and
-  D-001 now locks one atomic Neon transaction for the complete Request acceptance
-  aggregate and both durable email-delivery intents; mail-service calls remain
-  post-commit. D-002 now locks one shared Request table plus three one-to-one
-  typed detail tables, ordinary relational type constraints, and exact-one
-  enforcement through the trusted transaction writer and integration tests
-  rather than a custom database trigger. D-003 now locks separate handwritten
-  public journey validation, server authority checks, Drizzle-generated internal
-  persistence validation, and PostgreSQL durable constraints. D-004 now locks
-  separate internal Request IDs, public references, normalized-email grouping,
-  and idempotency identities; exact retries compare canonical validated fields
-  directly rather than storing a payload digest. D-005 now locks one simple
-  indexed private correction check without a foreign-key lifecycle or a lock for
-  a theoretical retention-deletion race. D-006 now locks a proportional current
-  delivery summary plus append-only delivery and audit history without
-  introducing a queue or event-sourcing platform. D-007 now locks hard deletion
-  of the Request root and database-cascade removal of its owned aggregate. D-008
-  now locks the Neon serverless WebSocket runtime path, separately applied
-  reviewed Drizzle migrations, and no automatic per-preview Neon databases.
-  D-009 now locks one encrypted off-provider logical snapshot, a minimal
-  short-lived earlier-deletion manifest, and isolated restore cleanup. All nine
-  raw Transactional Data Platform questions are accepted; distillation still
-  requires explicit operator authorization. Draft pull request #49 is the
-  coherent collaboration and review surface. Work uses branch
-  `docs/transactional-data-platform` in a separate worktree so unrelated
-  concurrent migration-documentation changes remain untouched. This authority
-  does not permit Neon or Drizzle installation,
-  configuration, schema creation, migration execution, application
-  implementation, deployment, or production-data handling.
+- On 2026-08-02, the operator accepted Transactional Data Platform D-001 through
+  D-009 and authorized verified automatic finalization through pull request #49.
+  [`docs/grilling/foundation-design/transactional-data-platform/DECISIONS.md`](../../../grilling/foundation-design/transactional-data-platform/DECISIONS.md)
+  is the sole accepted authority. It establishes atomic Request acceptance and
+  delivery intents; one shared envelope with three typed detail tables; layered
+  public, authority, persistence, and database validation; purpose-specific
+  internal, public, contact, and retry identities; a simple private correction
+  check without a lock or foreign key; bounded current delivery state with
+  append-only attempts and audit; hard Request-root deletion through database
+  cascades; Neon WebSocket transactions and separately applied reviewed Drizzle
+  migrations; and encrypted logical backups with a short-lived earlier-deletion
+  manifest and isolated restore cleanup. The final accepted raw ledger and exact
+  authorization to remove
+  `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` are
+  preserved in pull request #49. This authority does not permit Neon or Drizzle
+  installation, configuration, schema creation, migration execution,
+  application implementation, deployment, production-data handling, or
+  automatic commencement of Application Architecture.
+- During Transactional Data Platform finalization, the operator explicitly
+  authorized the small related workflow clarification in
+  [`docs/GIT_WORKFLOW.md`](../../../GIT_WORKFLOW.md). Every newly authorized
+  coherent unit now defaults to its own isolated worktree under the sibling
+  `greek-essence.worktrees/` directory. Git must create and remove the registered
+  worktree, the original checkout and unrelated worktrees remain untouched, and
+  verified post-merge cleanup removes the remote branch, worktree, local branch,
+  and stale worktree metadata.
+- Transactional Data Platform finalization verification on 2026-08-02 confirmed
+  `DECISIONS.md` contains D-001 through D-009 exactly once and the authorized raw
+  path is absent. The pull-request description's embedded raw ledger exactly
+  matches the final committed source. A final independent comparison of the
+  corrected distillation against that raw source and accepted upstream authority
+  returned `PASS`. `docs/grilling/CLASSIFICATION.md` and both Foundation routing
+  documents remain structurally correct and require no status edit. Focused
+  Prettier, `gitleaks dir --redact --no-banner docs`, and `git diff --check`
+  exited `0` before staging; the committed Markdown-only range still requires
+  the repository range gate and GitHub read-back before readiness.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -415,14 +420,16 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Request explicit operator authorization to distill Transactional Data Platform
-D-001 through D-009 into `DECISIONS.md`, reconcile the relevant classification
-and Foundation status documentation, and remove the raw ledger only after the
-distillation is verified.
+Complete authorized pull request #49 delivery: verify semantic parity and the
+complete Markdown-only change range, mark the draft ready, re-read GitHub, and
+obtain the fresh explicit operator confirmation required immediately before an
+agent merge.
 
-Completion condition: the operator either authorizes or declines the bounded
-distillation; no distillation, merge, or new Foundation subject begins merely
-because the raw question set is complete.
+Completion condition: pull request #49 is squash-merged, its short-lived remote
+branch and isolated worktree are removed, and local `main` is clean and
+synchronized with `origin/main`. Stop afterward; Application Architecture,
+Runtime and Production Foundations, Launch Readiness, and implementation each
+require separate authorization.
 
 ## Done When
 
