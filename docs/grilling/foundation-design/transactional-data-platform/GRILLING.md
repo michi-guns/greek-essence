@@ -175,10 +175,43 @@ and application operation; production database access remains restricted to
 authorized technical recovery, security, or privacy work. Exact names and
 journey columns remain bounded schema design.
 
+### D-003 — Layer Public, Authority, Persistence, and Database Validation
+
+Accepted on 2026-08-02. Greek Essence uses four explicit validation layers with
+different responsibilities:
+
+1. Handwritten Zod journey schemas validate untrusted public Consultation,
+   Booking, and Contact form input, including accepted cross-field rules and
+   data-minimization boundaries.
+2. Server orchestration performs authority checks that schema shape cannot
+   prove, including current published Sanity requestability and private
+   correction-reference and normalized-email matching.
+3. Drizzle-generated Zod insert and select schemas validate internal persistence
+   shapes derived from the Drizzle table definitions.
+4. PostgreSQL constraints provide the final durable guard for relational and
+   storage invariants such as required columns, accepted values, uniqueness,
+   foreign keys, and bounded numeric values.
+
+Public schemas do not expose internal IDs, timestamps, normalized values,
+idempotency records, audit states, delivery fields, or other server-managed
+columns. The public and persistence boundaries may intentionally repeat a small
+amount of primitive validation, such as string length or email shape, so a
+storage migration cannot silently alter accepted visitor behavior.
+
+Using refined Drizzle-generated insert schemas directly as public form and Route
+Handler contracts was rejected because it would couple visitor input to database
+columns, defaults, and migrations and require continual omission of server-owned
+fields. Fully handwritten public and persistence schemas were rejected because
+they would duplicate the complete table shape and underuse the selected
+first-party Drizzle–Zod integration.
+
+Exact schema composition, error localization, field limits, coercion, and
+mapping functions remain bounded technical design and must preserve the accepted
+journey contracts. First-party capability reference:
+<https://orm.drizzle.team/docs/zod>.
+
 ## Open Questions
 
-- D-003: Which validation belongs to PostgreSQL and Drizzle-derived Zod, and which
-  remains handwritten journey validation?
 - D-004: How should opaque references, normalized email, and bounded idempotency
   identities be represented and indexed?
 - D-005: How should explicit correction lookup preserve privacy and independent
@@ -195,73 +228,70 @@ journey columns remain bounded schema design.
 
 ## Next Question
 
-ID: D-003
+ID: D-004
 
 Owning layer: Foundation Design.
 
 Topic:
-Database, generated-schema, and journey-validation responsibilities.
+Purpose-specific Request, reference, contact, and retry identities.
 
 Prompt:
-How should Greek Essence divide validation among PostgreSQL constraints,
-Drizzle-generated Zod schemas, handwritten journey schemas, and server-side
-authority checks?
+How should Greek Essence represent and index internal Request identity, the
+visitor-visible opaque reference, normalized email grouping, and the bounded
+idempotency identity without merging their different responsibilities?
 
 Options:
 
-1. (recommended): **Use four explicit validation layers with different
-   responsibilities.** PostgreSQL constraints protect durable relational
-   invariants. Drizzle-generated Zod insert and select schemas validate the
-   internal persistence shape. Handwritten Zod schemas validate each public
-   journey's untrusted form input and cross-field rules before mapping it to the
-   internal aggregate. Server orchestration separately performs authority checks
-   that schemas cannot prove, such as current Sanity requestability and private
-   correction-reference matching.
-2. **Use refined Drizzle-generated insert schemas directly as the public form and
-   Route Handler schemas.** This minimizes repeated primitive field definitions,
-   but couples the visitor contract to database columns, nullability, defaults,
-   and migrations. Server-owned fields must continually be omitted, and a storage
-   refactor could unintentionally change accepted form behavior.
-3. **Use fully handwritten Zod schemas for both public input and internal
-   persistence, with PostgreSQL constraints as the final guard.** This keeps
-   visitor and storage contracts explicit, but duplicates the table shape in a
-   second handwritten schema and underuses the selected first-party Drizzle–Zod
-   integration.
+1. (recommended): **Use separate purpose-specific values and indexes.** Give each
+   Request an internal random database ID that is never public; generate a
+   separate high-entropy, human-safe public reference with a unique index; store
+   the submitted email snapshot plus a separately indexed normalized value; and
+   use a different random idempotency token for one intentional submission,
+   retained through its exact technical retries and bound uniquely to the
+   accepted Request.
+2. **Reuse one random value as the database ID, public reference, and idempotency
+   identity.** This reduces columns and generation steps, but exposes the
+   internal relationship key publicly, makes a pre-acceptance retry key become a
+   permanent customer reference, and couples unrelated lookup, presentation, and
+   duplicate-protection lifecycles.
+3. **Derive duplicate identity from normalized email, submitted content, and a
+   time window.** This needs no explicit retry token, but similar intentional
+   Requests could be misclassified as technical duplicates. It also creates
+   personal-data-derived fingerprints and contradicts the accepted rule that
+   content similarity and close timing do not prove duplication.
 
 Why this matters:
 
-Validation answers different questions at different boundaries:
+These values answer different questions:
 
-- **PostgreSQL** can guarantee durable facts such as non-null required columns,
-  accepted enum or check values, unique opaque references and idempotency
-  identities, valid foreign keys, and bounded numeric ranges. It cannot establish
-  that a Sanity Experience is currently requestable.
-- **Drizzle-generated Zod schemas** mirror the selected table shape at runtime.
-  Current first-party Drizzle guidance supports generated select, insert, and
-  update schemas and field refinement through `drizzle-orm/zod` with Zod v4.
-- **Handwritten journey schemas** can express the visitor contract without
-  exposing server-managed fields. For example, Booking Request validation can
-  require one preferred date, allow either an alternative date or flexible-date
-  indication, bound adult and child counts, and keep a short optional practical-
-  needs field.
-- **Server authority checks** query other trusted state. A browser-provided
-  Experience ID may be structurally valid but is not eligible until the server
-  verifies the current published Sanity record. A correction reference and email
-  may be well formed but are accepted only after private Neon matching.
+- The **internal Request ID** relates protected database rows efficiently. It is
+  not shown to visitors and does not need to be comfortable to type.
+- The **opaque public reference** is copied into the success page and emails and
+  may later be typed with a correction. It contains no personal information or
+  sequential private-record detail and grants no history access by itself.
+- The **normalized email** groups retained Requests and privately checks a
+  correction. Greek Essence keeps the original submitted email in each immutable
+  snapshot. Normalization trims surrounding whitespace and canonicalizes the
+  domain while preserving the local part; it does not apply provider-specific
+  Gmail-style dot removal, plus-address stripping, or approximate matching that
+  could merge distinct mailboxes.
+- The **idempotency token** identifies one intentional submission transport, not
+  a person or similar content. It is random, non-sensitive, preserved across
+  technical retries, and replaced for a later intentional Request. The database
+  stores a one-way representation with a unique index and binds it to the
+  accepted Request for that Request's retention period. Reuse with materially
+  different input is a generic conflict rather than a new or silently rewritten
+  Request.
 
-The recommendation intentionally repeats a small amount of primitive validation,
-such as string lengths or email shape, at the public and persistence boundaries.
-That duplication prevents a database migration from silently changing what the
-public form accepts and keeps internal IDs, timestamps, normalized values, audit
-states, and delivery fields outside visitor-controlled input.
-
-First-party reference consulted for current capability, not exact implementation
-authorization: <https://orm.drizzle.team/docs/zod>.
+The recommendation uses a few small indexed values to keep public references,
+private relationships, and duplicate protection from silently inheriting one
+another's meaning. Exact random algorithms, alphabets, lengths, token issuance,
+hashing, and index names remain bounded technical design and security review.
 
 After answer:
 
-- Lock validation ownership across the public, orchestration, persistence, and
-  database boundaries.
-- Preserve exact schema composition, error mapping, and field limits for bounded
-  technical design and accepted journey contracts.
-- Store D-004 as the next question.
+- Lock the separation, normalization boundary, idempotency conflict behavior, and
+  indexing responsibilities of the four identity values.
+- Preserve exact generation, hashing, and token-rotation mechanics for bounded
+  technical design.
+- Store D-005 as the next question.
