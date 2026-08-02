@@ -47,12 +47,17 @@ clarify the location of those rules but must not change their meaning.
 - Preliminary Markdown-only verification passed: Prettier reported all ten
   owned Markdown files formatted, and redacted Gitleaks scans reported no leaks
   in each file.
+- Commit `95e75ae` is pushed to
+  `origin/docs/agent-guidance-decomposition`.
+- Pull request [#51](https://github.com/michi-guns/greek-essence/pull/51) is
+  non-draft and targets `main` from the verified branch.
+- Commit and pre-push hooks classified the change as Markdown-only; Prettier and
+  the repository Gitleaks history scan passed.
 
 ## Next Recommended Action
 
-Run final Markdown-only verification, publish the bounded change in a
-ready-for-review pull request, wait for required checks, and obtain fresh
-operator confirmation immediately before squash merge.
+Wait for required checks on pull request #51, re-read its live state, and obtain
+fresh operator confirmation immediately before squash merge.
 
 Completion condition: the pull request is verified, non-draft, approved for
 merge at the final gate, and squash-merged without including proposal or
