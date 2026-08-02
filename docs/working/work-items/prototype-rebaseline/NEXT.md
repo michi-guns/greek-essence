@@ -345,7 +345,8 @@ architecture rebaseline, and promotion of settled documentation.
   coherent Foundation Design grilling unit. Its active ledger is
   `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md`, and
   D-001 is the stored next decision about the atomic Neon Request-acceptance
-  transaction. Work uses branch `docs/transactional-data-platform` in a separate
+  transaction. Draft pull request #49 is the coherent collaboration and review
+  surface. Work uses branch `docs/transactional-data-platform` in a separate
   worktree so unrelated concurrent migration-documentation changes remain
   untouched. This authority does not permit Neon or Drizzle installation,
   configuration, schema creation, migration execution, application
