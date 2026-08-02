@@ -418,6 +418,22 @@ archive and manifest layout, encryption and key custody, monitoring, write order
 expiry automation, and restore commands remain Runtime Foundations and Launch
 Readiness work.
 
+## Acceptance and Finalization Authorization
+
+On 2026-08-02, the operator accepted Transactional Data Platform D-001 through
+D-009 and explicitly authorized automatic finalization through existing draft
+pull request #49. This authorization names and permits later removal of
+`docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` only
+after verified semantic distillation into `DECISIONS.md`. It also authorizes the
+related status and handoff updates, commits, pushes, required-check monitoring,
+squash merge, and merged-branch deletion.
+
+The authorization does not permit application implementation, dependency
+installation, Neon or mail-provider configuration, schema or migration
+execution, deployment, production-data access, or commencement of Application
+Architecture, Runtime and Production Foundations, Launch Readiness, or another
+work unit.
+
 ## Open Questions
 
 None. Transactional Data Platform D-001 through D-009 are accepted in the raw
