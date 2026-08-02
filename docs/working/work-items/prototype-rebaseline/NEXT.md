@@ -358,10 +358,11 @@ architecture rebaseline, and promotion of settled documentation.
   indexed private correction check without a foreign-key lifecycle or a lock for
   a theoretical retention-deletion race. D-006 now locks a proportional current
   delivery summary plus append-only delivery and audit history without
-  introducing a queue or event-sourcing platform. D-007 is the stored next
-  decision about hard deletion of expired or authorized Request aggregates.
-  Draft pull request #49 is the coherent collaboration and review surface. Work
-  uses branch
+  introducing a queue or event-sourcing platform. D-007 now locks hard deletion
+  of the Request root and database-cascade removal of its owned aggregate. D-008
+  is the stored next decision about the Neon interactive-transaction connection
+  and reviewed Drizzle migration boundary. Draft pull request #49 is the coherent
+  collaboration and review surface. Work uses branch
   `docs/transactional-data-platform` in a separate worktree so unrelated
   concurrent migration-documentation changes remain untouched. This authority
   does not permit Neon or Drizzle installation,
@@ -410,13 +411,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Transactional Data Platform D-007 from
+Present Transactional Data Platform D-008 from
 `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` and
 persist the operator's answer in the same ledger and coherent draft pull request
-before advancing to D-008.
+before advancing to D-009.
 
-Completion condition: D-007 is durably persisted with its rationale,
-consequences, and rejected alternatives, and D-008 is stored as the single next
+Completion condition: D-008 is durably persisted with its rationale,
+consequences, and rejected alternatives, and D-009 is stored as the single next
 question.
 
 ## Done When

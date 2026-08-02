@@ -317,10 +317,37 @@ evidence. Exact state names, conditional SQL, retry count and timing, scheduler,
 escalation route, and named owner remain bounded technical design, Runtime
 Foundations, or Launch Readiness work.
 
+### D-007 — Hard-Delete the Request Root With Database Cascades
+
+Accepted on 2026-08-02. Every Request stores its exact `expires_at` time. A simple
+scheduled cleanup hard-deletes due Request roots in modest batches; the same
+aggregate-deletion operation runs after the separate authorization and identity
+verification required for an earlier deletion.
+
+PostgreSQL ownership and cascade constraints remove the Request's typed detail,
+immutable contact and privacy snapshot, idempotency identity, two current
+delivery rows, delivery attempts, and audit events in the same transaction. This
+makes deletion all-or-nothing and automatically covers declared owned
+relationships without repeating table ownership in application deletion code.
+
+The live Request tables retain no soft-deleted row or tombstone. A later
+correction is not an owned child and has no foreign key to the earlier Request,
+so it is neither deleted nor mutated; its complete snapshot and submitted prior
+reference remain independently understandable until its own expiry.
+
+Deletion also removes pending delivery work owned by the Request. An email
+already handed to an external mail service or recipient mailbox cannot be
+recalled. A soft-delete or field-by-field anonymization model was rejected
+because it would retain a private record after the accepted deletion event.
+Explicit application deletion of every child table was rejected because it
+duplicates database ownership and can omit later-added private rows.
+
+Exact cleanup cadence and batch size remain bounded technical and Runtime
+Foundations design. D-009 separately owns the minimum backup-restore and deletion
+manifest representation; D-007 does not add that machinery pre-emptively.
+
 ## Open Questions
 
-- D-007: How should twelve-month expiry, earlier verified deletion, and cascading
-  aggregate deletion interact?
 - D-008: What migration and Neon connection-handling contract should preserve
   safe deploys and transactions within the accepted free-quota boundary?
 - D-009: What transactional backup and restore representation is required to
@@ -329,58 +356,70 @@ Foundations, or Launch Readiness work.
 
 ## Next Question
 
-ID: D-007
+ID: D-008
 
 Owning layer: Foundation Design.
 
 Topic:
-Hard deletion of expired or verified Request aggregates.
+Runtime Neon connection and reviewed migration boundary.
 
 Prompt:
-How should the platform remove a complete Request aggregate at twelve-month
-expiry or after an authorized earlier-deletion decision without retaining a live
-tombstone or risking partial deletion?
+How should the Public Preview connect to Neon for D-001 interactive transactions
+and apply Drizzle schema migrations without request-time migration races or
+automatic per-preview database growth?
 
 Options:
 
-1. (recommended): **Hard-delete the Request root and let database cascades remove
-   its owned aggregate in one transaction.** Store `expires_at` on the Request;
-   run one simple scheduled deletion query in small batches; and use the same
-   aggregate-deletion operation after an authorized earlier-deletion decision.
-   Keep no tombstone in the live Request tables.
-2. **Soft-delete or anonymize the Request and retain its relationships and audit
-   rows.** This makes accidental restoration less likely and preserves counts,
-   but retains a private record beyond the accepted deletion event and requires
-   difficult proof that every personal field was irreversibly anonymized.
-3. **Delete each owned table explicitly in application code.** This avoids
-   database cascades, but duplicates aggregate ownership in deletion code and
-   creates more opportunities for a newly added child table or interrupted
-   operation to leave private remnants.
+1. (recommended): **Use Drizzle's Neon serverless WebSocket driver for runtime
+   database work and reviewed Drizzle migrations as a separate deployment
+   action.** WebSocket sessions support the interactive transaction required by
+   D-001. Generate SQL migration files into the repository, review and test them,
+   then run the migration command once from an authorized deployment step before
+   the changed application serves traffic. Runtime handlers never migrate. Do not
+   automatically create a Neon branch or database for every preview deployment.
+2. **Use Neon's HTTP driver and redesign D-001 as a non-interactive batch.** HTTP
+   is efficient for isolated queries and non-interactive transactions, but D-001
+   needs conditional idempotency and correction handling inside its acceptance
+   transaction. Reshaping the accepted contract around a driver limitation would
+   add complexity rather than reduce it.
+3. **Use schema push or application-startup migration against production.** This
+   reduces deployment configuration, but bypasses reviewed durable SQL or lets
+   multiple serverless instances race to change production schema while handling
+   requests.
 
 Why this matters:
 
-The Request root owns its typed details, immutable contact and privacy snapshot,
-idempotency identity, current delivery rows, delivery attempts, and audit events.
-Database-owned cascade rules make removal all-or-nothing and automatically cover
-those declared relationships. A correction's submitted earlier reference is
-plain snapshot data rather than a relationship, so deleting the earlier Request
-does not delete or mutate the later correction.
+D-001 performs conditional work and multiple dependent writes before one commit,
+so it needs an interactive transaction rather than only an array of independent
+queries. Current first-party Drizzle and Neon guidance assigns that workload to
+the Neon serverless WebSocket driver; the HTTP transport remains available for
+simple non-interactive queries if a later implementation has a measured reason
+to use both, but the Public Preview does not need two runtime database paths.
 
-A daily scheduled cleanup is sufficient for a small-agency Public Preview;
-sub-minute deletion timing and a separate deletion platform are unnecessary.
-Each run can delete a modest batch of rows whose `expires_at` has passed and
-repeat until none remain. Earlier verified deletion uses the same operation after
-the separate authorization and identity-verification contract is satisfied.
+Schema evolution is deployment work, not public request work. Generated SQL and
+Drizzle migration metadata provide a reviewable, repeatable history. A failed
+migration stops that deployment rather than leaving application instances to
+improvise. Destructive or data-transforming future migrations require their own
+explicit migration and rollback contract; the initial Public Preview does not
+need a generic zero-downtime migration framework.
 
-Deletion removes any pending delivery work owned by the Request. A mail handoff
-already confirmed before deletion cannot be recalled from an external mail
-service or recipient mailbox. D-009 separately decides the minimum backup-restore
-representation needed to prevent a restore from reviving data that should remain
-deleted; D-007 does not add that machinery pre-emptively.
+The application uses one configured production Neon database within the accepted
+free-quota boundary. Preview builds and pull requests may run local or isolated
+tests but do not automatically provision Neon branches or run migrations against
+production. Connection URLs remain environment secrets and never enter source,
+logs, screenshots, or generated migration files.
+
+Current first-party capability references:
+
+- <https://orm.drizzle.team/docs/get-started/neon-new>
+- <https://neon.com/docs/connect/choose-connection>
+- <https://orm.drizzle.team/docs/kit-overview>
 
 After answer:
 
-- Lock aggregate hard deletion, cascade ownership, and proportional scheduling.
-- Preserve exact batch size, schedule, earlier-deletion authorization, and
-  backup-restore behavior for downstream decisions and owners.
-- Store D-008 as the next question.
+- Lock one interactive Neon runtime path, reviewed generated migrations, and no
+  automatic per-preview database provisioning.
+- Preserve exact deployment command, connection lifetime, test database, and
+  future destructive-migration procedures for bounded implementation and Runtime
+  Foundations.
+- Store D-009 as the next question.
