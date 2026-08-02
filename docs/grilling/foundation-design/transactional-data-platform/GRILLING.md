@@ -210,10 +210,54 @@ mapping functions remain bounded technical design and must preserve the accepted
 journey contracts. First-party capability reference:
 <https://orm.drizzle.team/docs/zod>.
 
+### D-004 — Separate Purpose-Specific Identities and Compare Exact Retries Directly
+
+Accepted on 2026-08-02. Greek Essence keeps four purpose-specific values rather
+than making one identifier carry unrelated meaning:
+
+- a random internal Request ID relates protected database rows and is never
+  public;
+- a separate high-entropy, human-safe opaque reference is uniquely indexed,
+  shown to the visitor, included in Request emails, and grants no history access
+  by itself;
+- each immutable Request preserves the submitted email and a separately indexed
+  normalized email for private grouping and correction validation; and
+- a separate random idempotency token identifies one intentional submission,
+  persists through its exact technical retries, and is uniquely bound to the
+  accepted Request for that Request's retention period through a one-way stored
+  representation.
+
+Email normalization trims surrounding whitespace and canonicalizes the domain
+while preserving the local part. It does not apply provider-specific dot
+removal, plus-address stripping, approximate matching, or another transformation
+that could merge distinct mailboxes. A later intentional Request receives a new
+idempotency token; the token is not a person, account, public reference, or
+content-similarity fingerprint.
+
+When an existing idempotency token is encountered, the server compares the new
+canonical validated visitor-controlled fields directly with the retained
+immutable Request. An exact match resolves to the same Request and public
+reference without another Request or intentional email dispatch. Materially
+different input produces one generic conflict and neither rewrites the original
+nor creates a new Request under that token.
+
+A separate payload digest is not stored. The Request is already loaded to return
+its reference, its payload is small, and direct comparison avoids an additional
+canonical serialization and secret lifecycle. A fast unkeyed digest was rejected
+because visitor content includes personal and potentially sensitive data and the
+digest would add no necessary lookup capability. If later measured behavior
+demonstrates a real need, a private server-computed keyed digest would require a
+separate technical and security decision and must never become general log data.
+
+Reusing one random value as the database ID, public reference, and idempotency
+identity was rejected because it couples public, relational, and retry
+lifecycles. Content- or time-derived duplicate identity was rejected because
+similar intentional Requests are not technical retries. Exact random algorithms,
+human-safe alphabets, lengths, hashing, token issuance and rotation, canonical
+field comparison, and index names remain bounded technical design.
+
 ## Open Questions
 
-- D-004: How should opaque references, normalized email, and bounded idempotency
-  identities be represented and indexed?
 - D-005: How should explicit correction lookup preserve privacy and independent
   expiry without a foreign-key relationship?
 - D-006: How should delivery work, attempts, uncertainty, escalation, and
@@ -228,70 +272,63 @@ journey contracts. First-party capability reference:
 
 ## Next Question
 
-ID: D-004
+ID: D-005
 
 Owning layer: Foundation Design.
 
 Topic:
-Purpose-specific Request, reference, contact, and retry identities.
+Private correction validation under independent Request expiry.
 
 Prompt:
-How should Greek Essence represent and index internal Request identity, the
-visitor-visible opaque reference, normalized email grouping, and the bounded
-idempotency identity without merging their different responsibilities?
+How should the server validate an explicit correction against a retained earlier
+Request without revealing prior activity, creating a foreign-key lifecycle, or
+racing with retention deletion?
 
 Options:
 
-1. (recommended): **Use separate purpose-specific values and indexes.** Give each
-   Request an internal random database ID that is never public; generate a
-   separate high-entropy, human-safe public reference with a unique index; store
-   the submitted email snapshot plus a separately indexed normalized value; and
-   use a different random idempotency token for one intentional submission,
-   retained through its exact technical retries and bound uniquely to the
-   accepted Request.
-2. **Reuse one random value as the database ID, public reference, and idempotency
-   identity.** This reduces columns and generation steps, but exposes the
-   internal relationship key publicly, makes a pre-acceptance retry key become a
-   permanent customer reference, and couples unrelated lookup, presentation, and
-   duplicate-protection lifecycles.
-3. **Derive duplicate identity from normalized email, submitted content, and a
-   time window.** This needs no explicit retry token, but similar intentional
-   Requests could be misclassified as technical duplicates. It also creates
-   personal-data-derived fingerprints and contradicts the accepted rule that
-   content similarity and close timing do not prove duplication.
+1. (recommended): **Validate and briefly lock the earlier Request inside the
+   correction's D-001 transaction.** Query the uniquely indexed submitted public
+   reference together with the normalized submitted email and require the target
+   still to be retained. Hold a bounded row lock until the complete correction
+   commits, then store only the correction intent and submitted prior reference.
+   Retention deletion may continue afterward without updating the correction.
+2. **Check the reference and normalized email before starting the acceptance
+   transaction.** This keeps the transaction slightly simpler, but the earlier
+   Request could expire or be deleted after validation and before the correction
+   commits, so the accepted correction would rely on a relationship that was no
+   longer valid at its acceptance event.
+3. **Store the earlier Request's internal ID as a nullable foreign key with
+   `ON DELETE SET NULL`.** This gives the database a direct relationship while
+   both records exist, but deletion mutates the later immutable correction and
+   creates the foreign-key lifecycle already excluded by accepted System
+   Boundaries decisions.
 
 Why this matters:
 
-These values answer different questions:
+A correction is valid only when the submitted earlier public reference identifies
+a currently retained Request whose stored normalized email exactly matches the
+correction's normalized submitted email. Failure returns the same generic result
+whether the reference is unknown, expired, deleted, or belongs to another email;
+the response must not reveal which input matched.
 
-- The **internal Request ID** relates protected database rows efficiently. It is
-  not shown to visitors and does not need to be comfortable to type.
-- The **opaque public reference** is copied into the success page and emails and
-  may later be typed with a correction. It contains no personal information or
-  sequential private-record detail and grants no history access by itself.
-- The **normalized email** groups retained Requests and privately checks a
-  correction. Greek Essence keeps the original submitted email in each immutable
-  snapshot. Normalization trims surrounding whitespace and canonicalizes the
-  domain while preserving the local part; it does not apply provider-specific
-  Gmail-style dot removal, plus-address stripping, or approximate matching that
-  could merge distinct mailboxes.
-- The **idempotency token** identifies one intentional submission transport, not
-  a person or similar content. It is random, non-sensitive, preserved across
-  technical retries, and replaced for a later intentional Request. The database
-  stores a one-way representation with a unique index and binds it to the
-  accepted Request for that Request's retention period. Reuse with materially
-  different input is a generic conflict rather than a new or silently rewritten
-  Request.
+The row lock closes a small but real race. For example, an earlier Request could
+reach its twelve-month deletion time while its correction is being accepted. In
+option 1, either deletion finishes first and validation fails generically, or the
+correction locks and validates the retained row, commits its complete independent
+snapshot, and deletion proceeds afterward.
 
-The recommendation uses a few small indexed values to keep public references,
-private relationships, and duplicate protection from silently inheriting one
-another's meaning. Exact random algorithms, alphabets, lengths, token issuance,
-hashing, and index names remain bounded technical design and security review.
+The correction stores no target content or internal relationship. While the
+earlier Request remains retained, authorized processing may resolve the submitted
+prior reference. After deletion, the correction remains understandable from its
+own complete snapshot and prior reference but reports only that the target is no
+longer retained. No deletion-time mutation, reconstruction, or retention
+extension is required. Exact SQL locking mode, transaction isolation, and error
+mapping remain bounded technical design.
 
 After answer:
 
-- Lock the separation, normalization boundary, idempotency conflict behavior, and
-  indexing responsibilities of the four identity values.
-- Preserve exact generation, hashing, and token-rotation mechanics for bounded
-  technical design.
-- Store D-005 as the next question.
+- Lock correction validation, transaction concurrency, generic failure, and
+  post-expiry relationship behavior.
+- Preserve exact SQL, lock mode, and public error copy for bounded technical and
+  content design.
+- Store D-006 as the next question.

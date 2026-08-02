@@ -351,10 +351,13 @@ architecture rebaseline, and promotion of settled documentation.
   enforcement through the trusted transaction writer and integration tests
   rather than a custom database trigger. D-003 now locks separate handwritten
   public journey validation, server authority checks, Drizzle-generated internal
-  persistence validation, and PostgreSQL durable constraints. D-004 is the stored
-  next decision about purpose-specific internal Request IDs, public references,
-  normalized-email grouping, and idempotency identities. Draft pull request #49
-  is the coherent collaboration and review surface. Work uses branch
+  persistence validation, and PostgreSQL durable constraints. D-004 now locks
+  separate internal Request IDs, public references, normalized-email grouping,
+  and idempotency identities; exact retries compare canonical validated fields
+  directly rather than storing a payload digest. D-005 is the stored next
+  decision about private correction validation and retention-deletion
+  concurrency. Draft pull request #49 is the coherent collaboration and review
+  surface. Work uses branch
   `docs/transactional-data-platform` in a separate worktree so unrelated
   concurrent migration-documentation changes remain untouched. This authority
   does not permit Neon or Drizzle installation,
@@ -403,13 +406,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Transactional Data Platform D-004 from
+Present Transactional Data Platform D-005 from
 `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` and
 persist the operator's answer in the same ledger and coherent draft pull request
-before advancing to D-005.
+before advancing to D-006.
 
-Completion condition: D-004 is durably persisted with its rationale,
-consequences, and rejected alternatives, and D-005 is stored as the single next
+Completion condition: D-005 is durably persisted with its rationale,
+consequences, and rejected alternatives, and D-006 is stored as the single next
 question.
 
 ## Done When
