@@ -106,12 +106,48 @@ module boundaries, or execute migrations and deployment.
 
 ## Locked Decisions
 
-None yet.
+### D-001 — Commit the Complete Acceptance Aggregate and Delivery Intents
+
+Accepted on 2026-08-02. Greek Essence treats a submission as an accepted Request
+only after one Neon transaction durably commits the complete acceptance
+aggregate:
+
+- the shared Request envelope and exactly one typed journey detail;
+- the immutable submitted contact and privacy snapshot;
+- the bounded Experience identity and customer-visible snapshot for a Booking
+  Request;
+- correction context when applicable;
+- the bounded idempotency claim for the technical submission;
+- the acceptance audit event; and
+- one pending delivery record for each required purpose: agency notification and
+  visitor acknowledgement.
+
+The successful commit is the acceptance event. Actual mail-service network calls
+start only afterward and remain outside the database transaction. A slow,
+failed, or uncertain mail handoff therefore cannot hold open, roll back, or
+redefine Request acceptance. If the server process stops immediately after the
+commit, the database still proves acceptance and exposes both pending delivery
+purposes for safe recovery without another Request or guessed reconstruction.
+
+This decision carries forward the accepted requirement that the submission
+handler waits for the required initial delivery work before returning the
+visitor-visible outcome. Waiting for that post-commit work does not move mail
+delivery inside the acceptance transaction or make delivery success an
+acceptance condition.
+
+Committing the Request first and creating audit and delivery records afterward
+was rejected because a process failure could leave an accepted Request without
+durable notification work and require a reconciliation mechanism. A generic
+outbox followed by asynchronously derived delivery and audit projections was
+rejected because it adds an event-processing boundary without proportional
+Public Preview value.
+
+Exact tables, columns, transaction APIs, retry timing, and mail scheduling remain
+downstream schema, Application Architecture, Runtime Foundations, or bounded
+technical-design responsibilities.
 
 ## Open Questions
 
-- D-001: What must the atomic Neon acceptance transaction commit before a Request
-  may be called received?
 - D-002: How should the shared Request envelope and exactly one typed journey
   detail be represented and constrained relationally?
 - D-003: Which validation belongs to PostgreSQL and Drizzle-derived Zod, and which
@@ -132,64 +168,71 @@ None yet.
 
 ## Next Question
 
-ID: D-001
+ID: D-002
 
 Owning layer: Foundation Design.
 
 Topic:
-Atomic Request acceptance transaction.
+Relational Request envelope and typed-detail enforcement.
 
 Prompt:
-What must Neon commit atomically before Greek Essence may treat a submission as
-an accepted Request and start email delivery?
+How should Neon and Drizzle represent one shared Request envelope with exactly
+one correctly typed journey detail without introducing a wide nullable table or
+generic payload?
 
 Options:
 
-1. (recommended): **Commit the complete acceptance aggregate and durable delivery
-   intents in one transaction.** The transaction stores the shared Request
-   envelope, exactly one typed journey detail, immutable submitted contact and
-   privacy snapshot, any Booking Request Experience snapshot, correction context
-   when applicable, the bounded idempotency claim, the acceptance audit event,
-   and one pending delivery record for each required email purpose. Only after
-   that transaction commits is the Request accepted; actual email sending starts
-   afterward.
-2. **Commit the Request and idempotency state first, then create audit and
-   delivery records immediately afterward.** This shortens the acceptance
-   transaction, but a process failure between the steps can leave an accepted
-   Request with no durable agency-notification or visitor-acknowledgement work,
-   requiring a separate reconciliation mechanism to discover it.
-3. **Commit the Request plus generic outbox events, then derive delivery and audit
-   records asynchronously.** This closes the process-failure gap, but makes
-   delivery truth and audit history dependent on a second projection step and
-   introduces a generic event-processing boundary that the preview does not
-   otherwise require.
+1. (recommended): **Use one shared `requests` table and three one-to-one typed
+   detail tables, with ordinary relational constraints and one trusted
+   transactional writer.** Each detail row uses its Request ID as its primary and
+   foreign key. A fixed detail type plus a composite foreign key to the Request's
+   ID and discriminator prevents a Consultation detail from belonging to a
+   Booking or Contact envelope. The acceptance transaction chooses the one typed
+   table from the server-validated journey type and inserts exactly one detail.
+   Focused integration tests verify that every accepted aggregate has one and
+   only one matching detail.
+2. **Use the same shared and typed tables, plus a custom deferred PostgreSQL
+   constraint trigger that counts across all three detail tables at commit.**
+   This makes the database reject a Request with zero, multiple, or mismatched
+   typed details regardless of the writer. It provides stronger defence against
+   arbitrary direct SQL, but adds custom trigger code, raw migration SQL, and
+   more complex insert, deletion, and migration behavior for a system with one
+   supported application writer and no routine database editing.
+3. **Add an intermediate one-to-one `request_details` record before the three
+   typed subtype tables.** The intermediate row guarantees one detail container
+   per Request, while each subtype stores its journey fields. It adds another
+   table and join but still needs application logic or a trigger to guarantee
+   exactly one subtype, so it does not remove the central enforcement problem.
 
 Why this matters:
 
-Consider a visitor submitting a Consultation Request. Neon commits the visitor's
-brief, then the server process stops before contacting the mail service. Greek
-Essence must still be able to prove that the Request was accepted and discover
-that both required emails remain pending. If the durable commit contains only
-form data, the website can truthfully claim receipt but the agency notification
-may have no recoverable work record. If the commit includes the two pending
-email purposes and acceptance audit event, recovery can resume safely without
-creating another Request or guessing whether email work existed.
+The **envelope** contains facts common to every Request, such as identity,
+reference, journey type, submitted contact snapshot, acceptance and expiry
+times, correction intent, and normalized email. A **typed detail** contains only
+the fields belonging to one journey: trip-planning information, one specific
+Experience request, or a general message. Keeping those details in distinct
+tables prevents a Booking Request from silently acquiring Consultation fields
+and avoids dozens of irrelevant nullable columns.
 
-A representative relational shape for option 1 is a `requests` row, one matching
-journey-detail row, one acceptance audit row, and two `request_deliveries` rows
-for `agency_notification` and `visitor_acknowledgement`, all committed together.
-The exact table and column names remain downstream schema design. Email network
-calls stay outside the database transaction so a slow or failed mail service
-cannot hold or roll back Request acceptance.
+For option 1, a Booking detail can carry a fixed `booking` discriminator and
+reference only a `requests` row whose discriminator is also `booking`. The
+database therefore rejects the wrong detail type and duplicate detail rows in
+the same table. The D-001 acceptance transaction and its integration tests
+enforce the remaining cross-table rule that exactly one of the three typed
+tables receives a row.
 
-The recommendation creates one unambiguous durable acceptance boundary and
-avoids an orphaned accepted Request or a generic event framework. Its tradeoff is
-that the acceptance transaction writes several tightly related rows, which is
-appropriate because all are required to recover the accepted workflow.
+PostgreSQL does not provide a simple ordinary foreign-key or check constraint
+that counts children across three sibling tables. Enforcing that last rule
+inside the database therefore requires custom trigger logic. The recommendation
+avoids that machinery because Greek Essence has one supported server-side writer,
+atomic acceptance, no routine direct database editing, and focused tests as a
+practical enforcement boundary. The tradeoff is that arbitrary privileged SQL
+could bypass the aggregate writer; such SQL is already outside normal agency and
+application operation.
 
 After answer:
 
-- Lock the atomic acceptance transaction boundary and post-commit email boundary.
-- Preserve exact tables, columns, transaction API, and retry scheduling for their
-  owning later decisions or bounded technical design.
-- Store D-002 as the next question.
+- Lock the Request envelope, typed-detail table shape, and exact-one enforcement
+  boundary.
+- Preserve exact field names and journey columns for bounded schema design.
+- Store D-003 as the next question.
