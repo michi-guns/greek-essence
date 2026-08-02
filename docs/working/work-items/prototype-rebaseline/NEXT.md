@@ -341,6 +341,104 @@ architecture rebaseline, and promotion of settled documentation.
   and technical-readiness check, and ordinary-copy evidence exclusion were
   restored. A fresh independent comparison of the corrected `DECISIONS.md`
   against the final accepted raw ledger returned `PASS`.
+- On 2026-08-02, the operator accepted Transactional Data Platform D-001 through
+  D-009 and authorized verified automatic finalization through pull request #49.
+  [`docs/grilling/foundation-design/transactional-data-platform/DECISIONS.md`](../../../grilling/foundation-design/transactional-data-platform/DECISIONS.md)
+  is the sole accepted authority. It establishes atomic Request acceptance and
+  delivery intents; one shared envelope with three typed detail tables; layered
+  public, authority, persistence, and database validation; purpose-specific
+  internal, public, contact, and retry identities; a simple private correction
+  check without a lock or foreign key; bounded current delivery state with
+  append-only attempts and audit; hard Request-root deletion through database
+  cascades; Neon WebSocket transactions and separately applied reviewed Drizzle
+  migrations; and encrypted logical backups with a short-lived earlier-deletion
+  manifest and isolated restore cleanup. The final accepted raw ledger and exact
+  authorization to remove
+  `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` are
+  preserved in pull request #49. This authority does not permit Neon or Drizzle
+  installation, configuration, schema creation, migration execution,
+  application implementation, deployment, production-data handling, or
+  automatic commencement of Application Architecture.
+- During Transactional Data Platform finalization, the operator explicitly
+  authorized the small related workflow clarification in
+  [`docs/GIT_WORKFLOW.md`](../../../GIT_WORKFLOW.md). Every newly authorized
+  coherent unit now defaults to its own isolated worktree under the sibling
+  `greek-essence.worktrees/` directory. Git must create and remove the registered
+  worktree, the original checkout and unrelated worktrees remain untouched, and
+  verified post-merge cleanup removes the remote branch, worktree, local branch,
+  and stale worktree metadata.
+- Transactional Data Platform finalization verification on 2026-08-02 confirmed
+  `DECISIONS.md` contains D-001 through D-009 exactly once and the authorized raw
+  path is absent. The pull-request description's embedded raw ledger exactly
+  matches the final committed source. A final independent comparison of the
+  corrected distillation against that raw source and accepted upstream authority
+  returned `PASS`. `docs/grilling/CLASSIFICATION.md` and both Foundation routing
+  documents remain structurally correct and require no status edit. Focused
+  Prettier, `gitleaks dir --redact --no-banner docs`, and `git diff --check`
+  exited `0` before staging; the committed Markdown-only range still requires
+  the repository range gate and GitHub read-back before readiness.
+- Pull request #49 was subsequently squash-merged and its remote branch,
+  deregistered worktree residue, local branch, and stale metadata were removed.
+  Local `main` was synchronized with `origin/main`; unrelated worktrees and the
+  original checkout's pre-existing changes remained untouched.
+- On 2026-08-02, the operator explicitly authorized the Application Architecture
+  Foundation Design subject. Work is isolated on branch
+  `docs/application-architecture` in the Git-managed sibling worktree
+  `../greek-essence.worktrees/application-architecture`. The active source ledger
+  is
+  [`docs/grilling/foundation-design/application-architecture/GRILLING.md`](../../../grilling/foundation-design/application-architecture/GRILLING.md).
+  Independent authority review confirmed D-001 as the first costly-to-reverse
+  unresolved seam and found no upstream conflict. Draft pull request #52 is open
+  from the task branch. The authorization permits decision grilling and this
+  early draft pull request, not implementation, provider configuration,
+  migration, deployment, production-data handling, Runtime and Production
+  Foundations, Launch Readiness, or another work unit.
+- Application Architecture D-001 is accepted. Greek Essence will use one
+  domain-centered, feature-first Next.js modular monolith delivered through
+  vertical slices, with thin App Router presentation adapters, capability-owned
+  application workflows, framework-independent domain behavior where justified,
+  narrow server-only infrastructure adapters, and inward source dependencies.
+  Shared code remains small; empty layer scaffolding and speculative entities,
+  repositories, interfaces, or dependency injection are excluded. This adapts
+  the operator-provided reference architecture without importing its conflicting
+  travel-domain choices; its documentation protocol remains informative rather
+  than part of D-001.
+- Application Architecture D-002 is accepted. The three website-owned visitor
+  forms use thin Server Actions; Sanity webhooks and later authorized callers
+  that require explicit HTTP contracts use thin Route Handlers. Both are public,
+  untrusted presentation adapters that invoke application workflows directly and
+  never call each other. Greek Essence will not publish a parallel Request API
+  without an accepted external consumer. A stale build-specific Server Action
+  must claim no receipt and offer a truthful refresh and safe retry that preserves
+  entered information where feasible and reuses the same idempotency identity.
+- Application Architecture D-003 is accepted with an explicit proportionality
+  constraint. The Booking Server Action captures the bounded server-created
+  Experience render context in its encrypted closure, validates visitor input
+  separately, and invokes a workflow that independently checks current Sanity
+  authority before new acceptance. This uses the same Sanity read already needed
+  for rendering and creates no provisional record. It does not authorize custom
+  signing, historical-revision recovery, temporary snapshot storage, automated
+  discrepancy handling, or extra evidentiary machinery; ordinary questions remain
+  part of manual agency communication.
+- Application Architecture D-004 is accepted. Consultation, Booking, and Contact
+  keep explicit journey-owned workflows and share only narrow operations whose
+  identical behavior protects accepted invariants. Readable duplicate sequencing
+  is preferred over a generic coordinator or central `submitRequest` service until
+  abstraction earns its place through demonstrated repeated complexity. The
+  operator's magnitude example is five or more workflows sharing roughly three
+  hundred or more lines, not a fixed numeric gate. A completed authority and scope
+  audit found no further costly-to-reverse Application Architecture seam; exact
+  files, types, wiring, tests, and small helper extractions remain implementation
+  choices, while runtime and operational concerns stay routed to Runtime and
+  Production Foundations.
+- The operator accepted and authorized finalization of the complete Application
+  Architecture subject on 2026-08-02. Its D-001 through D-004 outcomes are
+  distilled into
+  `docs/grilling/foundation-design/application-architecture/DECISIONS.md`; the
+  approved raw `GRILLING.md` is removed, with its exact final accepted contents
+  and deletion authorization preserved in pull request #52. Independent semantic
+  review passed after restoring the external-reference authority boundary, exact
+  retry and correction privacy semantics, and minimum inbox-notification context.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -384,14 +482,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-After Editorial Content Platform pull request #48 is merged and the repository
-is synchronized, wait for explicit operator authorization before opening the
-next Foundation Design grilling unit, Transactional Data Platform. Do not begin
-implementation or the successor track automatically.
+Recommend Runtime and Production Foundations as the next dependency-ordered
+grilling subject. Wait for explicit operator authorization before creating its
+branch, isolated worktree, ledger, or draft pull request.
 
-Completion condition: the repository remains clean on synchronized `main`, and
-the operator explicitly authorizes the next coherent grilling or implementation
-unit before work starts.
+Completion condition: the operator explicitly authorizes that subject and its
+bootstrap, or selects a different pending work item. Subject recommendation alone
+must not create durable Git or GitHub state.
 
 ## Done When
 

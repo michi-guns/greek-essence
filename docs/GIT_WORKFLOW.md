@@ -16,7 +16,65 @@ Greek Essence uses GitHub Flow with one branch and pull request for each
 - Do not combine unrelated outcomes merely to reduce the pull-request count.
 - A review approval is not required, but the logical unit must be complete and
   required checks must pass before merge.
-- Squash-merge the pull request, then delete its short-lived branch.
+- Start every newly authorized coherent unit on its own short-lived branch in a
+  dedicated isolated worktree. Do not repurpose the original checkout or an
+  unrelated worktree for the new unit.
+- Place Greek Essence task worktrees under the sibling
+  `../greek-essence.worktrees/<short-name>` directory.
+- Create and remove task worktrees with `git worktree add` and
+  `git worktree remove`. Do not copy a repository directory to create one or
+  manually delete a registered worktree directory.
+- Squash-merge the pull request, then delete its short-lived branch and isolated
+  worktree after GitHub verifies the merge.
+
+## Isolated Worktree Lifecycle
+
+Before creating durable state, fetch current `origin/main` and search existing
+worktrees, local and remote branches, repository work-item routing, and GitHub
+pull requests. Recover matching same-intent state instead of creating a duplicate.
+
+From the original `greek-essence/` checkout, create a new task branch and
+isolated worktree without switching branches or modifying checked-out files.
+Create the sibling `greek-essence.worktrees/` container first if it does not yet
+exist; the task directory itself must be created by Git:
+
+```bash
+git fetch --prune origin
+git worktree list --porcelain
+git worktree add \
+  -b <type>/<short-description> \
+  ../greek-essence.worktrees/<short-name> \
+  origin/main
+git -C ../greek-essence.worktrees/<short-name> status --short --branch
+```
+
+Use the task worktree for all changes, checks, commits, pushes, and pull-request
+updates for that coherent unit. Keep the original checkout and every unrelated
+worktree untouched.
+
+After GitHub reports the pull request merged and the task worktree is clean,
+perform cleanup from the original `greek-essence/` checkout, using the actual
+registered path for any older worktree that predates this convention:
+
+```bash
+git fetch --prune origin
+git worktree list --porcelain
+git push origin --delete <type>/<short-description>
+git worktree remove ../greek-essence.worktrees/<short-name>
+git branch -D <type>/<short-description>
+git worktree prune
+git worktree list --porcelain
+```
+
+Skip the remote-branch deletion command only when fresh inspection proves the
+remote branch is already absent. The forceful local branch deletion is permitted
+only after fresh GitHub read-back proves the pull request merged; squash merge
+does not make the task commit an ancestor of `main`, so `git branch -d` may reject
+the already-delivered branch.
+Never use `git worktree remove --force` to bypass uncommitted or untracked files.
+Treat refusal to remove the worktree as a cleanup blocker, inspect and preserve
+the state, and resolve it without discarding work. Verify the task worktree,
+local branch, and remote branch are absent while unrelated worktrees remain.
 
 ## Trello Work Unit Lifecycle
 
@@ -45,8 +103,9 @@ artifacts own detailed design and verification.
 4. Fetch current `origin/main`. Search local and remote branches, repository
    work-item routing, and GitHub PRs by intended head/base before creating
    anything.
-5. Create a separate worktree and one
-   `<type>/wu-<number>-<short-description>` branch from current `main`.
+5. Follow the isolated-worktree lifecycle above to create one worktree under
+   `../greek-essence.worktrees/` and one
+   `<type>/wu-<number>-<short-description>` branch from current `origin/main`.
 6. Add the work-item directory and preserved root-router link as the first
    meaningful commit. Push the branch and open one early draft pull request.
 7. Put the Work Unit's direct Trello URL in the PR and the verified PR URL in
@@ -105,17 +164,21 @@ recorded or another commit was made.
 
 ## Draft Pull-Request Lifecycle
 
-1. Start from the latest `main`:
+1. Fetch the latest remote state and inspect existing same-intent state:
 
    ```bash
-   git switch main
-   git pull --ff-only origin main
+   git fetch --prune origin
+   git worktree list --porcelain
    ```
 
-2. Define the coherent unit and create one short-lived branch:
+2. Define the coherent unit and create one short-lived branch in its own
+   isolated worktree:
 
    ```bash
-   git switch -c <type>/<short-description>
+   git worktree add \
+     -b <type>/<short-description> \
+     ../greek-essence.worktrees/<short-name> \
+     origin/main
    ```
 
    Common prefixes are `feat/`, `fix/`, `docs/`, `test/`, `refactor/`, and
@@ -151,15 +214,18 @@ recorded or another commit was made.
    - mark the draft ready for review; and
    - wait for required GitHub checks.
 
-7. Squash-merge the pull request and delete the branch:
+7. Squash-merge the pull request:
 
    ```bash
-   gh pr merge --squash --delete-branch
-   git switch main
-   git pull --ff-only origin main
+   gh pr merge --squash
    ```
 
-8. Confirm local `main` is clean and synchronized with `origin/main`.
+8. After fresh GitHub read-back proves the merge, leave the task worktree, remove
+   the remote branch, remove the task worktree with `git worktree remove`, delete
+   the merged local branch, prune worktree metadata, and verify cleanup as
+   defined in the isolated-worktree lifecycle.
+   Fast-forward a clean local `main` checkout to `origin/main` when one exists;
+   never switch, overwrite, or clean an unrelated worktree to do so.
 
 ## Grilling and Design Work
 
@@ -205,6 +271,9 @@ not replace this behavior with workflow-level path exclusions.
 - Do not discard local changes to make the worktree clean.
 - Do not force-push, rewrite history, or delete unmerged work without explicit
   operator approval.
-- Use a separate worktree when concurrent work would otherwise overlap.
+- Use one dedicated isolated worktree for every newly authorized coherent unit,
+  even when no concurrent work is currently visible.
+- Create, inspect, remove, and prune worktrees through Git. Never manually move,
+  copy, or delete a registered worktree directory.
 - Do not merge an incomplete draft merely to preserve intermediate state; the
   pushed branch and draft pull request already provide that continuity.
