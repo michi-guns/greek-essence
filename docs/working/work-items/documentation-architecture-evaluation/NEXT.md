@@ -26,7 +26,18 @@ strategies yet.
 - The proposal is explicitly non-authoritative and does not supersede root
   `AGENTS.md`, accepted grilling decisions, current canonical documentation, or
   the active migration.
+- Several candidate ADRs say `Accepted`, and several candidate architecture and
+  data documents say `status: active`. These labels remain preserved for review
+  but have no current repository authority.
 - No matching remote branch or pull request existed before publication.
+- Commit `b215a74` preserves the bounded 45-file proposal and work-item scope on
+  `origin/docs/migration-v4`.
+- Draft pull request
+  [#50](https://github.com/michi-guns/greek-essence/pull/50) targets `main` and
+  states the evaluation-only status, unresolved migration strategies,
+  authority boundaries, and fresh-review task.
+- Prettier, redacted Gitleaks, commit and pre-push hooks, and a local Markdown
+  link-target audit pass for the published proposal.
 
 ## Next Recommended Action
 
