@@ -253,94 +253,49 @@ historical Sanity reconstruction was rejected because it adds provider work and
 depends on old-revision availability even though rendering already had the needed
 bounded values.
 
+### D-004 — Explicit Journey Workflows with Narrow Earned Sharing
+
+Consultation Request, Booking Request, and General Contact each use one explicit,
+named, journey-owned application workflow. Their Server Actions validate and map
+their own public commands before invoking those workflows. Each workflow remains
+short enough for a solo developer to read from entry to outcome without tracing a
+generic execution framework.
+
+The workflows share only narrow operations whose behavior is already common and
+whose consistency protects accepted invariants: exact-retry resolution, the
+private correction check when requested, the one transactional Request acceptance
+writer, and post-commit delivery processing. Booking alone owns its captured
+Experience context and current Sanity authority preparation. Each journey retains
+its own public fields, validation, data minimization, and outcome translation.
+
+Some duplicate sequencing lines are acceptable and can be clearer than an early
+abstraction. Abstraction must earn its place through demonstrated repeated
+complexity, not mathematical symmetry. The operator's magnitude example is five
+or more workflows sharing roughly three hundred or more lines; this records the
+intended scale, not a fixed numeric gate that forbids a smaller extraction when a
+concrete correctness or maintenance problem justifies it.
+
+A shared typed coordinator with preparation hooks was rejected because three
+small workflows do not yet justify a callback or strategy pipeline. One central
+`submitRequest` workflow was rejected because it would collect unrelated journey
+fields and Booking-only Sanity behavior in a growing conditional module. If real
+implementation later demonstrates substantial common orchestration, a bounded
+refactor may extract that proven shape without reopening the architectural
+ownership decision.
+
 ## Open Questions
 
-- D-004: How much shared application orchestration should the three Request
-  journeys use without turning their different behavior into a generic pipeline?
+- None.
 
 ## Next Question
 
-ID: D-004
+None. An authority and scope audit found no remaining unresolved question that
+would materially change Application Architecture service ownership, module
+boundaries, browser/server contracts, or dependency direction. Exact files,
+types, cache APIs, dependency wiring, test seams, and small helper extractions are
+bounded implementation choices. Runtime placement, deployment topology,
+encryption-key configuration, recovery schedules, production ownership, and
+operational controls belong to Runtime and Production Foundations.
 
-Topic:
-Request workflow composition and proportional sharing.
-
-Context:
-Consultation Request, Booking Request, and General Contact share a Request envelope,
-idempotency rules, correction check, one supported transactional acceptance
-writer, post-commit delivery behavior, audit boundary, and public outcome meanings.
-They do not share the same public fields or all authority checks. Booking alone
-must combine its captured Experience context with a fresh Sanity eligibility read;
-each journey retains its own validation and data-minimization boundary.
-
-D-001 requires capability-owned vertical slices and only genuinely shared code.
-Accepted Transactional Data Platform D-001 and D-002 require one complete
-acceptance transaction and one supported server-side writer. The architecture
-therefore needs a practical middle ground: keep each visitor journey readable and
-independent while sharing the small operations whose consistency protects an
-already-accepted invariant. The operator explicitly accepts ordinary edge cases
-being resolved manually by the agency and does not want a generic workflow engine
-or perfect-system machinery.
-
-Prompt:
-How should the application compose the three Request submission workflows?
-
-Options:
-
-1. (recommended): **Keep three explicit journey-owned workflows and share only
-   narrow Request operations with already-accepted invariants.** A Consultation,
-   Booking, or Contact Server Action validates and maps its own public command,
-   then calls its named journey workflow. Each workflow is short and readable: it
-   uses the shared exact-retry resolver, performs only its required authority
-   preparation, uses the common correction verifier when requested, calls the one
-   shared transactional acceptance writer, and invokes the shared post-commit
-   delivery operation. A few lines of repeated sequencing are acceptable. Common
-   code appears because the behavior is already identical, not because all three
-   journeys must fit a framework.
-2. **Create one shared typed Request coordinator with journey preparation hooks.**
-   Journey-owned entry workflows provide a typed preparation function, while the
-   coordinator enforces one template for idempotency, authority preparation,
-   correction, persistence, delivery, and outcome translation. This makes the
-   ordering hard to vary accidentally, but introduces a callback or strategy
-   abstraction and a generic execution pipeline before three small workflows have
-   demonstrated that direct composition is difficult to maintain.
-3. **Use one central `submitRequest` workflow for all three journeys.** A closed
-   discriminated union selects Consultation, Booking, or Contact validation and
-   provider behavior inside one application service, which also owns the shared
-   acceptance and delivery sequence. This gives entry points one call surface but
-   concentrates unrelated journey fields, Sanity-only Booking behavior, and
-   future changes in a growing conditional module rather than preserving vertical
-   journey ownership.
-
-Recommendation rationale:
-Option 1 shares the high-consequence operations already required to be common—the
-idempotency lookup, private correction check, acceptance transaction, and
-post-commit delivery—without inventing a universal lifecycle engine. The three
-journey workflows remain easy to read, test, and change independently. If their
-small repeated sequence later causes real drift, the code can then extract a
-coordinator from demonstrated behavior rather than predicting one now.
-
-Why this matters:
-Sharing too little can duplicate the transactional writer or delivery invariants.
-Sharing too much turns three clear enquiry journeys into an abstract processing
-equation that a solo developer must understand and maintain. This decision sets a
-proportional ownership rule, not a framework or exhaustive call graph.
-
-Deferred from D-004:
-
-- exact function names, files, imports, command types, and result unions;
-- exact ordering refinements that preserve accepted idempotency and correction
-  behavior;
-- whether two identical lines become a helper during implementation;
-- exact test seams, fakes, fixtures, and dependency wiring;
-- exact public form payload and field-error representation;
-- abuse controls, rate thresholds, and production configuration;
-- Node versus Edge runtime placement and WebSocket lifetime;
-- recovery schedules, escalation transport, and named ownership; and
-- detailed implementation and test mechanics.
-
-After answer:
-
-- Lock the proportional Request workflow composition boundary.
-- Audit the subject for another costly-to-reverse unresolved seam before storing
-  another question.
+The Application Architecture grill is ready for operator acceptance review and
+verified distillation; it does not authorize implementation.

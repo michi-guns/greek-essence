@@ -419,8 +419,18 @@ architecture rebaseline, and promotion of settled documentation.
   for rendering and creates no provisional record. It does not authorize custom
   signing, historical-revision recovery, temporary snapshot storage, automated
   discrepancy handling, or extra evidentiary machinery; ordinary questions remain
-  part of manual agency communication. D-004 is pending on how the three journey
-  workflows share accepted Request operations without a generic pipeline.
+  part of manual agency communication.
+- Application Architecture D-004 is accepted. Consultation, Booking, and Contact
+  keep explicit journey-owned workflows and share only narrow operations whose
+  identical behavior protects accepted invariants. Readable duplicate sequencing
+  is preferred over a generic coordinator or central `submitRequest` service until
+  abstraction earns its place through demonstrated repeated complexity. The
+  operator's magnitude example is five or more workflows sharing roughly three
+  hundred or more lines, not a fixed numeric gate. A completed authority and scope
+  audit found no further costly-to-reverse Application Architecture seam; exact
+  files, types, wiring, tests, and small helper extractions remain implementation
+  choices, while runtime and operational concerns stay routed to Runtime and
+  Production Foundations. The subject is ready for acceptance review.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -464,13 +474,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask the operator to choose, modify, reject, or defer the fully qualified
-Application Architecture D-004 options for Request workflow composition and
-proportional sharing recorded in the active ledger.
+Present the numbered Application Architecture acceptance review for the exact raw
+ledger path and existing draft pull request #52, including combined automatic
+finalization, acceptance while retaining the raw ledger, and material correction
+options.
 
-Completion condition: Application Architecture D-004 is explicitly accepted and
-the subject is audited for another costly-to-reverse unresolved seam before
-storing another question or closing the grilling round.
+Completion condition: the operator explicitly selects one acceptance-review
+outcome. If combined finalization is authorized, follow the grilling protocol's
+verified distillation, exact-path deletion, pull-request completion, merge, and
+cleanup sequence without treating it as implementation authorization.
 
 ## Done When
 
