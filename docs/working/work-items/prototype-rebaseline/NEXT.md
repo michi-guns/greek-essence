@@ -402,9 +402,18 @@ architecture rebaseline, and promotion of settled documentation.
   repositories, interfaces, or dependency injection are excluded. This adapts
   the operator-provided reference architecture without importing its conflicting
   travel-domain choices; its documentation protocol remains informative rather
-  than part of D-001. D-002 is pending on the division of responsibility between
-  Server Actions for website-owned visitor forms and Route Handlers for machine
-  or other explicit HTTP callers.
+  than part of D-001.
+- Application Architecture D-002 is accepted. The three website-owned visitor
+  forms use thin Server Actions; Sanity webhooks and later authorized callers
+  that require explicit HTTP contracts use thin Route Handlers. Both are public,
+  untrusted presentation adapters that invoke application workflows directly and
+  never call each other. Greek Essence will not publish a parallel Request API
+  without an accepted external consumer. A stale build-specific Server Action
+  must claim no receipt and offer a truthful refresh and safe retry that preserves
+  entered information where feasible and reuses the same idempotency identity.
+  D-003 is pending on how the Booking form carries its exact server-rendered
+  Experience snapshot through the browser without trusting browser-authored
+  snapshot fields.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -449,11 +458,11 @@ check:push` run reached Playwright after all preceding gates passed, then
 ## Next Recommended Action
 
 Ask the operator to choose, modify, reject, or defer the fully qualified
-Application Architecture D-002 options for visitor and machine mutation entry
-points recorded in the active ledger.
+Application Architecture D-003 options for Booking Request render-time snapshot
+integrity recorded in the active ledger.
 
-Completion condition: Application Architecture D-002 is explicitly accepted and
-the ledger stores exactly one pending Application Architecture D-003 question
+Completion condition: Application Architecture D-003 is explicitly accepted and
+the ledger stores exactly one pending Application Architecture D-004 question
 without answering it.
 
 ## Done When

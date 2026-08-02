@@ -171,116 +171,155 @@ internal HTTP boundary for every provider operation was rejected because
 same-application Server Components do not need an extra transport hop or public
 transport contract.
 
+### D-002 — Server Actions for Visitor Forms and Route Handlers for Machine Callers
+
+The website-owned Consultation Request, Booking Request, and General Contact
+forms use thin Server Actions. Each action treats its `FormData` as untrusted,
+validates and maps only the owning journey's accepted public fields, invokes that
+capability's application workflow, and returns only the bounded public result
+needed by the form. The action owns React and form translation, not business
+rules, provider calls, Request persistence, or delivery orchestration.
+
+Callers that require an explicit HTTP contract use thin Route Handlers. This
+includes the secured Sanity publication webhook and any later authorized machine
+caller accepted for delivery recovery, retention, or another operational purpose.
+Each handler verifies its caller as required, validates a bounded request, invokes
+the owning application workflow directly, and translates only a safe HTTP result.
+A Server Action and Route Handler do not call each other.
+
+Both mechanisms remain externally reachable mutation boundaries and receive no
+implicit trust from running on the server. Their workflows repeat all accepted
+authority, validation, privacy, and persistence checks below the presentation
+boundary. Inner behavior may be shared where it is genuinely common, but Greek
+Essence does not expose a parallel public Request API without an accepted external
+consumer.
+
+An already-open form can hold a build-specific Server Action identity after a new
+deployment. If that action cannot run, no Request has been accepted. The form must
+not claim receipt or ask for a blind second submission; it provides a truthful
+refresh-and-safe-retry path that preserves entered information where feasible and
+reuses the same idempotency identity for the same intentional submission. Exact
+copy and implementation remain bounded design.
+
+Using Route Handlers for all visitor forms was rejected because three
+website-owned journeys would need additional browser request,
+progressive-enhancement, response-mapping, and form-state plumbing without an
+external API requirement. Publishing both Server Actions and parallel Route
+Handlers for every Request journey was rejected because it would create two
+public mutation surfaces, duplicate contracts, and additional abuse and testing
+responsibilities for hypothetical future consumers.
+
 ## Open Questions
 
-- D-002: Which Next.js mutation entry points should carry website-owned visitor
-  forms and independent machine callers into the accepted application workflows?
+- D-003: How should a Booking Request carry the exact server-rendered Experience
+  snapshot through the browser without trusting browser-authored snapshot fields?
 
 ## Next Question
 
-ID: D-002
+ID: D-003
 
 Topic:
-Visitor and machine mutation entry points.
+Booking Request render-time snapshot integrity.
 
 Context:
-Next.js offers two relevant mutation adapters. A **Server Action** is a server
-function invoked through React's form or action mechanisms. It receives untrusted
-input through a framework-managed POST, can return a bounded result to
-`useActionState`, and supports progressive form enhancement and a single response
-containing both the result and refreshed UI. It is still publicly reachable and
-must perform the same input and authority checks as any public endpoint. Its
-build-generated action identity may become stale when an already-open page
-submits after a new deployment, so the UI needs a safe refresh-and-retry path
-that preserves entered values and the accepted idempotency identity.
+Accepted System Boundaries D-003 requires every accepted Booking Request to store
+the exact bounded Experience proposition rendered to that visitor: published
+Sanity root ID and source revision, locale, localized title and summary,
+Experience type, Destination labels, public URL, and the accepted indicative-price
+fields when shown. Later Sanity edits must not rewrite that snapshot.
 
-A **Route Handler** is a stable URL and HTTP contract using `Request` and
-`Response`. It is the natural boundary for callers that are not participating in
-the React page interaction, such as the secured Sanity publication webhook and
-later protected delivery-recovery or retention entry points. Route Handlers are
-also publicly reachable and must authenticate or verify machine callers, validate
-their bounded input, and translate only safe outcomes.
+The render-time snapshot and submission-time authority check have different jobs.
+The snapshot proves what the visitor saw. A fresh Sanity read at submission proves
+whether the Experience is currently published and requestable. The browser may
+return visitor-authored fields, but hidden inputs, serialized component props, and
+other ordinary browser values cannot assert the snapshot's provenance or current
+eligibility.
 
-D-001 now keeps both adapters thin: neither owns business rules, provider access,
-or Request orchestration. The open choice is whether website-owned Consultation,
-Booking Request, and General Contact forms should use React's Server Action path
-or the same explicit HTTP endpoints required by independent machine callers.
+D-002 now gives the Booking form a Server Action. Next.js can define that action
+inside the Server Component render and capture a closed-over value. Next sends
+captured values through the browser in an encrypted build-specific closure and
+decrypts them when the action runs. The captured value must still be bounded,
+server-created, and structurally validated before the application workflow uses
+it; provider documents, credentials, drafts, and unrelated Experience fields must
+never enter the closure.
 
 Prompt:
-Which Next.js entry-point split should invoke Greek Essence's accepted mutation
-workflows?
+How should the Booking Request workflow preserve trustworthy render-time
+Experience context across the browser round trip?
 
 Options:
 
-1. (recommended): **Use Server Actions for the three website-owned visitor forms
-   and Route Handlers only for callers that require an explicit HTTP endpoint.**
-   Each form action is a thin public presentation adapter that validates and maps
-   its untrusted form payload, invokes the owning application workflow, and
-   returns only the bounded public outcome needed by that form. Secured Sanity
-   webhooks and later protected operational callers use thin Route Handlers that
-   invoke their own application workflows. Both adapters share inner contracts
-   where behavior is genuinely shared; neither calls the other. This follows the
-   installed Next.js 16 form path, retains progressive enhancement and
-   `useActionState`, avoids creating a public Request API with no external
-   consumer, and still provides stable HTTP contracts where machines require
-   them. The form experience must handle a stale action after deployment through
-   a truthful refresh-and-safe-retry path without claiming receipt or discarding
-   entered information.
-2. **Use Route Handlers for all mutations, including visitor forms.** Each form
-   submits to a stable journey-specific HTTP endpoint through browser code or a
-   native form POST, and the presentation layer maps HTTP responses back into
-   field and outcome state. This creates explicit stable transport contracts and
-   avoids build-generated Server Action identity, but Greek Essence must own more
-   browser request, progressive-enhancement, response, and form-state plumbing
-   for three website-only submission journeys.
-3. **Expose both Server Actions and parallel Route Handlers for every visitor
-   Request journey.** The website uses Server Actions while a first-class public
-   HTTP API exposes the same Consultation, Booking Request, and General Contact
-   submissions. Both adapters call the same application workflows, but the
-   release must maintain and protect two public mutation surfaces despite having
-   no accepted external Request client. This preserves future API flexibility at
-   the cost of duplicate contracts, tests, abuse controls, and deployment surface
-   now.
+1. (recommended): **Capture one bounded server-created render context in the
+   Booking Server Action's encrypted closure.** The Experience page constructs
+   the accepted snapshot from its validated published Sanity read and closes only
+   that bounded value into a thin action. On submission, the action validates the
+   decrypted internal shape, maps the untrusted visitor fields separately, and
+   passes both to the Booking application workflow. The workflow uses the captured
+   snapshot for immutable Request context and independently reads current Sanity
+   authority using the published root ID before a new acceptance. Current content
+   may determine requestability but never replaces the captured proposition. This
+   uses the framework capability specifically designed to preserve render-time
+   values, adds no pre-Request database record or custom cryptographic format, and
+   inherits D-002's truthful stale-action refresh-and-safe-retry requirement.
+2. **Issue a custom server-signed render-context token in the form.** The token
+   carries the bounded public snapshot and a keyed integrity signature. The
+   exported Booking Server Action verifies and validates it before invoking the
+   application workflow. This makes the render-context contract independent of a
+   Server Action closure and can remain valid across deployments when its key and
+   version do, but Greek Essence must design canonical serialization, token
+   versioning, signing-key storage and rotation, size limits, and failure behavior
+   for one framework-owned form.
+3. **Store a short-lived render snapshot on the server and return only an opaque
+   form token.** Submission resolves the token, validates current Sanity
+   authority, and moves the stored snapshot into the accepted Request. This keeps
+   snapshot values out of the browser round trip, but every rendered Booking form
+   creates provisional state that needs expiry, cleanup, abuse controls, and
+   behavior for multiple tabs or abandoned forms before any Request exists.
+4. **Post the source revision and reconstruct the rendered snapshot from Sanity at
+   submission.** The server attempts to retrieve that exact historical revision,
+   then separately reads current eligibility. This avoids a custom token and
+   provisional database state, but acceptance becomes dependent on historical
+   revision availability and provider behavior even though the page already had
+   the exact bounded proposition. A missing historical revision could prevent an
+   otherwise valid Request, and a current read cannot prove what was rendered.
 
 Recommendation rationale:
-Option 1 assigns each framework mechanism to the caller it naturally serves. A
-visitor submitting the Booking Request form receives the progressive,
-UI-integrated Server Action path, while Sanity receives a stable signed webhook
-URL and operational automation later receives separately protected endpoints.
-The accepted application workflows remain reusable and testable below both
-adapters. The one additional Server Action deployment failure mode is real but
-bounded: no Request has been accepted when the action cannot be found, and the
-form can preserve the visitor's data and idempotency identity through a refresh
-and safe retry rather than creating a second API surface for every form.
+Option 1 makes the selected Next.js form mechanism carry the exact server-created
+value it rendered, while the domain-centered application workflow remains
+responsible for current authority and acceptance. The closure contains only
+already-public bounded Experience context, so it does not become a transport for
+private provider data. It avoids custom signing machinery and avoids creating
+temporary records for every visitor who merely opens a form. Its build-specific
+lifetime matches the already accepted D-002 failure boundary: a stale action has
+accepted nothing and must recover truthfully before retry.
 
 Why this matters:
-Server Actions and Route Handlers are both public mutation boundaries, not
-trusted shortcuts. Choosing their responsibilities now sets the browser form
-contract, progressive-enhancement behavior, stable machine endpoints, and the
-number of externally reachable adapters that must remain consistent and tested.
+If the server reconstructs the snapshot only from current Sanity content, the
+accepted Request may preserve a proposition the visitor never saw. If ordinary
+browser fields can assert the snapshot, a modified submission can corrupt private
+Request evidence. The integrity mechanism therefore sits at a real cross-service
+and browser/server seam before Booking implementation fixes the wrong contract.
 
-Deferred from D-002:
+Deferred from D-003:
 
-- exact action names, Route Handler URLs, directories, files, and exports;
-- exact public form payloads, `FormData` mapping, result-union names, status codes,
-  and field-error representation;
-- exact Sanity webhook signature and operational authorization mechanisms;
-- exact stale-action detection copy and implementation;
-- abuse controls, rate thresholds, and production deployment configuration;
+- exact render-context TypeScript type, validation schema, action name, and file
+  placement;
+- exact closure serialization and payload-size verification;
+- Server Action encryption-key deployment and rotation configuration;
+- exact stale-action detection, retained-form-state mechanism, and bilingual copy;
+- exact submission-time Sanity query and error mapping;
+- exact public form payload, result-union names, and field-error representation;
+- abuse controls, rate thresholds, and production configuration;
 - Node versus Edge runtime placement and WebSocket lifetime;
 - recovery schedules, escalation transport, and named ownership; and
 - detailed implementation and test mechanics.
 
 Installed Next.js 16.2.12 references:
 
-- <https://nextjs.org/docs/app/getting-started/mutating-data>
-- <https://nextjs.org/docs/app/guides/forms>
-- <https://nextjs.org/docs/app/guides/server-actions>
-- <https://nextjs.org/docs/app/getting-started/route-handlers>
-- <https://nextjs.org/docs/app/guides/backend-for-frontend>
 - <https://nextjs.org/docs/app/guides/data-security>
+- <https://nextjs.org/docs/app/guides/server-actions>
 
 After answer:
 
-- Lock the visitor-form and machine-caller entry-point responsibilities.
-- Store D-003 as the next question without answering it.
+- Lock the Booking render-context integrity boundary.
+- Store D-004 as the next question without answering it.
