@@ -319,8 +319,8 @@ Foundations, or Launch Readiness work.
 
 ## Open Questions
 
-- D-007: How should twelve-month expiry, earlier verified deletion, cascading
-  deletion, and minimum deletion-manifest state interact?
+- D-007: How should twelve-month expiry, earlier verified deletion, and cascading
+  aggregate deletion interact?
 - D-008: What migration and Neon connection-handling contract should preserve
   safe deploys and transactions within the accepted free-quota boundary?
 - D-009: What transactional backup and restore representation is required to
