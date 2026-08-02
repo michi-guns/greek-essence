@@ -284,10 +284,41 @@ correction and recreate the relationship lifecycle excluded upstream.
 Exact query composition and generic bilingual error copy remain bounded
 technical and content design.
 
+### D-006 — Current Delivery Summary With Append-Only Attempts and Audit
+
+Accepted on 2026-08-02. Each accepted Request owns exactly two small current
+delivery rows created atomically by D-001: one agency-notification purpose and
+one visitor-acknowledgement purpose. A unique Request-and-purpose constraint
+prevents a second current row for the same intentional delivery.
+
+The current row contains only the minimum recoverable summary required to find
+work and communicate truth, including whether the purpose is pending,
+attempting, confirmed handed off, definitely failed, uncertain, or escalated,
+plus bounded scheduling and attempt metadata. It is not a general queue, staff
+case state, or proof that a recipient received or read an email.
+
+Every actual mail call receives an append-only attempt row. A guarded database
+change claims an eligible purpose and records that the attempt started before
+the network call, protecting the realistic overlap between initial delivery and
+recovery. The known result then appends its outcome and updates the current
+summary together. If processing stops after the attempt starts but before the
+result is known, the unresolved attempt is uncertain and is not blindly retried.
+
+Acceptance, delivery transitions, recovery, escalation, and authorized manual
+actions append the audit evidence required upstream. The current summary may
+advance, but later success does not erase an earlier failure or uncertainty.
+Delivery diagnostics retain only minimum provider and failure context and never
+Request bodies, notes, messages, or full email addresses.
+
+An append-only-only event model was rejected because it would require event
+folding or projections for ordinary recovery queries. A mutable latest-status
+row without attempt history was rejected because it would erase investigation
+evidence. Exact state names, conditional SQL, retry count and timing, scheduler,
+escalation route, and named owner remain bounded technical design, Runtime
+Foundations, or Launch Readiness work.
+
 ## Open Questions
 
-- D-006: How should delivery work, attempts, uncertainty, escalation, and
-  append-only audit transitions be represented safely under concurrency?
 - D-007: How should twelve-month expiry, earlier verified deletion, cascading
   deletion, and minimum deletion-manifest state interact?
 - D-008: What migration and Neon connection-handling contract should preserve
@@ -298,62 +329,58 @@ technical and content design.
 
 ## Next Question
 
-ID: D-006
+ID: D-007
 
 Owning layer: Foundation Design.
 
 Topic:
-Proportional delivery state and append-only audit representation.
+Hard deletion of expired or verified Request aggregates.
 
 Prompt:
-How should Neon represent each required email purpose, its current recoverable
-state, and its append-only attempt history without introducing a queue or full
-event-sourcing system?
+How should the platform remove a complete Request aggregate at twelve-month
+expiry or after an authorized earlier-deletion decision without retaining a live
+tombstone or risking partial deletion?
 
 Options:
 
-1. (recommended): **Keep one small current delivery row per Request and email
-   purpose, plus append-only attempt and audit rows.** The current row supports
-   simple recovery queries and guarded state changes. Each actual send attempt is
-   recorded before the mail call and then resolved as confirmed handoff,
-   definitely failed, or uncertain. Acceptance, recovery, escalation, and
-   authorized manual actions append audit events rather than rewriting history.
-2. **Store only append-only events and derive every current delivery state from
-   them.** This makes history the sole representation, but every recovery query
-   must fold event sequences or maintain a projection, adding event-sourcing
-   complexity without a Public Preview need.
-3. **Store only the latest mutable status and failure details on each delivery
-   row.** This is the smallest schema, but later success would overwrite earlier
-   failure or uncertainty and violate the accepted append-only investigation and
-   recovery history.
+1. (recommended): **Hard-delete the Request root and let database cascades remove
+   its owned aggregate in one transaction.** Store `expires_at` on the Request;
+   run one simple scheduled deletion query in small batches; and use the same
+   aggregate-deletion operation after an authorized earlier-deletion decision.
+   Keep no tombstone in the live Request tables.
+2. **Soft-delete or anonymize the Request and retain its relationships and audit
+   rows.** This makes accidental restoration less likely and preserves counts,
+   but retains a private record beyond the accepted deletion event and requires
+   difficult proof that every personal field was irreversibly anonymized.
+3. **Delete each owned table explicitly in application code.** This avoids
+   database cascades, but duplicates aggregate ownership in deletion code and
+   creates more opportunities for a newly added child table or interrupted
+   operation to leave private remnants.
 
 Why this matters:
 
-Every accepted Request starts with exactly two delivery rows created by D-001:
-one for agency notification and one for visitor acknowledgement. The row stores
-only the latest recoverable summary, such as pending, attempting, confirmed
-handoff, definitely failed, uncertain, or escalated, plus the minimum scheduling
-and attempt counters required by the accepted bounded-retry process.
+The Request root owns its typed details, immutable contact and privacy snapshot,
+idempotency identity, current delivery rows, delivery attempts, and audit events.
+Database-owned cascade rules make removal all-or-nothing and automatically cover
+those declared relationships. A correction's submitted earlier reference is
+plain snapshot data rather than a relationship, so deleting the earlier Request
+does not delete or mutate the later correction.
 
-Before a mail call, one guarded database update claims the eligible purpose and
-appends an attempt-started record. This protects the realistic risk that an
-initial handler and a recovery run overlap and send the same purpose twice. The
-result appends an outcome and updates the summary together. If processing stops
-after an attempt starts but before its result is known, that attempt remains
-unresolved and is treated as uncertain rather than blindly dispatched again.
+A daily scheduled cleanup is sufficient for a small-agency Public Preview;
+sub-minute deletion timing and a separate deletion platform are unnecessary.
+Each run can delete a modest batch of rows whose `expires_at` has passed and
+repeat until none remain. Earlier verified deletion uses the same operation after
+the separate authorization and identity-verification contract is satisfied.
 
-This is not a general job queue. It is two bounded delivery purposes attached to
-one Request, with simple current-state queries and the history already required
-for truthful recovery. Provider response codes and diagnostic text are minimized
-and never include Request bodies, notes, messages, or full email addresses.
-Exact states, guarded update SQL, retry count and timing, scheduler, escalation
-route, and named owner remain bounded technical design, Runtime Foundations, or
-Launch Readiness work.
+Deletion removes any pending delivery work owned by the Request. A mail handoff
+already confirmed before deletion cannot be recalled from an external mail
+service or recipient mailbox. D-009 separately decides the minimum backup-restore
+representation needed to prevent a restore from reviving data that should remain
+deleted; D-007 does not add that machinery pre-emptively.
 
 After answer:
 
-- Lock the current delivery summary, append-only attempt and audit history, and
-  proportional duplicate-send guard.
-- Preserve exact state names, retry policy, scheduler, and escalation ownership
-  for their downstream owners.
-- Store D-007 as the next question.
+- Lock aggregate hard deletion, cascade ownership, and proportional scheduling.
+- Preserve exact batch size, schedule, earlier-deletion authorization, and
+  backup-restore behavior for downstream decisions and owners.
+- Store D-008 as the next question.
