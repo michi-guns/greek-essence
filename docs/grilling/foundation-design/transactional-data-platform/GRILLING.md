@@ -256,10 +256,36 @@ similar intentional Requests are not technical retries. Exact random algorithms,
 human-safe alphabets, lengths, hashing, token issuance and rotation, canonical
 field comparison, and index names remain bounded technical design.
 
+### D-005 — Simple Private Correction Check Without a Lock or Foreign Key
+
+Accepted on 2026-08-02. Immediately before correction acceptance, the server
+performs one indexed private check using the submitted earlier public reference
+and normalized submitted email and requires the earlier Request to be retained
+at check time. Every failed check returns the same generic result whether the
+reference is unknown, expired, deleted, or belongs to another email. Public
+behavior never reveals which value matched or whether prior activity exists.
+
+On a match, the D-001 transaction stores a complete independent correction with
+its correction intent and submitted earlier reference. It stores no internal
+target ID, foreign key, copied earlier content, or relationship entity. While the
+earlier Request remains retained, authorized processing may resolve the prior
+reference. After deletion, the correction remains understandable from its own
+snapshot and reports only that the target is no longer retained; deletion does
+not mutate it or extend either Request's retention.
+
+The check uses no row lock. A theoretical deletion immediately after validation
+has no material Public Preview consequence because the correction is already a
+complete independent Request and no customer-visible history, booking promise,
+or mutable staff workflow depends on the live relationship. Lock orchestration
+was rejected as disproportionate for this low-volume small-agency release. A
+nullable foreign key was rejected because deletion would mutate the later
+correction and recreate the relationship lifecycle excluded upstream.
+
+Exact query composition and generic bilingual error copy remain bounded
+technical and content design.
+
 ## Open Questions
 
-- D-005: How should explicit correction lookup preserve privacy and independent
-  expiry without a foreign-key relationship?
 - D-006: How should delivery work, attempts, uncertainty, escalation, and
   append-only audit transitions be represented safely under concurrency?
 - D-007: How should twelve-month expiry, earlier verified deletion, cascading
@@ -272,65 +298,62 @@ field comparison, and index names remain bounded technical design.
 
 ## Next Question
 
-ID: D-005
+ID: D-006
 
 Owning layer: Foundation Design.
 
 Topic:
-Proportional private correction validation.
+Proportional delivery state and append-only audit representation.
 
 Prompt:
-How should the server validate an explicit correction against a retained earlier
-Request without revealing prior activity or creating a foreign-key lifecycle?
+How should Neon represent each required email purpose, its current recoverable
+state, and its append-only attempt history without introducing a queue or full
+event-sourcing system?
 
 Options:
 
-1. (recommended): **Perform one simple indexed private check immediately before
-   acceptance, without a row lock.** Query the uniquely indexed submitted public
-   reference together with the normalized submitted email and require the target
-   to be retained at check time. On a match, the D-001 transaction stores the
-   correction's complete independent snapshot, correction intent, and submitted
-   prior reference. It stores no internal target link or copied earlier content.
-2. **Perform the same check and hold a database row lock until the correction
-   commits.** This serializes correction acceptance against retention deletion,
-   but adds lock behavior to protect an extremely unlikely and harmless race for
-   a Public Preview with low request volume and a scheduled twelve-month
-   deletion process.
-3. **Store the earlier Request's internal ID as a nullable foreign key with
-   `ON DELETE SET NULL`.** This gives the database a direct relationship while
-   both records exist, but deletion mutates the later immutable correction and
-   creates the foreign-key lifecycle already excluded by accepted System
-   Boundaries decisions.
+1. (recommended): **Keep one small current delivery row per Request and email
+   purpose, plus append-only attempt and audit rows.** The current row supports
+   simple recovery queries and guarded state changes. Each actual send attempt is
+   recorded before the mail call and then resolved as confirmed handoff,
+   definitely failed, or uncertain. Acceptance, recovery, escalation, and
+   authorized manual actions append audit events rather than rewriting history.
+2. **Store only append-only events and derive every current delivery state from
+   them.** This makes history the sole representation, but every recovery query
+   must fold event sequences or maintain a projection, adding event-sourcing
+   complexity without a Public Preview need.
+3. **Store only the latest mutable status and failure details on each delivery
+   row.** This is the smallest schema, but later success would overwrite earlier
+   failure or uncertainty and violate the accepted append-only investigation and
+   recovery history.
 
 Why this matters:
 
-A correction is valid only when the submitted earlier public reference identifies
-a currently retained Request whose stored normalized email exactly matches the
-correction's normalized submitted email. Failure returns the same generic result
-whether the reference is unknown, expired, deleted, or belongs to another email;
-the response must not reveal which input matched.
+Every accepted Request starts with exactly two delivery rows created by D-001:
+one for agency notification and one for visitor acknowledgement. The row stores
+only the latest recoverable summary, such as pending, attempting, confirmed
+handoff, definitely failed, uncertain, or escalated, plus the minimum scheduling
+and attempt counters required by the accepted bounded-retry process.
 
-The server needs only to establish that the supplied reference and email matched
-a retained Request when it checked them. A theoretical deletion in the tiny
-interval between that check and the correction commit has no material business
-consequence: the correction is already a complete independent Request, the
-earlier Request was due to disappear under its accepted retention rule, and no
-customer-visible history, booking promise, or mutable staff workflow depends on
-the live relationship. Adding lock orchestration for that scenario would be
-disproportionate to a small-agency Public Preview.
+Before a mail call, one guarded database update claims the eligible purpose and
+appends an attempt-started record. This protects the realistic risk that an
+initial handler and a recovery run overlap and send the same purpose twice. The
+result appends an outcome and updates the summary together. If processing stops
+after an attempt starts but before its result is known, that attempt remains
+unresolved and is treated as uncertain rather than blindly dispatched again.
 
-The correction stores no target content or internal relationship. While the
-earlier Request remains retained, authorized processing may resolve the submitted
-prior reference. After deletion, the correction remains understandable from its
-own complete snapshot and prior reference but reports only that the target is no
-longer retained. No deletion-time mutation, reconstruction, or retention
-extension is required. Exact query composition and error mapping remain bounded
-technical design.
+This is not a general job queue. It is two bounded delivery purposes attached to
+one Request, with simple current-state queries and the history already required
+for truthful recovery. Provider response codes and diagnostic text are minimized
+and never include Request bodies, notes, messages, or full email addresses.
+Exact states, guarded update SQL, retry count and timing, scheduler, escalation
+route, and named owner remain bounded technical design, Runtime Foundations, or
+Launch Readiness work.
 
 After answer:
 
-- Lock correction validation, generic failure, and post-expiry relationship
-  behavior without adding a concurrency mechanism for a theoretical race.
-- Preserve exact SQL and public error copy for bounded technical and content
-  design.
-- Store D-006 as the next question.
+- Lock the current delivery summary, append-only attempt and audit history, and
+  proportional duplicate-send guard.
+- Preserve exact state names, retry policy, scheduler, and escalation ownership
+  for their downstream owners.
+- Store D-007 as the next question.
