@@ -17,9 +17,9 @@ strategies yet.
 ## Current State
 
 - Branch `docs/migration-v4` originally started at `origin/main` commit
-  `978136091639aa473b8b384b6b9ee8382da040c3`. The current review content is
-  reconciled against accepted decisions on `origin/main`; the branch itself must
-  be synchronized before this evaluation update is published.
+  `978136091639aa473b8b384b6b9ee8382da040c3`. The review content is reconciled
+  against accepted decisions on `origin/main`, and merge commit `69fbebb449c8`
+  synchronized the branch for this evaluation update.
 - `docs/new-proposed-docs/` contains 41 candidate documents covering a proposed
   documentation system, domain model, architecture, data ownership,
   development guidance, ADRs, assumptions, and runbooks.
