@@ -377,6 +377,21 @@ architecture rebaseline, and promotion of settled documentation.
   Prettier, `gitleaks dir --redact --no-banner docs`, and `git diff --check`
   exited `0` before staging; the committed Markdown-only range still requires
   the repository range gate and GitHub read-back before readiness.
+- Pull request #49 was subsequently squash-merged and its remote branch,
+  deregistered worktree residue, local branch, and stale metadata were removed.
+  Local `main` was synchronized with `origin/main`; unrelated worktrees and the
+  original checkout's pre-existing changes remained untouched.
+- On 2026-08-02, the operator explicitly authorized the Application Architecture
+  Foundation Design subject. Work is isolated on branch
+  `docs/application-architecture` in the Git-managed sibling worktree
+  `../greek-essence.worktrees/application-architecture`. The active source ledger
+  is
+  [`docs/grilling/foundation-design/application-architecture/GRILLING.md`](../../../grilling/foundation-design/application-architecture/GRILLING.md).
+  Application Architecture D-001 is stored and pending; no option is selected.
+  The authorization permits decision grilling and its normal early draft pull
+  request, not implementation, provider configuration, migration, deployment,
+  production-data handling, Runtime and Production Foundations, Launch
+  Readiness, or another work unit.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -420,16 +435,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Complete authorized pull request #49 delivery: verify semantic parity and the
-complete Markdown-only change range, mark the draft ready, re-read GitHub, and
-obtain the fresh explicit operator confirmation required immediately before an
-agent merge.
+Ask the operator to choose, modify, reject, or defer the fully qualified
+Application Architecture D-001 options for the server-only application boundary
+and dependency direction recorded in the active ledger.
 
-Completion condition: pull request #49 is squash-merged, its short-lived remote
-branch and isolated worktree are removed, and local `main` is clean and
-synchronized with `origin/main`. Stop afterward; Application Architecture,
-Runtime and Production Foundations, Launch Readiness, and implementation each
-require separate authorization.
+Completion condition: Application Architecture D-001 is explicitly accepted and
+the ledger stores exactly one pending Application Architecture D-002 question
+without answering it.
 
 ## Done When
 
