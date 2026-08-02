@@ -341,6 +341,15 @@ architecture rebaseline, and promotion of settled documentation.
   and technical-readiness check, and ordinary-copy evidence exclusion were
   restored. A fresh independent comparison of the corrected `DECISIONS.md`
   against the final accepted raw ledger returned `PASS`.
+- On 2026-07-31, the operator authorized Transactional Data Platform as the next
+  coherent Foundation Design grilling unit. Its active ledger is
+  `docs/grilling/foundation-design/transactional-data-platform/GRILLING.md`, and
+  D-001 is the stored next decision about the atomic Neon Request-acceptance
+  transaction. Work uses branch `docs/transactional-data-platform` in a separate
+  worktree so unrelated concurrent migration-documentation changes remain
+  untouched. This authority does not permit Neon or Drizzle installation,
+  configuration, schema creation, migration execution, application
+  implementation, deployment, or production-data handling.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -384,14 +393,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-After Editorial Content Platform pull request #48 is merged and the repository
-is synchronized, wait for explicit operator authorization before opening the
-next Foundation Design grilling unit, Transactional Data Platform. Do not begin
-implementation or the successor track automatically.
+Present Transactional Data Platform D-001 from
+`docs/grilling/foundation-design/transactional-data-platform/GRILLING.md` and
+persist the operator's answer in the same ledger and coherent draft pull request
+before advancing to D-002.
 
-Completion condition: the repository remains clean on synchronized `main`, and
-the operator explicitly authorizes the next coherent grilling or implementation
-unit before work starts.
+Completion condition: D-001 is durably persisted with its rationale,
+consequences, and rejected alternatives, and D-002 is stored as the single next
+question.
 
 ## Done When
 
