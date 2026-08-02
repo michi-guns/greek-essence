@@ -224,12 +224,14 @@ component through domain/application/infrastructure folders; a server-only
 content adapter beside a public-content module and thin route composition is
 enough initially.
 
-Adopt immediately: a one-deployable application, narrow module ownership,
-route composition, Server Components by default, explicit server-only
-boundaries, runtime validation, minimal `shared/`, and no framework types in
-business rules. Delay: complete Clean/Hexagonal folder quadrants, generic ports,
-domain events, query cache, RHF, availability/locking, financial types, and
-future commercial modules.
+Compatible constraints to preserve in later authorized slices are one deployable,
+narrow capability ownership, thin route composition, Server Components by
+default, explicit server-only boundaries, runtime validation, minimal `shared/`,
+and no framework types in business rules where a framework-independent boundary
+is justified. This evaluation does not authorize their implementation. Complete
+Clean/Hexagonal folder quadrants, generic ports, domain events, query cache, RHF,
+availability/locking, financial types, and future commercial modules remain
+unjustified here.
 
 ## 5. Migration strategy comparison
 
@@ -316,11 +318,10 @@ technical rollback.
 - **Main risk:** encoding unverified vendor or operational facts. Route such
   gaps to Launch Readiness rather than filling them with generic documentation.
 
-### Phase 4 — Implement one reversible vertical slice
+### Potential Phase 4 — Separately authorize one reversible vertical slice
 
-- **Goal:** introduce only the foundation needed for one real preview workflow,
-  likely published catalogue access or one request journey, as selected by an
-  explicit task contract.
+- **Goal:** if the operator later authorizes a bounded implementation work unit,
+  introduce only the foundation needed for its selected real preview workflow.
 - **Scope:** a coherent module plus thin route composition, not a project-wide
   move from `components/` to `modules/`.
 - **Affected paths:** determined by the authorized Application Architecture
@@ -419,6 +420,4 @@ The following cannot be concluded from the repository and must not be guessed:
 
 This review was based on direct repository inspection. Before this report was
 written, `git status --short` returned no changes on `docs/migration-v4`. The
-runtime was not modified. The Markdown-only verification for the two report
-files is recorded with its exact command and exit status in the delivery
-report.
+runtime was not modified.
