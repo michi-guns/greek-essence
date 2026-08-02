@@ -411,9 +411,16 @@ architecture rebaseline, and promotion of settled documentation.
   without an accepted external consumer. A stale build-specific Server Action
   must claim no receipt and offer a truthful refresh and safe retry that preserves
   entered information where feasible and reuses the same idempotency identity.
-  D-003 is pending on how the Booking form carries its exact server-rendered
-  Experience snapshot through the browser without trusting browser-authored
-  snapshot fields.
+- Application Architecture D-003 is accepted with an explicit proportionality
+  constraint. The Booking Server Action captures the bounded server-created
+  Experience render context in its encrypted closure, validates visitor input
+  separately, and invokes a workflow that independently checks current Sanity
+  authority before new acceptance. This uses the same Sanity read already needed
+  for rendering and creates no provisional record. It does not authorize custom
+  signing, historical-revision recovery, temporary snapshot storage, automated
+  discrepancy handling, or extra evidentiary machinery; ordinary questions remain
+  part of manual agency communication. D-004 is pending on how the three journey
+  workflows share accepted Request operations without a generic pipeline.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -458,12 +465,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 ## Next Recommended Action
 
 Ask the operator to choose, modify, reject, or defer the fully qualified
-Application Architecture D-003 options for Booking Request render-time snapshot
-integrity recorded in the active ledger.
+Application Architecture D-004 options for Request workflow composition and
+proportional sharing recorded in the active ledger.
 
-Completion condition: Application Architecture D-003 is explicitly accepted and
-the ledger stores exactly one pending Application Architecture D-004 question
-without answering it.
+Completion condition: Application Architecture D-004 is explicitly accepted and
+the subject is audited for another costly-to-reverse unresolved seam before
+storing another question or closing the grilling round.
 
 ## Done When
 

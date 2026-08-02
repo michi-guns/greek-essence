@@ -209,117 +209,138 @@ Handlers for every Request journey was rejected because it would create two
 public mutation surfaces, duplicate contracts, and additional abuse and testing
 responsibilities for hypothetical future consumers.
 
+### D-003 — Bounded Booking Render Context in the Server Action Closure
+
+When Next.js produces an Experience page containing the Booking form, the server
+constructs the accepted bounded Request snapshot from the same validated published
+Sanity result already needed to render the page. This is an in-memory selection of
+fields, not another provider read, a Neon write, a provisional Request, or a new
+staff record. A cached page version may reuse that rendered output rather than
+performing the work separately for every visitor.
+
+The thin Booking Server Action captures that server-created render context in its
+encrypted build-specific closure. The closure contains only the published root
+ID, source revision, visitor locale, and already-accepted bounded public
+Experience snapshot. It excludes provider documents, drafts, credentials, media,
+unrelated editorial fields, and private data.
+
+On submission, the action validates the decrypted internal context and validates
+visitor-authored `FormData` separately. The Booking application workflow preserves
+the captured context as the immutable accepted Request snapshot and independently
+reads current Sanity authority using the published root ID before any new
+acceptance. Current content determines whether a new Request remains allowed; it
+does not overwrite the proposition captured from the rendered page.
+
+This is deliberately the smallest implementation compatible with accepted System
+Boundaries D-003. Greek Essence will not add a custom signed-token format,
+provisional snapshot storage, historical-revision retrieval, automated price
+comparison, discrepancy alerts, customer dispute workflow, or extra evidentiary
+records around it. Ordinary questions about an indicative-price or content change
+remain part of normal agency communication. If the built-in closure proves
+materially disproportionate during implementation, the accepted snapshot
+requirement must be reopened explicitly rather than surrounded with fallback
+systems.
+
+A stale build-specific action follows D-002: no Request has been accepted, the
+website makes no receipt claim, and the visitor receives the smallest truthful
+refresh-and-safe-retry path. Exact state preservation remains best effort and must
+not grow into a general browser recovery system.
+
+Custom signing was rejected because it adds serialization, key lifecycle, and
+versioning for one framework-owned form. Temporary server storage was rejected
+because page views would create provisional state and cleanup. Submission-time
+historical Sanity reconstruction was rejected because it adds provider work and
+depends on old-revision availability even though rendering already had the needed
+bounded values.
+
 ## Open Questions
 
-- D-003: How should a Booking Request carry the exact server-rendered Experience
-  snapshot through the browser without trusting browser-authored snapshot fields?
+- D-004: How much shared application orchestration should the three Request
+  journeys use without turning their different behavior into a generic pipeline?
 
 ## Next Question
 
-ID: D-003
+ID: D-004
 
 Topic:
-Booking Request render-time snapshot integrity.
+Request workflow composition and proportional sharing.
 
 Context:
-Accepted System Boundaries D-003 requires every accepted Booking Request to store
-the exact bounded Experience proposition rendered to that visitor: published
-Sanity root ID and source revision, locale, localized title and summary,
-Experience type, Destination labels, public URL, and the accepted indicative-price
-fields when shown. Later Sanity edits must not rewrite that snapshot.
+Consultation Request, Booking Request, and General Contact share a Request envelope,
+idempotency rules, correction check, one supported transactional acceptance
+writer, post-commit delivery behavior, audit boundary, and public outcome meanings.
+They do not share the same public fields or all authority checks. Booking alone
+must combine its captured Experience context with a fresh Sanity eligibility read;
+each journey retains its own validation and data-minimization boundary.
 
-The render-time snapshot and submission-time authority check have different jobs.
-The snapshot proves what the visitor saw. A fresh Sanity read at submission proves
-whether the Experience is currently published and requestable. The browser may
-return visitor-authored fields, but hidden inputs, serialized component props, and
-other ordinary browser values cannot assert the snapshot's provenance or current
-eligibility.
-
-D-002 now gives the Booking form a Server Action. Next.js can define that action
-inside the Server Component render and capture a closed-over value. Next sends
-captured values through the browser in an encrypted build-specific closure and
-decrypts them when the action runs. The captured value must still be bounded,
-server-created, and structurally validated before the application workflow uses
-it; provider documents, credentials, drafts, and unrelated Experience fields must
-never enter the closure.
+D-001 requires capability-owned vertical slices and only genuinely shared code.
+Accepted Transactional Data Platform D-001 and D-002 require one complete
+acceptance transaction and one supported server-side writer. The architecture
+therefore needs a practical middle ground: keep each visitor journey readable and
+independent while sharing the small operations whose consistency protects an
+already-accepted invariant. The operator explicitly accepts ordinary edge cases
+being resolved manually by the agency and does not want a generic workflow engine
+or perfect-system machinery.
 
 Prompt:
-How should the Booking Request workflow preserve trustworthy render-time
-Experience context across the browser round trip?
+How should the application compose the three Request submission workflows?
 
 Options:
 
-1. (recommended): **Capture one bounded server-created render context in the
-   Booking Server Action's encrypted closure.** The Experience page constructs
-   the accepted snapshot from its validated published Sanity read and closes only
-   that bounded value into a thin action. On submission, the action validates the
-   decrypted internal shape, maps the untrusted visitor fields separately, and
-   passes both to the Booking application workflow. The workflow uses the captured
-   snapshot for immutable Request context and independently reads current Sanity
-   authority using the published root ID before a new acceptance. Current content
-   may determine requestability but never replaces the captured proposition. This
-   uses the framework capability specifically designed to preserve render-time
-   values, adds no pre-Request database record or custom cryptographic format, and
-   inherits D-002's truthful stale-action refresh-and-safe-retry requirement.
-2. **Issue a custom server-signed render-context token in the form.** The token
-   carries the bounded public snapshot and a keyed integrity signature. The
-   exported Booking Server Action verifies and validates it before invoking the
-   application workflow. This makes the render-context contract independent of a
-   Server Action closure and can remain valid across deployments when its key and
-   version do, but Greek Essence must design canonical serialization, token
-   versioning, signing-key storage and rotation, size limits, and failure behavior
-   for one framework-owned form.
-3. **Store a short-lived render snapshot on the server and return only an opaque
-   form token.** Submission resolves the token, validates current Sanity
-   authority, and moves the stored snapshot into the accepted Request. This keeps
-   snapshot values out of the browser round trip, but every rendered Booking form
-   creates provisional state that needs expiry, cleanup, abuse controls, and
-   behavior for multiple tabs or abandoned forms before any Request exists.
-4. **Post the source revision and reconstruct the rendered snapshot from Sanity at
-   submission.** The server attempts to retrieve that exact historical revision,
-   then separately reads current eligibility. This avoids a custom token and
-   provisional database state, but acceptance becomes dependent on historical
-   revision availability and provider behavior even though the page already had
-   the exact bounded proposition. A missing historical revision could prevent an
-   otherwise valid Request, and a current read cannot prove what was rendered.
+1. (recommended): **Keep three explicit journey-owned workflows and share only
+   narrow Request operations with already-accepted invariants.** A Consultation,
+   Booking, or Contact Server Action validates and maps its own public command,
+   then calls its named journey workflow. Each workflow is short and readable: it
+   uses the shared exact-retry resolver, performs only its required authority
+   preparation, uses the common correction verifier when requested, calls the one
+   shared transactional acceptance writer, and invokes the shared post-commit
+   delivery operation. A few lines of repeated sequencing are acceptable. Common
+   code appears because the behavior is already identical, not because all three
+   journeys must fit a framework.
+2. **Create one shared typed Request coordinator with journey preparation hooks.**
+   Journey-owned entry workflows provide a typed preparation function, while the
+   coordinator enforces one template for idempotency, authority preparation,
+   correction, persistence, delivery, and outcome translation. This makes the
+   ordering hard to vary accidentally, but introduces a callback or strategy
+   abstraction and a generic execution pipeline before three small workflows have
+   demonstrated that direct composition is difficult to maintain.
+3. **Use one central `submitRequest` workflow for all three journeys.** A closed
+   discriminated union selects Consultation, Booking, or Contact validation and
+   provider behavior inside one application service, which also owns the shared
+   acceptance and delivery sequence. This gives entry points one call surface but
+   concentrates unrelated journey fields, Sanity-only Booking behavior, and
+   future changes in a growing conditional module rather than preserving vertical
+   journey ownership.
 
 Recommendation rationale:
-Option 1 makes the selected Next.js form mechanism carry the exact server-created
-value it rendered, while the domain-centered application workflow remains
-responsible for current authority and acceptance. The closure contains only
-already-public bounded Experience context, so it does not become a transport for
-private provider data. It avoids custom signing machinery and avoids creating
-temporary records for every visitor who merely opens a form. Its build-specific
-lifetime matches the already accepted D-002 failure boundary: a stale action has
-accepted nothing and must recover truthfully before retry.
+Option 1 shares the high-consequence operations already required to be common—the
+idempotency lookup, private correction check, acceptance transaction, and
+post-commit delivery—without inventing a universal lifecycle engine. The three
+journey workflows remain easy to read, test, and change independently. If their
+small repeated sequence later causes real drift, the code can then extract a
+coordinator from demonstrated behavior rather than predicting one now.
 
 Why this matters:
-If the server reconstructs the snapshot only from current Sanity content, the
-accepted Request may preserve a proposition the visitor never saw. If ordinary
-browser fields can assert the snapshot, a modified submission can corrupt private
-Request evidence. The integrity mechanism therefore sits at a real cross-service
-and browser/server seam before Booking implementation fixes the wrong contract.
+Sharing too little can duplicate the transactional writer or delivery invariants.
+Sharing too much turns three clear enquiry journeys into an abstract processing
+equation that a solo developer must understand and maintain. This decision sets a
+proportional ownership rule, not a framework or exhaustive call graph.
 
-Deferred from D-003:
+Deferred from D-004:
 
-- exact render-context TypeScript type, validation schema, action name, and file
-  placement;
-- exact closure serialization and payload-size verification;
-- Server Action encryption-key deployment and rotation configuration;
-- exact stale-action detection, retained-form-state mechanism, and bilingual copy;
-- exact submission-time Sanity query and error mapping;
-- exact public form payload, result-union names, and field-error representation;
+- exact function names, files, imports, command types, and result unions;
+- exact ordering refinements that preserve accepted idempotency and correction
+  behavior;
+- whether two identical lines become a helper during implementation;
+- exact test seams, fakes, fixtures, and dependency wiring;
+- exact public form payload and field-error representation;
 - abuse controls, rate thresholds, and production configuration;
 - Node versus Edge runtime placement and WebSocket lifetime;
 - recovery schedules, escalation transport, and named ownership; and
 - detailed implementation and test mechanics.
 
-Installed Next.js 16.2.12 references:
-
-- <https://nextjs.org/docs/app/guides/data-security>
-- <https://nextjs.org/docs/app/guides/server-actions>
-
 After answer:
 
-- Lock the Booking render-context integrity boundary.
-- Store D-004 as the next question without answering it.
+- Lock the proportional Request workflow composition boundary.
+- Audit the subject for another costly-to-reverse unresolved seam before storing
+  another question.
