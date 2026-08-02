@@ -17,8 +17,9 @@ strategies yet.
 ## Current State
 
 - Branch `docs/migration-v4` originally started at `origin/main` commit
-  `978136091639aa473b8b384b6b9ee8382da040c3` and now includes current `main`
-  through merge commit `7f29a2f`.
+  `978136091639aa473b8b384b6b9ee8382da040c3`. The current review content is
+  reconciled against accepted decisions on `origin/main`; the branch itself must
+  be synchronized before this evaluation update is published.
 - `docs/new-proposed-docs/` contains 41 candidate documents covering a proposed
   documentation system, domain model, architecture, data ownership,
   development guidance, ADRs, assumptions, and runbooks.
@@ -43,13 +44,30 @@ strategies yet.
   the agent-guidance decomposition into `main` at `1860bfc`. Its compact root
   guidance and policy-owner documents are current authority and must be included
   in the fresh comparison against this proposal.
+- Pull request [#52](https://github.com/michi-guns/greek-essence/pull/52) later
+  accepted and distilled Application Architecture into `main`. The completed
+  evaluation has been reconciled so it treats that architecture as authority
+  while leaving exact source layout and implementation mechanics bounded.
+- The fresh read-only comparison is complete. It rewrote
+  `docs/working/NEXTJS_LAYER_2_INVENTORY.md` as a current-code inventory and
+  `docs/working/NEXTJS_LAYER_2_MIGRATION.md` as the documentation-architecture
+  evaluation and migration-strategy report. No runtime or application source was
+  changed.
+- The report recommends Option C: preserve compatible governance and placement
+  principles, stop the obsolete prototype-only `features/showcase` move, and
+  transition documentation incrementally only after operator approval. It does
+  not promote candidate documents or authorize implementation.
+- Two unrelated uncommitted deletions were found while recovering the branch:
+  `.hermes/plans/2026-07-24_103303-client-demo-vertical-slice-12h.md` and
+  `content/planning/prototype-asset-prompts.json`. Both were restored because this
+  work item recommends no deletion and had no path-specific deletion approval.
 
 ## Next Recommended Action
 
-A fresh agent performs a read-only comparison of the current migration, live
-documentation authority, and this proposal. The review should recommend one of
-three strategies: complete the current migration first, pause and replace it,
-or preserve useful completed work and transition incrementally.
+Present the completed comparison and its Option C recommendation to the operator.
+Record the selected migration strategy before promoting candidate documents,
+superseding the old Layer 2 move map, or creating a documentation-transition
+implementation slice.
 
 Completion condition: the operator chooses a migration strategy after reviewing
 the comparison, risks, sequencing, temporary inconsistencies, and treatment of
