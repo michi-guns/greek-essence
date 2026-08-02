@@ -474,15 +474,17 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present the numbered Application Architecture acceptance review for the exact raw
-ledger path and existing draft pull request #52, including combined automatic
-finalization, acceptance while retaining the raw ledger, and material correction
-options.
+Present the streamlined two-option Application Architecture completion question
+for the exact raw ledger path and existing draft pull request #52: finalize the
+grilling subject, or make changes first. The operator does not need to restate the
+finalization mechanics.
 
-Completion condition: the operator explicitly selects one acceptance-review
-outcome. If combined finalization is authorized, follow the grilling protocol's
-verified distillation, exact-path deletion, pull-request completion, merge, and
-cleanup sequence without treating it as implementation authorization.
+Completion condition: the operator explicitly selects one of the two outcomes. If
+finalization is authorized, follow the grilling protocol's verified distillation,
+exact-path deletion, pull-request completion, merge, synchronization, and cleanup
+sequence without treating it as implementation or successor-subject authorization.
+After completion, recommend the next dependency-ordered subject and wait for
+explicit approval before creating its branch, worktree, ledger, or draft PR.
 
 ## Done When
 
