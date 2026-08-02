@@ -2,7 +2,7 @@
 
 ## Status
 
-In Progress
+Complete
 
 ## Ownership and Scope
 
@@ -53,15 +53,18 @@ clarify the location of those rules but must not change their meaning.
   non-draft and targets `main` from the verified branch.
 - Commit and pre-push hooks classified the change as Markdown-only; Prettier and
   the repository Gitleaks history scan passed.
+- GitHub `Lightweight quality gates` run
+  [30750511156](https://github.com/michi-guns/greek-essence/actions/runs/30750511156)
+  passed on the non-draft pull request.
 
 ## Next Recommended Action
 
-Wait for required checks on pull request #51, re-read its live state, and obtain
-fresh operator confirmation immediately before squash merge.
+Re-read pull request #51 and obtain fresh operator confirmation immediately
+before squash merge. After merge, verify remote branch deletion and a clean
+local `main` synchronized with `origin/main`.
 
-Completion condition: the pull request is verified, non-draft, approved for
-merge at the final gate, and squash-merged without including proposal or
-Superpowers installation changes.
+Completion condition: delivery cleanup is verified without including proposal
+or Superpowers installation changes.
 
 ## Done When
 
