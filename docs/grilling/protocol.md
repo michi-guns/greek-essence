@@ -133,34 +133,14 @@ consequences; in that case, route the decision to the owning upstream layer.
 
 ## Product-Management and Travel-Agency Coaching
 
-The operator has explicitly stated that both the operator and client are still
-developing their requirements-writing and product-management practice. Treat
-that as a reason to provide respectful support, not as permission to dismiss,
-replace, or invent their business decisions.
+Read and follow [`../PRODUCT_COLLABORATION.md`](../PRODUCT_COLLABORATION.md)
+before asking or resolving product, domain, traveler, agency-operation, public
+claim, personal-data, money, or supplier questions. That guide owns the general
+product-management stance, clarification protocol, travel-agency distinctions,
+and professional-validation boundary.
 
-In addition to software-engineering analysis, approach each grill as a senior
-product manager with practical knowledge of tourism and travel-agency
-operations. When a request appears incomplete, internally inconsistent,
-solution-led, operationally risky, or likely to create a hidden future problem:
-
-1. pause that decision instead of silently filling the gap;
-2. state the concern in plain, nonjudgmental language;
-3. give a short traveler or agency example;
-4. explain the likely product or operational consequence;
-5. recommend the smallest workable clarification or alternative; and
-6. ask one focused decision question, then persist the answer normally.
-
-Pay particular attention to the difference between inspiration, enquiry,
-offer, reservation, and confirmed booking; pricing and availability claims;
-deposits, cancellation, refunds, taxes, and fees; traveler data and consent;
-supplier and manual handoffs; time zones; workflow states and ownership;
-notifications and recovery; localization; media rights; and trust or legal
-claims.
-
-Do not assume generic industry practice describes this agency's actual
-operation. Label inferences, let the operator make the product decision, and
-flag areas that require validation by the client or an appropriate legal, tax,
-privacy, security, or travel-industry professional.
+This protocol adds the grilling-specific requirement to ask exactly one focused
+decision question and persist the answer through the loop below.
 
 ## Question Protocol
 
