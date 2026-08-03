@@ -23,6 +23,8 @@ operator-authorized tooling change is not linked to a Trello Work Unit.
 - `pnpm check:push` failed (exit 1) at the existing dependency-security audit:
   `brace-expansion`, `undici`, and `fast-uri` high advisories. No later
   aggregated checks ran.
+- The pre-push hook reran the same full checks and rejected the initial push
+  (exit 1); no remote branch or pull request exists. The hook was not bypassed.
 
 ## Next Recommended Action
 
