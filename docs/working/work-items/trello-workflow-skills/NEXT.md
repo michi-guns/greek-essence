@@ -2,7 +2,7 @@
 
 ## Status
 
-In Progress
+Complete
 
 ## Ownership and Scope
 
@@ -19,23 +19,18 @@ operator-authorized tooling change is not linked to a Trello Work Unit.
 - No matching branch or pull request existed before this work item was created.
 - Branch `chore/trello-workflow-skills` was created from current `origin/main`
   in the dedicated `../greek-essence.worktrees/trello-workflow-skills` worktree.
-- `pnpm install --frozen-lockfile` passed (exit 0).
-- `pnpm check:push` failed (exit 1) at the existing dependency-security audit:
-  `brace-expansion`, `undici`, and `fast-uri` high advisories. No later
-  aggregated checks ran.
-- The pre-push hook reran the same full checks and rejected the initial push
-  (exit 1); no remote branch or pull request exists. The hook was not bypassed.
+- The four managed `jz-trello-flow` skills were installed in `.agents/skills/`
+  and registered in `docs/AGENT_TOOLING.md`.
+- The dependency-lockfile refresh resolved the prior audit blocker; `pnpm check:push`
+  passed (exit 0).
+- PR #54 records the complete outcome and its passed GitHub `Lightweight quality gates` check.
 
-## Next Recommended Action
+## Completion
 
-Resolve or obtain explicit acceptance of the existing high-severity dependency
-audit findings, then rerun `pnpm check:push` against this branch before review.
-
-Completion condition: `pnpm check:push` exits 0 and the pull request records
-its verification result.
+The work item is complete pending the verified squash merge and standard branch/worktree
+cleanup. It has no Trello Work Unit; no Trello state was mutated.
 
 ## Constraints
 
 - Never push directly to `main`.
 - Preserve unrelated worktrees and untracked files in the primary checkout.
-- Do not mutate Trello state; this installation has no linked Work Unit.
