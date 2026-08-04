@@ -45,7 +45,8 @@ quota, region, account, or production-readiness facts.
   receive real visitors and private enquiries.
 - The selected direction is one Next.js application on Vercel, Sanity for public
   editorial content, Neon PostgreSQL with Drizzle for private Requests, and
-  Nodemailer through the agency mail service. Netlify remains conditional fallback
+  a provider-neutral transactional-email API gateway with Resend primary and
+  Brevo as the single launch fallback. Netlify remains conditional fallback
   direction only if Vercel fails a mandatory commercial or technical gate.
 - The release targets zero new recurring platform spend until real visitor demand
   supports a separately approved upgrade. Free quotas never justify silent enquiry
@@ -97,7 +98,8 @@ remain implementation and Launch Readiness validations.
 
 Local mail is captured or redirected through a path that cannot deliver to real
 visitors or the agency business inbox. Only production receives production Neon
-and SMTP credentials. The exact safe-mail tool and credential injection
+and transactional-email provider credentials. The exact safe-mail tool and
+credential injection
 mechanism remain downstream choices.
 
 This boundary was chosen because it preserves realistic local integration
@@ -171,61 +173,108 @@ backup, and recovery therefore require explicit invocations or manual operations
 not a resident application loop.
 
 This was selected as the simplest proportional model for the Public Preview.
-Nodemailer already needs Node.js, Neon WebSocket transactions work there, and no
-traffic evidence justifies separate Node and Edge capability sets, adapters,
-secret scopes, or test matrices. The split-runtime option was rejected as
-premature optimization for the release's scale and market-validation purpose.
+The transactional-email adapters and Neon WebSocket transactions work in Node.js,
+and no traffic evidence justifies separate Node and Edge capability sets, secret
+scopes, or test matrices. The split-runtime option was rejected as premature
+optimization for the release's scale and market-validation purpose.
+
+### D-004 — Provider-Neutral API Delivery With One Safe Fallback
+
+Application workflows use one provider-neutral transactional-email interface.
+React Email renders each agency notification or visitor acknowledgement once to
+normalized HTML and plain text. Provider SDK types, API credentials, response
+mapping, and error classification remain inside small server-only adapters.
+Resend is the primary provider and Brevo is the only launch fallback. AhaSend is
+deferred until measured need shows that two providers are insufficient.
+
+The Request acceptance transaction continues to create exactly two durable
+delivery intents and the accepted current-summary and append-only-attempt records
+remain the only delivery persistence model. After commit, the originating bounded
+Node.js invocation performs the required initial email work and waits before
+returning its truthful visitor outcome. Each actual provider call is recorded
+against the stable Request-and-purpose delivery identity.
+
+If Resend reports a provider-specific result validated as definite
+non-acceptance, such as explicit quota exhaustion or a safe temporary failure,
+the gateway may make one automatic attempt through Brevo. Invalid recipient,
+message, authentication, or sender-domain errors are terminal rather than copied
+to another provider. A timeout or otherwise ambiguous handoff becomes uncertain
+and stops; provider-specific idempotency cannot prove across providers that the
+first service did not accept the message. Failure or uncertainty after the
+bounded path uses the already accepted data-minimized escalation and protected
+manual-recovery boundary.
+
+The Public Preview does not add a background email worker, generic queue,
+`email_jobs` duplicate, database-configurable routing, local cross-provider quota
+counters or reservations, quota-allocation SQL, provider admin page, or automatic
+delayed-retry scheduler. Those mechanisms would duplicate accepted delivery
+records, introduce a second database access pattern, and add operational machinery
+without launch evidence. The operator-provided three-provider router remains a
+draft source whose useful adapter and failure-classification ideas are narrowed by
+this decision rather than adopted wholesale.
+
+Production provider keys remain server-only and only in production. Launch
+Readiness must validate client-controlled Resend and Brevo accounts, privacy and
+commercial terms, sender-domain authorization, API behavior and idempotency,
+actual free quotas, alert independence, and the recovery drill before real
+enquiries are accepted. No failed validation silently enables AhaSend, authorizes
+a paid plan, or weakens the delivery contract.
 
 ## Open Questions
 
-- D-004 — bounded mail retry execution without a durable background queue.
+- D-005 — off-provider backup execution and freshness monitoring.
 
 ## Next Question
 
-### Runtime and Production Foundations D-004 — Mail Retry Execution
+### Runtime and Production Foundations D-005 — Off-Provider Backup Execution
 
 **State:** Pending.
 
-Every accepted Request creates separate visitor-acknowledgement and agency-
-notification delivery work. The first send happens only after the Request commits.
-A definitely failed send must receive bounded automatic retry; an uncertain send
-must never be resent blindly, and exhausted work must create a data-minimized
-escalation without asking the visitor to submit again.
+The accepted privacy and recovery boundary requires encrypted logical copies of
+Request data outside Neon, with each copy expiring no later than thirty days.
+Restore must begin in an isolated private environment and reapply Request expiry
+and verified earlier deletions before any restored data could return to
+production. Provider-managed Neon recovery alone is insufficient.
 
-The release now needs a proportional execution model. Vercel Hobby cron currently
-runs at most once per day. That cadence is suitable for slow housekeeping but
-would leave a recoverable visitor acknowledgement or agency notification waiting
-for up to a day. A more frequent external scheduler would add another production
-service, secret, failure mode, and monitoring dependency.
+The remaining foundation choice is where the small recurring backup job runs.
+Neon's current guidance documents `pg_dump` automation through a scheduled GitHub
+Actions workflow. Greek Essence's repository is public, and GitHub documents that
+scheduled workflows run from the default branch, may be delayed, and are
+automatically disabled after sixty days without repository activity. The backup
+therefore also needs a freshness signal that cannot silently disappear with the
+schedule.
 
-1. **(recommended): Retry within the originating invocation, then escalate for manual recovery.**
-   After commit, a definitely failed send receives a small bounded number of safe
-   retries while the invocation can still complete truthfully. If they fail, the
-   delivery is recorded as exhausted and a separately monitored, data-minimized
-   alert requests human recovery through a protected operation. Uncertain handoff
-   is recorded and escalated without redispatch. There is no background mail queue
-   or frequent scheduler at launch; exact retry count and short timing remain
-   implementation settings within provider and function limits.
-2. **Persist delayed retries for a scheduled recovery invocation.**
-   Definitely failed deliveries store a future retry time and a protected
-   scheduled caller claims them later. This handles longer transient outages
-   automatically, but useful mail timing requires a dependable scheduler more
-   frequent than the current zero-cost Vercel cadence, plus its own credentials,
-   monitoring, overlap protection, and failure recovery.
+1. **(recommended): Scheduled and manually triggerable GitHub Actions backup.**
+   A focused workflow uses encrypted Actions secrets for a narrowly scoped backup
+   connection and private object-storage write credential, runs the logical dump,
+   encrypts it before upload, and relies on storage lifecycle rules to remove every
+   copy within thirty days. No Request content or credentials enter repository
+   files or logs. A separate freshness check alerts the named owner when no recent
+   successful copy exists, covering job failure and public-repository schedule
+   disablement. Restore remains a separately authorized manual drill into an
+   isolated Neon environment. Exact schedule, storage provider, encryption tool,
+   and alert route remain implementation and Launch Readiness evidence.
+2. **Run backup export inside the production Next.js application.**
+   A daily Vercel cron invokes a protected Node.js Route Handler that exports,
+   encrypts, and uploads the database. This avoids GitHub's inactivity rule but
+   places dump tooling and backup credentials inside the visitor-facing deployment,
+   couples recovery to the application host, and must fit function duration,
+   memory, and temporary-storage limits.
 
 Current capability references:
 
+- <https://neon.com/docs/manage/backup-pg-dump-automate>
+- <https://docs.github.com/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule>
 - <https://vercel.com/docs/cron-jobs/usage-and-pricing>
-- <https://nodemailer.com/usage/>
 
-These references establish the current scheduling and mail capabilities, not the
-exact retry count, function duration, alert route, or recovery owner. Launch
-Readiness must prove that the selected alert path is monitored and independent
-enough to report an SMTP failure without copying private Request content.
+These references establish current scheduling and backup capabilities, not a
+permanent free allowance or proof that any account, storage provider, encryption
+configuration, or restoration procedure is launch-ready.
 
-Which mail-retry execution model should Greek Essence adopt for Runtime and
-Production Foundations D-004?
+Which backup-execution model should Greek Essence adopt for Runtime and Production
+Foundations D-005?
 
-After the answer: lock the automatic-retry and escalation execution boundary,
-retain exact retry values, alert recipient, and protected recovery procedure for
-later work, and store the next highest-value unresolved runtime decision.
+After the answer: lock the backup runner and credential boundary, retain exact
+providers, schedule, encryption, freshness alert, restore commands, and named
+owner for implementation or Launch Readiness, and store the next highest-value
+unresolved runtime decision.

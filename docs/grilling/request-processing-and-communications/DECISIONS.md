@@ -5,6 +5,9 @@
 Accepted by the operator on 2026-07-30 after feature grilling and a reopened
 semantic review. D-001 through D-009 form the complete accepted feature
 boundary.
+The operator amended the mail-provider realization on 2026-08-04 through Runtime
+and Production Foundations D-004 without changing this feature's accepted
+delivery semantics.
 
 This document defines the Public Preview Release behavior shared by Consultation
 Requests, Booking Requests, and General Contact messages: durable acceptance,
@@ -26,8 +29,9 @@ content minimization, and visible outcomes.
 
 Every accepted submission is private transactional data. The website validates
 and durably saves it in Neon before claiming receipt. Agency notification and
-visitor acknowledgement use Nodemailer through the agency's approved mail
-service but remain independent outcomes after acceptance.
+visitor acknowledgement use one provider-neutral transactional-email interface,
+with Resend primary and Brevo as the single launch fallback, but remain
+independent outcomes after acceptance.
 
 The launch has no customer accounts, public request history, staff dashboard,
 staff request-history interface, or separate customer-management system.
@@ -169,9 +173,10 @@ accepted the message.
 
 When retries are exhausted or delivery remains uncertain, the system alerts a
 named recovery owner through a separately monitored route that does not depend
-solely on the failing agency mail path. The alert contains only the opaque
-request reference, email purpose, failure category, and minimum diagnostic
-context. It excludes the visitor's request, message, notes, and contact details.
+solely on the failing transactional-email provider path. The alert contains only
+the opaque request reference, email purpose, failure category, and minimum
+diagnostic context. It excludes the visitor's request, message, notes, and contact
+details.
 
 The recovery owner makes the bounded decision for uncertain delivery and ensures
 that a failed agency notification does not leave an accepted request unnoticed.
@@ -344,9 +349,10 @@ and test:
 - **Client:** the production business inbox, recipients, ordinary follow-up
   process, recovery owner, separately monitored alert route, and operational
   response procedure.
-- **Development team with the agency mail owner:** secure SMTP authentication,
-  authorized sender, supported outbound connection, service limits, confirmed
-  handoff behavior, and the exact bounded retry count and timing.
+- **Development team with the client mail-provider owner:** Resend and Brevo
+  account control, narrow API credentials, authorized sender domain, provider
+  terms and limits, confirmed handoff behavior, and the exact bounded retry count
+  and timing.
 - **Client:** the named agency deletion and data-rights owner, twelve-month
   database and inbox rule, and practical inbox-deletion process.
 - **Client and qualified privacy or legal reviewer:** accurate controller facts,

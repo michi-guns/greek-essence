@@ -3,6 +3,8 @@
 ## Status and Authority
 
 Accepted by the operator on 2026-07-29 after project-level grilling.
+The operator amended the mail-provider direction on 2026-08-04 through Runtime
+and Production Foundations D-004; this document reflects that superseding choice.
 
 This document defines the high-level product boundary, agency workflow, feature
 map, platform direction, client-validation method, and explicit exclusions for
@@ -134,8 +136,9 @@ The current selected direction is:
 - **Drizzle** for the PostgreSQL schema, reproducible migrations, and application
   access;
 - **Vercel** as the current host;
-- **Nodemailer** through the agency's mail service for agency notifications and
-  visitor acknowledgements; and
+- a provider-neutral transactional-email API gateway using **Resend** as primary
+  and **Brevo** as one failover provider for agency notifications and visitor
+  acknowledgements; and
 - **Netlify** as a possible later replacement for Vercel, not a current
   requirement.
 
@@ -162,19 +165,26 @@ validated commercially eligible free-hosting route, such as a validated
 Netlify Free replacement, or return the cost decision to the client. Provider
 terms, quotas, and technical fit must be checked before launch.
 
-The launch target is zero new recurring platform spend using free quotas and
-existing approved agency services. Free limits must be monitored, and no paid
+The launch target is zero new recurring platform spend using compliant free
+quotas and client-controlled services. Free limits must be monitored, and no paid
 upgrade may be introduced without a later explicit client decision. If no free
 option can meet a mandatory privacy, security, durability, or truthful-service
 boundary, surface that launch blocker rather than silently paying or weakening
 the requirement.
 
-Nodemailer is a library, not the mail provider. The agency's mail service must
-permit secure automated SMTP, provide appropriate password or OAuth access,
-allow a supported outbound port and sender address, and have suitable limits.
-The submission handler must wait for required email delivery work to finish. If
-the agency service is incompatible, return the constraint to the operator; do
-not silently select another provider.
+Application features depend on one provider-neutral transactional-email
+interface. Resend is the primary provider and Brevo is the only launch fallback.
+The submission handler waits for required initial email work to finish after the
+Request commits. Failover occurs only after a provider result is proven to mean
+definite non-acceptance; an ambiguous handoff stops automatic redispatch. The
+Public Preview does not pool free quotas, run a generic background mail queue, or
+enable AhaSend without a later evidence-backed decision.
+
+Before launch, validate both providers' client-controlled accounts, privacy and
+commercial terms, sender-domain authorization, API behavior, quotas, credentials,
+and failure recovery. If either provider cannot satisfy a mandatory boundary,
+return the constraint to the operator; do not silently add a third provider, pay
+for an upgrade, or weaken truthful delivery behavior.
 
 ## Client Collaboration and Approval
 
@@ -199,7 +209,7 @@ The client must confirm:
   documents; and
 - ownership, access, acceptable cost, and operational responsibility for
   Sanity, Neon, Vercel or a later Netlify replacement, the domain, monitoring,
-  and the agency mail account.
+  and the Resend and Brevo accounts.
 
 The development team owns Drizzle mechanics, code organization, validation
 libraries, runtime configuration, and test implementation, subject to accepted
@@ -253,7 +263,8 @@ decisions and launch evidence establish:
 - named agency ownership and response process;
 - client-controlled production accounts and secrets;
 - validated Neon privacy, region, backup, restore, and recovery boundaries;
-- validated agency SMTP delivery and sender authorization;
+- validated Resend and Brevo account control, sender-domain authorization,
+  privacy terms, API behavior, quotas, and delivery recovery;
 - approved English/Greek content, licensed media, and public claims;
 - required privacy and legal review;
 - accessible, responsive, localized visitor journeys;
@@ -269,8 +280,9 @@ decisions and launch evidence establish:
   PostgreSQL, Drizzle, serverless connection, and future-workflow fit.
 - A custom staff dashboard, separate customer-management service, combined
   generic enquiry feature, and early booking operations are not launch scope.
-- Archived prototype architecture and Resend plans are not current authority or
-  evidence of implemented behavior.
+- The archived prototype's Resend-only architecture and the later Nodemailer/
+  agency-SMTP direction are superseded. Neither is current implementation
+  authority.
 
 ## Unresolved External Validations
 
@@ -284,8 +296,9 @@ have named owners or later feature grills and may still change launch details:
   and explicit client approval.
 - Development team with client account owner: Neon region, privacy agreement,
   access, recovery, and upgrade limits.
-- Development team with agency mail owner: SMTP authentication, sender domain,
-  limits, delivery, and failure recovery.
+- Development team with client mail-provider owner: Resend and Brevo account
+  control, API credentials, sender domain, terms, limits, delivery, and failure
+  recovery.
 - Qualified reviewers where applicable: legal, privacy, tax, commercial, and
   travel-industry claims.
 

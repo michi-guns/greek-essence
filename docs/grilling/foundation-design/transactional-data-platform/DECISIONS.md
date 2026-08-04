@@ -1,6 +1,9 @@
 # Transactional Data Platform Decisions
 
 Accepted by the operator on 2026-08-02 after Foundation Design grilling.
+The operator amended the mail-provider realization on 2026-08-04 through Runtime
+and Production Foundations D-004 without changing the accepted transactional or
+delivery-record model.
 
 This document defines the durable Neon PostgreSQL and Drizzle foundations for
 validating, accepting, relating, auditing, delivering, retaining, deleting,
@@ -31,9 +34,9 @@ downstream work.
   database schema meaning is sufficient. Handwritten Zod remains responsible
   for cross-field, journey, privacy, and external-authority rules that table
   shape cannot express truthfully.
-- Nodemailer and the agency mail service act only after durable Request
-  acceptance. Mail handoff, failure, retry, and recovery never redefine whether
-  the Request was accepted.
+- The provider-neutral transactional-email gateway and its Resend or Brevo
+  adapter act only after durable Request acceptance. Mail handoff, failure,
+  retry, and recovery never redefine whether the Request was accepted.
 - Consultation Request, Booking Request, and General Contact form one Request
   family with one shared envelope and exactly one immutable typed journey
   detail. A wide nullable table, generic catch-all payload, and three unrelated
@@ -465,10 +468,11 @@ recovery owner selected during Launch Readiness.
 ### Launch Readiness
 
 Verify actual provider plan and region facts, account control, migration and
-rollback evidence, SMTP authorization, delivery recovery, restricted database
-and backup access, twelve-month cleanup, authorized earlier deletion, backup
-expiry, deletion-safe restoration, and named technical and agency roles. Name the
-agency owner responsible for inbox-copy retention and evidence the twelve-month
+rollback evidence, Resend and Brevo sender-domain and API authorization, delivery
+recovery, restricted database and backup access, twelve-month cleanup, authorized
+earlier deletion, backup expiry, deletion-safe restoration, and named technical
+and agency roles. Name the agency owner responsible for inbox-copy retention and
+evidence the twelve-month
 inbox deletion practice.
 Confirm the privacy explanation discloses that protected backup residue may
 remain for up to thirty days after active deletion. Qualified privacy, security,

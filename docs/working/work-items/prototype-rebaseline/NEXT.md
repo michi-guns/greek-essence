@@ -28,8 +28,9 @@ architecture rebaseline, and promotion of settled documentation.
   and general contact. The agency follows up manually through its existing
   email and telephone process.
 - The selected platform direction is Sanity, Neon PostgreSQL, Drizzle, Vercel,
-  and Nodemailer through the agency mail service. Netlify is only the accepted
-  fallback direction if Vercel fails a mandatory commercial or technical gate.
+  and a provider-neutral transactional-email API gateway using Resend primary
+  and Brevo as the single launch fallback. Netlify is only the accepted fallback
+  direction if Vercel fails a mandatory commercial or technical gate.
 - The operator clarified that the Public Preview is commercially a
   market-validation experiment: target zero new recurring platform spend, use
   compliant free quotas until traffic proves demand, and require explicit client
@@ -119,8 +120,9 @@ architecture rebaseline, and promotion of settled documentation.
   successful merge.
   Grill one feature at a time.
 - The architecture register now records Sanity, Neon, Drizzle, Vercel with
-  optional Netlify, and Nodemailer as accepted directions with remaining
-  feature-level and launch validation.
+  optional Netlify, and the Resend-primary/Brevo-fallback transactional-email
+  gateway as accepted directions with remaining feature-level and launch
+  validation.
 - No application implementation, dependency installation, schema migration,
   or active application path change is authorized by these decisions.
 - General Contact D-001 establishes that Contact accepts ordinary questions
@@ -265,8 +267,9 @@ architecture rebaseline, and promotion of settled documentation.
   Sanity, or Neon experience.
 - Locked stack inputs now include Next.js, Sanity, Neon PostgreSQL, the latest
   Drizzle release candidate available when implementation begins, Drizzle's
-  first-party Zod integration with the latest Zod v4, Nodemailer through the
-  agency mail service, and the current Vercel direction with conditional Netlify
+  first-party Zod integration with the latest Zod v4, a provider-neutral
+  transactional-email API gateway with Resend primary and Brevo as the single
+  launch fallback, and the current Vercel direction with conditional Netlify
   fallback. Exact versions are pinned and verified during later authorized
   implementation rather than reopened in grilling.
 - On 2026-07-30, the operator explicitly authorized the first Foundation Design
@@ -452,21 +455,25 @@ architecture rebaseline, and promotion of settled documentation.
   Request rows, and a non-delivering mail path. Production content and drafts stay
   in the production Sanity dataset, with drafts available only through controlled
   authenticated production Draft Mode; only production receives production Neon
-  and SMTP credentials. Exact provider setup and zero-cost allowance evidence
-  remain downstream validations. D-002 is accepted: production schema changes use
-  backward-compatible staged evolution. Both old and new applications are tested
-  against the migrated synthetic database; production migration is applied and
-  verified with the old application before the new application is deployed. A
-  failed new deployment rolls back the application while the compatible schema
-  remains, and destructive cleanup waits for a later release. Genuinely unavoidable
-  breaks use truthful maintenance rather than unsafe lockstep release. D-003 is
-  accepted: all launch server behavior uses the default Node.js runtime and
-  completes or durably records bounded work within an invocation. Neon WebSocket
-  connection state, in-memory timers, workers, queues, and warm-function lifetime
-  are never correctness dependencies. Edge remains excluded until measured value
-  justifies another runtime boundary. D-004 is pending and asks how definitely
-  failed mail is retried and escalated without adding disproportionate background
-  infrastructure.
+  and transactional-email provider credentials. Exact provider setup and zero-cost
+  allowance evidence remain downstream validations. D-002 is accepted: production
+  schema changes use backward-compatible staged evolution. Both old and new
+  applications are tested against the migrated synthetic database; production
+  migration is applied and verified with the old application before the new
+  application is deployed. A failed new deployment rolls back the application
+  while the compatible schema remains, and destructive cleanup waits for a later
+  release. Genuinely unavoidable breaks use truthful maintenance rather than unsafe
+  lockstep release. D-003 is accepted: all launch server behavior uses the default
+  Node.js runtime and completes or durably records bounded work within an
+  invocation. Neon WebSocket connection state, in-memory timers, workers, queues,
+  and warm-function lifetime are never correctness dependencies. Edge remains
+  excluded until measured value justifies another runtime boundary. D-004 is
+  accepted: React Email feeds one provider-neutral server interface, Resend is
+  primary, and Brevo receives at most one failover attempt after a result validated
+  as definite non-acceptance. Ambiguous handoff stops; AhaSend, a background worker,
+  generic email queue, duplicate job table, and local quota-router machinery are
+  deferred. D-005 is pending and asks where encrypted off-provider logical backups
+  run and how missed backups become visible.
   Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
   is open from the task branch to preserve the active decision set.
   The bootstrap permits decision grilling and an early draft pull request, not
@@ -515,11 +522,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Runtime and Production Foundations D-004 — mail retry execution exactly
+Present Runtime and Production Foundations D-005 — off-provider backup execution
+exactly
 as stored in the active ledger. Persist the operator's answer before drafting or
 presenting the next runtime decision.
 
-Completion condition: D-004 is locked with its rationale and consequences, the
+Completion condition: D-005 is locked with its rationale and consequences, the
 next highest-value runtime question is stored, and the same branch and draft pull
 request preserve the resumable state.
 
@@ -539,8 +547,9 @@ state has been reconciled or removed.
 - Do not treat anything under `docs/archive/showcase-prototype-v0/` as current
   authority, even when an archived document describes itself as approved or
   authoritative.
-- Do not install or configure Sanity, Neon, Drizzle, Nodemailer, or another
-  backend dependency until a later explicit implementation task authorizes it.
+- Do not install or configure Sanity, Neon, Drizzle, React Email, Resend, Brevo, or
+  another backend dependency until a later explicit implementation task authorizes
+  it.
 - Obtain user approval before changing active paths.
 - Vercel's commercially eligible zero-cost launch use must be proven in Launch
   Readiness. Failure of that mandatory gate routes an explicit Foundation Design
