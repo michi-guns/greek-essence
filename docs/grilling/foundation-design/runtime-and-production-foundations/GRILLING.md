@@ -73,67 +73,104 @@ quota, region, account, or production-readiness facts.
 
 ## Locked Decisions
 
-None yet.
+### D-001 — Local-Only Development With Synthetic Service Boundaries
+
+Greek Essence does not use automatic Vercel pull-request or branch preview
+deployments. Routine UI and application development happens locally and does
+not depend on a Vercel preview runtime.
+
+Local Next.js and Sanity Studio development use one synthetic `development`
+Sanity dataset. The production dataset contains the real approved public
+content and drafts; the public site reads its published perspective, while real
+drafts remain available only through the controlled authenticated production
+Draft Mode workflow. The same version-controlled Sanity schema serves both
+datasets, but local application development receives no production application
+token or unrestricted draft access.
+
+Local Request development uses a manually managed non-production Neon branch
+containing synthetic data only. A normal Neon child branch carries its parent's
+rows, so after production holds real enquiries the development branch must not
+be cloned or refreshed from production data. It may instead be built from
+reviewed migrations or a validated schema-only branch and then seeded with
+synthetic Requests. Exact branch mechanics and current free-plan allowances
+remain implementation and Launch Readiness validations.
+
+Local mail is captured or redirected through a path that cannot deliver to real
+visitors or the agency business inbox. Only production receives production Neon
+and SMTP credentials. The exact safe-mail tool and credential injection
+mechanism remain downstream choices.
+
+This boundary was chosen because it preserves realistic local integration
+without automatic provider provisioning, production traveler data, live mail,
+or coupling unfinished schemas and UI to the live catalogue. Reading
+production-published Sanity content during routine local development was
+rejected because it would make the boundary less obvious and would not exercise
+new schemas or draft behavior. Separate persistent local and hosted-preview
+environments were rejected because Greek Essence has no routine Vercel preview
+runtime and the extra fixtures, secrets, migrations, and cleanup would add work
+without current value.
+
+Current first-party capability evidence shows that Sanity datasets can select
+different content environments, Sanity's current Free plan lists two datasets,
+and Neon supports both copy-on-write and schema-only branches. These are
+capability references rather than permanent plan guarantees. Launch Readiness
+must confirm the exact zero-cost allowances before configuration; failure
+reopens the boundary rather than granting production access or authorizing paid
+services.
 
 ## Open Questions
 
-- D-001 — environment isolation across local development, Vercel previews, and
-  production.
+- D-002 — production schema, application deployment, and rollback compatibility.
 
 ## Next Question
 
-### Runtime and Production Foundations D-001 — Environment Isolation
+### Runtime and Production Foundations D-002 — Schema, Deployment, and Rollback Compatibility
 
 **State:** Pending.
 
-A developer opens a pull request and Vercel creates a live preview URL. That
-preview must exercise realistic Sanity reads, Request persistence, and mail
-outcomes without receiving production Neon or SMTP credentials, writing test
-Requests into the real database, exposing private drafts, or sending messages to
-real visitors or the agency business inbox.
+A reviewed Drizzle migration must run before changed application code serves
+traffic, but the existing production deployment remains live while that
+migration runs. If the new deployment then fails, Vercel can point production
+back to the previous application deployment; that rollback is safe only if the
+database schema still supports the previous code.
 
-The accepted Transactional Data Platform already rejects automatic per-preview
-Neon databases. The remaining foundation choice is therefore which stable
-non-production services local development and preview deployments may share, and
-whether they may read production-published Sanity content.
+The foundation choice is how Greek Essence handles schema changes that would
+otherwise make the old and new application versions incompatible during the
+release or after an application rollback.
 
-1. **(recommended): One shared synthetic non-production environment for local and preview use.**
-   Local development and Vercel previews use one non-production Sanity dataset,
-   one shared non-production Neon database, and a mail path that cannot deliver to
-   real visitors or the agency business inbox. Only the production deployment
-   receives production Sanity, Neon, and SMTP credentials. Actual private Sanity
-   drafts are previewed through controlled authenticated production Draft Mode,
-   not generic pull-request previews. This gives one clear safety boundary without
-   per-PR provider provisioning.
-2. **Separate persistent development and preview environments.**
-   Local development and Vercel previews each receive their own non-production
-   Sanity, Neon, and safe-mail configuration. This reduces interference between a
-   developer's local work and shared preview demonstrations, but doubles fixture,
-   secret, migration, and cleanup work before traffic has justified it.
-3. **Read production-published Sanity content from non-production runtimes.**
-   Local and preview deployments may query only the public published Sanity
-   perspective, while still using shared non-production Neon and safe mail. This
-   avoids maintaining synthetic editorial content, but couples unfinished code to
-   the live catalogue, does not test schema changes or draft behavior, and makes
-   the environment boundary less obvious.
+1. **(recommended): Backward-compatible staged schema evolution.**
+   Add or widen schema first without removing behavior required by the current
+   application, apply that reviewed migration, manually deploy and verify the new
+   application, and remove obsolete schema only in a later separately reviewed
+   release after the previous application can no longer be restored against it.
+   If the new application fails, Vercel can roll back the application while the
+   compatible schema remains. A genuinely unavoidable breaking migration uses an
+   explicit truthful maintenance path rather than pretending the ordinary release
+   is safe. This is a release discipline, not a generic zero-downtime migration
+   framework.
+2. **Maintenance boundary for every incompatible schema release.**
+   Before migration, the public Request journeys stop accepting submissions and
+   show a truthful temporary-unavailability outcome. Apply the migration, deploy
+   the matching application, verify both together, and reopen acceptance. This
+   permits direct breaking migrations but creates an avoidable interruption and
+   makes rollback depend on a reviewed reverse migration or compatible database
+   restore rather than Vercel application rollback alone.
 
 Current capability references:
 
-- <https://vercel.com/docs/deployments/environments>
-- <https://www.sanity.io/docs/content-lake/datasets>
-- <https://neon.com/docs/guides/neon-managed-vercel-integration>
+- <https://vercel.com/docs/cli/deploy>
+- <https://vercel.com/docs/instant-rollback>
+- <https://orm.drizzle.team/docs/drizzle-kit-migrate>
 
-These references confirm that Vercel environment scopes, separate Sanity datasets,
-and Neon preview branching exist. They do not override the accepted decision that
-Greek Essence will not automatically provision per-preview Neon databases.
-Whichever option is selected still requires later evidence that its exact provider
-configuration fits compliant zero-cost allowances. Failed validation reopens the
-boundary or hosting direction; it never silently grants production credentials or
-authorizes a paid upgrade.
+These references establish available deployment, application-rollback, and
+migration capabilities. They do not prove that a particular Greek Essence schema
+change is backward compatible or authorize migration or deployment. Exact release
+commands, readiness evidence, and the rare breaking-change procedure remain later
+work.
 
-Which environment-isolation model should Greek Essence adopt for Runtime and
-Production Foundations D-001?
+Which release-compatibility model should Greek Essence adopt for Runtime and
+Production Foundations D-002?
 
-After the answer: lock the chosen environment and secret boundary, retain exact
-provider setup and account evidence for later work, and store the next highest-
-value unresolved runtime decision.
+After the answer: lock the schema/application compatibility and rollback boundary,
+retain exact deployment commands and evidence for later work, and store the next
+highest-value unresolved runtime decision.
