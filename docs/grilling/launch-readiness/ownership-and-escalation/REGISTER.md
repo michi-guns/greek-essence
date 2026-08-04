@@ -114,11 +114,15 @@ Readiness subjects.
 
 **LR-O-004 — real-enquiry inbox recipient**
 
-Name the authorized person or group responsible for monitoring the agency-owned
-route that receives Consultation Requests, Booking Requests, and General Contact
-enquiries. Record the monitored business address or protected evidence that
-identifies it, plus the routine coverage boundary. Dimitri's personal Gmail may
-receive only synthetic controlled test enquiries, never real visitor data.
+- **Selected ownership model:** Giorgos is the primary recipient through an
+  agency-owned inbox, with a named authorized agency delegate covering his
+  absences.
+- **Remaining confirmation:** name the authorized coverage delegate. Before real
+  enquiries are enabled, protected launch evidence must identify the monitored
+  agency address and confirm routine primary and absence coverage. Dimitri's
+  personal Gmail may receive only synthetic controlled test enquiries, never
+  real visitor data.
+- **Status:** Open until the coverage delegate is named.
 
 ## Continuation Rule
 

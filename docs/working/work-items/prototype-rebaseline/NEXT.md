@@ -480,6 +480,11 @@ architecture rebaseline, and promotion of settled documentation.
   business meaning, but may immediately withdraw clearly unsafe, misleading, or
   rights-uncertain content, notify Giorgos, and require approval before
   republication.
+- Launch Ownership and Escalation LR-O-004 has a selected but incomplete
+  ownership model. Giorgos is the primary recipient through an agency-owned
+  inbox, with a named authorized agency delegate covering his absences. The item
+  remains Open until that delegate is named; protected launch evidence must later
+  identify the monitored address and confirm coverage.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -523,14 +528,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Public Preview Launch Ownership and Escalation LR-O-004: name the
-authorized person or group that will monitor the agency-owned real-enquiry inbox,
-identify the monitored business address or its protected evidence, and confirm
-routine coverage. Dimitri's personal Gmail remains synthetic-test-only.
+Continue only Public Preview Launch Ownership and Escalation LR-O-004: ask for
+the name of the authorized agency delegate who will cover the agency-owned
+real-enquiry inbox when Giorgos is absent. Dimitri's personal Gmail remains
+synthetic-test-only.
 
-Completion condition: persist the named recipient or group, monitored route,
-coverage boundary, evidence requirements, and readiness status before advancing
-to LR-O-005.
+Completion condition: persist the named coverage delegate, monitored-route and
+coverage evidence requirements, and Confirmed status before advancing to
+LR-O-005.
 
 ## Done When
 
