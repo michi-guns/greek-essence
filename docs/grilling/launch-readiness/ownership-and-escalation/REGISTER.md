@@ -54,7 +54,7 @@ Readiness subjects.
 | ID       | Required assignment                           | Expected boundary                                                                                                  | Required evidence                                                                                    | Status    |
 | -------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | --------- |
 | LR-O-001 | Agency business and content approver          | Approves services, claims, prices, media use, and the intended business meaning in both languages                  | Named authorized person and confirmation that technical publication does not transfer this authority | Confirmed |
-| LR-O-002 | English and Greek language reviewers          | Check natural language and semantic parity without silently becoming business approvers                            | Named reviewer for each language and the handoff for correcting or escalating changed meaning        | Open      |
+| LR-O-002 | English and Greek language reviewers          | Check natural language and semantic parity without silently becoming business approvers                            | Named reviewer for each language and the handoff for correcting or escalating changed meaning        | Confirmed |
 | LR-O-003 | Technical publisher                           | Performs the Sanity edit, technical preview, validation, publication, withdrawal, and public verification steps    | Named person, production-access boundary, and confirmed handoff from the business approver           | Open      |
 | LR-O-004 | Real-enquiry inbox recipient                  | Monitors the agency-owned route for Consultation, Booking Request, and General Contact follow-up                   | Named authorized recipient or group, monitored address, and coverage confirmation                    | Open      |
 | LR-O-005 | Delivery-recovery and incident owner          | Receives data-minimized alerts and handles uncertain or exhausted email delivery without prompting duplicate sends | Named owner, separate alert route, escalation boundary, and exercised recovery evidence              | Open      |
@@ -76,15 +76,30 @@ Readiness subjects.
   exact legal wording remain separate Launch Readiness evidence.
 - **Status:** Confirmed.
 
+### LR-O-002 — English and Greek language reviewers
+
+- **Named English reviewer:** Dimitri.
+- **Named Greek reviewer:** Dimitri.
+- **Authority boundary and handoff:** Dimitri checks that each language reads
+  naturally and that both communicate the same service boundaries. He may make
+  wording corrections that preserve the approved meaning, but this review does
+  not make him the business approver. Any correction that changes a service,
+  claim, price, media use, legal meaning, or other business meaning returns to
+  Giorgos for approval before publication.
+- **Evidence:** the operator confirmed Dimitri for both language-review roles on
+  2026-08-04. Publication evidence must identify the reviewed English and Greek
+  material and preserve the Giorgos approval attributable to any changed
+  business meaning.
+- **Status:** Confirmed.
+
 ## Current Focus
 
-**LR-O-002 — English and Greek language reviewers**
+**LR-O-003 — technical publisher**
 
-Name the human reviewer responsible for natural language and semantic parity in
-each published language. A reviewer may correct wording without becoming the
-business approver; any proposed correction that changes services, claims,
-prices, media use, legal meaning, or another business meaning must return to
-Giorgos for approval before publication.
+Confirm the named person who will perform Sanity editing, technical preview,
+validation, publication, withdrawal, and public verification. Record the
+production-access boundary and the handoff proving that published business
+meaning was approved by Giorgos or an explicitly authorized delegate.
 
 ## Continuation Rule
 

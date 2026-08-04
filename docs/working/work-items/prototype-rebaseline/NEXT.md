@@ -471,6 +471,10 @@ architecture rebaseline, and promotion of settled documentation.
   final agency approver for services, claims, prices, media use, and intended
   business meaning in English and Greek. Any delegation for affected material
   must be explicit, and technical publication does not transfer this authority.
+- Launch Ownership and Escalation LR-O-002 is confirmed. Dimitri is the named
+  human reviewer for both English and Greek. He may correct natural wording while
+  preserving approved meaning; any change to business meaning returns to Giorgos
+  for approval before publication.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -514,14 +518,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Public Preview Launch Ownership and Escalation LR-O-002: name the human
-reviewer responsible for natural language and semantic parity in English and the
-human reviewer responsible in Greek, then confirm that any wording correction
-which changes business meaning returns to Giorgos for approval before publication.
+Ask only Public Preview Launch Ownership and Escalation LR-O-003: confirm the
+named technical publisher, production-access boundary, and handoff proving that
+published business meaning was approved by Giorgos or an explicitly authorized
+delegate.
 
-Completion condition: persist both named language reviewers, the correction and
-meaning-escalation handoff, evidence requirements, and readiness status before
-advancing to LR-O-003.
+Completion condition: persist the technical publisher, access and authority
+boundary, approval handoff, evidence requirements, and readiness status before
+advancing to LR-O-004.
 
 ## Done When
 
