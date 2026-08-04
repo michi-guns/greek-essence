@@ -2,7 +2,7 @@
 
 ## Status
 
-Ready for acceptance.
+Accepted.
 
 ## Purpose
 
@@ -165,12 +165,18 @@ The named agency retention and data-rights owner, provider-account control, exac
 operating procedures, and executable evidence remain separate Launch Readiness
 subjects. They are not silently treated as resolved here.
 
-**Status:** Ready for acceptance.
+The operator accepted the complete register on 2026-08-04 and authorized
+completion of the existing draft pull request, required-check monitoring, squash
+merge, merged-branch deletion, and isolated-worktree cleanup. This register
+remains the durable Launch Readiness artifact; there is no raw `GRILLING.md` path
+to remove.
 
-## Continuation Rule
+**Status:** Accepted.
 
-Resolve only the current focus. Persist its named assignment, authority boundary,
-evidence requirement, and status before moving to the next open item. If an
-answer changes accepted product behavior or foundation architecture, mark the
-item blocked and route that decision upstream instead of weakening existing
-authority here.
+## Accepted Artifact Boundary
+
+These accepted assignments do not authorize implementation, provider
+configuration, production-data access, deployment, or launch. Later Launch
+Readiness subjects own the unresolved validations identified above. Any future
+change to an assignment must be explicit and must preserve or deliberately
+reconcile its accepted authority boundary.

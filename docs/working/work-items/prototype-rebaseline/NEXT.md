@@ -500,7 +500,10 @@ architecture rebaseline, and promotion of settled documentation.
   assignment in this subject. Agency retention and data-rights ownership,
   provider-account control, exact procedures, and executable proof remain
   separate Launch Readiness subjects rather than implied outcomes here. The
-  register is Ready for acceptance.
+  operator accepted LR-O-001 through LR-O-006 on 2026-08-04 and authorized
+  completion of draft pull request #55, required-check monitoring, squash merge,
+  merged-branch deletion, and isolated-worktree cleanup. The accepted register
+  remains the durable artifact; there is no raw `GRILLING.md` path to remove.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -544,15 +547,16 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only: **“Should I finalize this grilling subject, or do you want to make any
-changes?”**
+Recommend, but do not start, the next bounded Launch Readiness subject: Public
+Preview Privacy, Retention, and Data-Rights Readiness. It should confirm the
+agency owner, approved privacy facts and review, twelve-month database and inbox
+retention, practical inbox deletion, manual rights handling, and accurate
+thirty-day backup-residue disclosure without reopening accepted product or
+foundation behavior.
 
-Completion condition: if the operator finalizes, persist the accepted status in
-the readiness register, verify it against the accepted assignments and upstream
-authority, and complete the existing pull request, merge, and cleanup flow. The
-register remains the durable Launch Readiness artifact; there is no raw
-`GRILLING.md` path to remove. If the operator wants changes, keep the register
-active and persist the correction before continuing.
+Completion condition: wait for explicit operator authorization or selection of a
+different Launch Readiness subject before creating another branch, worktree,
+register, or draft pull request.
 
 ## Done When
 
