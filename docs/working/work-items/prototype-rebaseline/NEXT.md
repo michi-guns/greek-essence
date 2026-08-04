@@ -492,6 +492,15 @@ architecture rebaseline, and promotion of settled documentation.
   and visitor resubmission, and escalates to Giorgos when an agency notification
   failure could leave an accepted request unnoticed. Exact alert and exercised
   recovery evidence remain separate Launch Readiness work.
+- Launch Ownership and Escalation LR-O-006 is confirmed. Dimitri owns manual
+  encrypted Neon exports, deletion of each within thirty days, and restores only
+  through a later approved authorization procedure in an isolated environment.
+  Exact procedure and exercised evidence remain separate Launch Readiness work.
+- The bounded ownership-and-escalation scope audit found no remaining material
+  assignment in this subject. Agency retention and data-rights ownership,
+  provider-account control, exact procedures, and executable proof remain
+  separate Launch Readiness subjects rather than implied outcomes here. The
+  register is Ready for acceptance.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -535,14 +544,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Public Preview Launch Ownership and Escalation LR-O-006: name the
-technical operator responsible for manual encrypted Neon exports, deletion of
-each backup within thirty days, and explicitly authorized isolated restores.
-Exact procedure and exercised evidence remain separate Launch Readiness work.
+Ask only: **“Should I finalize this grilling subject, or do you want to make any
+changes?”**
 
-Completion condition: persist the named backup operator, authorization boundary,
-later evidence requirements, and Confirmed status, then assess whether any
-material ownership or escalation assignment remains unresolved in this subject.
+Completion condition: if the operator finalizes, persist the accepted status in
+the readiness register, verify it against the accepted assignments and upstream
+authority, and complete the existing pull request, merge, and cleanup flow. The
+register remains the durable Launch Readiness artifact; there is no raw
+`GRILLING.md` path to remove. If the operator wants changes, keep the register
+active and persist the correction before continuing.
 
 ## Done When
 

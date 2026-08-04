@@ -2,7 +2,7 @@
 
 ## Status
 
-Active.
+Ready for acceptance.
 
 ## Purpose
 
@@ -58,7 +58,7 @@ Readiness subjects.
 | LR-O-003 | Technical publisher                           | Performs the Sanity edit, technical preview, validation, publication, withdrawal, and public verification steps    | Named person, production-access boundary, and confirmed handoff from the business approver           | Confirmed |
 | LR-O-004 | Real-enquiry inbox recipient                  | Monitors the agency-owned route for Consultation, Booking Request, and General Contact follow-up                   | Named agency owner and protected confirmation that the real-enquiry route reaches that owner         | Confirmed |
 | LR-O-005 | Delivery-recovery and incident owner          | Receives data-minimized alerts and handles uncertain or exhausted email delivery without prompting duplicate sends | Named owner, separate alert route, escalation boundary, and exercised recovery evidence              | Confirmed |
-| LR-O-006 | Manual backup, deletion, and restore operator | Creates encrypted Neon exports, deletes each no later than thirty days, and restores only with explicit authority  | Named operator, authorization boundary, deletion evidence, and exercised isolated-restore evidence   | Open      |
+| LR-O-006 | Manual backup, deletion, and restore operator | Creates encrypted Neon exports, deletes each no later than thirty days, and restores only with explicit authority  | Named operator, authorization boundary, deletion evidence, and exercised isolated-restore evidence   | Confirmed |
 
 ## Confirmed Assignments
 
@@ -140,15 +140,32 @@ Readiness subjects.
   recovery outcome.
 - **Status:** Confirmed.
 
-## Current Focus
+### LR-O-006 — manual backup, deletion, and restore operator
 
-**LR-O-006 — manual backup, deletion, and restore operator**
+- **Named technical operator:** Dimitri.
+- **Authorization boundary:** Dimitri owns the manual encrypted Neon export files
+  outside the application, deletes each no later than thirty days after creation,
+  and performs a restore only through the later approved authorization procedure
+  in an isolated environment. This assignment does not itself authorize
+  production-data access, backup creation, or restore execution.
+- **Evidence:** the operator confirmed Dimitri on 2026-08-04. Before real
+  enquiries are enabled, separate Launch Readiness evidence must verify the
+  schedule, export and encryption method, key custody, controlled storage,
+  deletion record, explicit restore authorization, and an exercised isolated
+  restore that reapplies required deletions before production use.
+- **Status:** Confirmed.
 
-Name the technical operator responsible for creating encrypted Neon exports,
-deleting each backup no later than thirty days after creation, and performing an
-isolated restore only with explicit authorization. Exact schedule, storage,
-encryption, deletion record, restore checklist, and exercised proof remain
-separate Launch Readiness evidence rather than this ownership choice.
+## Acceptance Review
+
+LR-O-001 through LR-O-006 are Confirmed. A focused accepted-authority audit found
+no remaining material ownership or escalation assignment within this bounded
+subject.
+
+The named agency retention and data-rights owner, provider-account control, exact
+operating procedures, and executable evidence remain separate Launch Readiness
+subjects. They are not silently treated as resolved here.
+
+**Status:** Ready for acceptance.
 
 ## Continuation Rule
 
