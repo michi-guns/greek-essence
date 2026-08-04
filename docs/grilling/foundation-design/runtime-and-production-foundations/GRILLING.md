@@ -154,60 +154,78 @@ Request acceptance for ordinary additive changes. Routine maintenance for every
 incompatible release was rejected because it would create avoidable public
 unavailability and make rollback depend on reversing or restoring the database.
 
+### D-003 — One Node.js Runtime With Invocation-Bounded Work
+
+All Greek Essence server behavior uses the default Next.js Node.js runtime at
+launch: public rendering, Server Actions, Route Handlers, Sanity webhooks, cache
+revalidation, Request persistence, and mail work. The release does not split
+public paths onto Edge merely because the platform offers it. Edge remains a
+later option only if measured traffic or a concrete capability demonstrates
+value that outweighs a second runtime boundary.
+
+Every invocation completes or durably records its bounded work without assuming
+that a warm Vercel function, in-memory connection, timer, worker, or queue will
+survive. Neon WebSocket connections exist only as required for the current
+transaction and are released according to the driver contract. Retry, retention,
+backup, and recovery therefore require explicit invocations or manual operations,
+not a resident application loop.
+
+This was selected as the simplest proportional model for the Public Preview.
+Nodemailer already needs Node.js, Neon WebSocket transactions work there, and no
+traffic evidence justifies separate Node and Edge capability sets, adapters,
+secret scopes, or test matrices. The split-runtime option was rejected as
+premature optimization for the release's scale and market-validation purpose.
+
 ## Open Questions
 
-- D-003 — server runtime placement and Neon connection lifetime.
+- D-004 — bounded mail retry execution without a durable background queue.
 
 ## Next Question
 
-### Runtime and Production Foundations D-003 — Server Runtime and Connection Lifetime
+### Runtime and Production Foundations D-004 — Mail Retry Execution
 
 **State:** Pending.
 
-Next.js can run server code in its default Node.js runtime or in the more limited
-Edge runtime. Greek Essence's accepted Request workflows need Nodemailer's Node.js
-APIs and Drizzle's Neon WebSocket path for interactive transactions. Sanity reads,
-webhook verification, cache revalidation, and public rendering could technically
-be split into a separate runtime, but that would create another deployment and
-testing boundary.
+Every accepted Request creates separate visitor-acknowledgement and agency-
+notification delivery work. The first send happens only after the Request commits.
+A definitely failed send must receive bounded automatic retry; an uncertain send
+must never be resent blindly, and exhausted work must create a data-minimized
+escalation without asking the visitor to submit again.
 
-Vercel functions are also not permanent application processes. A warm function
-may reuse initialized code, but Greek Essence cannot assume that an in-memory
-connection, timer, or worker survives between invocations. Neon WebSocket state is
-needed only for the bounded transaction being executed; retry, retention, backup,
-and recovery work require explicit later invocations rather than a resident loop.
+The release now needs a proportional execution model. Vercel Hobby cron currently
+runs at most once per day. That cadence is suitable for slow housekeeping but
+would leave a recoverable visitor acknowledgement or agency notification waiting
+for up to a day. A more frequent external scheduler would add another production
+service, secret, failure mode, and monitoring dependency.
 
-1. **(recommended): One Node.js server runtime with invocation-bounded work.**
-   Public rendering, Server Actions, Route Handlers, Sanity webhooks, Request
-   persistence, and mail work all use the default Node.js runtime. Each invocation
-   completes or durably records its bounded work without relying on process
-   lifetime. Neon WebSocket connections are acquired for the transactional work
-   and released according to the driver contract; no correctness rule depends on
-   an in-memory connection, timer, or queue surviving. Edge runtime remains
-   excluded until measured traffic or a concrete capability requires it.
-2. **Split public and transactional runtimes.**
-   Public content rendering and eligible Sanity webhook/cache paths use Edge,
-   while Request persistence, Nodemailer, and operational work use Node.js. This
-   can optimize selected public paths but introduces two runtime capability sets,
-   adapter boundaries, secret scopes, and test matrices before Greek Essence has
-   traffic evidence that the split creates meaningful value.
+1. **(recommended): Retry within the originating invocation, then escalate for manual recovery.**
+   After commit, a definitely failed send receives a small bounded number of safe
+   retries while the invocation can still complete truthfully. If they fail, the
+   delivery is recorded as exhausted and a separately monitored, data-minimized
+   alert requests human recovery through a protected operation. Uncertain handoff
+   is recorded and escalated without redispatch. There is no background mail queue
+   or frequent scheduler at launch; exact retry count and short timing remain
+   implementation settings within provider and function limits.
+2. **Persist delayed retries for a scheduled recovery invocation.**
+   Definitely failed deliveries store a future retry time and a protected
+   scheduled caller claims them later. This handles longer transient outages
+   automatically, but useful mail timing requires a dependable scheduler more
+   frequent than the current zero-cost Vercel cadence, plus its own credentials,
+   monitoring, overlap protection, and failure recovery.
 
 Current capability references:
 
-- <https://nextjs.org/docs/app/api-reference/edge>
-- <https://neon.com/docs/connect/choose-connection>
+- <https://vercel.com/docs/cron-jobs/usage-and-pricing>
 - <https://nodemailer.com/usage/>
 
-The installed Next.js documentation confirms that Node.js is the default runtime
-and that Edge supports a more limited API set. Neon documents WebSocket session
-and transaction support, and Nodemailer is a Node.js mail library. These
-capabilities do not decide exact connection constructors, pool settings, function
-durations, schedules, or deployment configuration; those remain bounded
-implementation or later runtime decisions.
+These references establish the current scheduling and mail capabilities, not the
+exact retry count, function duration, alert route, or recovery owner. Launch
+Readiness must prove that the selected alert path is monitored and independent
+enough to report an SMTP failure without copying private Request content.
 
-Which runtime-placement model should Greek Essence adopt for Runtime and Production
-Foundations D-003?
+Which mail-retry execution model should Greek Essence adopt for Runtime and
+Production Foundations D-004?
 
-After the answer: lock the server runtime and process-lifetime assumptions, retain
-exact driver and provider settings for later work, and store the next highest-value
-unresolved runtime decision.
+After the answer: lock the automatic-retry and escalation execution boundary,
+retain exact retry values, alert recipient, and protected recovery procedure for
+later work, and store the next highest-value unresolved runtime decision.

@@ -460,8 +460,13 @@ architecture rebaseline, and promotion of settled documentation.
   failed new deployment rolls back the application while the compatible schema
   remains, and destructive cleanup waits for a later release. Genuinely unavoidable
   breaks use truthful maintenance rather than unsafe lockstep release. D-003 is
-  pending and asks for server runtime placement and Neon connection-lifetime
-  assumptions.
+  accepted: all launch server behavior uses the default Node.js runtime and
+  completes or durably records bounded work within an invocation. Neon WebSocket
+  connection state, in-memory timers, workers, queues, and warm-function lifetime
+  are never correctness dependencies. Edge remains excluded until measured value
+  justifies another runtime boundary. D-004 is pending and asks how definitely
+  failed mail is retried and escalated without adding disproportionate background
+  infrastructure.
   Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
   is open from the task branch to preserve the active decision set.
   The bootstrap permits decision grilling and an early draft pull request, not
@@ -510,12 +515,11 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Runtime and Production Foundations D-003 — server runtime and connection
-lifetime exactly
+Present Runtime and Production Foundations D-004 — mail retry execution exactly
 as stored in the active ledger. Persist the operator's answer before drafting or
 presenting the next runtime decision.
 
-Completion condition: D-003 is locked with its rationale and consequences, the
+Completion condition: D-004 is locked with its rationale and consequences, the
 next highest-value runtime question is stored, and the same branch and draft pull
 request preserve the resumable state.
 
