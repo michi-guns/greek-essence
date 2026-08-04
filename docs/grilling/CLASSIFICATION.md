@@ -5,6 +5,9 @@
 The operator accepted this classification after reviewing the existing decision
 landscape. It determines where accepted and pending material belongs across
 Product and Domain Truth, Foundation Design, and Launch Readiness.
+The operator amended the locked mail-provider input on 2026-08-04 through Runtime
+and Production Foundations D-004; this classification reflects that explicit
+reopening.
 
 Classification does not change the meaning or authority of an accepted decision.
 Existing accepted `DECISIONS.md` files and normative contracts remain
@@ -21,7 +24,8 @@ Do not reopen these choices during Foundation Design:
 - Drizzle ORM using the latest release candidate available when implementation
   begins;
 - Drizzle's first-party Zod integration with the latest Zod v4;
-- Nodemailer through the agency's mail service;
+- a provider-neutral transactional-email API gateway with Resend as primary and
+  Brevo as the single launch fallback;
 - Vercel as the current hosting direction, with Netlify only as the accepted
   fallback direction if Vercel fails a mandatory commercial or technical gate;
 - zero new recurring platform spend until real visitor demand supports a
@@ -95,8 +99,8 @@ proof into a later owner/evidence/blocker register. This includes:
   incident contacts, and recovery owners;
 - approved bilingual copy, catalogue records, claims, prices, media rights, and
   legal/privacy wording;
-- provider terms, regions, agreements, quotas, account control, SMTP sender
-  authorization, and access evidence;
+- provider terms, regions, agreements, quotas, account control, transactional-
+  email sender authorization, API credentials, and access evidence;
 - executed environment-isolation, migration, rollback, monitoring, backup,
   restore, accessibility, security, browser, performance, and end-to-end checks.
 
@@ -129,8 +133,11 @@ architecture:
 - Newsletter is excluded;
 - customer accounts, payments, paid consultation, Meeting, Questionnaire,
   confirmed Booking, staff dashboards, and CRM are deferred;
-- Supabase, Turso, Aiven, Resend, and the archived prototype architecture are
-  superseded;
+- Supabase, Turso, Aiven, Nodemailer through agency SMTP, and the archived
+  Resend-only prototype architecture are superseded;
+- the three-provider quota-router draft is not adopted as authority;
+- AhaSend, local cross-provider quota pooling, and a generic background email
+  queue remain deferred until measured need supports a separate decision;
 - Netlify implementation remains deferred unless Vercel fails a mandatory gate.
 
 ## Promotion Rule

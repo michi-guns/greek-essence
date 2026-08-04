@@ -5,6 +5,12 @@
 Accepted by the operator on 2026-07-30 after feature grilling and a reopened
 semantic review. D-001 through D-009 form the complete accepted feature
 boundary.
+The operator amended the mail-provider realization on 2026-08-04 through Runtime
+and Production Foundations D-004 without changing this feature's accepted
+delivery semantics.
+The operator amended D-009 on 2026-08-04 through Runtime and Production
+Foundations D-005: encrypted off-provider copies use an operator-owned manual
+export and retention procedure rather than automated storage and expiry.
 
 This document defines the Public Preview Release behavior shared by Consultation
 Requests, Booking Requests, and General Contact messages: durable acceptance,
@@ -26,8 +32,9 @@ content minimization, and visible outcomes.
 
 Every accepted submission is private transactional data. The website validates
 and durably saves it in Neon before claiming receipt. Agency notification and
-visitor acknowledgement use Nodemailer through the agency's approved mail
-service but remain independent outcomes after acceptance.
+visitor acknowledgement use one provider-neutral transactional-email interface,
+with Resend primary and Brevo as the single launch fallback, but remain
+independent outcomes after acceptance.
 
 The launch has no customer accounts, public request history, staff dashboard,
 staff request-history interface, or separate customer-management system.
@@ -169,9 +176,10 @@ accepted the message.
 
 When retries are exhausted or delivery remains uncertain, the system alerts a
 named recovery owner through a separately monitored route that does not depend
-solely on the failing agency mail path. The alert contains only the opaque
-request reference, email purpose, failure category, and minimum diagnostic
-context. It excludes the visitor's request, message, notes, and contact details.
+solely on the failing transactional-email provider path. The alert contains only
+the opaque request reference, email purpose, failure category, and minimum
+diagnostic context. It excludes the visitor's request, message, notes, and contact
+details.
 
 The recovery owner makes the bounded decision for uncertain delivery and ensures
 that a failed agency notification does not leave an accepted request unnoticed.
@@ -252,11 +260,11 @@ with the dashboard.
 
 ## D-009 — Zero-Cost Encrypted Rolling Backups with Thirty-Day Expiry
 
-The Public Preview uses encrypted off-provider request-data backups within
-zero-cost provider quotas. Each copy expires automatically no later than thirty
-days after creation. The later technical design may select free scheduled
-automation and private object storage but must not require a VPS or paid service
-for launch.
+The Public Preview uses encrypted off-provider request-data backups without a new
+paid service. The technical operator creates, verifies, and retains each copy
+through a manual procedure and deletes it no later than thirty days after
+creation. The application does not create, schedule, monitor, retain, or delete
+backup files.
 
 Backups are not a history interface and are accessible only to named technical
 recovery roles. A restore first enters an isolated, access-restricted
@@ -269,17 +277,12 @@ prevent an eligible backup from resurrecting a deleted request. The approved
 privacy explanation states that a deleted request may remain in protected
 backups for up to thirty additional days.
 
-Free-quota use is monitored. Visitor-volume pressure is evidence of demand and
-triggers an explicit client discussion about a bounded paid upgrade. CI or
-operational exhaustion is corrected separately and is not demand evidence.
-Neither case authorizes silent data loss, an unapproved charge, or weakened
-safeguards.
-
-If backup creation cannot complete, the named owner is alerted. If a free limit
-prevents durable request acceptance, the website returns an honest temporary
-failure rather than claiming receipt. Exact providers, schedules, quota
-thresholds, and restore commands belong to Production Operations and the later
-technical design.
+If manual backup creation or verification cannot complete, the operator performing
+the procedure owns the visible failure and its resolution. An overdue copy or
+missed backup is an operational and privacy exception; it does not become visitor-
+facing application behavior. Exact cadence, encryption, controlled storage,
+reminders, deletion evidence, and restore commands belong to Production Operations
+and the later technical design.
 
 ## Inherited Journey and Security Boundaries
 
@@ -344,9 +347,10 @@ and test:
 - **Client:** the production business inbox, recipients, ordinary follow-up
   process, recovery owner, separately monitored alert route, and operational
   response procedure.
-- **Development team with the agency mail owner:** secure SMTP authentication,
-  authorized sender, supported outbound connection, service limits, confirmed
-  handoff behavior, and the exact bounded retry count and timing.
+- **Development team with the client mail-provider owner:** Resend and Brevo
+  account control, narrow API credentials, authorized sender domain, provider
+  terms and limits, confirmed handoff behavior, and the exact bounded retry count
+  and timing.
 - **Client:** the named agency deletion and data-rights owner, twelve-month
   database and inbox rule, and practical inbox-deletion process.
 - **Client and qualified privacy or legal reviewer:** accurate controller facts,
@@ -356,9 +360,9 @@ and test:
 - **Development team with the client account owner:** Neon access, suitable
   region and privacy agreement, durable transaction behavior, restricted
   production roles, provider-managed backup expiry, and restore behavior.
-- **Production Operations:** commercially eligible free-plan validation, quota
-  monitoring and alerts, encrypted off-provider backup ownership and automatic
-  expiry, deletion-safe isolated restore evidence, secrets, incidents, and named
+- **Production Operations:** commercially eligible free-plan validation,
+  encrypted off-provider backup ownership and manual retention evidence,
+  deletion-safe isolated restore evidence, secrets, incidents, and named
   operational access.
 - **Catalogue Discovery:** the authoritative Experience identifier,
   requestability state, withdrawal behavior, and source for the smallest useful

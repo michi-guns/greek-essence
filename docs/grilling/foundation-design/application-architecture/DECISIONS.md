@@ -1,6 +1,9 @@
 # Application Architecture Decisions
 
 Accepted by the operator on 2026-08-02 after Foundation Design grilling.
+The operator amended the mail-provider dependency on 2026-08-04 through Runtime
+and Production Foundations D-004; all other accepted application-architecture
+meaning remains unchanged.
 
 This document defines how the replacement Next.js application composes accepted
 public content and Request workflows: capability ownership, dependency direction,
@@ -19,11 +22,11 @@ monitoring, and production owners remain downstream work.
 
 - Greek Essence uses one deployable Next.js application. It is not a microservice
   system and does not have a separately deployed application backend.
-- Next.js App Router, Sanity, Neon PostgreSQL, Drizzle, Zod v4, Nodemailer through
-  the agency mail service, Vercel as the current hosting direction, and the
-  conditional Netlify fallback are locked upstream and are not reopened here.
-  Exact suitable versions are verified and pinned only during authorized
-  implementation.
+- Next.js App Router, Sanity, Neon PostgreSQL, Drizzle, Zod v4, the provider-
+  neutral transactional-email interface with Resend primary and Brevo fallback,
+  Vercel as the current hosting direction, and the conditional Netlify fallback
+  are locked upstream and are not reopened here. Exact suitable versions are
+  verified and pinned only during authorized implementation.
 - Sanity is authoritative for editable public and catalogue content. Next.js owns
   public rendering, authenticated preview, published-content reads, localized
   search presentation, and secured cache revalidation.
@@ -32,8 +35,8 @@ monitoring, and production owners remain downstream work.
   published-only search, bounded fallback expiry, minimal withdrawn versions, and
   public verification of material changes.
 - Neon PostgreSQL is authoritative for accepted private Requests. Drizzle owns
-  PostgreSQL schema and access. Nodemailer uses the agency mail service only after
-  durable Request acceptance.
+  PostgreSQL schema and access. Transactional-email provider calls begin only
+  after durable Request acceptance.
 - Consultation Request, Booking Request, and General Contact form one Request
   family with one shared envelope and exactly one typed journey detail. Each
   journey retains its own public fields, validation, data-minimization boundary,
@@ -249,8 +252,8 @@ ownership decision.
   private persistence shapes, or unnecessary server-managed values.
 - Server Components call application reads directly. Same-application code does
   not call its own Route Handlers merely to cross an artificial HTTP boundary.
-- Sanity, Neon and Drizzle, Nodemailer, environment access, SQL or GROQ, and trusted
-  orchestration remain server-only.
+- Sanity, Neon and Drizzle, transactional-email provider adapters and credentials,
+  environment access, SQL or GROQ, and trusted orchestration remain server-only.
 - A Request is not reported accepted unless its complete accepted Neon transaction
   committed. Mail work begins only after commit and cannot redefine acceptance.
 - Current Booking eligibility and historical rendered Experience context remain

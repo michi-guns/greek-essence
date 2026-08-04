@@ -17,9 +17,10 @@ and [../protocol.md](../protocol.md).
 - Commercially, launch is a market-validation experiment targeting zero new
   recurring platform spend. Use compliant free quotas until traffic provides
   evidence for an explicitly client-approved paid upgrade.
-- The current direction is Vercel, Sanity, Neon, and the agency mail service.
-  Netlify is only the accepted fallback direction if Vercel fails a mandatory
-  commercial or technical gate.
+- The current direction is Vercel, Sanity, Neon, and a provider-neutral
+  transactional-email API gateway using Resend primary and Brevo as the single
+  launch fallback. Netlify is only the accepted fallback direction if Vercel
+  fails a mandatory commercial or technical gate.
 - Production accounts and data must be client-controlled.
 - Monitoring, backup, restore, incidents, rollback, and recovery need named
   owners and executable launch evidence.

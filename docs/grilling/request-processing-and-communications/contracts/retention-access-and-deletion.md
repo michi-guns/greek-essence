@@ -57,12 +57,11 @@ documented normal backup-expiry cycle; backups are not edited record by record.
 The cycle and recovery behavior must be known and reflected accurately in the
 approved privacy explanation before real enquiries are accepted.
 
-Off-provider request-data backups are encrypted and use a rolling expiry of no
-more than thirty days from each copy's creation. They are stored outside Neon,
-remain unavailable to routine agency staff, and are accessible only to named
-technical recovery roles. Launch uses zero-cost provider quotas; the exact free
-scheduler and private storage provider belong to later technical and Production
-Operations decisions.
+Off-provider request-data backups are encrypted and retained no more than thirty
+days from each copy's creation through an operator-owned manual procedure. They
+are stored in controlled local storage outside Neon, remain unavailable to routine
+agency staff, and are accessible only to named technical recovery roles. The
+application does not create, schedule, monitor, retain, or delete backup files.
 
 A restore first enters an isolated, access-restricted environment. Before any
 data returns to production, the recovery procedure reapplies the twelve-month
@@ -71,10 +70,9 @@ backup. A minimal protected deletion manifest may remain only as long as needed
 to prevent an eligible backup from resurrecting the deleted request.
 
 The public privacy explanation states that deleted requests may remain in
-protected backups for up to thirty additional days. Free quotas are monitored.
-Visitor-volume pressure triggers an alert and evidence-led client review;
-non-traffic exhaustion is corrected as an operational constraint. Neither case
-causes an automatic paid upgrade or weakened safeguard.
+protected backups for up to thirty additional days. A missed export, failed
+verification, or overdue copy is handled as an operational or privacy exception
+under the manual procedure rather than as application behavior.
 
 General application, monitoring, and error logs must not contain request bodies,
 notes, messages, full email addresses, or other unnecessary visitor details.
@@ -88,10 +86,10 @@ Before accepting real enquiries, confirm and test:
 - client approval of the twelve-month database and inbox rule;
 - the named agency deletion and data-rights owner;
 - the agency-inbox deletion practice;
-- provider backup expiry and recovery behavior; and
-- encrypted off-provider backup creation, automatic thirty-day expiry,
-  restricted access, deletion-safe isolated restore, free-quota monitoring, and
-  alert ownership;
+- provider backup expiry and recovery behavior;
+- encrypted off-provider backup creation, manual deletion within thirty days,
+  restricted controlled local storage, deletion evidence, and deletion-safe
+  isolated restore; and
 - accurate privacy wording and any qualified review required for the actual
   processing.
 

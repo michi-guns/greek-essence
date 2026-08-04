@@ -1,12 +1,15 @@
 # System Boundaries and Domain Representation Decisions
 
 Accepted by the operator on 2026-07-31 after Foundation Design grilling.
+The operator amended the mail-provider boundary on 2026-08-04 through Runtime and
+Production Foundations D-004; all other accepted system-boundary meaning remains
+unchanged.
 
 This document defines the Public Preview Release boundary among Sanity, Next.js,
-Neon PostgreSQL, and the agency mail service; the conceptual representation of
-catalogue and request data; the stable identities and relationships that cross
-those boundaries; and the immutable history required when editable catalogue
-content changes or disappears.
+Neon PostgreSQL, and the transactional-email providers; the conceptual
+representation of catalogue and request data; the stable identities and
+relationships that cross those boundaries; and the immutable history required
+when editable catalogue content changes or disappears.
 
 It does not authorize application implementation, dependency installation,
 schema migration, deployment, or production-data handling. Exact Sanity fields,
@@ -19,9 +22,9 @@ named production owners, and launch evidence remain downstream work.
 - Sanity owns editable public and catalogue content, including Destinations and
   Experiences. Private customer and request data never enters Sanity.
 - Neon owns private Request, correction, delivery, and audit records.
-- Nodemailer uses the agency mail service for agency notifications and visitor
-  acknowledgements. Email delivery never determines whether a Request was
-  accepted.
+- One provider-neutral email interface uses Resend as primary and Brevo as the
+  single launch fallback for agency notifications and visitor acknowledgements.
+  Email delivery never determines whether a Request was accepted.
 - Consultation Request, Booking Request, and General Contact remain distinct
   visitor journeys with their own fields and meaning.
 - Every accepted Request is durably saved before receipt is claimed, remains

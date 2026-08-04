@@ -63,8 +63,8 @@ received the message. Customer-facing wording must not overstate that fact.
 - An uncertain mail handoff stops blind automatic retry because the provider may
   already have accepted the message.
 - Exhausted or uncertain delivery alerts a named recovery owner through a
-  separately monitored route that does not depend solely on the failing agency
-  mail path.
+  separately monitored route that does not depend solely on the failing
+  transactional-email provider path.
 - The alert contains only the opaque request reference, email purpose, failure
   category, and minimum diagnostic context. It excludes request content, notes,
   messages, and visitor contact details.
