@@ -479,7 +479,11 @@ architecture rebaseline, and promotion of settled documentation.
   failed runs and GitHub's public-repository inactivity disablement. Restore remains
   a separately authorized manual drill in an isolated private Neon environment.
   D-006 is pending and asks whether Cloudflare R2 or Backblaze B2 stores the
-  encrypted backup objects.
+  encrypted backup objects. On 2026-08-04, the operator paused work before
+  answering D-006. Cloudflare R2 remains the evidence-backed recommendation, not
+  an accepted provider decision. No Cloudflare or Backblaze account, subscription,
+  bucket, credential, workflow, or provider configuration is authorized by the
+  question or the pause.
   Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
   is open from the task branch to preserve the active decision set.
   The bootstrap permits decision grilling and an early draft pull request, not
@@ -530,7 +534,8 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 Present Runtime and Production Foundations D-006 — private backup object storage
 exactly as stored in the active ledger. Persist the operator's answer before
-drafting or presenting the next runtime decision.
+drafting or presenting the next runtime decision. Do not infer approval from the
+operator's question about Cloudflare R2.
 
 Completion condition: D-006 is locked with its rationale and consequences, the
 next highest-value runtime question is stored, and the same branch and draft pull
