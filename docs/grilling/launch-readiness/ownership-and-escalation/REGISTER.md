@@ -55,7 +55,7 @@ Readiness subjects.
 | -------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | --------- |
 | LR-O-001 | Agency business and content approver          | Approves services, claims, prices, media use, and the intended business meaning in both languages                  | Named authorized person and confirmation that technical publication does not transfer this authority | Confirmed |
 | LR-O-002 | English and Greek language reviewers          | Check natural language and semantic parity without silently becoming business approvers                            | Named reviewer for each language and the handoff for correcting or escalating changed meaning        | Confirmed |
-| LR-O-003 | Technical publisher                           | Performs the Sanity edit, technical preview, validation, publication, withdrawal, and public verification steps    | Named person, production-access boundary, and confirmed handoff from the business approver           | Open      |
+| LR-O-003 | Technical publisher                           | Performs the Sanity edit, technical preview, validation, publication, withdrawal, and public verification steps    | Named person, production-access boundary, and confirmed handoff from the business approver           | Confirmed |
 | LR-O-004 | Real-enquiry inbox recipient                  | Monitors the agency-owned route for Consultation, Booking Request, and General Contact follow-up                   | Named authorized recipient or group, monitored address, and coverage confirmation                    | Open      |
 | LR-O-005 | Delivery-recovery and incident owner          | Receives data-minimized alerts and handles uncertain or exhausted email delivery without prompting duplicate sends | Named owner, separate alert route, escalation boundary, and exercised recovery evidence              | Open      |
 | LR-O-006 | Manual backup, deletion, and restore operator | Creates encrypted Neon exports, deletes each no later than thirty days, and restores only with explicit authority  | Named operator, authorization boundary, deletion evidence, and exercised isolated-restore evidence   | Open      |
@@ -92,14 +92,33 @@ Readiness subjects.
   business meaning.
 - **Status:** Confirmed.
 
+### LR-O-003 — technical publisher
+
+- **Named technical publisher:** Dimitri.
+- **Production-access and authority boundary:** Dimitri is the sole routine
+  technical publisher for the Public Preview. He may edit, preview, validate,
+  publish, withdraw, and publicly verify content, but may publish business
+  meaning only after attributable approval from Giorgos or an explicitly
+  authorized delegate. Technical publication does not authorize Dimitri to make
+  unapproved business changes.
+- **Safety withdrawal:** Dimitri may immediately withdraw content that is clearly
+  unsafe, misleading, or subject to uncertain usage rights, then notify Giorgos.
+  Republishing that content requires the applicable business approval.
+- **Evidence:** the operator confirmed Dimitri and this boundary on 2026-08-04.
+  Before production publication, evidence must verify his appropriately bounded
+  Sanity access, the attributable approval handoff, successful technical preview
+  and validation, and public verification after publication or withdrawal.
+- **Status:** Confirmed.
+
 ## Current Focus
 
-**LR-O-003 — technical publisher**
+**LR-O-004 — real-enquiry inbox recipient**
 
-Confirm the named person who will perform Sanity editing, technical preview,
-validation, publication, withdrawal, and public verification. Record the
-production-access boundary and the handoff proving that published business
-meaning was approved by Giorgos or an explicitly authorized delegate.
+Name the authorized person or group responsible for monitoring the agency-owned
+route that receives Consultation Requests, Booking Requests, and General Contact
+enquiries. Record the monitored business address or protected evidence that
+identifies it, plus the routine coverage boundary. Dimitri's personal Gmail may
+receive only synthetic controlled test enquiries, never real visitor data.
 
 ## Continuation Rule
 

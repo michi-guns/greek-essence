@@ -475,6 +475,11 @@ architecture rebaseline, and promotion of settled documentation.
   human reviewer for both English and Greek. He may correct natural wording while
   preserving approved meaning; any change to business meaning returns to Giorgos
   for approval before publication.
+- Launch Ownership and Escalation LR-O-003 is confirmed. Dimitri is the sole
+  routine technical publisher. He may publish only attributable Giorgos-approved
+  business meaning, but may immediately withdraw clearly unsafe, misleading, or
+  rights-uncertain content, notify Giorgos, and require approval before
+  republication.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -518,14 +523,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Public Preview Launch Ownership and Escalation LR-O-003: confirm the
-named technical publisher, production-access boundary, and handoff proving that
-published business meaning was approved by Giorgos or an explicitly authorized
-delegate.
+Ask only Public Preview Launch Ownership and Escalation LR-O-004: name the
+authorized person or group that will monitor the agency-owned real-enquiry inbox,
+identify the monitored business address or its protected evidence, and confirm
+routine coverage. Dimitri's personal Gmail remains synthetic-test-only.
 
-Completion condition: persist the technical publisher, access and authority
-boundary, approval handoff, evidence requirements, and readiness status before
-advancing to LR-O-004.
+Completion condition: persist the named recipient or group, monitored route,
+coverage boundary, evidence requirements, and readiness status before advancing
+to LR-O-005.
 
 ## Done When
 
