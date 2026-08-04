@@ -472,8 +472,14 @@ architecture rebaseline, and promotion of settled documentation.
   primary, and Brevo receives at most one failover attempt after a result validated
   as definite non-acceptance. Ambiguous handoff stops; AhaSend, a background worker,
   generic email queue, duplicate job table, and local quota-router machinery are
-  deferred. D-005 is pending and asks where encrypted off-provider logical backups
-  run and how missed backups become visible.
+  deferred. D-005 is accepted: a scheduled and manually triggerable GitHub Actions
+  workflow creates, encrypts, uploads, and verifies the logical off-provider
+  backup without placing backup tooling or storage credentials in the public
+  Next.js deployment. A separately monitored freshness signal must detect both
+  failed runs and GitHub's public-repository inactivity disablement. Restore remains
+  a separately authorized manual drill in an isolated private Neon environment.
+  D-006 is pending and asks whether Cloudflare R2 or Backblaze B2 stores the
+  encrypted backup objects.
   Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
   is open from the task branch to preserve the active decision set.
   The bootstrap permits decision grilling and an early draft pull request, not
@@ -522,12 +528,11 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Runtime and Production Foundations D-005 — off-provider backup execution
-exactly
-as stored in the active ledger. Persist the operator's answer before drafting or
-presenting the next runtime decision.
+Present Runtime and Production Foundations D-006 — private backup object storage
+exactly as stored in the active ledger. Persist the operator's answer before
+drafting or presenting the next runtime decision.
 
-Completion condition: D-005 is locked with its rationale and consequences, the
+Completion condition: D-006 is locked with its rationale and consequences, the
 next highest-value runtime question is stored, and the same branch and draft pull
 request preserve the resumable state.
 
