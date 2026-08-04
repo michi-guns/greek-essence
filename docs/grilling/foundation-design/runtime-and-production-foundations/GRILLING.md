@@ -2,7 +2,7 @@
 
 ## Status
 
-Active.
+Accepted by the operator on 2026-08-04.
 
 Started on 2026-08-02 after explicit operator authorization.
 
@@ -270,3 +270,15 @@ recovery needs materially change.
 No unresolved question remains that would materially change Runtime and
 Production Foundations. Present the complete D-001 through D-005 decision set for
 combined acceptance and finalization or correction.
+
+## Finalization Authorization
+
+On 2026-08-04, the operator accepted Runtime and Production Foundations D-001
+through D-005 as the complete decision set and selected finalization. This
+authorizes verified distillation, removal of the exact repository path
+`docs/grilling/foundation-design/runtime-and-production-foundations/GRILLING.md`,
+completion of the existing draft pull request, required-check monitoring, and the
+repository-defined merge and cleanup sequence. It does not authorize application
+implementation, dependency installation, provider configuration, account access,
+migration execution, deployment, production-data handling, Launch Readiness, or
+another work unit.
