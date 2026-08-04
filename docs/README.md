@@ -85,17 +85,17 @@ relevant accepted decisions, and the explicit task contract before coding. Use
 
 ## Current status
 
-| Document area                    | Status                                                                           |
-| -------------------------------- | -------------------------------------------------------------------------------- |
-| Project-level grilling           | Accepted and distilled into DECISIONS.md                                         |
-| Decision grilling                | Foundation Design tracks 1–4 accepted; Runtime and Production Foundations active |
-| New canonical PRD                | Not yet created                                                                  |
-| New domain and roadmap documents | Working drafts only                                                              |
-| New UX specification             | Not yet created                                                                  |
-| New technical design             | Not yet created                                                                  |
-| New design system                | Not yet created                                                                  |
-| Former documentation baseline    | Archived and non-authoritative                                                   |
-| Current application              | Preserved prototype implementation; not the replacement-product contract         |
+| Document area                    | Status                                                                   |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| Project-level grilling           | Accepted and distilled into DECISIONS.md                                 |
+| Decision grilling                | Foundation Design tracks 1–5 accepted and distilled                      |
+| New canonical PRD                | Not yet created                                                          |
+| New domain and roadmap documents | Working drafts only                                                      |
+| New UX specification             | Not yet created                                                          |
+| New technical design             | Not yet created                                                          |
+| New design system                | Not yet created                                                          |
+| Former documentation baseline    | Archived and non-authoritative                                           |
+| Current application              | Preserved prototype implementation; not the replacement-product contract |
 
 ## Development package manager
 

@@ -1,39 +1,17 @@
-# Runtime and Production Foundations Grilling
+# Runtime and Production Foundations Decisions
 
-## Status
+Accepted by the operator on 2026-08-04 after Foundation Design grilling.
 
-Accepted by the operator on 2026-08-04.
-
-Started on 2026-08-02 after explicit operator authorization.
-
-## Layer and Scope
-
-Layer: Foundation Design.
-
-This subject defines the costly-to-reverse runtime boundaries needed before Greek
-Essence can safely implement and operate its public production-facing preview:
-environment isolation, secret scope, deployment and migration ordering, rollback,
-mail recovery execution, observability, quota behavior, backup operation,
-deletion-safe restore, and the accepted hosting fallback boundary.
+This document defines the durable runtime and production foundations for the
+Greek Essence Public Preview: environment isolation, production schema evolution,
+runtime placement and invocation lifetime, transactional-email provider execution,
+and proportional off-provider backup and restore operation.
 
 It does not authorize application implementation, dependency installation,
 provider configuration, account access, migration execution, deployment,
-production-data handling, or launch. Named owners, provider-plan evidence,
-regions, account control, exact credentials, legal approval, and executable
-production proof remain Launch Readiness work.
-
-## Authority
-
-This ledger is constrained by:
-
-- [`../../DECISIONS.md`](../../DECISIONS.md);
-- [`../../CLASSIFICATION.md`](../../CLASSIFICATION.md);
-- [`../system-boundaries-and-domain-representation/DECISIONS.md`](../system-boundaries-and-domain-representation/DECISIONS.md);
-- [`../editorial-content-platform/DECISIONS.md`](../editorial-content-platform/DECISIONS.md);
-- [`../transactional-data-platform/DECISIONS.md`](../transactional-data-platform/DECISIONS.md);
-- [`../application-architecture/DECISIONS.md`](../application-architecture/DECISIONS.md);
-- [`../../request-processing-and-communications/DECISIONS.md`](../../request-processing-and-communications/DECISIONS.md); and
-- [`../../protocol.md`](../../protocol.md).
+production-data handling, Launch Readiness, or another work unit. Exact versions,
+accounts, regions, credentials, schedules, named owners, legal approval, and
+executable production evidence remain downstream work.
 
 Current first-party documentation may establish provider capabilities, but it
 does not override accepted Greek Essence product truth or silently prove plan,
@@ -72,9 +50,7 @@ quota, region, account, or production-readiness facts.
   retention expiry and verified earlier deletions have been reapplied and integrity
   checks pass.
 
-## Locked Decisions
-
-### D-001 — Local-Only Development With Synthetic Service Boundaries
+## D-001 — Local-Only Development With Synthetic Service Boundaries
 
 Greek Essence does not use automatic Vercel pull-request or branch preview
 deployments. Routine UI and application development happens locally and does
@@ -99,8 +75,7 @@ remain implementation and Launch Readiness validations.
 Local mail is captured or redirected through a path that cannot deliver to real
 visitors or the agency business inbox. Only production receives production Neon
 and transactional-email provider credentials. The exact safe-mail tool and
-credential injection
-mechanism remain downstream choices.
+credential-injection mechanism remain downstream choices.
 
 This boundary was chosen because it preserves realistic local integration
 without automatic provider provisioning, production traveler data, live mail,
@@ -120,7 +95,7 @@ must confirm the exact zero-cost allowances before configuration; failure
 reopens the boundary rather than granting production access or authorizing paid
 services.
 
-### D-002 — Backward-Compatible Staged Schema Evolution
+## D-002 — Backward-Compatible Staged Schema Evolution
 
 Production schema changes use a small staged compatibility discipline rather
 than requiring routine Request-journey downtime. A reviewed migration first adds
@@ -156,7 +131,7 @@ Request acceptance for ordinary additive changes. Routine maintenance for every
 incompatible release was rejected because it would create avoidable public
 unavailability and make rollback depend on reversing or restoring the database.
 
-### D-003 — One Node.js Runtime With Invocation-Bounded Work
+## D-003 — One Node.js Runtime With Invocation-Bounded Work
 
 All Greek Essence server behavior uses the default Next.js Node.js runtime at
 launch: public rendering, Server Actions, Route Handlers, Sanity webhooks, cache
@@ -178,7 +153,7 @@ and no traffic evidence justifies separate Node and Edge capability sets, secret
 scopes, or test matrices. The split-runtime option was rejected as premature
 optimization for the release's scale and market-validation purpose.
 
-### D-004 — Provider-Neutral API Delivery With One Safe Fallback
+## D-004 — Provider-Neutral API Delivery With One Safe Fallback
 
 Application workflows use one provider-neutral transactional-email interface.
 React Email renders each agency notification or visitor acknowledgement once to
@@ -220,7 +195,7 @@ actual free quotas, alert independence, and the recovery drill before real
 enquiries are accepted. No failed validation silently enables AhaSend, authorizes
 a paid plan, or weakens the delivery contract.
 
-### D-005 — Manual Encrypted Neon Exports With Manual Retention
+## D-005 — Manual Encrypted Neon Exports With Manual Retention
 
 The technical operator manually creates a portable logical backup of the
 production Neon database using PostgreSQL `pg_dump` and Neon's direct, unpooled
@@ -261,24 +236,95 @@ off-provider backup execution and expiry remain deferred unless real operating
 evidence shows that the manual procedure is unreliable or the release's scale and
 recovery needs materially change.
 
-## Open Questions
+## Cross-Cutting Invariants
 
-- None.
+- Routine application and UI development is local and uses synthetic Sanity,
+  Neon, and mail boundaries. Production drafts, Request rows, mail delivery, and
+  provider credentials do not enter routine local development.
+- Production schema evolution preserves compatibility with the currently deployed
+  application until the new application is verified. Application rollback does
+  not automatically reverse a compatible database migration.
+- Launch server behavior uses one Node.js runtime and never depends on a warm
+  process, in-memory connection, timer, worker, or queue surviving an invocation.
+- Request acceptance remains the successful Neon transaction. Mail-provider
+  handoff begins afterward, and a failed or uncertain handoff never rewrites
+  acceptance or permits blind cross-provider redispatch.
+- Off-provider backups are encrypted manual logical exports held in controlled
+  local storage outside Neon. The application has no backup-file responsibility,
+  every copy is manually removed within thirty days, and restore remains private
+  and isolated until retention and earlier-deletion safeguards pass.
+- Private Request content, notes, messages, full email addresses, provider
+  credentials, and environment secrets remain absent from general logs,
+  diagnostics, screenshots, and generated evidence.
+- Zero new recurring platform spend remains the launch target. Provider limits
+  never authorize silent enquiry loss, unsafe data handling, misleading outcomes,
+  or an unapproved paid upgrade.
 
-## Next Question
+## Explicit Exclusions and Superseded Directions
 
-No unresolved question remains that would materially change Runtime and
-Production Foundations. Present the complete D-001 through D-005 decision set for
-combined acceptance and finalization or correction.
+The Public Preview does not add:
 
-## Finalization Authorization
+- automatic Vercel pull-request or branch preview deployments;
+- production Request rows, production credentials, unrestricted drafts, or live
+  mail delivery to routine local development;
+- automatic per-preview Neon databases or production migrations from previews;
+- routine all-at-once breaking migrations, automatic reverse migrations, or a
+  generic zero-downtime migration framework;
+- an Edge runtime split without measured value;
+- resident application workers, in-memory timers, warm-function correctness, a
+  generic email queue, duplicate email job storage, or delayed-retry scheduler;
+- AhaSend, pooled free email quotas, database-configurable routing, local quota
+  reservations, or a provider administration surface;
+- GitHub Actions backup execution, Cloudflare R2, Backblaze B2, another external
+  backup-storage account, or automatic object-storage expiry at launch; or
+- routine application ownership of backup creation, scheduling, monitoring,
+  retention, or deletion.
 
-On 2026-08-04, the operator accepted Runtime and Production Foundations D-001
-through D-005 as the complete decision set and selected finalization. This
-authorizes verified distillation, removal of the exact repository path
-`docs/grilling/foundation-design/runtime-and-production-foundations/GRILLING.md`,
-completion of the existing draft pull request, required-check monitoring, and the
-repository-defined merge and cleanup sequence. It does not authorize application
-implementation, dependency installation, provider configuration, account access,
-migration execution, deployment, production-data handling, Launch Readiness, or
-another work unit.
+The earlier GitHub Actions and private object-storage backup direction is
+superseded by D-005. Automated off-provider execution or expiry may be reconsidered
+only when real operating evidence shows that the manual procedure is unreliable or
+when release scale and recovery needs materially change.
+
+## Downstream Implementation and Launch Readiness
+
+Before real enquiries are accepted, bounded implementation and Launch Readiness
+must verify or define:
+
+- exact suitable package and provider versions, environment-variable and secret
+  injection, and server-only access boundaries;
+- the synthetic Sanity dataset, controlled authenticated production Draft Mode,
+  synthetic Neon development branch, reviewed migrations, and a mail path that
+  cannot deliver to real recipients;
+- current provider plan allowances, commercial eligibility, regions, privacy
+  terms, account control, credentials, and access restrictions;
+- the old-and-new application compatibility test, production migration check,
+  deployment verification, rollback procedure, and truthful maintenance path for
+  a genuinely unavoidable breaking change;
+- Resend and Brevo sender-domain authorization, API behavior, definite-failure and
+  uncertain-handoff classification, idempotency behavior, quotas, alert
+  independence, and recovery drill; and
+- the manual backup cadence, direct unpooled Neon export procedure, encryption and
+  key custody, controlled local storage, reminder and deletion checklist,
+  thirty-day retention evidence, named technical operator, and deletion-safe
+  isolated restore drill.
+
+Vercel remains the current host direction. Its commercially eligible zero-cost
+use must be proven before launch. If that mandatory gate fails, the accepted
+conditional Netlify fallback returns for a focused topology review; no paid host
+upgrade is automatic.
+
+## Material Risks and Validation Boundaries
+
+- A normal Neon child branch can contain its parent's rows. Development must not
+  be refreshed from production after real Requests exist unless a validated
+  schema-only mechanism prevents production data copying.
+- A migration that removes old-application behavior too early can make application
+  rollback unsafe. Destructive cleanup waits for a later reviewed release.
+- Cross-provider retry after an ambiguous mail handoff can duplicate delivery.
+  Failover is limited to one attempt after validated definite non-acceptance.
+- Manual backups reduce services and automation but depend on a real operator
+  procedure. A missed export, failed verification, uncontrolled copy, or overdue
+  deletion is an operational or privacy exception that must be resolved before
+  the procedure can be considered launch-ready.
+- Neon native history may accelerate recent recovery but is not the sole accepted
+  off-provider recovery copy.

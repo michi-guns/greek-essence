@@ -442,53 +442,22 @@ architecture rebaseline, and promotion of settled documentation.
   and deletion authorization preserved in pull request #52. Independent semantic
   review passed after restoring the external-reference authority boundary, exact
   retry and correction privacy semantics, and minimum inbox-notification context.
-- On 2026-08-02, the operator explicitly authorized the Runtime and Production
-  Foundations subject. Work is isolated on branch
-  `docs/runtime-production-foundations` in the Git-managed sibling worktree
-  `../greek-essence.worktrees/runtime-production-foundations`. The active source
-  ledger is
-  [`docs/grilling/foundation-design/runtime-and-production-foundations/GRILLING.md`](../../../grilling/foundation-design/runtime-and-production-foundations/GRILLING.md).
-  Runtime and Production Foundations D-001 is accepted. Automatic Vercel pull-
-  request and branch preview deployments are disabled; routine UI and application
-  development happens locally. Local development uses a synthetic Sanity
-  `development` dataset, a manually managed Neon branch containing no production
-  Request rows, and a non-delivering mail path. Production content and drafts stay
-  in the production Sanity dataset, with drafts available only through controlled
-  authenticated production Draft Mode; only production receives production Neon
-  and transactional-email provider credentials. Exact provider setup and zero-cost
-  allowance evidence remain downstream validations. D-002 is accepted: production
-  schema changes use backward-compatible staged evolution. Both old and new
-  applications are tested against the migrated synthetic database; production
-  migration is applied and verified with the old application before the new
-  application is deployed. A failed new deployment rolls back the application
-  while the compatible schema remains, and destructive cleanup waits for a later
-  release. Genuinely unavoidable breaks use truthful maintenance rather than unsafe
-  lockstep release. D-003 is accepted: all launch server behavior uses the default
-  Node.js runtime and completes or durably records bounded work within an
-  invocation. Neon WebSocket connection state, in-memory timers, workers, queues,
-  and warm-function lifetime are never correctness dependencies. Edge remains
-  excluded until measured value justifies another runtime boundary. D-004 is
-  accepted: React Email feeds one provider-neutral server interface, Resend is
-  primary, and Brevo receives at most one failover attempt after a result validated
-  as definite non-acceptance. Ambiguous handoff stops; AhaSend, a background worker,
-  generic email queue, duplicate job table, and local quota-router machinery are
-  deferred. D-005 is accepted in its revised proportional form: the technical
-  operator manually creates and verifies encrypted Neon `pg_dump` exports before
-  and after production database migrations and on a recurring manual cadence,
-  retains them only in controlled local storage outside Neon, and manually removes
-  each copy no later than thirty days after creation. The Next.js application does
-  not create, upload, schedule, monitor, retain, or delete backup files. Restore
-  remains a separately authorized manual drill in an isolated private Neon
-  environment. This supersedes the GitHub Actions runner and automatic object-
-  storage expiry; Cloudflare R2 and Backblaze B2 are not selected. Exact cadence,
-  encryption and key custody, storage location, checklist, owner, and exercised
-  evidence remain implementation or Launch Readiness work. No material Runtime
-  and Production Foundations question remains after D-005.
-  Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
-  is open from the task branch to preserve the active decision set.
-  The bootstrap permits decision grilling and an early draft pull request, not
-  implementation, provider configuration, migration, deployment, production-data
-  handling, Launch Readiness, or another work unit.
+- The operator accepted and authorized finalization of the complete Runtime and
+  Production Foundations subject on 2026-08-04. Its D-001 through D-005 outcomes
+  are distilled into
+  [`docs/grilling/foundation-design/runtime-and-production-foundations/DECISIONS.md`](../../../grilling/foundation-design/runtime-and-production-foundations/DECISIONS.md);
+  the approved raw `GRILLING.md` is removed, with its exact final accepted contents
+  and deletion authorization preserved in pull request
+  [#53](https://github.com/michi-guns/greek-essence/pull/53). The accepted
+  foundations keep routine development local and synthetic, use backward-compatible
+  staged schema evolution and one invocation-bounded Node.js runtime, route
+  transactional email through Resend with one safe Brevo fallback, and use manual
+  encrypted Neon exports with operator-owned deletion within thirty days. The
+  Next.js application does not own backup files. Exact provider setup, accounts,
+  credentials, regions, procedures, named owners, and executable evidence remain
+  Launch Readiness work. Finalization does not authorize implementation, provider
+  configuration, migration, deployment, production-data handling, Launch
+  Readiness, or another work unit.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -532,11 +501,11 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present the complete Runtime and Production Foundations D-001 through D-005 set
-for combined acceptance and finalization or correction.
+No subsequent work unit is authorized by this finalization. Any next work
+requires separate operator authorization.
 
-Completion condition: the operator either identifies one correction or accepts
-the complete subject and authorizes its repository-defined verified finalization.
+Completion condition: the operator selects and separately authorizes the next
+bounded work item.
 
 ## Done When
 
