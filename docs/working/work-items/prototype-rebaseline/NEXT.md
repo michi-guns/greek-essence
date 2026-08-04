@@ -480,11 +480,12 @@ architecture rebaseline, and promotion of settled documentation.
   business meaning, but may immediately withdraw clearly unsafe, misleading, or
   rights-uncertain content, notify Giorgos, and require approval before
   republication.
-- Launch Ownership and Escalation LR-O-004 has a selected but incomplete
-  ownership model. Giorgos is the primary recipient through an agency-owned
-  inbox, with a named authorized agency delegate covering his absences. The item
-  remains Open until that delegate is named; protected launch evidence must later
-  identify the monitored address and confirm coverage.
+- Launch Ownership and Escalation LR-O-004 is confirmed. Giorgos owns monitoring
+  the agency-owned real-enquiry route and manual agency follow-up. Internal
+  staffing, delegation, and absence coverage remain Giorgos's agency responsibility
+  rather than project-required assignments. Protected launch evidence must later
+  confirm that the agency-owned route reaches him; no exact address belongs in the
+  repository and no response-time promise is introduced.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -528,14 +529,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Continue only Public Preview Launch Ownership and Escalation LR-O-004: ask for
-the name of the authorized agency delegate who will cover the agency-owned
-real-enquiry inbox when Giorgos is absent. Dimitri's personal Gmail remains
-synthetic-test-only.
+Ask only Public Preview Launch Ownership and Escalation LR-O-005: name the person
+who owns technical recovery when transactional-email delivery is uncertain or
+bounded retries are exhausted. Exact alert routing, timing, procedure, and
+exercised evidence remain separate Launch Readiness work.
 
-Completion condition: persist the named coverage delegate, monitored-route and
-coverage evidence requirements, and Confirmed status before advancing to
-LR-O-005.
+Completion condition: persist the named recovery owner, authority and escalation
+boundary, later evidence requirements, and Confirmed status before advancing to
+LR-O-006.
 
 ## Done When
 

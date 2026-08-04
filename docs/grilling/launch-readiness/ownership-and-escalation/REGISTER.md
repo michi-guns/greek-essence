@@ -56,7 +56,7 @@ Readiness subjects.
 | LR-O-001 | Agency business and content approver          | Approves services, claims, prices, media use, and the intended business meaning in both languages                  | Named authorized person and confirmation that technical publication does not transfer this authority | Confirmed |
 | LR-O-002 | English and Greek language reviewers          | Check natural language and semantic parity without silently becoming business approvers                            | Named reviewer for each language and the handoff for correcting or escalating changed meaning        | Confirmed |
 | LR-O-003 | Technical publisher                           | Performs the Sanity edit, technical preview, validation, publication, withdrawal, and public verification steps    | Named person, production-access boundary, and confirmed handoff from the business approver           | Confirmed |
-| LR-O-004 | Real-enquiry inbox recipient                  | Monitors the agency-owned route for Consultation, Booking Request, and General Contact follow-up                   | Named authorized recipient or group, monitored address, and coverage confirmation                    | Open      |
+| LR-O-004 | Real-enquiry inbox recipient                  | Monitors the agency-owned route for Consultation, Booking Request, and General Contact follow-up                   | Named agency owner and protected confirmation that the real-enquiry route reaches that owner         | Confirmed |
 | LR-O-005 | Delivery-recovery and incident owner          | Receives data-minimized alerts and handles uncertain or exhausted email delivery without prompting duplicate sends | Named owner, separate alert route, escalation boundary, and exercised recovery evidence              | Open      |
 | LR-O-006 | Manual backup, deletion, and restore operator | Creates encrypted Neon exports, deletes each no later than thirty days, and restores only with explicit authority  | Named operator, authorization boundary, deletion evidence, and exercised isolated-restore evidence   | Open      |
 
@@ -110,19 +110,30 @@ Readiness subjects.
   and validation, and public verification after publication or withdrawal.
 - **Status:** Confirmed.
 
+### LR-O-004 — real-enquiry inbox recipient
+
+- **Named owner:** Giorgos.
+- **Responsibility boundary:** Giorgos owns monitoring the agency-owned
+  real-enquiry route and the agency's manual follow-up. Internal staffing,
+  delegation, and absence coverage are agency operations under Giorgos's
+  responsibility; the project does not require a named backup delegate.
+- **Evidence:** the operator confirmed Giorgos on 2026-08-04. Before real
+  enquiries are enabled, protected launch evidence must identify the agency-owned
+  inbox and confirm that it reaches Giorgos. The repository does not need the
+  exact address, and no response-time promise is introduced. Dimitri's personal
+  Gmail remains limited to synthetic controlled tests.
+- **Status:** Confirmed.
+
 ## Current Focus
 
-**LR-O-004 — real-enquiry inbox recipient**
+**LR-O-005 — delivery-recovery and incident owner**
 
-- **Selected ownership model:** Giorgos is the primary recipient through an
-  agency-owned inbox, with a named authorized agency delegate covering his
-  absences.
-- **Remaining confirmation:** name the authorized coverage delegate. Before real
-  enquiries are enabled, protected launch evidence must identify the monitored
-  agency address and confirm routine primary and absence coverage. Dimitri's
-  personal Gmail may receive only synthetic controlled test enquiries, never
-  real visitor data.
-- **Status:** Open until the coverage delegate is named.
+Name the person who owns technical recovery when transactional-email delivery is
+uncertain or its bounded retries are exhausted. The owner receives a
+data-minimized alert and decides the safe recovery action without asking the
+visitor to resubmit. Exact alert routing, timing, operating steps, and exercised
+proof remain separate Launch Readiness evidence rather than this ownership
+choice.
 
 ## Continuation Rule
 
