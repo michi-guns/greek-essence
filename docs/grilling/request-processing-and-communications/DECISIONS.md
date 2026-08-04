@@ -8,6 +8,9 @@ boundary.
 The operator amended the mail-provider realization on 2026-08-04 through Runtime
 and Production Foundations D-004 without changing this feature's accepted
 delivery semantics.
+The operator amended D-009 on 2026-08-04 through Runtime and Production
+Foundations D-005: encrypted off-provider copies use an operator-owned manual
+export and retention procedure rather than automated storage and expiry.
 
 This document defines the Public Preview Release behavior shared by Consultation
 Requests, Booking Requests, and General Contact messages: durable acceptance,
@@ -257,11 +260,11 @@ with the dashboard.
 
 ## D-009 — Zero-Cost Encrypted Rolling Backups with Thirty-Day Expiry
 
-The Public Preview uses encrypted off-provider request-data backups within
-zero-cost provider quotas. Each copy expires automatically no later than thirty
-days after creation. The later technical design may select free scheduled
-automation and private object storage but must not require a VPS or paid service
-for launch.
+The Public Preview uses encrypted off-provider request-data backups without a new
+paid service. The technical operator creates, verifies, and retains each copy
+through a manual procedure and deletes it no later than thirty days after
+creation. The application does not create, schedule, monitor, retain, or delete
+backup files.
 
 Backups are not a history interface and are accessible only to named technical
 recovery roles. A restore first enters an isolated, access-restricted
@@ -274,17 +277,12 @@ prevent an eligible backup from resurrecting a deleted request. The approved
 privacy explanation states that a deleted request may remain in protected
 backups for up to thirty additional days.
 
-Free-quota use is monitored. Visitor-volume pressure is evidence of demand and
-triggers an explicit client discussion about a bounded paid upgrade. CI or
-operational exhaustion is corrected separately and is not demand evidence.
-Neither case authorizes silent data loss, an unapproved charge, or weakened
-safeguards.
-
-If backup creation cannot complete, the named owner is alerted. If a free limit
-prevents durable request acceptance, the website returns an honest temporary
-failure rather than claiming receipt. Exact providers, schedules, quota
-thresholds, and restore commands belong to Production Operations and the later
-technical design.
+If manual backup creation or verification cannot complete, the operator performing
+the procedure owns the visible failure and its resolution. An overdue copy or
+missed backup is an operational and privacy exception; it does not become visitor-
+facing application behavior. Exact cadence, encryption, controlled storage,
+reminders, deletion evidence, and restore commands belong to Production Operations
+and the later technical design.
 
 ## Inherited Journey and Security Boundaries
 
@@ -362,9 +360,9 @@ and test:
 - **Development team with the client account owner:** Neon access, suitable
   region and privacy agreement, durable transaction behavior, restricted
   production roles, provider-managed backup expiry, and restore behavior.
-- **Production Operations:** commercially eligible free-plan validation, quota
-  monitoring and alerts, encrypted off-provider backup ownership and automatic
-  expiry, deletion-safe isolated restore evidence, secrets, incidents, and named
+- **Production Operations:** commercially eligible free-plan validation,
+  encrypted off-provider backup ownership and manual retention evidence,
+  deletion-safe isolated restore evidence, secrets, incidents, and named
   operational access.
 - **Catalogue Discovery:** the authoritative Experience identifier,
   requestability state, withdrawal behavior, and source for the smallest useful

@@ -13,7 +13,7 @@ Layer: Foundation Design.
 This subject defines the costly-to-reverse runtime boundaries needed before Greek
 Essence can safely implement and operate its public production-facing preview:
 environment isolation, secret scope, deployment and migration ordering, rollback,
-mail recovery execution, observability, quota behavior, backup automation,
+mail recovery execution, observability, quota behavior, backup operation,
 deletion-safe restore, and the accepted hosting fallback boundary.
 
 It does not authorize application implementation, dependency installation,
@@ -220,102 +220,53 @@ actual free quotas, alert independence, and the recovery drill before real
 enquiries are accepted. No failed validation silently enables AhaSend, authorizes
 a paid plan, or weakens the delivery contract.
 
-### D-005 — GitHub Actions Executes Off-Provider Backups
+### D-005 — Manual Encrypted Neon Exports With Manual Retention
 
-Encrypted logical Request-data backups run in one focused GitHub Actions workflow,
-not in the visitor-facing Next.js deployment. The workflow is scheduled from the
-default branch and is also manually triggerable for validation and recovery work.
-It receives a narrowly scoped production backup connection and private object-
-storage credential through encrypted Actions secrets, creates the logical dump
-and bounded earlier-deletion manifest, encrypts the backup package before upload,
-and never writes Request content or credentials to repository files, workflow
-artifacts, or logs.
+The technical operator manually creates a portable logical backup of the
+production Neon database using PostgreSQL `pg_dump` and Neon's direct, unpooled
+connection path. The export includes the private transactional schema and its
+bounded earlier-deletion manifest, runs outside the visitor-facing Next.js
+deployment, and is encrypted locally before being retained in controlled local
+storage outside Neon. It must not remain in an ordinary Downloads folder,
+consumer cloud-synchronization folder, repository, GitHub artifact, or other
+uncontrolled location.
 
-A separately monitored freshness signal alerts the named technical recovery owner
-when the expected recent backup is absent. This must detect both an executed job
-failure and GitHub's documented automatic disabling of scheduled workflows in a
-public repository after sixty days without repository activity. A successful
-upload is not sufficient completion evidence: the workflow verifies the stored
-object and records only non-sensitive backup time, integrity, and retention
-metadata.
+The operator creates and verifies an encrypted export before and after each
+production database migration and on a simple recurring manual cadence. The
+operator also owns a manual retention procedure that removes every copy no later
+than thirty days after creation. A missed export, failed verification, or overdue
+copy is an operational and privacy exception for the operator to resolve; it does
+not become application behavior. The Next.js application does not create, upload,
+schedule, monitor, retain, or delete backup files.
 
-Restoration remains a separately authorized manual procedure. It begins in an
-isolated private Neon environment, validates the backup, reapplies normal Request
-expiry and verified earlier deletions, and passes focused integrity checks before
-any controlled production replacement could be considered. The storage provider,
-client-side encryption tool and key custody, exact schedule, object lifecycle,
-freshness implementation, alert route, and named owner remain D-006,
-implementation, or Launch Readiness work.
+The exact cadence, encryption command and key custody, controlled device or
+removable-storage location, reminder, deletion checklist, and evidence remain
+implementation and Launch Readiness work. Before real enquiries are accepted,
+that procedure must be assigned and exercised without exposing Request content,
+credentials, or decryption material in logs or repository files.
 
-This runner was selected because it keeps backup tooling and recovery credentials
-outside the public application runtime and avoids coupling the only off-provider
-recovery copy to Vercel. The workflow remains small and purpose-specific rather
-than becoming a general operations platform.
+Neon's native history and point-in-time restore may provide faster recovery for
+recent accidental changes, but it does not replace the portable off-provider
+copy. Restoration remains separately authorized and begins in an isolated private
+Neon environment. The backup is validated there, normal Request expiry and every
+still-relevant earlier-deletion manifest entry are applied, and focused integrity
+checks pass before any controlled production replacement can be considered.
+
+The operator replaced the previously accepted scheduled GitHub Actions runner and
+automatic object-storage expiry after identifying that another automated workflow,
+external storage provider, credential set, lifecycle policy, freshness monitor,
+and billing guard were disproportionate for this low-volume market-validation
+preview. Cloudflare R2 and Backblaze B2 are therefore not selected. Automated
+off-provider backup execution and expiry remain deferred unless real operating
+evidence shows that the manual procedure is unreliable or the release's scale and
+recovery needs materially change.
 
 ## Open Questions
 
-- D-006 — private object storage for encrypted off-provider backups.
+- None.
 
 ## Next Question
 
-### Runtime and Production Foundations D-006 — Private Backup Object Storage
-
-**State:** Pending.
-
-The approved GitHub Actions runner now needs a client-controlled private object
-store outside Neon and Vercel. The store must support EU handling, S3-compatible
-automation, narrowly scoped credentials, client-side encrypted objects, automatic
-retention comfortably below the thirty-day maximum, restore verification, and the
-zero-new-recurring-spend target without pretending that a free allowance is a hard
-spending cap.
-
-1. **(recommended): Cloudflare R2 Standard storage in an EU-jurisdiction bucket.**
-   Use one private bucket with no public development URL or custom domain. GitHub
-   Actions uploads only client-side encrypted backup packages through R2's EU-
-   jurisdiction S3 endpoint using a token restricted to that bucket. Cloudflare
-   additionally encrypts R2 objects at rest with AES-256 and in transit with TLS,
-   but its managed encryption does not replace the workflow's pre-upload encryption
-   and separately held restore key. Use Standard storage because R2's current monthly
-   free allowance applies there, not to Infrequent Access. Configure lifecycle
-   expiry materially before thirty days, prohibit a bucket lock that could retain
-   objects beyond the privacy boundary, and have the recurring job verify and
-   explicitly delete stale objects rather than trusting lifecycle timing alone.
-   R2 currently includes 10 GB-month of Standard storage, one million Class A
-   operations, ten million Class B operations, and free egress each month. Because
-   R2 is metered and budget notifications are alerts rather than a hard cap, the
-   workflow also needs bounded object-size/count guards and an account budget alert;
-   crossing the allowance does not authorize paid usage.
-2. **Backblaze B2 in an EU Central account and private bucket.**
-   B2 also provides an S3-compatible API, bucket-restricted application keys, an
-   ongoing first-10-GB storage allowance, lifecycle rules, and EU storage in its
-   Amsterdam region. It is viable, but the account's region is fixed when the
-   account is created and B2 buckets are versioned by default, so expiry must also
-   prove that no hidden older version survives the retention boundary. It adds no
-   clear launch advantage over R2 for this small encrypted backup set.
-
-Current capability references:
-
-- <https://developers.cloudflare.com/r2/pricing/>
-- <https://developers.cloudflare.com/r2/reference/data-location/>
-- <https://developers.cloudflare.com/r2/reference/data-security/>
-- <https://developers.cloudflare.com/r2/buckets/object-lifecycles/>
-- <https://developers.cloudflare.com/r2/api/tokens/>
-- <https://developers.cloudflare.com/billing/manage/budget-alerts/>
-- <https://www.backblaze.com/cloud-storage/pricing>
-- <https://www.backblaze.com/docs/cloud-storage-data-regions>
-- <https://www.backblaze.com/apidocs/introduction-to-the-s3-compatible-api>
-- <https://www.backblaze.com/docs/cloud-storage-s3-compatible-api-bucket-versions>
-
-These references establish current provider capabilities and allowances, not a
-permanent pricing guarantee or proof that either provider's account, terms,
-privacy agreement, bucket, credentials, encryption, retention, monitoring, or
-restoration procedure is launch-ready.
-
-Should Runtime and Production Foundations D-006 select Cloudflare R2 or Backblaze
-B2 for the encrypted off-provider backup objects?
-
-After the answer: lock the storage, jurisdiction, privacy, access, encryption,
-retention, and cost-guard boundaries; retain exact bucket creation, credentials,
-schedule, encryption commands, freshness alert, restore commands, and named owner
-for implementation or Launch Readiness; and store the next highest-value
-unresolved runtime decision.
+No unresolved question remains that would materially change Runtime and
+Production Foundations. Present the complete D-001 through D-005 decision set for
+combined acceptance and finalization or correction.

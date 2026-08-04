@@ -472,18 +472,18 @@ architecture rebaseline, and promotion of settled documentation.
   primary, and Brevo receives at most one failover attempt after a result validated
   as definite non-acceptance. Ambiguous handoff stops; AhaSend, a background worker,
   generic email queue, duplicate job table, and local quota-router machinery are
-  deferred. D-005 is accepted: a scheduled and manually triggerable GitHub Actions
-  workflow creates, encrypts, uploads, and verifies the logical off-provider
-  backup without placing backup tooling or storage credentials in the public
-  Next.js deployment. A separately monitored freshness signal must detect both
-  failed runs and GitHub's public-repository inactivity disablement. Restore remains
-  a separately authorized manual drill in an isolated private Neon environment.
-  D-006 is pending and asks whether Cloudflare R2 or Backblaze B2 stores the
-  encrypted backup objects. On 2026-08-04, the operator paused work before
-  answering D-006. Cloudflare R2 remains the evidence-backed recommendation, not
-  an accepted provider decision. No Cloudflare or Backblaze account, subscription,
-  bucket, credential, workflow, or provider configuration is authorized by the
-  question or the pause.
+  deferred. D-005 is accepted in its revised proportional form: the technical
+  operator manually creates and verifies encrypted Neon `pg_dump` exports before
+  and after production database migrations and on a recurring manual cadence,
+  retains them only in controlled local storage outside Neon, and manually removes
+  each copy no later than thirty days after creation. The Next.js application does
+  not create, upload, schedule, monitor, retain, or delete backup files. Restore
+  remains a separately authorized manual drill in an isolated private Neon
+  environment. This supersedes the GitHub Actions runner and automatic object-
+  storage expiry; Cloudflare R2 and Backblaze B2 are not selected. Exact cadence,
+  encryption and key custody, storage location, checklist, owner, and exercised
+  evidence remain implementation or Launch Readiness work. No material Runtime
+  and Production Foundations question remains after D-005.
   Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
   is open from the task branch to preserve the active decision set.
   The bootstrap permits decision grilling and an early draft pull request, not
@@ -532,14 +532,11 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Runtime and Production Foundations D-006 — private backup object storage
-exactly as stored in the active ledger. Persist the operator's answer before
-drafting or presenting the next runtime decision. Do not infer approval from the
-operator's question about Cloudflare R2.
+Present the complete Runtime and Production Foundations D-001 through D-005 set
+for combined acceptance and finalization or correction.
 
-Completion condition: D-006 is locked with its rationale and consequences, the
-next highest-value runtime question is stored, and the same branch and draft pull
-request preserve the resumable state.
+Completion condition: the operator either identifies one correction or accepts
+the complete subject and authorizes its repository-defined verified finalization.
 
 ## Done When
 

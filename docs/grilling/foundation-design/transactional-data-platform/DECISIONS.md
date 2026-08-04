@@ -4,6 +4,9 @@ Accepted by the operator on 2026-08-02 after Foundation Design grilling.
 The operator amended the mail-provider realization on 2026-08-04 through Runtime
 and Production Foundations D-004 without changing the accepted transactional or
 delivery-record model.
+The operator amended the backup execution and retention mechanism on 2026-08-04
+through Runtime and Production Foundations D-005 without changing the accepted
+logical snapshot, deletion-manifest, or isolated-restore invariants.
 
 This document defines the durable Neon PostgreSQL and Drizzle foundations for
 validating, accepting, relating, auditing, delivering, retaining, deleting,
@@ -340,13 +343,13 @@ First-party capability references:
 ## D-009 — Encrypted Logical Snapshot With a Short-Lived Deletion Manifest
 
 Each off-provider recovery copy is one encrypted logical snapshot of the private
-PostgreSQL transactional schema and expires automatically no later than thirty
-days after creation. It follows the schema and migration history owned by
-Drizzle rather than creating a parallel per-Request serialization. Backups are
-not history or reporting surfaces and are available only to named technical
-recovery roles. Launch operation must remain within the accepted zero-new-
-recurring-spend boundary; it does not add a self-hosted backup VPS or paid backup
-service without separately approved demand and cost.
+PostgreSQL transactional schema. The technical operator manually deletes it no
+later than thirty days after creation. It follows the schema and migration history
+owned by Drizzle rather than creating a parallel per-Request serialization.
+Backups are not history or reporting surfaces and are available only to named
+technical recovery roles. Launch operation must remain within the accepted
+zero-new-recurring-spend boundary; it does not add a self-hosted backup VPS or
+paid backup service without separately approved demand and cost.
 
 Routine twelve-month expiry needs no manifest entry because every restored
 Request retains its `expires_at` value and the cutoff is reapplied before
@@ -370,10 +373,10 @@ does not satisfy the accepted off-provider copy or carry the latest earlier-
 deletion state when restoring an older snapshot.
 
 The manifest is temporary restore-safety state, not a permanent deletion ledger,
-customer history, or privacy-management platform. Exact provider, schedule,
-archive and manifest layout, encryption and key custody, monitoring, write
-order, expiry automation, and restore commands remain Runtime and Production
-Foundations or Launch Readiness work.
+customer history, or privacy-management platform. Exact schedule, archive and
+manifest layout, encryption and key custody, controlled local storage, write
+order, manual retention evidence, and restore commands remain Runtime and
+Production Foundations or Launch Readiness work.
 
 ## Cross-Cutting Invariants
 
@@ -459,11 +462,10 @@ Request, or another private condition matched.
 Define environment separation, secret injection, WebSocket connection lifetime,
 deployment and migration ordering, rollback compatibility, cleanup cadence and
 batch size, delivery retry and escalation mechanics, monitoring, backup and
-manifest storage, encryption and key custody, expiry automation, restore
-commands, provider quota behavior, backup-creation failure alerting, and the
-truthful temporary failure required if a free provider limit prevents durable
-Request acceptance. Backup-creation failure must reach the named technical
-recovery owner selected during Launch Readiness.
+manifest storage, encryption and key custody, manual retention evidence, restore
+commands, provider quota behavior, and the truthful temporary failure required if
+a free provider limit prevents durable Request acceptance. Manual backup failure
+is directly owned by the technical operator performing the procedure.
 
 ### Launch Readiness
 
