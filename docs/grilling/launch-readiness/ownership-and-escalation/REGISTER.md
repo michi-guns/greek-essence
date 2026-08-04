@@ -53,27 +53,38 @@ Readiness subjects.
 
 | ID       | Required assignment                           | Expected boundary                                                                                                  | Required evidence                                                                                    | Status |
 | -------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ------ |
-| LR-O-001 | Agency business and content approver          | Approves services, claims, prices, media use, and the intended business meaning in both languages                  | Named authorized person and confirmation that technical publication does not transfer this authority | Open   |
+| LR-O-001 | Agency business and content approver          | Approves services, claims, prices, media use, and the intended business meaning in both languages                  | Named authorized person and confirmation that technical publication does not transfer this authority | Confirmed |
 | LR-O-002 | English and Greek language reviewers          | Check natural language and semantic parity without silently becoming business approvers                            | Named reviewer for each language and the handoff for correcting or escalating changed meaning        | Open   |
 | LR-O-003 | Technical publisher                           | Performs the Sanity edit, technical preview, validation, publication, withdrawal, and public verification steps    | Named person, production-access boundary, and confirmed handoff from the business approver           | Open   |
 | LR-O-004 | Real-enquiry inbox recipient                  | Monitors the agency-owned route for Consultation, Booking Request, and General Contact follow-up                   | Named authorized recipient or group, monitored address, and coverage confirmation                    | Open   |
 | LR-O-005 | Delivery-recovery and incident owner          | Receives data-minimized alerts and handles uncertain or exhausted email delivery without prompting duplicate sends | Named owner, separate alert route, escalation boundary, and exercised recovery evidence              | Open   |
 | LR-O-006 | Manual backup, deletion, and restore operator | Creates encrypted Neon exports, deletes each no later than thirty days, and restores only with explicit authority  | Named operator, authorization boundary, deletion evidence, and exercised isolated-restore evidence   | Open   |
 
+## Confirmed Assignments
+
+### LR-O-001 — agency business and content approver
+
+- **Named approver:** Giorgos.
+- **Authority boundary:** Giorgos gives final agency approval for services,
+  claims, prices, media use, and intended business meaning in English and Greek.
+  He may explicitly delegate approval for affected material to an authorized
+  agency person. Technical preparation, preview, validation, or publication does
+  not transfer this agency authority to the technical publisher.
+- **Evidence:** the operator confirmed Giorgos as the named approver on
+  2026-08-04. Each material approval or delegation must remain attributable to
+  Giorgos or the explicitly authorized delegate. Qualified legal approval and
+  exact legal wording remain separate Launch Readiness evidence.
+- **Status:** Confirmed.
+
 ## Current Focus
 
-**LR-O-001 — agency business and content approver**
+**LR-O-002 — English and Greek language reviewers**
 
-The accepted actor boundary currently assigns agency-side business decisions to
-Giorgos and allows him to delegate specific work to an authorized agency person.
-The technical publisher may prepare, validate, and publish content but must not
-silently become the approver of services, claims, prices, media rights, legal
-wording, or bilingual business meaning. Qualified legal approval and exact legal
-wording remain separate Launch Readiness evidence.
-
-Confirm whether Giorgos will remain the named final business and content approver
-for the Public Preview, with any delegation given explicitly for the affected
-material, or identify the authorized agency person who will hold that role.
+Name the human reviewer responsible for natural language and semantic parity in
+each published language. A reviewer may correct wording without becoming the
+business approver; any proposed correction that changes services, claims,
+prices, media use, legal meaning, or another business meaning must return to
+Giorgos for approval before publication.
 
 ## Continuation Rule
 

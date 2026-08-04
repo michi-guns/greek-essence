@@ -467,6 +467,10 @@ architecture rebaseline, and promotion of settled documentation.
   This authorization covers assignment and evidence grilling plus an early draft
   pull request. It does not authorize implementation, provider configuration,
   production-data access, deployment, or launch.
+- Launch Ownership and Escalation LR-O-001 is confirmed. Giorgos is the named
+  final agency approver for services, claims, prices, media use, and intended
+  business meaning in English and Greek. Any delegation for affected material
+  must be explicit, and technical publication does not transfer this authority.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -510,13 +514,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Public Preview Launch Ownership and Escalation LR-O-001: confirm whether
-Giorgos remains the final agency business and content approver, with explicit
-delegation for affected material where needed, or identify the authorized agency
-person who will hold that role.
+Ask only Public Preview Launch Ownership and Escalation LR-O-002: name the human
+reviewer responsible for natural language and semantic parity in English and the
+human reviewer responsible in Greek, then confirm that any wording correction
+which changes business meaning returns to Giorgos for approval before publication.
 
-Completion condition: persist the named approver, authority boundary, evidence
-requirement, and readiness status before advancing to LR-O-002.
+Completion condition: persist both named language reviewers, the correction and
+meaning-escalation handoff, evidence requirements, and readiness status before
+advancing to LR-O-003.
 
 ## Done When
 
