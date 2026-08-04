@@ -458,6 +458,52 @@ architecture rebaseline, and promotion of settled documentation.
   Launch Readiness work. Finalization does not authorize implementation, provider
   configuration, migration, deployment, production-data handling, Launch
   Readiness, or another work unit.
+- On 2026-08-04, the operator separately authorized the first bounded Launch
+  Readiness subject: Public Preview Launch Ownership and Escalation. Work is
+  isolated on branch `docs/launch-ownership-readiness` in the Git-managed sibling
+  worktree `../greek-essence.worktrees/launch-ownership-readiness`. The active
+  readiness register is
+  [`docs/grilling/launch-readiness/ownership-and-escalation/REGISTER.md`](../../../grilling/launch-readiness/ownership-and-escalation/REGISTER.md).
+  This authorization covers assignment and evidence grilling plus an early draft
+  pull request. It does not authorize implementation, provider configuration,
+  production-data access, deployment, or launch.
+- Launch Ownership and Escalation LR-O-001 is confirmed. Giorgos is the named
+  final agency approver for services, claims, prices, media use, and intended
+  business meaning in English and Greek. Any delegation for affected material
+  must be explicit, and technical publication does not transfer this authority.
+- Launch Ownership and Escalation LR-O-002 is confirmed. Dimitri is the named
+  human reviewer for both English and Greek. He may correct natural wording while
+  preserving approved meaning; any change to business meaning returns to Giorgos
+  for approval before publication.
+- Launch Ownership and Escalation LR-O-003 is confirmed. Dimitri is the sole
+  routine technical publisher. He may publish only attributable Giorgos-approved
+  business meaning, but may immediately withdraw clearly unsafe, misleading, or
+  rights-uncertain content, notify Giorgos, and require approval before
+  republication.
+- Launch Ownership and Escalation LR-O-004 is confirmed. Giorgos owns monitoring
+  the agency-owned real-enquiry route and manual agency follow-up. Internal
+  staffing, delegation, and absence coverage remain Giorgos's agency responsibility
+  rather than project-required assignments. Protected launch evidence must later
+  confirm that the agency-owned route reaches him; no exact address belongs in the
+  repository and no response-time promise is introduced.
+- Launch Ownership and Escalation LR-O-005 is confirmed. Dimitri owns technical
+  recovery for uncertain or exhausted transactional-email delivery. He acts from
+  data-minimized alerts and recorded delivery state, avoids blind duplicate sends
+  and visitor resubmission, and escalates to Giorgos when an agency notification
+  failure could leave an accepted request unnoticed. Exact alert and exercised
+  recovery evidence remain separate Launch Readiness work.
+- Launch Ownership and Escalation LR-O-006 is confirmed. Dimitri owns manual
+  encrypted Neon exports, deletion of each within thirty days, and restores only
+  through a later approved authorization procedure in an isolated environment.
+  Exact procedure and exercised evidence remain separate Launch Readiness work.
+- The bounded ownership-and-escalation scope audit found no remaining material
+  assignment in this subject. Agency retention and data-rights ownership,
+  provider-account control, exact procedures, and executable proof remain
+  separate Launch Readiness subjects rather than implied outcomes here. The
+  operator accepted LR-O-001 through LR-O-006 on 2026-08-04 and authorized
+  completion of draft pull request #55, required-check monitoring, squash merge,
+  merged-branch deletion, and isolated-worktree cleanup. The accepted register
+  remains the durable artifact; there is no raw `GRILLING.md` path to remove.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -501,11 +547,16 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-No subsequent work unit is authorized by this finalization. Any next work
-requires separate operator authorization.
+Recommend, but do not start, the next bounded Launch Readiness subject: Public
+Preview Privacy, Retention, and Data-Rights Readiness. It should confirm the
+agency owner, approved privacy facts and review, twelve-month database and inbox
+retention, practical inbox deletion, manual rights handling, and accurate
+thirty-day backup-residue disclosure without reopening accepted product or
+foundation behavior.
 
-Completion condition: the operator selects and separately authorizes the next
-bounded work item.
+Completion condition: wait for explicit operator authorization or selection of a
+different Launch Readiness subject before creating another branch, worktree,
+register, or draft pull request.
 
 ## Done When
 
