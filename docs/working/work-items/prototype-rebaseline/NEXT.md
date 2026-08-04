@@ -453,8 +453,15 @@ architecture rebaseline, and promotion of settled documentation.
   in the production Sanity dataset, with drafts available only through controlled
   authenticated production Draft Mode; only production receives production Neon
   and SMTP credentials. Exact provider setup and zero-cost allowance evidence
-  remain downstream validations. D-002 is pending and asks how schema changes,
-  application deployment, and rollback remain compatible.
+  remain downstream validations. D-002 is accepted: production schema changes use
+  backward-compatible staged evolution. Both old and new applications are tested
+  against the migrated synthetic database; production migration is applied and
+  verified with the old application before the new application is deployed. A
+  failed new deployment rolls back the application while the compatible schema
+  remains, and destructive cleanup waits for a later release. Genuinely unavoidable
+  breaks use truthful maintenance rather than unsafe lockstep release. D-003 is
+  pending and asks for server runtime placement and Neon connection-lifetime
+  assumptions.
   Draft pull request [#53](https://github.com/michi-guns/greek-essence/pull/53)
   is open from the task branch to preserve the active decision set.
   The bootstrap permits decision grilling and an early draft pull request, not
@@ -503,12 +510,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Runtime and Production Foundations D-002 — schema, deployment, and
-rollback compatibility exactly
+Present Runtime and Production Foundations D-003 — server runtime and connection
+lifetime exactly
 as stored in the active ledger. Persist the operator's answer before drafting or
 presenting the next runtime decision.
 
-Completion condition: D-002 is locked with its rationale and consequences, the
+Completion condition: D-003 is locked with its rationale and consequences, the
 next highest-value runtime question is stored, and the same branch and draft pull
 request preserve the resumable state.
 

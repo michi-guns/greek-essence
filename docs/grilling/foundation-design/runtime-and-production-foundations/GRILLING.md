@@ -118,59 +118,96 @@ must confirm the exact zero-cost allowances before configuration; failure
 reopens the boundary rather than granting production access or authorizing paid
 services.
 
+### D-002 — Backward-Compatible Staged Schema Evolution
+
+Production schema changes use a small staged compatibility discipline rather
+than requiring routine Request-journey downtime. A reviewed migration first adds
+or widens schema without removing behavior required by the currently deployed
+application. Before production, both the old and new application versions are
+tested against that migrated schema in the synthetic non-production Neon
+environment.
+
+The compatible migration is then applied to production while the old Next.js
+deployment remains live. Verification must exercise the affected reads, writes,
+and controlled synthetic Request path; process health or the absence of a crash
+alone is insufficient. Only after the old application is proven compatible is
+the new application deployed and verified.
+
+If the new application fails, Vercel rolls the application back while the
+expanded compatible schema remains. Production does not automatically reverse
+the migration. New application behavior must preserve whatever old-version
+reads or writes are still required during the rollback window. Obsolete columns,
+constraints, or compatibility behavior are removed only through a later
+separately reviewed release after the old application is no longer an immediate
+rollback candidate.
+
+A genuinely unavoidable breaking migration uses an explicit truthful maintenance
+path that stops new Request acceptance before incompatibility is introduced and
+reopens it only after the matching application and schema are verified. This is
+an exception, not the default for every schema-affecting release. A generic
+zero-downtime migration framework remains excluded until demonstrated complexity
+justifies it.
+
+This model was chosen because Vercel application rollback remains useful without
+making reverse database migration the first recovery action or interrupting
+Request acceptance for ordinary additive changes. Routine maintenance for every
+incompatible release was rejected because it would create avoidable public
+unavailability and make rollback depend on reversing or restoring the database.
+
 ## Open Questions
 
-- D-002 — production schema, application deployment, and rollback compatibility.
+- D-003 — server runtime placement and Neon connection lifetime.
 
 ## Next Question
 
-### Runtime and Production Foundations D-002 — Schema, Deployment, and Rollback Compatibility
+### Runtime and Production Foundations D-003 — Server Runtime and Connection Lifetime
 
 **State:** Pending.
 
-A reviewed Drizzle migration must run before changed application code serves
-traffic, but the existing production deployment remains live while that
-migration runs. If the new deployment then fails, Vercel can point production
-back to the previous application deployment; that rollback is safe only if the
-database schema still supports the previous code.
+Next.js can run server code in its default Node.js runtime or in the more limited
+Edge runtime. Greek Essence's accepted Request workflows need Nodemailer's Node.js
+APIs and Drizzle's Neon WebSocket path for interactive transactions. Sanity reads,
+webhook verification, cache revalidation, and public rendering could technically
+be split into a separate runtime, but that would create another deployment and
+testing boundary.
 
-The foundation choice is how Greek Essence handles schema changes that would
-otherwise make the old and new application versions incompatible during the
-release or after an application rollback.
+Vercel functions are also not permanent application processes. A warm function
+may reuse initialized code, but Greek Essence cannot assume that an in-memory
+connection, timer, or worker survives between invocations. Neon WebSocket state is
+needed only for the bounded transaction being executed; retry, retention, backup,
+and recovery work require explicit later invocations rather than a resident loop.
 
-1. **(recommended): Backward-compatible staged schema evolution.**
-   Add or widen schema first without removing behavior required by the current
-   application, apply that reviewed migration, manually deploy and verify the new
-   application, and remove obsolete schema only in a later separately reviewed
-   release after the previous application can no longer be restored against it.
-   If the new application fails, Vercel can roll back the application while the
-   compatible schema remains. A genuinely unavoidable breaking migration uses an
-   explicit truthful maintenance path rather than pretending the ordinary release
-   is safe. This is a release discipline, not a generic zero-downtime migration
-   framework.
-2. **Maintenance boundary for every incompatible schema release.**
-   Before migration, the public Request journeys stop accepting submissions and
-   show a truthful temporary-unavailability outcome. Apply the migration, deploy
-   the matching application, verify both together, and reopen acceptance. This
-   permits direct breaking migrations but creates an avoidable interruption and
-   makes rollback depend on a reviewed reverse migration or compatible database
-   restore rather than Vercel application rollback alone.
+1. **(recommended): One Node.js server runtime with invocation-bounded work.**
+   Public rendering, Server Actions, Route Handlers, Sanity webhooks, Request
+   persistence, and mail work all use the default Node.js runtime. Each invocation
+   completes or durably records its bounded work without relying on process
+   lifetime. Neon WebSocket connections are acquired for the transactional work
+   and released according to the driver contract; no correctness rule depends on
+   an in-memory connection, timer, or queue surviving. Edge runtime remains
+   excluded until measured traffic or a concrete capability requires it.
+2. **Split public and transactional runtimes.**
+   Public content rendering and eligible Sanity webhook/cache paths use Edge,
+   while Request persistence, Nodemailer, and operational work use Node.js. This
+   can optimize selected public paths but introduces two runtime capability sets,
+   adapter boundaries, secret scopes, and test matrices before Greek Essence has
+   traffic evidence that the split creates meaningful value.
 
 Current capability references:
 
-- <https://vercel.com/docs/cli/deploy>
-- <https://vercel.com/docs/instant-rollback>
-- <https://orm.drizzle.team/docs/drizzle-kit-migrate>
+- <https://nextjs.org/docs/app/api-reference/edge>
+- <https://neon.com/docs/connect/choose-connection>
+- <https://nodemailer.com/usage/>
 
-These references establish available deployment, application-rollback, and
-migration capabilities. They do not prove that a particular Greek Essence schema
-change is backward compatible or authorize migration or deployment. Exact release
-commands, readiness evidence, and the rare breaking-change procedure remain later
-work.
+The installed Next.js documentation confirms that Node.js is the default runtime
+and that Edge supports a more limited API set. Neon documents WebSocket session
+and transaction support, and Nodemailer is a Node.js mail library. These
+capabilities do not decide exact connection constructors, pool settings, function
+durations, schedules, or deployment configuration; those remain bounded
+implementation or later runtime decisions.
 
-Which release-compatibility model should Greek Essence adopt for Runtime and
-Production Foundations D-002?
+Which runtime-placement model should Greek Essence adopt for Runtime and Production
+Foundations D-003?
 
-After the answer: lock the schema/application compatibility and rollback boundary,
-retain exact deployment commands and evidence for later work, and store the next
-highest-value unresolved runtime decision.
+After the answer: lock the server runtime and process-lifetime assumptions, retain
+exact driver and provider settings for later work, and store the next highest-value
+unresolved runtime decision.
