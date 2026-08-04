@@ -458,6 +458,15 @@ architecture rebaseline, and promotion of settled documentation.
   Launch Readiness work. Finalization does not authorize implementation, provider
   configuration, migration, deployment, production-data handling, Launch
   Readiness, or another work unit.
+- On 2026-08-04, the operator separately authorized the first bounded Launch
+  Readiness subject: Public Preview Launch Ownership and Escalation. Work is
+  isolated on branch `docs/launch-ownership-readiness` in the Git-managed sibling
+  worktree `../greek-essence.worktrees/launch-ownership-readiness`. The active
+  readiness register is
+  [`docs/grilling/launch-readiness/ownership-and-escalation/REGISTER.md`](../../../grilling/launch-readiness/ownership-and-escalation/REGISTER.md).
+  This authorization covers assignment and evidence grilling plus an early draft
+  pull request. It does not authorize implementation, provider configuration,
+  production-data access, deployment, or launch.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -501,11 +510,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-No subsequent work unit is authorized by this finalization. Any next work
-requires separate operator authorization.
+Ask only Public Preview Launch Ownership and Escalation LR-O-001: confirm whether
+Giorgos remains the final agency business and content approver, with explicit
+delegation for affected material where needed, or identify the authorized agency
+person who will hold that role.
 
-Completion condition: the operator selects and separately authorizes the next
-bounded work item.
+Completion condition: persist the named approver, authority boundary, evidence
+requirement, and readiness status before advancing to LR-O-002.
 
 ## Done When
 
