@@ -57,7 +57,7 @@ Readiness subjects.
 | LR-O-002 | English and Greek language reviewers          | Check natural language and semantic parity without silently becoming business approvers                            | Named reviewer for each language and the handoff for correcting or escalating changed meaning        | Confirmed |
 | LR-O-003 | Technical publisher                           | Performs the Sanity edit, technical preview, validation, publication, withdrawal, and public verification steps    | Named person, production-access boundary, and confirmed handoff from the business approver           | Confirmed |
 | LR-O-004 | Real-enquiry inbox recipient                  | Monitors the agency-owned route for Consultation, Booking Request, and General Contact follow-up                   | Named agency owner and protected confirmation that the real-enquiry route reaches that owner         | Confirmed |
-| LR-O-005 | Delivery-recovery and incident owner          | Receives data-minimized alerts and handles uncertain or exhausted email delivery without prompting duplicate sends | Named owner, separate alert route, escalation boundary, and exercised recovery evidence              | Open      |
+| LR-O-005 | Delivery-recovery and incident owner          | Receives data-minimized alerts and handles uncertain or exhausted email delivery without prompting duplicate sends | Named owner, separate alert route, escalation boundary, and exercised recovery evidence              | Confirmed |
 | LR-O-006 | Manual backup, deletion, and restore operator | Creates encrypted Neon exports, deletes each no later than thirty days, and restores only with explicit authority  | Named operator, authorization boundary, deletion evidence, and exercised isolated-restore evidence   | Open      |
 
 ## Confirmed Assignments
@@ -124,16 +124,31 @@ Readiness subjects.
   Gmail remains limited to synthetic controlled tests.
 - **Status:** Confirmed.
 
+### LR-O-005 — delivery-recovery and incident owner
+
+- **Named owner:** Dimitri.
+- **Authority and escalation boundary:** Dimitri owns technical recovery when
+  transactional-email delivery is uncertain or bounded retries are exhausted.
+  He receives only data-minimized alert context, checks the recorded delivery
+  state, and chooses a safe recovery action without blind duplicate sends or
+  asking the visitor to resubmit. If an agency notification failure could leave
+  an accepted request unnoticed, he alerts Giorgos through the later validated
+  route.
+- **Evidence:** the operator confirmed Dimitri on 2026-08-04. Before real
+  enquiries are enabled, separate Launch Readiness evidence must verify the alert
+  route, retry timing, recovery procedure, access boundary, and an exercised
+  recovery outcome.
+- **Status:** Confirmed.
+
 ## Current Focus
 
-**LR-O-005 — delivery-recovery and incident owner**
+**LR-O-006 — manual backup, deletion, and restore operator**
 
-Name the person who owns technical recovery when transactional-email delivery is
-uncertain or its bounded retries are exhausted. The owner receives a
-data-minimized alert and decides the safe recovery action without asking the
-visitor to resubmit. Exact alert routing, timing, operating steps, and exercised
-proof remain separate Launch Readiness evidence rather than this ownership
-choice.
+Name the technical operator responsible for creating encrypted Neon exports,
+deleting each backup no later than thirty days after creation, and performing an
+isolated restore only with explicit authorization. Exact schedule, storage,
+encryption, deletion record, restore checklist, and exercised proof remain
+separate Launch Readiness evidence rather than this ownership choice.
 
 ## Continuation Rule
 

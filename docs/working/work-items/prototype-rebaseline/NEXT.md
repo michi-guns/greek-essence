@@ -486,6 +486,12 @@ architecture rebaseline, and promotion of settled documentation.
   rather than project-required assignments. Protected launch evidence must later
   confirm that the agency-owned route reaches him; no exact address belongs in the
   repository and no response-time promise is introduced.
+- Launch Ownership and Escalation LR-O-005 is confirmed. Dimitri owns technical
+  recovery for uncertain or exhausted transactional-email delivery. He acts from
+  data-minimized alerts and recorded delivery state, avoids blind duplicate sends
+  and visitor resubmission, and escalates to Giorgos when an agency notification
+  failure could leave an accepted request unnoticed. Exact alert and exercised
+  recovery evidence remain separate Launch Readiness work.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -529,14 +535,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Public Preview Launch Ownership and Escalation LR-O-005: name the person
-who owns technical recovery when transactional-email delivery is uncertain or
-bounded retries are exhausted. Exact alert routing, timing, procedure, and
-exercised evidence remain separate Launch Readiness work.
+Ask only Public Preview Launch Ownership and Escalation LR-O-006: name the
+technical operator responsible for manual encrypted Neon exports, deletion of
+each backup within thirty days, and explicitly authorized isolated restores.
+Exact procedure and exercised evidence remain separate Launch Readiness work.
 
-Completion condition: persist the named recovery owner, authority and escalation
-boundary, later evidence requirements, and Confirmed status before advancing to
-LR-O-006.
+Completion condition: persist the named backup operator, authorization boundary,
+later evidence requirements, and Confirmed status, then assess whether any
+material ownership or escalation assignment remains unresolved in this subject.
 
 ## Done When
 
