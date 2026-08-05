@@ -564,12 +564,14 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-003
-and persist the operator's selection before advancing the register.
+Obtain the factual response and qualified-review status requested in Trello
+[WU-42](https://trello.com/c/f73YL73G), then record the response in Public
+Preview Privacy, Retention, and Data-Rights Readiness LR-P-003 before drafting
+any public wording.
 
-Completion condition: the active register records the agreed route for agency
-facts, qualified review, and bilingual drafting without inventing public legal
-wording, provider behavior, or reviewer credentials.
+Completion condition: the active register records the confirmed agency facts,
+qualified-review status, and bilingual drafting route without inventing public
+legal wording, provider behavior, or reviewer credentials.
 
 ## Done When
 

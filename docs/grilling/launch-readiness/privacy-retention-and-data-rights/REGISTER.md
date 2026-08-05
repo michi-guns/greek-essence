@@ -84,6 +84,12 @@ pack: the legal/controller identity and contact route it wants visitors to use;
 the approved inbox recipient boundary; the actual provider and backup facts once
 configured; and the qualified reviewer who will validate the final wording.
 
+Giorgos's visible coordination task is [WU-42](https://trello.com/c/f73YL73G),
+**GIORGOS ACTION: confirm public privacy-notice facts and reviewer**. Its Inbox
+description includes a copy-and-complete response template and a clearly
+fictional completed example. The card is a request for factual input and review
+ownership; it does not approve public wording or enable real enquiries.
+
 1. **(recommended): Giorgos supplies the agency facts and nominates the qualified
    privacy/legal reviewer; Dimitri prepares an English/Greek draft only from those
    confirmed inputs.** This keeps agency legal and business facts with the agency,
