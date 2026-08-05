@@ -512,12 +512,13 @@ architecture rebaseline, and promotion of settled documentation.
   worktree `../greek-essence.worktrees/launch-privacy-retention`. Its active
   readiness register is
   [`docs/grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md`](../../../grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md).
-  The register begins with LR-P-001, which must name the agency owner for the
-  accepted twelve-month retention, practical inbox deletion, and verified manual
-  data-rights process. This authorization covers readiness grilling and an early
-  draft pull request only; it does not authorize implementation, Neon or Drizzle
-  configuration, production-data access, migration, deployment, provider
-  configuration, or launch.
+  LR-P-001 is confirmed: Giorgos owns the agency-side twelve-month retention,
+  practical inbox deletion, and verified manual data-rights process. The current
+  focus is LR-P-002, which asks whether to prepare a short concrete agency
+  procedure for Giorgos's approval and qualified review. This authorization covers
+  readiness grilling and an early draft pull request only; it does not authorize
+  implementation, Neon or Drizzle configuration, production-data access,
+  migration, deployment, provider configuration, or launch.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -561,12 +562,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-001
+Present Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-002
 and persist the operator's selection before advancing the register.
 
-Completion condition: the active register records the selected agency retention
-and data-rights owner and its precise authority boundary without inventing an
-agency procedure, legal fact, or provider behavior.
+Completion condition: the active register records whether a concrete agency
+procedure will be prepared for approval without inventing legal facts, provider
+behavior, or unaccepted operational obligations.
 
 ## Done When
 

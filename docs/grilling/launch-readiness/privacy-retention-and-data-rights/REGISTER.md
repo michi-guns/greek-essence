@@ -2,7 +2,7 @@
 
 ## Status
 
-Active — LR-P-001 is open.
+Active — LR-P-002 is open.
 
 ## Purpose
 
@@ -43,43 +43,58 @@ production-data access, migration, deployment, or launch.
 
 ## Readiness Register
 
-| ID       | Required readiness item                          | Expected boundary                                                                                                          | Required evidence                                                                           | Status |
-| -------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------ |
-| LR-P-001 | Agency retention and data-rights owner           | Owns the practical twelve-month database/inbox deletion practice and coordinates verified rights requests                  | Named authorized agency person and escalation boundary                                      | Open   |
-| LR-P-002 | Agency approval of the actual retention practice | Approves the agency's real inbox-deletion and manual rights-handling practice without changing the accepted retention rule | Attributable agency approval, with qualified privacy/legal review identified where required | Open   |
-| LR-P-003 | Accurate privacy explanation and review          | Explains collection, retention, email copies, backup residue, and contact route without inventing legal claims             | Approved bilingual copy and applicable qualified-review evidence                            | Open   |
-| LR-P-004 | Restricted access and deletion evidence          | Limits production database and backup access to named technical roles and proves ordinary deletion practice                | Access-boundary evidence and synthetic or controlled deletion evidence                      | Open   |
-| LR-P-005 | Backup-residue and isolated-restore evidence     | Preserves the thirty-day backup limit and reapplies deletion safeguards before a restore can affect production             | Manual export/deletion record and exercised isolated restore using controlled data          | Open   |
+| ID       | Required readiness item                          | Expected boundary                                                                                                          | Required evidence                                                                           | Status    |
+| -------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------- |
+| LR-P-001 | Agency retention and data-rights owner           | Owns the practical twelve-month database/inbox deletion practice and coordinates verified rights requests                  | Named authorized agency person and escalation boundary                                      | Confirmed |
+| LR-P-002 | Agency approval of the actual retention practice | Approves the agency's real inbox-deletion and manual rights-handling practice without changing the accepted retention rule | Attributable agency approval, with qualified privacy/legal review identified where required | Open      |
+| LR-P-003 | Accurate privacy explanation and review          | Explains collection, retention, email copies, backup residue, and contact route without inventing legal claims             | Approved bilingual copy and applicable qualified-review evidence                            | Open      |
+| LR-P-004 | Restricted access and deletion evidence          | Limits production database and backup access to named technical roles and proves ordinary deletion practice                | Access-boundary evidence and synthetic or controlled deletion evidence                      | Open      |
+| LR-P-005 | Backup-residue and isolated-restore evidence     | Preserves the thirty-day backup limit and reapplies deletion safeguards before a restore can affect production             | Manual export/deletion record and exercised isolated restore using controlled data          | Open      |
 
-## Current Focus
+## Confirmed Readiness
 
 ### LR-P-001 — Agency Retention and Data-Rights Owner
 
-The accepted rule is simple: each accepted enquiry and its agency email copies
-are deleted after twelve months; requests for earlier deletion, access, or
-correction use a verified manual agency process. Someone on the agency side must
-own that routine. This is not the technical backup role: Dimitri may operate a
-controlled restore, but he cannot decide how Greek Essence handles a visitor's
-data-rights request on the agency's behalf.
+- **Named agency owner:** Giorgos.
+- **Authority boundary:** Giorgos owns the agency-side practical twelve-month
+  inbox-deletion practice and coordinates verified access, correction, and early
+  deletion requests. He may delegate practical tasks within Greek Essence, but
+  remains accountable for the agency decision and any necessary qualified review.
+  Dimitri's technical recovery and backup role does not transfer this agency-side
+  authority.
+- **Evidence:** the operator selected option 1 on 2026-08-05. Before real
+  enquiries are enabled, the agency must approve its actual deletion and
+  rights-handling practice, and protected evidence must show that this practice
+  can be followed without exposing Request content in repository files or general
+  logs.
+- **Status:** Confirmed.
 
-For example, if a visitor emails Greek Essence asking for their consultation
-request to be deleted early, the named agency owner confirms the request through
-the approved process, directs the necessary inbox and data handling, and
-escalates technical deletion only when needed. The website must not reveal prior
-requests or offer an unverified self-service deletion button.
+## Current Focus
 
-1. **(recommended): Giorgos is the named agency retention and data-rights owner.**
-   He owns the agency-side inbox deletion practice and coordinates verified
-   earlier deletion, access, and correction requests. He may delegate practical
-   tasks within the agency, but remains accountable for the agency decision and
-   any required qualified review.
-2. **A named authorized agency delegate owns the role.** Giorgos explicitly names
-   a person who will run the routine process and coordinate requests. This can
-   suit the agency's real staffing, but the person's authority and handoff must
-   be confirmed before launch.
-3. **Leave the owner unassigned until launch preparation.** This avoids naming a
-   person now, but blocks real enquiries because the accepted retention rule has
-   no accountable agency-side operator.
+### LR-P-002 — Agency Approval of the Actual Retention Practice
+
+The retention rule is already locked: database records and agency email copies
+are deleted twelve months after acceptance, and a verified manual process handles
+earlier access, correction, or deletion requests. We now need Giorgos to approve
+how Greek Essence will actually carry that rule out in the agency inbox. This is
+not a request to write legal language or create a custom privacy-management
+system.
+
+For example, a short agency procedure could say: Giorgos periodically identifies
+enquiries reaching their retention date, removes the matching agency email copies,
+and uses a verified request before asking Dimitri to perform any necessary
+technical deletion. The exact verification and legal-response details still need
+qualified privacy or legal review before real launch.
+
+1. **(recommended): Prepare a short concrete agency procedure for Giorgos to
+   approve and qualified review to validate.** It will implement the accepted
+   twelve-month rule and manual rights route, while leaving legal wording and
+   identity-verification detail for the appropriate review.
+2. **Ask Giorgos to define the operational procedure from scratch.** This gives
+   the agency maximum freedom, but risks leaving the accepted retention rule
+   impractical or incomplete without a concrete starting point.
+3. **Defer the procedure until immediately before launch.** This keeps discovery
+   short now, but blocks real enquiries until it is approved and validated.
 
 ## Continuation Rule
 
