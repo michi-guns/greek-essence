@@ -504,6 +504,20 @@ architecture rebaseline, and promotion of settled documentation.
   completion of draft pull request #55, required-check monitoring, squash merge,
   merged-branch deletion, and isolated-worktree cleanup. The accepted register
   remains the durable artifact; there is no raw `GRILLING.md` path to remove.
+- On 2026-08-05, the operator paused Consultation Scheduling with D-003 still
+  blocked pending the separately selected WU-41 synthetic scheduling-engine
+  spike. The operator separately authorized the next bounded Launch Readiness
+  subject: Public Preview Privacy, Retention, and Data-Rights Readiness. Work is
+  isolated on branch `docs/launch-privacy-retention` in the Git-managed sibling
+  worktree `../greek-essence.worktrees/launch-privacy-retention`. Its active
+  readiness register is
+  [`docs/grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md`](../../../grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md).
+  The register begins with LR-P-001, which must name the agency owner for the
+  accepted twelve-month retention, practical inbox deletion, and verified manual
+  data-rights process. This authorization covers readiness grilling and an early
+  draft pull request only; it does not authorize implementation, Neon or Drizzle
+  configuration, production-data access, migration, deployment, provider
+  configuration, or launch.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -547,16 +561,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Recommend, but do not start, the next bounded Launch Readiness subject: Public
-Preview Privacy, Retention, and Data-Rights Readiness. It should confirm the
-agency owner, approved privacy facts and review, twelve-month database and inbox
-retention, practical inbox deletion, manual rights handling, and accurate
-thirty-day backup-residue disclosure without reopening accepted product or
-foundation behavior.
+Present Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-001
+and persist the operator's selection before advancing the register.
 
-Completion condition: wait for explicit operator authorization or selection of a
-different Launch Readiness subject before creating another branch, worktree,
-register, or draft pull request.
+Completion condition: the active register records the selected agency retention
+and data-rights owner and its precise authority boundary without inventing an
+agency procedure, legal fact, or provider behavior.
 
 ## Done When
 
