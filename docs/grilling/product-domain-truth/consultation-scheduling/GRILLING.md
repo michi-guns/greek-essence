@@ -46,40 +46,54 @@ This replaces the earlier exclusion of automated scheduling only for the
 Consultation Request journey. It does not reopen the accepted scope of Booking
 Request, General Contact, payments, customer accounts, CRM, or staff dashboards.
 
+### D-002 — Agency-Controlled Calendar Is Authoritative
+
+One agency-controlled calendar is the authoritative availability source. Greek
+Essence shows only slots currently offered by that calendar and reserves a
+selected slot when scheduling succeeds. The visitor then receives a truthful
+consultation-appointment confirmation.
+
+The exact calendar provider, connection, availability query, conflict handling,
+and revalidation mechanism remain later technical design. A visual indication of
+the slot just scheduled is optional presentation behavior only; it must not
+create visitor identity tracking, a customer account, or durable browser-side
+appointment history.
+
 ## Open Questions
 
-- D-002: What is the authoritative availability source and how does the visitor
-  receive a truthful slot-confirmation outcome?
-- D-003: What appointment details are shown and collected before scheduling?
-- D-004: What visitor-visible change, cancellation, no-show, and unavailable-slot
+- D-003: How do agency employees manage the authoritative calendar without
+  expanding the Public Preview into a staff dashboard or CRM?
+- D-004: What appointment details are shown and collected before scheduling?
+- D-005: What visitor-visible change, cancellation, no-show, and unavailable-slot
   behavior is supported at launch?
-- D-005: What meeting format, duration, lead time, timezone, and operating-hours
+- D-006: What meeting format, duration, lead time, timezone, and operating-hours
   rules define an offered slot?
 
 ## Next Question
 
-### D-002 — Availability Authority and Slot Confirmation
+### D-003 — Staff Calendar Management Boundary
 
-Greek Essence needs one truthful source for the days and times displayed as
-available. The choice determines whether selecting a slot immediately creates a
-meeting commitment or merely records a preference that staff must still confirm.
+Giorgos needs employees to manage availability easily. The currently accepted
+Public Preview excludes staff dashboards and CRM, so a new internal management
+surface must be chosen deliberately rather than added as an implied "mini"
+feature.
 
-1. **(recommended): A single agency-controlled calendar is authoritative.** The
-   site shows only its currently available slots and reserves the selected slot
-   when scheduling succeeds. The visitor receives a truthful appointment
-   confirmation; the later calendar-provider and technical implementation remain
-   separate work.
-2. **The site publishes a small maintained list of slots.** A technical publisher
-   or agency operator updates the list manually. This avoids a calendar
-   integration initially, but a stale slot can create a conflicting appointment
-   and gives the agency extra daily work.
-3. **The site records a preferred day and time for agency confirmation.** This is
-   operationally simple, but it is not the online scheduler promised to Giorgos:
-   the visitor has only made a request, not scheduled a meeting.
+1. **(recommended): Employees manage availability in the agency-controlled
+   calendar itself.** Greek Essence reads and reserves its offered slots but does
+   not build a staff management dashboard. This keeps employee work in a familiar
+   calendar surface and preserves the Public Preview's no-dashboard boundary.
+2. **Build a limited Greek Essence calendar-management dashboard.** Authorized
+   employees create, change, and remove slots inside the site. This can be simple
+   visually, but it introduces staff authentication, authorization, protected
+   admin access, calendar-management audit behavior, and a new operational
+   support surface.
+3. **Only Dimitri manages availability.** This is technically smallest but does
+   not satisfy Giorgos's request for employee-managed availability and creates a
+   delivery bottleneck.
 
-A classic date-and-time selector is a presentation choice; it does not itself
-make availability truthful. The product decision is which agency-controlled
-source is allowed to promise that a displayed slot can be scheduled.
+The visitor-only calendar rectangle you described is not stored as a product
+requirement. It may be assessed later as optional UI polish if it does not change
+truthful scheduling behavior or add visitor tracking.
 
 ## Continuation Rule
 

@@ -558,12 +558,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Consultation Scheduling D-002: select the authoritative agency-controlled
-availability source and truthful slot-confirmation outcome for the online
-consultation scheduler.
+Ask only Consultation Scheduling D-003: select whether employees manage
+availability directly in the authoritative agency calendar or Greek Essence
+gains a new protected staff calendar-management dashboard.
 
-Completion condition: persist the selected availability boundary, rationale,
-scope, and deferred provider implementation details before advancing to D-003.
+Completion condition: persist the chosen staff-management boundary, scope, and
+resulting implementation obligations before advancing to D-004.
 
 ## Done When
 
