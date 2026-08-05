@@ -547,16 +547,13 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Recommend, but do not start, the next bounded Launch Readiness subject: Public
-Preview Privacy, Retention, and Data-Rights Readiness. It should confirm the
-agency owner, approved privacy facts and review, twelve-month database and inbox
-retention, practical inbox deletion, manual rights handling, and accurate
-thirty-day backup-residue disclosure without reopening accepted product or
-foundation behavior.
+Present System Boundaries and Domain Representation D-001 — authoritative
+Experience eligibility at Booking Request acceptance — and persist the
+operator's selection before advancing the grill.
 
-Completion condition: wait for explicit operator authorization or selection of a
-different Launch Readiness subject before creating another branch, worktree,
-register, or draft pull request.
+Completion condition: the active grill records the accepted authority boundary and
+truthful failure behavior without inventing cache, query, token, transaction,
+schema, or module mechanics.
 
 ## Done When
 
