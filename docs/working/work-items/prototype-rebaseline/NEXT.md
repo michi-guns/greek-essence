@@ -515,6 +515,15 @@ architecture rebaseline, and promotion of settled documentation.
   authorization covers product grilling and an early draft pull request only; it
   does not authorize calendar-provider selection, implementation, provider
   configuration, production-data access, deployment, or launch.
+- Consultation Scheduling D-001 and D-002 are accepted: visitors may schedule a
+  confirmed consultation, and one agency-controlled calendar is authoritative
+  for offered availability. D-003 is deliberately blocked before selecting an
+  external calendar surface or a limited Greek Essence employee calendar surface.
+  The operator approved a decision-evidence spike, recorded as Inbox Trello
+  [WU-41](https://trello.com/c/31Gc85MP), to test a small Greek Essence owned
+  scheduling engine with recurring availability, exceptions, employee changes,
+  and double-booking protection. The Work Unit is unclaimed and its creation does
+  not authorize implementation.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -558,12 +567,15 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Ask only Consultation Scheduling D-003: select whether employees manage
-availability directly in the authoritative agency calendar or Greek Essence
-gains a new protected staff calendar-management dashboard.
+Do not start implementation. Wait for explicit operator selection of existing
+Inbox Trello [WU-41](https://trello.com/c/31Gc85MP), then design and run its
+throwaway, synthetic-data technical spike. Resume Consultation Scheduling D-003
+only after the spike records an evidence-based verdict.
 
-Completion condition: persist the chosen staff-management boundary, scope, and
-resulting implementation obligations before advancing to D-004.
+Completion condition: WU-41 has a validated, partial, or invalidated verdict;
+the Consultation Scheduling ledger records the result and D-003 can select the
+staff-management boundary without assuming calendar-provider or production
+implementation details.
 
 ## Done When
 
@@ -584,6 +596,9 @@ state has been reconciled or removed.
 - Do not install or configure Sanity, Neon, Drizzle, React Email, Resend, Brevo, or
   another backend dependency until a later explicit implementation task authorizes
   it.
+- Keep WU-41 in Inbox until it is explicitly selected. Its spike uses synthetic
+  data and throwaway code only; it does not authorize production scheduling,
+  staff access, real enquiries, external calendar integration, or deployment.
 - Obtain user approval before changing active paths.
 - Vercel's commercially eligible zero-cost launch use must be proven in Launch
   Readiness. Failure of that mandatory gate routes an explicit Foundation Design
