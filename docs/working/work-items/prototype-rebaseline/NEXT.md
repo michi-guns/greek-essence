@@ -515,12 +515,15 @@ architecture rebaseline, and promotion of settled documentation.
   LR-P-001 is confirmed: Giorgos owns the agency-side twelve-month retention,
   practical inbox deletion, and verified manual data-rights process. LR-P-002 is
   confirmed: a short draft agency procedure is prepared for Giorgos's approval
-  and applicable qualified review. The current focus is LR-P-003, which asks how
-  agency facts and qualified privacy or legal review will support truthful
-  bilingual public wording. This authorization covers readiness grilling and an
-  early draft pull request only; it does not authorize implementation, Neon or
-  Drizzle configuration, production-data access, migration, deployment, provider
-  configuration, or launch.
+  and applicable qualified review. LR-P-003 is **Blocked** pending Giorgos's
+  factual response on Trello [WU-42](https://trello.com/c/f73YL73G); the operator
+  confirmed on 2026-08-06 that no response is available yet and authorized
+  independent work elsewhere while privacy copy stays unwritten. LR-P-004 and
+  LR-P-005 remain open but need controlled technical evidence after Neon setup.
+  This authorization covers readiness grilling and an early draft pull request
+  only; it does not authorize implementation, Neon or Drizzle configuration,
+  production-data access, migration, deployment, provider configuration, or
+  launch.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -564,14 +567,23 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Obtain the factual response and qualified-review status requested in Trello
-[WU-42](https://trello.com/c/f73YL73G), then record the response in Public
-Preview Privacy, Retention, and Data-Rights Readiness LR-P-003 before drafting
-any public wording.
+Keep Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-003
+**Blocked** on Trello [WU-42](https://trello.com/c/f73YL73G) until Giorgos
+returns the privacy-notice facts and reviewer nomination. Do not invent public
+legal wording.
 
-Completion condition: the active register records the confirmed agency facts,
-qualified-review status, and bilingual drafting route without inventing public
-legal wording, provider behavior, or reviewer credentials.
+Independently, obtain explicit operator authorization for the next unblocked
+unit. The earliest proportional Launch Readiness candidate that does not need
+WU-42 or Neon evidence is **provider-account control** (who owns and
+administers Sanity, Neon, Vercel, and the mail providers). Alternatives the
+operator may select instead: authorize Consultation Scheduling spike WU-41, or
+authorize a bounded Neon/Drizzle/Next.js implementation task contract. Do not
+bootstrap a new branch, worktree, register, spike, or implementation unit until
+that selection is explicit.
+
+Completion condition: either WU-42 unblocks LR-P-003, or the operator names the
+next authorized independent unit and its collaboration surface is created only
+after that authorization.
 
 ## Done When
 

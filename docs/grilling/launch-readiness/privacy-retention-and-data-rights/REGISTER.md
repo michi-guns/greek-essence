@@ -2,7 +2,7 @@
 
 ## Status
 
-Active — LR-P-003 is open.
+Active — LR-P-003 is blocked pending Giorgos's WU-42 facts.
 
 ## Purpose
 
@@ -47,7 +47,7 @@ production-data access, migration, deployment, or launch.
 | -------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------- |
 | LR-P-001 | Agency retention and data-rights owner           | Owns the practical twelve-month database/inbox deletion practice and coordinates verified rights requests                  | Named authorized agency person and escalation boundary                                      | Confirmed |
 | LR-P-002 | Agency approval of the actual retention practice | Approves the agency's real inbox-deletion and manual rights-handling practice without changing the accepted retention rule | Attributable agency approval, with qualified privacy/legal review identified where required | Confirmed |
-| LR-P-003 | Accurate privacy explanation and review          | Explains collection, retention, email copies, backup residue, and contact route without inventing legal claims             | Approved bilingual copy and applicable qualified-review evidence                            | Open      |
+| LR-P-003 | Accurate privacy explanation and review          | Explains collection, retention, email copies, backup residue, and contact route without inventing legal claims             | Approved bilingual copy and applicable qualified-review evidence                            | Blocked   |
 | LR-P-004 | Restricted access and deletion evidence          | Limits production database and backup access to named technical roles and proves ordinary deletion practice                | Access-boundary evidence and synthetic or controlled deletion evidence                      | Open      |
 | LR-P-005 | Backup-residue and isolated-restore evidence     | Preserves the thirty-day backup limit and reapplies deletion safeguards before a restore can affect production             | Manual export/deletion record and exercised isolated restore using controlled data          | Open      |
 
@@ -71,35 +71,29 @@ production-data access, migration, deployment, or launch.
 
 ## Current Focus
 
-### LR-P-003 — Accurate Privacy Explanation and Review
+### LR-P-003 — Accurate Privacy Explanation and Review (Blocked)
 
 The website's privacy explanation must truthfully describe what it collects, how
 long it is retained, who receives enquiry emails, how visitors contact Greek
-Essence about their data, and the limited backup-residue period. The accepted
-product does not yet supply the exact controller details, inbox route, legal
-wording, or qualified-review outcome, so public copy cannot safely be invented.
+Essence about their data, and the limited backup-residue period. Public copy
+cannot safely be invented.
 
-Before a bilingual draft is written, the agency needs a compact factual input
-pack: the legal/controller identity and contact route it wants visitors to use;
-the approved inbox recipient boundary; the actual provider and backup facts once
-configured; and the qualified reviewer who will validate the final wording.
+**Blocked dependency:** Giorgos has not yet returned the factual pack on Trello
+[WU-42](https://trello.com/c/f73YL73G) (**GIORGOS ACTION: confirm public
+privacy-notice facts and reviewer**). That card remains the coordination path for
+controller identity and contact route, inbox recipient boundary, and qualified
+reviewer nomination. It does not approve public wording or enable real enquiries.
 
-Giorgos's visible coordination task is [WU-42](https://trello.com/c/f73YL73G),
-**GIORGOS ACTION: confirm public privacy-notice facts and reviewer**. Its Inbox
-description includes a copy-and-complete response template and a clearly
-fictional completed example. The card is a request for factual input and review
-ownership; it does not approve public wording or enable real enquiries.
+On 2026-08-06 the operator confirmed no Giorgos response is available yet and
+authorized continuing independent work while this item stays blocked. Resume
+LR-P-003 only after WU-42 facts arrive or the operator supplies equivalent
+agency answers. Do not draft launch-ready bilingual privacy wording from
+placeholders.
 
-1. **(recommended): Giorgos supplies the agency facts and nominates the qualified
-   privacy/legal reviewer; Dimitri prepares an English/Greek draft only from those
-   confirmed inputs.** This keeps agency legal and business facts with the agency,
-   while Dimitri can prepare meaning-equivalent public copy for review.
-2. **Giorgos supplies the facts but no qualified reviewer is identified yet.** A
-   draft could be prepared as internal review material, but it cannot be approved
-   as launch-ready privacy wording.
-3. **Defer all privacy-copy work until after technical configuration.** This avoids
-   provisional copy but delays agency review even for facts already independent of
-   the final provider setup.
+**Later items in this register:** LR-P-004 and LR-P-005 need controlled Neon
+access, deletion, backup, and isolated-restore evidence. They remain open but
+should not be treated as the next pure readiness-grilling focus before the
+authorized technical setup exists.
 
 ## Confirmed Readiness
 
