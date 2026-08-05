@@ -54,10 +54,7 @@ selected slot when scheduling succeeds. The visitor then receives a truthful
 consultation-appointment confirmation.
 
 The exact calendar provider, connection, availability query, conflict handling,
-and revalidation mechanism remain later technical design. A visual indication of
-the slot just scheduled is optional presentation behavior only; it must not
-create visitor identity tracking, a customer account, or durable browser-side
-appointment history.
+and revalidation mechanism remain later technical design.
 
 ## Open Questions
 
@@ -90,10 +87,6 @@ feature.
 3. **Only Dimitri manages availability.** This is technically smallest but does
    not satisfy Giorgos's request for employee-managed availability and creates a
    delivery bottleneck.
-
-The visitor-only calendar rectangle you described is not stored as a product
-requirement. It may be assessed later as optional UI polish if it does not change
-truthful scheduling behavior or add visitor tracking.
 
 ## Continuation Rule
 
