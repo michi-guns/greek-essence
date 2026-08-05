@@ -504,6 +504,17 @@ architecture rebaseline, and promotion of settled documentation.
   completion of draft pull request #55, required-check monitoring, squash merge,
   merged-branch deletion, and isolated-worktree cleanup. The accepted register
   remains the durable artifact; there is no raw `GRILLING.md` path to remove.
+- On 2026-08-05, the operator separately authorized the Product and Domain Truth
+  subject Consultation Scheduling after confirming a client commitment to an
+  online consultation scheduler. Work is isolated on branch
+  `docs/consultation-scheduling` in the Git-managed sibling worktree
+  `../greek-essence.worktrees/consultation-scheduling`. The active source ledger
+  is
+  [`docs/grilling/product-domain-truth/consultation-scheduling/GRILLING.md`](../../../grilling/product-domain-truth/consultation-scheduling/GRILLING.md).
+  D-001 records the accepted online-consultation appointment boundary. This
+  authorization covers product grilling and an early draft pull request only; it
+  does not authorize calendar-provider selection, implementation, provider
+  configuration, production-data access, deployment, or launch.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -547,16 +558,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Recommend, but do not start, the next bounded Launch Readiness subject: Public
-Preview Privacy, Retention, and Data-Rights Readiness. It should confirm the
-agency owner, approved privacy facts and review, twelve-month database and inbox
-retention, practical inbox deletion, manual rights handling, and accurate
-thirty-day backup-residue disclosure without reopening accepted product or
-foundation behavior.
+Ask only Consultation Scheduling D-002: select the authoritative agency-controlled
+availability source and truthful slot-confirmation outcome for the online
+consultation scheduler.
 
-Completion condition: wait for explicit operator authorization or selection of a
-different Launch Readiness subject before creating another branch, worktree,
-register, or draft pull request.
+Completion condition: persist the selected availability boundary, rationale,
+scope, and deferred provider implementation details before advancing to D-003.
 
 ## Done When
 
