@@ -2,7 +2,7 @@
 
 ## Status
 
-Active — LR-P-002 is open.
+Active — LR-P-003 is open.
 
 ## Purpose
 
@@ -46,7 +46,7 @@ production-data access, migration, deployment, or launch.
 | ID       | Required readiness item                          | Expected boundary                                                                                                          | Required evidence                                                                           | Status    |
 | -------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------- |
 | LR-P-001 | Agency retention and data-rights owner           | Owns the practical twelve-month database/inbox deletion practice and coordinates verified rights requests                  | Named authorized agency person and escalation boundary                                      | Confirmed |
-| LR-P-002 | Agency approval of the actual retention practice | Approves the agency's real inbox-deletion and manual rights-handling practice without changing the accepted retention rule | Attributable agency approval, with qualified privacy/legal review identified where required | Open      |
+| LR-P-002 | Agency approval of the actual retention practice | Approves the agency's real inbox-deletion and manual rights-handling practice without changing the accepted retention rule | Attributable agency approval, with qualified privacy/legal review identified where required | Confirmed |
 | LR-P-003 | Accurate privacy explanation and review          | Explains collection, retention, email copies, backup residue, and contact route without inventing legal claims             | Approved bilingual copy and applicable qualified-review evidence                            | Open      |
 | LR-P-004 | Restricted access and deletion evidence          | Limits production database and backup access to named technical roles and proves ordinary deletion practice                | Access-boundary evidence and synthetic or controlled deletion evidence                      | Open      |
 | LR-P-005 | Backup-residue and isolated-restore evidence     | Preserves the thirty-day backup limit and reapplies deletion safeguards before a restore can affect production             | Manual export/deletion record and exercised isolated restore using controlled data          | Open      |
@@ -71,30 +71,47 @@ production-data access, migration, deployment, or launch.
 
 ## Current Focus
 
+### LR-P-003 — Accurate Privacy Explanation and Review
+
+The website's privacy explanation must truthfully describe what it collects, how
+long it is retained, who receives enquiry emails, how visitors contact Greek
+Essence about their data, and the limited backup-residue period. The accepted
+product does not yet supply the exact controller details, inbox route, legal
+wording, or qualified-review outcome, so public copy cannot safely be invented.
+
+Before a bilingual draft is written, the agency needs a compact factual input
+pack: the legal/controller identity and contact route it wants visitors to use;
+the approved inbox recipient boundary; the actual provider and backup facts once
+configured; and the qualified reviewer who will validate the final wording.
+
+1. **(recommended): Giorgos supplies the agency facts and nominates the qualified
+   privacy/legal reviewer; Dimitri prepares an English/Greek draft only from those
+   confirmed inputs.** This keeps agency legal and business facts with the agency,
+   while Dimitri can prepare meaning-equivalent public copy for review.
+2. **Giorgos supplies the facts but no qualified reviewer is identified yet.** A
+   draft could be prepared as internal review material, but it cannot be approved
+   as launch-ready privacy wording.
+3. **Defer all privacy-copy work until after technical configuration.** This avoids
+   provisional copy but delays agency review even for facts already independent of
+   the final provider setup.
+
+## Confirmed Readiness
+
 ### LR-P-002 — Agency Approval of the Actual Retention Practice
 
-The retention rule is already locked: database records and agency email copies
-are deleted twelve months after acceptance, and a verified manual process handles
-earlier access, correction, or deletion requests. We now need Giorgos to approve
-how Greek Essence will actually carry that rule out in the agency inbox. This is
-not a request to write legal language or create a custom privacy-management
-system.
-
-For example, a short agency procedure could say: Giorgos periodically identifies
-enquiries reaching their retention date, removes the matching agency email copies,
-and uses a verified request before asking Dimitri to perform any necessary
-technical deletion. The exact verification and legal-response details still need
-qualified privacy or legal review before real launch.
-
-1. **(recommended): Prepare a short concrete agency procedure for Giorgos to
-   approve and qualified review to validate.** It will implement the accepted
-   twelve-month rule and manual rights route, while leaving legal wording and
-   identity-verification detail for the appropriate review.
-2. **Ask Giorgos to define the operational procedure from scratch.** This gives
-   the agency maximum freedom, but risks leaving the accepted retention rule
-   impractical or incomplete without a concrete starting point.
-3. **Defer the procedure until immediately before launch.** This keeps discovery
-   short now, but blocks real enquiries until it is approved and validated.
+- **Selected direction:** Prepare a short concrete agency procedure for Giorgos
+  to approve, with qualified privacy or legal review validating applicable
+  details.
+- **Draft review input:**
+  [Draft Agency Retention and Data-Rights Procedure](procedures/draft-agency-retention-and-data-rights-procedure.md).
+  It preserves the accepted twelve-month database and inbox rule, verified manual
+  rights route, restricted technical access, and limited backup-residue boundary
+  without claiming approval or legal completeness.
+- **Evidence:** the operator selected option 1 on 2026-08-05. Before real
+  enquiries are enabled, Giorgos must approve or correct the procedure against
+  actual agency practice, and applicable qualified review must validate the
+  verification, response, documentation, and public-wording details.
+- **Status:** Confirmed.
 
 ## Continuation Rule
 

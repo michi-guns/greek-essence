@@ -513,12 +513,14 @@ architecture rebaseline, and promotion of settled documentation.
   readiness register is
   [`docs/grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md`](../../../grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md).
   LR-P-001 is confirmed: Giorgos owns the agency-side twelve-month retention,
-  practical inbox deletion, and verified manual data-rights process. The current
-  focus is LR-P-002, which asks whether to prepare a short concrete agency
-  procedure for Giorgos's approval and qualified review. This authorization covers
-  readiness grilling and an early draft pull request only; it does not authorize
-  implementation, Neon or Drizzle configuration, production-data access,
-  migration, deployment, provider configuration, or launch.
+  practical inbox deletion, and verified manual data-rights process. LR-P-002 is
+  confirmed: a short draft agency procedure is prepared for Giorgos's approval
+  and applicable qualified review. The current focus is LR-P-003, which asks how
+  agency facts and qualified privacy or legal review will support truthful
+  bilingual public wording. This authorization covers readiness grilling and an
+  early draft pull request only; it does not authorize implementation, Neon or
+  Drizzle configuration, production-data access, migration, deployment, provider
+  configuration, or launch.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -562,12 +564,12 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Present Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-002
+Present Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-003
 and persist the operator's selection before advancing the register.
 
-Completion condition: the active register records whether a concrete agency
-procedure will be prepared for approval without inventing legal facts, provider
-behavior, or unaccepted operational obligations.
+Completion condition: the active register records the agreed route for agency
+facts, qualified review, and bilingual drafting without inventing public legal
+wording, provider behavior, or reviewer credentials.
 
 ## Done When
 
