@@ -2,7 +2,8 @@
 
 ## Status
 
-Active.
+Active — partially complete; D-003 is blocked pending the approved exploratory
+technical spike.
 
 ## Purpose
 
@@ -58,8 +59,10 @@ and revalidation mechanism remain later technical design.
 
 ## Open Questions
 
-- D-003: How do agency employees manage the authoritative calendar without
-  expanding the Public Preview into a staff dashboard or CRM?
+- D-003 (blocked): How do agency employees manage the authoritative calendar
+  without expanding the Public Preview into a staff dashboard or CRM? The
+  operator approved the exploratory custom-scheduling spike before this choice
+  is accepted; it is tracked as Trello [WU-41](https://trello.com/c/31Gc85MP).
 - D-004: What appointment details are shown and collected before scheduling?
 - D-005: What visitor-visible change, cancellation, no-show, and unavailable-slot
   behavior is supported at launch?
@@ -74,6 +77,12 @@ Giorgos needs employees to manage availability easily. The currently accepted
 Public Preview excludes staff dashboards and CRM, so a new internal management
 surface must be chosen deliberately rather than added as an implied "mini"
 feature.
+
+The operator approved an exploratory technical spike to test a small
+Greek Essence owned scheduling engine before choosing between an external
+calendar surface and a limited internal calendar-management surface. No
+production implementation is authorized. Resume D-003 after the spike records
+an evidence-based verdict.
 
 1. **(recommended): Employees manage availability in the agency-controlled
    calendar itself.** Greek Essence reads and reserves its offered slots but does
