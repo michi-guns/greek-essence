@@ -504,6 +504,26 @@ architecture rebaseline, and promotion of settled documentation.
   completion of draft pull request #55, required-check monitoring, squash merge,
   merged-branch deletion, and isolated-worktree cleanup. The accepted register
   remains the durable artifact; there is no raw `GRILLING.md` path to remove.
+- On 2026-08-05, the operator paused Consultation Scheduling with D-003 still
+  blocked pending the separately selected WU-41 synthetic scheduling-engine
+  spike. The operator separately authorized the next bounded Launch Readiness
+  subject: Public Preview Privacy, Retention, and Data-Rights Readiness. Work is
+  isolated on branch `docs/launch-privacy-retention` in the Git-managed sibling
+  worktree `../greek-essence.worktrees/launch-privacy-retention`. Its active
+  readiness register is
+  [`docs/grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md`](../../../grilling/launch-readiness/privacy-retention-and-data-rights/REGISTER.md).
+  LR-P-001 is confirmed: Giorgos owns the agency-side twelve-month retention,
+  practical inbox deletion, and verified manual data-rights process. LR-P-002 is
+  confirmed: a short draft agency procedure is prepared for Giorgos's approval
+  and applicable qualified review. LR-P-003 is **Blocked** pending Giorgos's
+  factual response on Trello [WU-42](https://trello.com/c/f73YL73G); the operator
+  confirmed on 2026-08-06 that no response is available yet and authorized
+  independent work elsewhere while privacy copy stays unwritten. LR-P-004 and
+  LR-P-005 remain open but need controlled technical evidence after Neon setup.
+  This authorization covers readiness grilling and an early draft pull request
+  only; it does not authorize implementation, Neon or Drizzle configuration,
+  production-data access, migration, deployment, provider configuration, or
+  launch.
 - Verification on 2026-07-29: `pnpm format:check` exited `0`; `git diff
 --check` exited `0`; all eight expected feature `GRILLING.md` files exist and
   each has one stored next-question section.
@@ -547,16 +567,23 @@ check:push` run reached Playwright after all preceding gates passed, then
 
 ## Next Recommended Action
 
-Recommend, but do not start, the next bounded Launch Readiness subject: Public
-Preview Privacy, Retention, and Data-Rights Readiness. It should confirm the
-agency owner, approved privacy facts and review, twelve-month database and inbox
-retention, practical inbox deletion, manual rights handling, and accurate
-thirty-day backup-residue disclosure without reopening accepted product or
-foundation behavior.
+Keep Public Preview Privacy, Retention, and Data-Rights Readiness LR-P-003
+**Blocked** on Trello [WU-42](https://trello.com/c/f73YL73G) until Giorgos
+returns the privacy-notice facts and reviewer nomination. Do not invent public
+legal wording.
 
-Completion condition: wait for explicit operator authorization or selection of a
-different Launch Readiness subject before creating another branch, worktree,
-register, or draft pull request.
+Independently, obtain explicit operator authorization for the next unblocked
+unit. The earliest proportional Launch Readiness candidate that does not need
+WU-42 or Neon evidence is **provider-account control** (who owns and
+administers Sanity, Neon, Vercel, and the mail providers). Alternatives the
+operator may select instead: authorize Consultation Scheduling spike WU-41, or
+authorize a bounded Neon/Drizzle/Next.js implementation task contract. Do not
+bootstrap a new branch, worktree, register, spike, or implementation unit until
+that selection is explicit.
+
+Completion condition: either WU-42 unblocks LR-P-003, or the operator names the
+next authorized independent unit and its collaboration surface is created only
+after that authorization.
 
 ## Done When
 
