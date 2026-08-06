@@ -91,14 +91,14 @@ Parallel, non-serial tracks: do **not** force “finish all reporter work before
 
 ### Track goals (why these clusters exist)
 
-| Track                     | Goal                                                 | Active members                                        |
-| ------------------------- | ---------------------------------------------------- | ----------------------------------------------------- |
-| Delivery workflow proof   | Prove Trello ↔ GitHub Flow end to end                | WU-20 Done, WU-27 Done; WU-19 optional child          |
-| Hermes weekly reporter    | Evidence-based weekly stakeholder report             | WU-31…34 active; WU-28…30 Done                        |
-| Product / launch blockers | Unblock consultation grilling + privacy launch facts | WU-41, WU-42                                          |
-| Developer experience      | Small workflow quality wins                          | WU-38; WU-27 Done                                     |
-| Platform data (parked)    | ORM/DB foundation when product timing says so        | WU-16 parked                                          |
-| Ops bots                  | Stakeholder Telegram PO/Secretary                    | WU-37 in design                                       |
+| Track                     | Goal                                                 | Active members                               |
+| ------------------------- | ---------------------------------------------------- | -------------------------------------------- |
+| Delivery workflow proof   | Prove Trello ↔ GitHub Flow end to end                | WU-20 Done, WU-27 Done; WU-19 optional child |
+| Hermes weekly reporter    | Evidence-based weekly stakeholder report             | WU-31…34 active; WU-28…30 Done               |
+| Product / launch blockers | Unblock consultation grilling + privacy launch facts | WU-41, WU-42                                 |
+| Developer experience      | Small workflow quality wins                          | WU-38; WU-27 Done                            |
+| Platform data (parked)    | ORM/DB foundation when product timing says so        | WU-16 parked                                 |
+| Ops bots                  | Stakeholder Telegram PO/Secretary                    | WU-37 in design                              |
 
 ---
 
