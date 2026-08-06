@@ -11,16 +11,17 @@ operator explicitly approves it.
 
 ## Baseline Approved Skills
 
-| Skill                                | Use                                          |
-| ------------------------------------ | -------------------------------------------- |
-| Google Chrome Modern Web Guidance    | Modern-web implementation decisions          |
-| Vercel `vercel-react-best-practices` | React and Next.js implementation and review  |
-| Official Playwright CLI Agent Skill  | Browser inspection and interaction           |
-| `greek-essence-quality-review`       | Structured Greek Essence quality reviews     |
-| `trello-work-orchestrator`           | Read-only Trello Work Unit routing           |
-| `trello-work-design`                 | Trello Work Unit design and clarification    |
-| `trello-work-deliver`                | Trello Work Unit delivery lifecycle          |
-| `trello-work-recover`                | Trello Work Unit recovery and reconciliation |
+| Skill                                | Use                                                                     |
+| ------------------------------------ | ----------------------------------------------------------------------- |
+| Google Chrome Modern Web Guidance    | Modern-web implementation decisions                                     |
+| Vercel `vercel-react-best-practices` | React and Next.js implementation and review                             |
+| Official Playwright CLI Agent Skill  | Browser inspection and interaction                                      |
+| `greek-essence-quality-review`       | Structured Greek Essence quality reviews                                |
+| `greek-essence-work-program`         | Cold-start / what-next selection across Trello and the work-program map |
+| `trello-work-orchestrator`           | Read-only Trello Work Unit routing                                      |
+| `trello-work-design`                 | Trello Work Unit design and clarification                               |
+| `trello-work-deliver`                | Trello Work Unit delivery lifecycle                                     |
+| `trello-work-recover`                | Trello Work Unit recovery and reconciliation                            |
 
 The archived agent-tooling documents are provenance only. Do not install or use
 the retired `next-best-practices` skill.

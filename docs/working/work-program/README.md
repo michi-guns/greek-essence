@@ -175,6 +175,9 @@ Agents MUST NOT:
 
 ## Related repository pointers
 
+- Agent skill (selection calibration):
+  [`.agents/skills/greek-essence-work-program/SKILL.md`](../../../.agents/skills/greek-essence-work-program/SKILL.md)
+- Approved tooling list: [`docs/AGENT_TOOLING.md`](../../AGENT_TOOLING.md)
 - Trello ↔ Git lifecycle: [`docs/GIT_WORKFLOW.md`](../../GIT_WORKFLOW.md)
 - Docs entry map: [`docs/README.md`](../../README.md)
 - Active work-item router: [`NEXT.md`](../../../NEXT.md)
