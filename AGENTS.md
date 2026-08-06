@@ -13,10 +13,16 @@ Before beginning project work:
 2. Read [`NEXT.md`](NEXT.md), the router for active multi-session work.
 3. If a work item is assigned, read its linked `NEXT.md` completely before
    acting.
+4. For program-level “what next?”, frontier tasks, or cold-start prioritization
+   across many Trello Work Units, read
+   [`docs/working/work-program/SEQUENCE.md`](docs/working/work-program/SEQUENCE.md)
+   and follow the `greek-essence-work-program` skill. Trello remains Work Unit
+   authority; the sequence is navigation and selection only.
 
-If no work item is assigned, present the available work items and ask the
-operator which one to continue. Do not select or begin one autonomously.
-Current operator instructions always take precedence over handoff content.
+If no work item is assigned, present the available work items and the work
+program frontier, then ask the operator which one to continue. Do not select or
+begin one autonomously. Current operator instructions always take precedence
+over handoff content.
 
 ## Authority
 
