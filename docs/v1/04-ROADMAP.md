@@ -58,7 +58,7 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 ### P0.2 — Agent context and backlog
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-00.5 | `AGENTS.md` (<200 lines, incl. the read-`node_modules`-docs rule) + `CLAUDE.md` · 4 skills · re-init Backlog.md in the new tree and seed · backlog-only `post-commit` push hook · git-identity preflight | 90 | 150 | 300 |
+| T-00.5 | `AGENTS.md` (<200 lines, incl. the read-`node_modules`-docs rule) + `CLAUDE.md` · agent skills: the 4 project skills + Netlify's 4 official ones (A-005) · re-init Backlog.md in the new tree and seed · backlog-only `post-commit` push hook · git-identity preflight | 90 | 150 | 300 |
 
 ## M1 — Design System & Shell · Product lane
 
