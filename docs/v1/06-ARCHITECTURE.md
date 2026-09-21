@@ -411,18 +411,36 @@ exhaustion is an *outage*, not a bill.
 | **Branch deploys** | **free, unlimited** | |
 | **Failed deploys** | **free** | |
 
-### A-003 ✅ Production deploys are a deliberate, batched act — not automatic on merge
+### A-003 ✅ Production deploys are a deliberate, batched act — **implemented via a `release` branch**
 
 Because deploys and traffic draw on the same 300 credits, deploying carelessly takes the site
-down later in the month. So:
+down later in the month.
 
-- **`main` does not auto-deploy to production.** Production releases are manual and batched.
-- **Budget ≤ 8 production deploys/month**, reserving ~180 credits (≈9 GB) for actually serving
-  visitors.
-- **Deploy previews on every branch, used freely** — they cost nothing and they are how every
-  client review gate works anyway (T-01.4, T-01.14).
-- Act on Netlify's 50% / 75% notifications. At 75% with real traffic, stop deploying and talk to
-  the client.
+**Netlify no longer has a "stop auto publishing" toggle.** Its only related control, *Enforce
+deployment methods*, does the opposite of what we want — it restricts CLI/MCP/API from
+production and forces Git-only. So the supported way to make production deliberate is branch
+indirection, and that is what is configured on the project:
+
+| Setting | Value | Effect |
+|---|---|---|
+| Production branch | **`release`** | Production only builds when we deliberately push to it |
+| Branch deploys | **`main`** | Every merge to `main` gets a free, reviewable branch-deploy URL |
+| Deploy Previews | Any PR against production / branch-deploy branches | Free, and how every review gate works |
+
+**Merging to `main` therefore does not ship.** It produces a free branch deploy. A production
+release is one explicit command:
+
+```bash
+git push origin main:release
+```
+
+Budget **≤ 8 production releases/month**, reserving ~180 credits (≈9 GB) for serving visitors.
+Act on Netlify's 50% / 75% notifications; at 75% with real traffic, stop releasing and talk to
+the client.
+
+*Why this matters more than it sounds:* without it, our own branch flow would publish on every
+phase merge. Seventeen phases × 15 credits = 255 of the 300-credit budget spent on deploys
+before a single visitor arrives.
 
 ### Two earlier decisions that turn out to protect us
 
