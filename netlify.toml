@@ -1,0 +1,33 @@
+# Netlify configuration — see docs/v1/06-ARCHITECTURE.md §14 for the credit budget
+# that shapes this file.
+
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Production deploys cost 15 credits each against a hard 300/month budget, and
+# they compete with the bandwidth that serves real visitors. So merging to main
+# does NOT ship (A-003). Production releases are manual and batched, <=8/month.
+#
+# The matching setting lives in the Netlify UI: Site configuration ->
+# Build & deploy -> Continuous deployment -> Branches and deploy contexts ->
+# stop auto-publishing. This file cannot express it on its own.
+[context.production]
+  command = "pnpm build"
+
+# Deploy previews and branch deploys are free and unlimited. They are how every
+# client review gate works (T-01.4, T-01.14), so use them freely.
+[context.deploy-preview]
+  command = "pnpm build"
+
+[context.branch-deploy]
+  command = "pnpm build"
+
+# Security headers are defined in next.config.ts so they are reviewable in code
+# and apply in development too. Do not duplicate them here.
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
