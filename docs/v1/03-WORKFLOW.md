@@ -50,7 +50,9 @@ record of why several v1 rules exist.
 ## 2. Branch flow
 
 ```
-main                         always deployable, always the source of truth for backlog/
+release                      production. Only ever `git push origin main:release`, <=8/month (A-003)
+ ^
+main                         integration. Always deployable; merging here gets a free branch deploy
  │
  ├─ phase/03-public-site     one open at a time · max 7 days · rebase from main daily
  │   ├─ task/03.1-home       branched from the phase · merged back on completion

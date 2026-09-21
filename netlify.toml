@@ -12,9 +12,10 @@
 # they compete with the bandwidth that serves real visitors. So merging to main
 # does NOT ship (A-003). Production releases are manual and batched, <=8/month.
 #
-# The matching setting lives in the Netlify UI: Site configuration ->
-# Build & deploy -> Continuous deployment -> Branches and deploy contexts ->
-# stop auto-publishing. This file cannot express it on its own.
+# Netlify has no "stop auto publishing" toggle. This is implemented with branch
+# indirection, configured on the project: production branch = `release`, branch
+# deploys = `main`, deploy previews on for PRs. Merging to main gets a free
+# branch deploy; production is `git push origin main:release`.
 [context.production]
   command = "pnpm build"
 

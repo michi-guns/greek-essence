@@ -49,9 +49,10 @@ components by hand against Base UI primitives. We need about seven of them.
 Two lanes run concurrently (product, pipeline), so two phase branches may be open — one owning
 lane each. Details in [`docs/v1/03-WORKFLOW.md`](docs/v1/03-WORKFLOW.md) §2.
 
-**Merging to `main` does not ship.** Production deploys are manual and budgeted at ≤8/month
-(A-003) — Netlify bills 15 credits per production deploy against a hard 300/month limit, and
-exhausting it takes the site offline.
+**Merging to `main` does not ship.** `main` is the integration branch and gets a free Netlify
+branch deploy you can review. Production is the `release` branch, reached only by an explicit
+`git push origin main:release`, budgeted at ≤8/month (A-003). Netlify bills 15 credits per
+production deploy against a hard 300/month limit, and exhausting it takes the site offline.
 
 ## Checks
 
