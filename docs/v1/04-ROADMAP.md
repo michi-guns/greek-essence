@@ -1,7 +1,7 @@
 # Greek Essence v1 — Roadmap
 
-**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 61 tasks ·
-~132.3h average · ~8.5 weeks.
+**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 62 tasks ·
+~133.2h average · ~8.5 weeks.
 Architecture: [06-ARCHITECTURE.md](06-ARCHITECTURE.md). Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
@@ -142,6 +142,7 @@ emails. Every other task in this milestone implements against it.
 ### P4.1 — Contract and forms
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
+| T-04.0 | **`clasp` setup** (A-009): Apps Script project linked to the repo as TypeScript, push/pull workflow, `.clasp.json` and credentials handling documented | 45 | 90 | 180 |
 | T-04.1 | **Intake contract spec** — one document. Per form: field list, types, required/optional, Sheet column mapping, `entry.*` ID map, prefill params, redirect params, and the validation each field carries | 60 | 120 | 240 |
 | T-04.2 | Build the 3 Google Forms on the client's account to that spec, theme them, link the response Sheet | 75 | 150 | 300 |
 | T-04.3 | Prefill + redirect to `/thank-you`, verified field-by-field against the spec | 45 | 90 | 180 |
@@ -191,8 +192,11 @@ DNS. Chase both in week 1 or this lane idles.
 
 ## M6 — Content Production · Product lane · runs weeks 2–6
 
-Real work, not a client checkbox (D-035). Agents draft → operator edits → client approves.
-Each task's `max` assumes two approval rounds.
+Real work, not a client checkbox (D-035). Agents draft **directly into Sanity as drafts**;
+the client reviews in Presentation on the real page and publishes (A-008). Each task's `max`
+assumes two approval rounds.
+
+**Dependency:** every copy task needs M2 P2.1+P2.2+T-02.5 done. Photo curation does not.
 
 ### P6.1 — Photography
 | ID | Task | min | avg | max |
@@ -224,9 +228,9 @@ min, ~17.5 weeks at max.** The spread is wide because four tasks are client-gate
 | Week | Product lane | Junior lane |
 |---|---|---|
 | 1 | M0 (stack spike → reset → scaffold → CI) | M4 P4.1 contract + forms — chase Google account + domain |
-| 2 | M1 P1.1 direction → **direction pick** · M6 photos | M4 P4.1 → P4.2 |
-| 3 | M1 P1.2 foundations · M6 copy starts | M4 P4.2 email |
-| 4 | M1 P1.3 comps → **client sign-off gate** · M6 copy | M4 P4.3 → M5 P5.1 |
+| 2 | M1 P1.1 direction → **direction pick** · M6 photos (T-06.1) | M4 P4.0 clasp → P4.1 |
+| 3 | M1 P1.2 foundations · **M2 P2.1–P2.2 brought forward** (unblocks copy) | M4 P4.2 email |
+| 4 | M1 P1.3 comps → **client sign-off gate** · T-02.5 Presentation · M6 copy starts in Sanity | M4 P4.3 → M5 P5.1 |
 | 5 | M2 complete · M6 copy approvals | M5 P5.1 complete |
 | 6 | M3 complete · content final | QA support |
 | 7 | M5 P5.2 quality | — |
