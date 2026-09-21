@@ -157,21 +157,8 @@ those measured, that is where a custom event earns its keep.
 
 ## Component architecture
 
-```
-components/
-  ui/          primitives — Button, Badge, Card, Breadcrumb, Dialog, Prose
-  patterns/    composed, reusable — Gallery, PackageCard, DestinationCard
-  sections/    page-level blocks — Hero, CardGrid, SplitFeature, CtaBand
-app/           routes only; pages compose sections, never primitives directly
-lib/           pure functions — buildFormUrl, sanity client, image loader
-```
-
-Rule: **a page assembles sections; a section assembles patterns and primitives.** If a page
-reaches for a primitive directly, either the section is missing or the page is doing too much.
-
-Second rule: **do not create a component for one caller.** Inline it until a second use appears.
-
----
+Moved to [06-ARCHITECTURE.md](06-ARCHITECTURE.md) §3–§4, which owns layout, dependency rules and
+the data-flow boundary.
 
 ## Open
 

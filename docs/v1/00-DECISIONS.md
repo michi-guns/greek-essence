@@ -42,12 +42,20 @@ v1 has **three forms, one mental model**: *Book this package*, *Plan something p
 copy and failure semantics. That distinction only pays off when there is a backend
 that treats them differently. There isn't one.
 
-### D-005 ✅ English-only at launch
-`next-intl` routing stays wired with `/en` as the only active locale so Greek is a later
-content drop, not a rebuild.
+### D-005 ✅ English-only at launch — **and no i18n machinery at all in v1**
+*Revised.* This decision originally said to keep `next-intl` wired with a single active locale so
+Greek would be a later content drop. That was wrong: it buys a `/en/` prefix on every URL of a
+single-language site and carries routing machinery through every M3 task for a v2 benefit.
 
-*Why:* bilingual doubles copy, review and QA, and the v0 decisions require a named human
-approver per language before publishing. That gate alone could eat two weeks.
+**English lives at the root.** Greek is added later at `/el/` with English staying where it is —
+the standard pattern, SEO-safe, no URL changes and no redirects. Sanity schemas carry no
+localization in v1; document-level i18n is added in v2 and is purely additive.
+
+*Why English-only at all:* bilingual doubles copy, review and QA, and the v0 decisions require a
+named human approver per language before publishing. That gate alone could eat two weeks.
+
+*Saves ~2h across M0 and M3, and removes a concept from every page task.* Detail in
+[06-ARCHITECTURE.md](06-ARCHITECTURE.md) A-001 / A-002.
 
 ### D-006 🟡 No price display at launch unless the client supplies the full qualification set
 Carry over v0 D-004: a "from" price only ships with currency, charging basis, inclusions,
@@ -193,6 +201,30 @@ preview and on-demand revalidation.
 *Knock-ons:* ISR via `revalidateTag` replaces a full rebuild, so Sanity edits appear in seconds ·
 security headers live in `next.config` rather than a platform file · **and draft content must be
 provably unreachable by the public**, which needs a test, not care (S-003).
+
+### D-040 ✅ Domain DTOs at the Sanity boundary
+Components never see a Sanity document. `lib/sanity/map.ts` maps raw GROQ results into plain
+types in `types/domain.ts`, and nothing downstream knows Sanity exists.
+
+*Why this is worth its hour:* it makes **the D-006 price rule structural**. The mapper returns
+`price: undefined` unless currency, basis, inclusions, review date and the confirmation note are
+all present — so a partially-qualified price becomes impossible to render, rather than something
+a component has to remember to check. Business rules belong at the boundary, not in JSX.
+
+Also: components become testable with object literals, and restructuring the CMS is contained to
+one file. Full rules in [06-ARCHITECTURE.md](06-ARCHITECTURE.md) §4–§5.
+
+### D-041 ✅ Dependency rules are enforced by eslint, not by review
+`app → sections → patterns → ui`, one direction, with `components/**` forbidden from importing
+`lib/sanity/**`. Encoded as `no-restricted-imports` zones in T-00.3.
+
+*Why:* a convention an agent can violate silently is not a convention. With 60 tasks and two
+developers, the boundary has to fail the build.
+
+### D-042 ✅ No error-monitoring service in v1
+Netlify function logs cover a site with no mutations and no customer data. The failure that
+actually matters — an enquiry email not sending — is alerted from Apps Script (T-04.8). Revisit
+if the server ever does more than Draft Mode and revalidation.
 
 ---
 
