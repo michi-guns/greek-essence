@@ -198,6 +198,11 @@ update beside her, clicking an element to jump to its field. For a client who ow
 content, losing that was the wrong trade. Pages are still prerendered; the server only handles
 preview and on-demand revalidation.
 
+**And the free plan is only viable because we kept the server.** Netlify bills 15 credits per
+production deployment against a hard 300/month budget. On a static export every Sanity publish
+would fire a rebuild — the client would pause her own website after twenty typo fixes. See
+[06-ARCHITECTURE.md](06-ARCHITECTURE.md) §14 and A-003.
+
 *Knock-ons:* ISR via `revalidateTag` replaces a full rebuild, so Sanity edits appear in seconds ·
 security headers live in `next.config` rather than a platform file · **and draft content must be
 provably unreachable by the public**, which needs a test, not care (S-003).
