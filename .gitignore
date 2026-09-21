@@ -48,3 +48,6 @@ next-env.d.ts
 # Playwright
 .artifacts/
 .playwright-cli-runtime
+
+# Local, untracked: personal preferences and verification evidence (D-051)
+.local/
