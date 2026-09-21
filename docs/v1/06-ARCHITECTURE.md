@@ -448,6 +448,62 @@ entirely — plus SEO plumbing that ships through Git like any other code. He do
 console access; if he needs a deploy log, the operator pulls it. Revisit only if it becomes a
 real bottleneck.
 
+### Paid plans, for when the free plan stops fitting
+
+| | Free | **Personal** | **Pro** |
+|---|---|---|---|
+| Price | $0 | **$9/mo** | **$20/mo** |
+| Credits | 300 (hard stop) | **1,000** | 3,000–20,000 |
+| Team members | 1 | 1 | **Unlimited** |
+| Adds | — | Smart secret detection, priority email support | Private org repos, shared env vars, 3+ concurrent builds, 30-day analytics, team management, 7-day audit logs, extended function logs |
+
+**Escalation path: Free → Personal ($9).** 1,000 credits is 3.3× headroom and effectively removes
+the pause risk. It does *not* add a second seat, so A-004 still holds. Pro ($20) is only worth it
+for unlimited members — and at that price the honest comparison is against Vercel Pro, which
+costs the same but which Netlify Free beat on the only question that mattered: being usable at
+all without paying.
+
+Ask for $9 only with evidence — real visitor traffic pushing credits past 50% — which is the
+evidence-led upgrade conversation v0's decisions already described.
+
+### A-005 ✅ Netlify agent tooling: official skills + CLI, no MCP
+
+Netlify has an unusually complete agent ecosystem: an official MCP server, an official **agent
+skills** repo ([netlify/context-and-tools](https://github.com/netlify/context-and-tools)), Agent
+Runners, an AI Gateway, and Claude Code as a first-class supported client.
+
+We take **the skills and `netlify-cli` (v27), not the MCP** — consistent with D-021b. Netlify's
+skills *are* the lazy-loaded pattern we endorsed: documentation an agent pulls when it needs it,
+versioned by Netlify, costing nothing resident.
+
+Install only the four that match this project (T-00.5):
+
+```bash
+npx skills add netlify/context-and-tools \
+  --skill netlify-config \
+  --skill netlify-cli-and-deploy \
+  --skill netlify-frameworks \
+  --skill netlify-caching --yes
+```
+
+Deliberately skipped: `netlify-functions`, `netlify-edge-functions`, `netlify-blobs`,
+`netlify-db`, `netlify-ai-gateway` (we use none of these), `netlify-image-cdn` (Sanity's CDN
+instead — §14 explains why), `netlify-forms` (see below).
+
+**Agent Runners are not for v1.** They let agents make repository changes on Netlify's
+infrastructure, and they bill against the same 300-credit budget as our deployments and our
+traffic. Agents run locally, where they cost nothing.
+
+### Noted but not reopened: Netlify Forms
+Netlify Forms handle submissions with no backend code, and the credit table lists form
+submissions as free and unlimited. That would keep visitors on-site and remove the Google Forms
+handoff that D-012 exists to paper over.
+
+**Not reopening it.** The client chose Google Forms, and her choice also puts the submission data
+in a Sheet she owns, on an account she controls, with no dependency on us. Worth knowing if she
+ever asks why visitors leave the site to enquire — the answer is a real trade she made, not a
+limitation.
+
 ### When to reopen the hosting decision
 A sustained draw above ~50% of credits **from real visitor traffic** is a demand signal, and it
 triggers exactly the evidence-led client conversation v0's decisions described: real people are
