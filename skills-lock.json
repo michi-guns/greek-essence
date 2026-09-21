@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "netlify-caching": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "skillPath": "skills/netlify-caching/SKILL.md",
+      "computedHash": "e0d7f656c6b5aa289f73c06ab41a9693e682321d14ba29118bf39a3afc8c5686"
+    },
+    "netlify-config": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "skillPath": "skills/netlify-config/SKILL.md",
+      "computedHash": "daebdde2be73f2b2477335ad2b05eadfc4d9fcde7ed3f71e2f5b5bb20c28cd79"
+    },
+    "netlify-frameworks": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "skillPath": "skills/netlify-frameworks/SKILL.md",
+      "computedHash": "c0561a5a35e43e0d65af9046b7ded0256de762d6b12fb0b216b3ac34aceb120c"
+    }
+  }
+}
