@@ -46,7 +46,8 @@
     "lint-staged": "^17.1.0",
     "vitest": "^4.1.10",
     "@playwright/test": "^1.61.1",
-    "@eslint/eslintrc": "^3"
+    "@eslint/eslintrc": "^3",
+    "@netlify/plugin-nextjs": "^5"
   },
   "packageManager": "pnpm@11.27.1",
   "engines": {
