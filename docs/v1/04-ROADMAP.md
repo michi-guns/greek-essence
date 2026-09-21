@@ -1,7 +1,7 @@
 # Greek Essence v1 — Roadmap
 
 **Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 61 tasks ·
-~131.8h average · ~8.5 weeks.
+~132.3h average · ~8.5 weeks.
 Architecture: [06-ARCHITECTURE.md](06-ARCHITECTURE.md). Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
@@ -58,7 +58,7 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 ### P0.2 — Agent context and backlog
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-00.5 | `AGENTS.md` (<200 lines, incl. the read-`node_modules`-docs rule) + `CLAUDE.md` · agent skills: the 4 project skills + Netlify's 4 official ones (A-005) · re-init Backlog.md in the new tree and seed · backlog-only `post-commit` push hook · git-identity preflight | 90 | 150 | 300 |
+| T-00.5 | `AGENTS.md` (<200 lines, incl. the read-`node_modules`-docs rule) + `CLAUDE.md` · agent skills: 4 project + Netlify's 4 (A-005) + `sanity-io/agent-toolkit` (A-006) · **`.claude/settings.json` permission allow/deny list and `.local/` scaffold (D-050, D-051)** · re-init Backlog.md in the new tree and seed · backlog-only `post-commit` push hook · git-identity preflight | 90 | 150 | 300 |
 
 ## M1 — Design System & Shell · Product lane
 

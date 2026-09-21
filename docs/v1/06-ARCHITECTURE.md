@@ -296,7 +296,7 @@ qualification rule), the Sanity image loader, SEO metadata builders.
 URLs; axe on every template; the draft-leak assertion (T-02.6).
 
 **Not tested**: component snapshots, Sanity itself, Google's infrastructure, styling.
-No coverage percentage gate — see [03-WORKFLOW.md](03-WORKFLOW.md) §5 for why.
+No coverage percentage gate — see [03-WORKFLOW.md](03-WORKFLOW.md) §6 for why.
 
 ---
 
@@ -514,6 +514,31 @@ If the client declines to pay and traffic genuinely outgrows the plan, **Cloudfl
 the OpenNext adapter** is the fallback: a more generous free tier that keeps Draft Mode, at the
 cost of an adapter in the dependency chain. Do not go back to a static export — it trades the
 client's live preview away and, as above, makes her own edits expensive.
+
+### A-006 ✅ Sanity agent tooling: skills + CLI, **and deliberately not the MCP**
+
+Sanity's ecosystem mirrors Netlify's: official agent skills, an official MCP server, and a mature CLI.
+
+**Take:**
+- **Agent skills** — `npx skills add sanity-io/agent-toolkit` (development best practices, content
+  modelling, SEO). Lazy-loaded, versioned by Sanity, free when unused. Claude Code supported.
+- **The CLI** — `npx sanity@latest` for typegen, schema deploy, dataset operations and document
+  queries during debugging.
+
+**Skip the MCP**, and here for a stronger reason than D-021b.
+
+The Sanity MCP is remote (`https://mcp.sanity.io`, OAuth) and its tools are
+`create_documents`, `patch_documents`, `publish_documents`, `unpublish_documents`,
+`discard_drafts`, `version_discard`. Its entire value proposition is **write and delete access to
+the client's content.**
+
+**Agents do not write the client's content.** They write schemas, queries, mappers and a seed
+script. The seed script (T-02.4) uses a write token deliberately, in a reviewable file, against
+placeholder data — that is a different thing from an agent reaching into a live dataset mid-task
+and patching a document nobody asked it to touch.
+
+There is no capability lost: the CLI queries documents for debugging just as well. What is
+avoided is an entire class of incident where an agent "helpfully" tidies the client's content.
 
 ## 14. Accepted architecture decisions
 
