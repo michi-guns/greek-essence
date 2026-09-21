@@ -392,28 +392,89 @@ with actual legal consequences.
 | Fixtures | `tests/fixtures/domain.ts` exports plain DTO literals, so component tests never touch Sanity |
 | Images | Always through `lib/sanity/image.ts`. Never construct a CDN URL by hand |
 
-## 14. Two decisions that need your confirmation
+## 14. Netlify free-plan economics — the constraint that shapes deployment
 
-### A-001 🟡 Drop `next-intl` from v1 entirely — revises D-005
-D-005 said keep `next-intl` wired with a single active locale so Greek is a later content drop.
-**I now think that is wrong.** It buys a `/en/` prefix on every URL of a single-language site —
-uglier, and it carries routing machinery through every task in M3 for a benefit that arrives in v2.
+Verified against Netlify's own docs, September 2026. **This changes how we deploy**, so it is
+architecture, not billing trivia.
 
-The standard pattern is cheaper and SEO-safe: **English at the root now**, Greek added later at
-`/el/` with English staying where it is. Nothing breaks, no URLs change, no redirects needed.
+The free plan is **300 credits/month, a hard limit**. There is no auto-recharge and no overage
+charge — instead, **every project on the account pauses until the next billing cycle.** Credit
+exhaustion is an *outage*, not a bill.
 
-*Recommendation: no i18n in v1.* Saves roughly 2h across M0 and M3 and removes a concept from
-every page task.
+| Consumes credits | Rate | In our terms |
+|---|---|---|
+| **Production deployment** | **15 credits each** | **20 production deploys/month, maximum** |
+| Web bandwidth | 20 credits / GB | 15 GB/month if we spent everything on it |
+| Web requests | 2 credits / 10,000 | |
+| Function compute | 10 credits / GB-hour | Draft Mode + revalidation. Negligible at our size |
+| **Deploy previews** | **free, unlimited** | |
+| **Branch deploys** | **free, unlimited** | |
+| **Failed deploys** | **free** | |
 
-### A-002 🟡 Sanity localization: document-level later, none now
-Three ways to hold two languages: localized fields (`{en, el}`), an `internationalizedArray`
-plugin, or **document-level i18n** — a parallel document per language, linked, via Sanity's
-`document-internationalization` plugin.
+### A-003 ✅ Production deploys are a deliberate, batched act — not automatic on merge
 
-*Recommendation: document-level, added in v2.* v1 schemas carry no localization at all. Authoring
-plain fields is far nicer for a non-technical client, and document-level i18n is additive — it
-does not require rewriting the v1 schemas. This also matches what v0 concluded: store each
-language's content separately rather than interleaving it.
+Because deploys and traffic draw on the same 300 credits, deploying carelessly takes the site
+down later in the month. So:
 
-The alternative — localized fields now — makes every field in the Studio a two-tab widget for a
-client who will only ever fill one side of it for months.
+- **`main` does not auto-deploy to production.** Production releases are manual and batched.
+- **Budget ≤ 8 production deploys/month**, reserving ~180 credits (≈9 GB) for actually serving
+  visitors.
+- **Deploy previews on every branch, used freely** — they cost nothing and they are how every
+  client review gate works anyway (T-01.4, T-01.14).
+- Act on Netlify's 50% / 75% notifications. At 75% with real traffic, stop deploying and talk to
+  the client.
+
+### Two earlier decisions that turn out to protect us
+
+**1. Dropping static export was not just about preview.** On a static export, a Sanity publish
+fires a deploy hook and rebuilds the site — **15 credits every time the client fixes a typo.**
+She would pause her own website after twenty edits. Because we have a server,
+`revalidateTag` handles content updates as function compute, which is effectively free at our
+volume. The Netlify free plan is only viable *because* we kept the server.
+
+**2. Serving images from Sanity's CDN protects the bandwidth budget.** Netlify only ever
+transfers HTML, CSS and JS — roughly 100–150 KB per page. That is on the order of 100,000
+pageviews inside budget. Had we served images from Netlify, a page with 2 MB of photography
+would exhaust 15 GB in about 7,500 pageviews, which an Instagram spike could produce in a day.
+
+Both decisions were made for other reasons. Note the near miss.
+
+### A-004 ✅ Team access: the junior works through Git, not the Netlify console
+The free plan allows **one team member** (Git contributors are unlimited only on public repos,
+and ours is private). The operator holds that seat.
+
+This is workable because the junior's lane is Google Forms and Apps Script — outside Netlify
+entirely — plus SEO plumbing that ships through Git like any other code. He does not need
+console access; if he needs a deploy log, the operator pulls it. Revisit only if it becomes a
+real bottleneck.
+
+### When to reopen the hosting decision
+A sustained draw above ~50% of credits **from real visitor traffic** is a demand signal, and it
+triggers exactly the evidence-led client conversation v0's decisions described: real people are
+arriving, so a bounded paid upgrade is now justified. Exhaustion from deploys or mistakes is an
+operational failure, not a demand signal — fix the process instead.
+
+If the client declines to pay and traffic genuinely outgrows the plan, **Cloudflare Workers with
+the OpenNext adapter** is the fallback: a more generous free tier that keeps Draft Mode, at the
+cost of an adapter in the dependency chain. Do not go back to a static export — it trades the
+client's live preview away and, as above, makes her own edits expensive.
+
+## 14. Accepted architecture decisions
+
+### A-001 ✅ No i18n machinery in v1 — accepted 2026-09-21
+Revises D-005. `next-intl` is **not** installed. English lives at the root with no locale prefix.
+Greek is added in v2 at `/el/`, English stays where it is — no URL changes, no redirects, nothing
+breaks. Saves ~2h across M0 and M3 and removes a concept from every page task.
+
+### A-002 ✅ No Sanity localization in v1 — accepted 2026-09-21
+v1 schemas carry plain, single-language fields. Greek arrives in v2 through Sanity's
+`document-internationalization` plugin — a parallel document per language, linked — which is
+purely additive and does not require rewriting the v1 schemas.
+
+Rejected: localized fields (`{en, el}`) and `internationalizedArray`, both of which would turn
+every field in the Studio into a two-tab widget the client only ever fills one side of, for
+months, for nothing.
+
+This also matches what v0 concluded independently: store each language's content separately
+rather than interleaving it.
+

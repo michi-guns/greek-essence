@@ -1,7 +1,7 @@
 # Greek Essence v1 — Roadmap
 
 **Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 61 tasks ·
-~131.5h average · ~8.5 weeks.
+~131.8h average · ~8.5 weeks.
 Architecture: [06-ARCHITECTURE.md](06-ARCHITECTURE.md). Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
@@ -34,14 +34,14 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 
 | # | Milestone | Lane | Weeks | avg h | Exit criteria |
 |---|---|---|---|---|---|
-| **M0** | Foundation | Product | 1 | 13.0 | New `main`, empty of v0, builds and deploys to a preview URL |
+| **M0** | Foundation | Product | 1 | 13.3 | New `main`, empty of v0, builds and deploys to a preview URL |
 | **M1** | Design System & Shell | Product | 1–3 | 33.5 | Client has said "yes, this is the look" on two real pages |
 | **M2** | Content Platform | Product | 3–4 | 16.0 | Client can edit a destination in the Studio and watch the page update live beside her |
 | **M3** | Public Site | Product | 4–5 | 16.2 | All 7 templates live on preview with real content |
 | **M4** | Request Pipeline | **Junior** | 1–3 | 16.2 | A real submission on all 3 forms emails both parties and lands in the Sheet |
 | **M5** | Launch Readiness | Mixed | 6–7 | 19.0 | Live on the real domain, client trained, runbook handed over |
 | **M6** | Content Production | Product | 2–6 | 17.5 | All copy approved, ~30 images curated and licence-logged |
-| | **Total** | | **8** | **131.5** | |
+| | **Total** | | **8** | **131.8** | |
 
 ---
 
@@ -53,7 +53,7 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 | T-00.1 | **Stack verification spike** (throwaway): Next 16 on **Netlify** + shadcn/Base UI Dialog + Sanity image loader + Draft Mode round-trip. Confirm S-004 or fall back to Radix and record it | 75 | 135 | 270 |
 | T-00.2 | Salvage set, archive `main` → `archive/v0-preview`, orphan branch, real scaffold, port v0 design tokens, **directory structure per 06-ARCHITECTURE §3**, path aliases, `lib/env.ts` Zod validation. **No i18n** (D-005) | 105 | 195 | 390 |
 | T-00.3 | eslint + prettier + commitlint + husky + lint-staged (thin) · **`no-restricted-imports` zones encoding the 06-ARCHITECTURE §4 dependency rules** · Vitest and Playwright configs with one smoke test each | 90 | 165 | 330 |
-| T-00.4 | GitHub Actions CI · **Netlify** site, deploy previews per branch, security headers in `next.config`, env plumbing (server-only Sanity token) | 75 | 135 | 270 |
+| T-00.4 | GitHub Actions CI · **Netlify** site with **auto-deploy of `main` to production disabled** (A-003), deploy previews per branch, credit alerts at 50/75%, security headers in `next.config`, env plumbing (server-only Sanity token) | 75 | 150 | 300 |
 
 ### P0.2 — Agent context and backlog
 | ID | Task | min | avg | max |
@@ -185,7 +185,7 @@ DNS. Chase both in week 1 or this lane idles.
 |---|---|---|---|---|
 | T-05.7 | Domain, DNS, SSL, production env, Sanity production dataset, first real deploy 🔴 | 75 | 150 | 300 |
 | T-05.8 | Final privacy + terms content, cookie decision 🔴 | 45 | 90 | 240 |
-| T-05.9 | Client training (editing in Sanity, reading form responses) + runbook | 105 | 180 | 360 |
+| T-05.9 | Client training (editing in Sanity, reading form responses) + runbook incl. account-ownership table and the Netlify credit budget (A-003) | 105 | 180 | 360 |
 
 ---
 
@@ -214,7 +214,7 @@ Each task's `max` assumes two approval rounds.
 
 | | min | avg | max |
 |---|---|---|---|
-| **Total** | 4,320 min · **72.0 h** | 7,890 min · **131.5 h** | 16,110 min · **268.5 h** |
+| **Total** | 4,320 min · **72.0 h** | 7,905 min · **131.8 h** | 16,140 min · **269.0 h** |
 
 At ~15h/week combined (operator 8–12h + junior net of review): **~8.5 weeks at avg, ~4.5 weeks at
 min, ~17.5 weeks at max.** The spread is wide because four tasks are client-gated.
