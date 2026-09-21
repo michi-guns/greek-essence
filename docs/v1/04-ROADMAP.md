@@ -1,6 +1,7 @@
 # Greek Essence v1 — Roadmap
 
-**Revised after discovery.** 7 milestones · 16 phases · 44 tasks · ~104h average · ~7 weeks.
+**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 58 tasks ·
+~125h average · ~8 weeks. Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
 AI-agent work the review is usually the larger half and it does not parallelise.
@@ -32,54 +33,66 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 
 | # | Milestone | Lane | Weeks | avg h | Exit criteria |
 |---|---|---|---|---|---|
-| **M0** | Foundation | Product | 1 | 10.8 | New `main`, empty of v0, builds and deploys to a preview URL |
-| **M1** | Design System & Shell | Product | 1–3 | 21.5 | Client has said "yes, this is the look" on two real pages |
+| **M0** | Foundation | Product | 1 | 12.8 | New `main`, empty of v0, builds and deploys to a preview URL |
+| **M1** | Design System & Shell | Product | 1–3 | 33.5 | Client has said "yes, this is the look" on two real pages |
 | **M2** | Content Platform | Product | 3–4 | 9.8 | Client can edit a destination in Sanity and see it on preview |
-| **M3** | Public Site | Product | 4–5 | 12.2 | All 7 templates live on preview with real content |
-| **M4** | Request Pipeline | **Junior** | 1–3 | 13.5 | A real submission on all 3 forms emails both parties and lands in the Sheet |
+| **M3** | Public Site | Product | 4–5 | 16.2 | All 7 templates live on preview with real content |
+| **M4** | Request Pipeline | **Junior** | 1–3 | 16.2 | A real submission on all 3 forms emails both parties and lands in the Sheet |
 | **M5** | Launch Readiness | Mixed | 6–7 | 19.0 | Live on the real domain, client trained, runbook handed over |
 | **M6** | Content Production | Product | 2–6 | 17.5 | All copy approved, ~30 images curated and licence-logged |
-| | **Total** | | **7** | **104.2** | |
+| | **Total** | | **8** | **125.0** | |
 
 ---
 
 ## M0 — Foundation · Product lane
 
-### P0.1 — Reset, scaffold, tooling
+### P0.1 — Stack validation, reset, scaffold
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-00.1 | Salvage set, archive `main` → `archive/v0-preview`, orphan branch, scaffold Next 16 + TS strict + Tailwind 4 + shadcn/Base UI, port v0 design tokens, directory structure and path aliases | 120 | 210 | 420 |
-| T-00.2 | eslint + prettier + commitlint + husky + lint-staged (thin, per 03-WORKFLOW §5) · Vitest and Playwright configs with one smoke test each | 90 | 150 | 300 |
-| T-00.3 | GitHub Actions CI (typecheck, lint, test, build) · Vercel project, preview deploys, env plumbing | 75 | 135 | 270 |
+| T-00.1 | **Stack verification spike** (throwaway): Next 16 `output: 'export'` + shadcn/Base UI Dialog + Sanity image loader + a Cloudflare Pages deploy. Confirm S-004 or fall back to Radix and record it | 60 | 120 | 240 |
+| T-00.2 | Salvage set, archive `main` → `archive/v0-preview`, orphan branch, real scaffold, port v0 design tokens, directory structure per 05-STACK, path aliases | 120 | 210 | 420 |
+| T-00.3 | eslint + prettier + commitlint + husky + lint-staged (thin) · Vitest and Playwright configs with one smoke test each | 90 | 150 | 300 |
+| T-00.4 | GitHub Actions CI · Cloudflare Pages project, preview deploys, `_headers` / `_redirects`, env plumbing | 75 | 135 | 270 |
 
 ### P0.2 — Agent context and backlog
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-00.4 | `AGENTS.md` (<200 lines) + `CLAUDE.md` pointer · install the 4 skills · re-init Backlog.md in the new tree and seed this roadmap · backlog-only `post-commit` push hook · git-identity preflight | 90 | 150 | 300 |
-
----
+| T-00.5 | `AGENTS.md` (<200 lines, incl. the read-`node_modules`-docs rule) + `CLAUDE.md` · 4 skills · re-init Backlog.md in the new tree and seed · backlog-only `post-commit` push hook · git-identity preflight | 90 | 150 | 300 |
 
 ## M1 — Design System & Shell · Product lane
 
-### P1.1 — Foundations
+**Method: direction before system, diverge before converge.** Explore several genuinely
+different visual answers cheaply, pick one, *then* extract the system from what you picked.
+Systems designed in the abstract do not fit; systems extracted from a chosen design do.
+
+### P1.1 — Direction
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-01.1 | Token validation: WCAG contrast audit of the ported palette, type scale, spacing rhythm, radii, motion. No dark mode | 45 | 90 | 180 |
-| T-01.2 | Components: `Button`, `Badge`, `Card`, `Prose`, `Breadcrumb`, `Gallery`, `Dialog`. (No `Input`/`Select` — filters are cut) | 120 | 240 | 480 |
-| T-01.3 | Shell: header + nav (desktop and mobile), footer, root layout, metadata defaults, font loading, skip-link, landmarks | 90 | 180 | 360 |
+| T-01.1 | Visual research: 8–12 annotated references from editorial / hospitality / boutique-hotel sites (not travel-agency templates). Extract *specifically* what works — type pairing, image treatment, whitespace ratio, colour restraint → written art-direction brief | 60 | 120 | 240 |
+| T-01.2 | Design decisions record: component architecture per 05-STACK, styling conventions (CVA variant vs utility vs new component), breakpoints, fluid type via `clamp`, icon usage, motion policy, image aspect ratios and Sanity hotspot usage | 60 | 105 | 210 |
+| T-01.3 | **Three divergent first-fold directions** — same content, deliberately different (type-led / image-led / editorial-grid), built as real code, screenshotted side by side | 150 | 270 | 540 |
+| T-01.4 | 🔴 Pick a direction (operator, optionally with client input) | 30 | 60 | 120 |
 
-### P1.2 — Direction and the sign-off gate
+### P1.2 — Foundations, extracted from the winner
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-01.4 | Home comp at production quality, placeholder content | 120 | 240 | 480 |
-| T-01.5 | Package detail comp at production quality | 90 | 180 | 360 |
-| T-01.6 | Extract the 4 section patterns (`Hero`, `CardGrid`, `SplitFeature`, `CtaBand`) from those two pages | 60 | 120 | 240 |
-| T-01.7 | **Client look-and-feel review + revision round** 🔴 | 120 | 240 | 600 |
+| T-01.5 | Token system: contrast-audit the ported palette, fluid type scale, spacing, radii, elevation, motion tokens. No dark mode | 60 | 105 | 210 |
+| T-01.6 | Typography implementation: Fraunces + Inter self-hosted via Fontsource, `size-adjust` fallback metrics, Prose styles | 45 | 90 | 180 |
+| T-01.7 | Primitives: `Button`, `Badge`, `Card`, `Breadcrumb` | 75 | 135 | 270 |
+| T-01.8 | Composites: `Gallery`/lightbox, `Dialog`, Portable Text renderer | 75 | 135 | 270 |
+| T-01.9 | Shell: header + nav (desktop and mobile), footer, root layout, metadata defaults, skip-link, landmarks | 90 | 180 | 360 |
 
-T-01.7 has the widest band in the project and gates all of M3. Deploy to preview and send links,
-never descriptions. Ask closed questions.
+### P1.3 — Comps and sign-off
+| ID | Task | min | avg | max |
+|---|---|---|---|---|
+| T-01.10 | Home comp at production quality in the chosen direction | 105 | 195 | 390 |
+| T-01.11 | Package detail comp at production quality | 90 | 165 | 330 |
+| T-01.12 | Extract the 4 section patterns (`Hero`, `CardGrid`, `SplitFeature`, `CtaBand`) from those two pages | 60 | 120 | 240 |
+| T-01.13 | **Content-shape stress test**: long headline, short body, missing image, no price, longest package name, 2 cards vs 3. Where designs die | 45 | 90 | 180 |
+| T-01.14 | 🔴 **Client look-and-feel review + revision round** | 120 | 240 | 600 |
 
----
+T-01.14 has the widest band in the project and gates all of M3. Deploy to preview and send
+links, never descriptions. Ask closed questions.
 
 ## M2 — Content Platform · Product lane
 
@@ -102,45 +115,50 @@ never descriptions. Ask closed questions.
 ### P3.1 — Catalogue
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-03.1 | `/packages/[slug]` detail: gallery, highlights, includes/excludes, conditional price per D-006 | 90 | 150 | 300 |
-| T-03.2 | `/destinations/[slug]` detail + packages in this destination | 60 | 105 | 210 |
-| T-03.3 | `/packages/[slug]/request` interstitial + `buildFormUrl()` prefill helper | 60 | 105 | 210 |
+| T-03.1 | `/packages/[slug]` page structure + Sanity data wiring | 75 | 120 | 240 |
+| T-03.2 | Package media: gallery, hotspot-aware crops, lightbox, LCP handling | 60 | 105 | 210 |
+| T-03.3 | Price / includes / excludes blocks with the D-006 qualification rules (omit rather than show unqualified) | 45 | 90 | 180 |
+| T-03.4 | `/destinations/[slug]` detail + packages in this destination | 60 | 105 | 210 |
+| T-03.5 | `/packages/[slug]/request` interstitial + `buildFormUrl()` prefill helper | 60 | 105 | 210 |
 
 ### P3.2 — Brand and utility
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-03.4 | `/` Home wired to Sanity, carrying the package and destination cards directly | 75 | 120 | 240 |
-| T-03.5 | `/personalized` offer page | 60 | 105 | 210 |
-| T-03.6 | Shared content-page template → `/about`, `/contact`, `/privacy`, `/terms` | 60 | 105 | 210 |
-| T-03.7 | `/thank-you` + `404` | 30 | 45 | 90 |
-
----
+| T-03.6 | `/` Home wired to Sanity, carrying package and destination cards directly | 75 | 120 | 240 |
+| T-03.7 | `/personalized` offer page | 60 | 105 | 210 |
+| T-03.8 | Shared content-page template → `/about`, `/contact`, `/privacy`, `/terms` | 60 | 105 | 210 |
+| T-03.9 | `/thank-you` + `404` | 30 | 45 | 90 |
+| T-03.10 | **Unpublished-package page** (v0 D-005: former URL shows "no longer listed" with no stale claims, prices or media, and routes back to the catalogue) + internal linking and breadcrumb pass | 45 | 75 | 150 |
 
 ## M4 — Request Pipeline · **Junior lane** · no dependency on M1–M3
 
-### P4.1 — Forms
+**Contracts first.** T-04.1 defines the interface between the site, Forms, the Sheet and the
+emails. Every other task in this milestone implements against it.
+
+### P4.1 — Contract and forms
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-04.1 | Build the 3 Google Forms on the client's account, theme them, link the response Sheet | 90 | 180 | 360 |
-| T-04.2 | Extract `entry.*` IDs, configure prefill and redirect to `/thank-you` | 45 | 90 | 180 |
+| T-04.1 | **Intake contract spec** — one document. Per form: field list, types, required/optional, Sheet column mapping, `entry.*` ID map, prefill params, redirect params, and the validation each field carries | 60 | 120 | 240 |
+| T-04.2 | Build the 3 Google Forms on the client's account to that spec, theme them, link the response Sheet | 75 | 150 | 300 |
+| T-04.3 | Prefill + redirect to `/thank-you`, verified field-by-field against the spec | 45 | 90 | 180 |
 
-### P4.2 — Email and backup
+### P4.2 — Email
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-04.3 | Resend account + sender-domain verification + DNS records 🔴 | 30 | 60 | 240 |
-| T-04.4 | Apps Script `onFormSubmit`: Resend customer acknowledgement + `MailApp` internal notification | 120 | 210 | 420 |
-| T-04.5 | Email templates: non-confirming wording, and the personalized ack stating a call is arranged by email (D-031) | 60 | 120 | 240 |
-| T-04.6 | Nightly CSV export of the response Sheet to Drive | 30 | 60 | 120 |
+| T-04.4 | 🔴 Resend account + sender-domain verification + DNS records | 30 | 60 | 240 |
+| T-04.5 | **Email content contract** — template variables, non-confirming wording, the personalized ack stating a call is arranged by email (D-031), internal notification format | 45 | 90 | 180 |
+| T-04.6 | Apps Script `onFormSubmit` → Resend customer acknowledgement via `UrlFetchApp` | 75 | 135 | 270 |
+| T-04.7 | Apps Script internal notification via `MailApp` to the business inbox | 30 | 60 | 120 |
+| T-04.8 | **Failure and idempotency**: `onFormSubmit` double-fire guard (a processed-row marker), Resend error handling, operator alert on send failure. Without this the client gets duplicate enquiries and the customer gets two acknowledgements | 60 | 120 | 240 |
 
-### P4.3 — Integration
+### P4.3 — Ops and verification
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-04.7 | End-to-end: all 3 forms, both emails, Sheet rows, thank-you redirect | 45 | 90 | 180 |
+| T-04.9 | Nightly CSV export of the response Sheet to Drive | 30 | 60 | 120 |
+| T-04.10 | End-to-end verification against the contract spec: all 3 forms, both emails, Sheet rows, redirect | 45 | 90 | 180 |
 
-**Junior-lane watch:** T-04.1 needs the client's Google account and T-04.3 needs her domain and
+**Junior-lane watch:** T-04.2 needs the client's Google account and T-04.4 needs her domain and
 DNS. Chase both in week 1 or this lane idles.
-
----
 
 ## M5 — Launch Readiness · Mixed
 
@@ -148,7 +166,7 @@ DNS. Chase both in week 1 or this lane idles.
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
 | T-05.1 | Per-page metadata from Sanity, OG images, `TouristTrip` JSON-LD on packages | 60 | 120 | 240 |
-| T-05.2 | `sitemap.xml`, `robots.txt`, canonicals, analytics (Plausible or Umami — no cookie banner) | 45 | 90 | 180 |
+| T-05.2 | `sitemap.xml`, `robots.txt`, canonicals, analytics (**Cloudflare Web Analytics**, S-007 — free, cookieless, no banner) | 45 | 90 | 180 |
 
 ### P5.2 — Quality · Product lane
 | ID | Task | min | avg | max |
@@ -192,29 +210,34 @@ Each task's `max` assumes two approval rounds.
 
 | | min | avg | max |
 |---|---|---|---|
-| **Total** | 3,345 min · **55.8 h** | 6,255 min · **104.2 h** | 12,810 min · **213.5 h** |
+| **Total** | 4,035 min · **67.2 h** | 7,500 min · **125.0 h** | 15,300 min · **255.0 h** |
 
-At ~15h/week combined (operator 8–12h + junior net of review): **~7 weeks at avg, ~4 weeks at
-min, ~14 weeks at max.** The spread is wide because four tasks are client-gated.
+At ~15h/week combined (operator 8–12h + junior net of review): **~8 weeks at avg, ~4.5 weeks at
+min, ~17 weeks at max.** The spread is wide because four tasks are client-gated.
 
 ### Suggested week shape
 
 | Week | Product lane | Junior lane |
 |---|---|---|
-| 1 | M0 complete | M4 P4.1 — chase Google account + domain |
-| 2 | M1 P1.1 · M6 T-06.1 photos | M4 P4.2 |
-| 3 | M1 P1.2 → **client sign-off gate** · M6 copy starts | M4 P4.3 → M5 P5.1 |
-| 4 | M2 complete · M6 copy | M5 P5.1 complete · support |
-| 5 | M3 complete · M6 copy approvals | QA support |
-| 6 | M5 P5.2 · content final | — |
-| 7 | M5 P5.3 · buffer · launch | — |
+| 1 | M0 (stack spike → reset → scaffold → CI) | M4 P4.1 contract + forms — chase Google account + domain |
+| 2 | M1 P1.1 direction → **direction pick** · M6 photos | M4 P4.1 → P4.2 |
+| 3 | M1 P1.2 foundations · M6 copy starts | M4 P4.2 email |
+| 4 | M1 P1.3 comps → **client sign-off gate** · M6 copy | M4 P4.3 → M5 P5.1 |
+| 5 | M2 complete · M6 copy approvals | M5 P5.1 complete |
+| 6 | M3 complete · content final | QA support |
+| 7 | M5 P5.2 quality | — |
+| 8 | M5 P5.3 · buffer · launch | — |
 
 ### The four things most likely to push toward max
-1. **T-01.7** — the client look-and-feel gate. One extra round is +4h and blocks all of M3.
+1. **T-01.14** — the client look-and-feel gate. One extra round is +4h and blocks all of M3.
 2. **M6 copy approvals** — five tasks, each with a client round trip. The long pole nobody plans for.
-3. **T-04.1 / T-04.3** — the junior lane's client-gated start. Chase in week 1.
+3. **T-04.2 / T-04.4** — the junior lane's client-gated start. Chase in week 1.
 4. **D-030** — if the client picks "fixed itinerary, fixed price", M2 and M6 both grow and legal
    review joins the critical path.
 
-Week 7 is quality, handover and buffer on purpose. If you are writing features in week 7, cut
-scope rather than cutting M5.
+Weeks 7–8 are quality, handover and buffer on purpose. If you are writing features in week 8,
+cut scope rather than cutting M5.
+
+**If 8 weeks is too long,** the cheapest week to claw back: drop T-01.3 from three directions to
+two (−2h), cut T-01.13 the content-shape stress test (−1.5h), and drop T-03.2's hotspot crops
+for plain aspect-ratio images (−1h). I would keep all three.

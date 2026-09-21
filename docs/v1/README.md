@@ -1,6 +1,6 @@
 # Greek Essence v1 — Planning Set
 
-Five files. This is the complete plan for v1. Read in order.
+Six files. This is the complete plan for v1. Read in order.
 
 | File | What it owns |
 |---|---|
@@ -8,6 +8,7 @@ Five files. This is the complete plan for v1. Read in order.
 | [01-SCOPE.md](01-SCOPE.md) | Sitemap, Sanity content model, the three forms, the non-functional bar |
 | [02-DESIGN-SYSTEM.md](02-DESIGN-SYSTEM.md) | Tokens, components, section patterns, and the sequence that de-risks the client sign-off |
 | [03-WORKFLOW.md](03-WORKFLOW.md) | Repo reset procedure, branch flow, Backlog.md conventions, `AGENTS.md` contents, quality gates |
+| [05-STACK.md](05-STACK.md) | Framework, host, component library, typography, icons, motion, analytics — with the reasoning and the static-export consequences |
 | [04-ROADMAP.md](04-ROADMAP.md) | 7 milestones · 16 phases · 44 tasks · two lanes · min/avg/max estimates · week-by-week shape |
 
 **This folder is the salvage set.** It is designed to be the only thing carried across the

@@ -129,13 +129,14 @@ the previously-omitted copywriting absorbed the savings.
 
 ## Part B — Platform
 
-### D-010 ✅ Stack
-Next.js 16 (App Router, static export-friendly) · TypeScript strict · Tailwind 4 ·
-shadcn + Base UI · Sanity (content) · Google Forms (intake) · Google Apps Script +
-Resend (email) · Vercel (hosting) · pnpm.
+### D-010 ✅ Stack — see [05-STACK.md](05-STACK.md)
+**This decision was previously inherited, not made.** The earlier version of D-010 recorded the
+v0 `package.json` as if it were a choice. [05-STACK.md](05-STACK.md) is the actual decision record.
 
-*Why this shape:* it is the v0 stack minus Neon, Drizzle and the Route Handlers. Nothing
-new to learn, and every removed piece removes a class of failure.
+Summary: Next.js 16 App Router with `output: 'export'` (fully static) · TypeScript strict ·
+Tailwind 4 · shadcn + Base UI *(pending a verification spike)* · Sanity · Google Forms ·
+Apps Script + Resend · **Cloudflare Pages** · pnpm · Fraunces + Inter self-hosted · lucide ·
+CSS-only motion · Cloudflare Web Analytics.
 
 ### D-011 ✅ Sanity stays
 The client edits content herself. That is the one operational capability worth its setup
@@ -173,10 +174,16 @@ backup. No other durable store exists in v1.
 *Consequence:* the privacy policy must state that enquiry data is processed by Google.
 Set the Sheet to the client's own Google account from day one — never yours.
 
-### D-015 🔴 Hosting eligibility
-v0 flagged that Vercel's free plan may not permit commercial use. **Resolve this in week 1.**
-A static v1 has no runtime, so Cloudflare Pages or Netlify are drop-in alternatives if
-Vercel's terms don't fit. Do not discover this in week 5.
+### D-015 ✅ Resolved — Cloudflare Pages
+v0 flagged that Vercel's free plan may not permit commercial use and left it open. **Closed:
+the host is Cloudflare Pages** (S-002). Its free tier is unambiguous about commercial use, and a
+static export needs nothing it lacks. Vercel's terms no longer need resolving.
+
+*Knock-on:* analytics becomes Cloudflare Web Analytics (S-007) — free, cookieless, no consent
+banner, no extra vendor for the client to own.
+
+*Cost:* no ISR. Sanity publishes fire a deploy hook and the site rebuilds in about a minute.
+And no Next Draft Mode — see S-003, which needs a preview decision during M2.
 
 ---
 
@@ -293,10 +300,10 @@ flow exactly and gives roll-up progress. `phase:` labels are not used.
 | Q1 | Domain name — registered? who owns it? DNS access? | Client | Week 1 (blocks Resend) |
 | Q2 | Which Google account owns the Forms + Sheet? | Client | Week 1 |
 | Q3 | Business inbox for notifications | Client | Week 1 |
-| Q4 | Vercel commercial-use eligibility, or pick an alternative | You | Week 1 |
+| Q4 | ~~Hosting eligibility~~ — resolved: Cloudflare Pages (D-015 / S-002) | — | done |
 | Q5 | **What a package IS** — pick from the D-030 menu; plus which 1-2 destinations and 2-3 packages | Client | Week 1 |
 | Q6 | ~~Photography~~ — resolved: free stock, curated by us (D-034) | — | done |
 | Q7 | Show prices, or "enquire for pricing"? | Client | Week 2 |
 | Q8 | Exact questions on each of the three forms | Client | Week 2 |
 | Q9 | Privacy policy + terms — template, or lawyer review? | Client | Week 4 |
-| Q10 | Analytics — any, and which? (Plausible/Umami avoid a cookie banner) | Client | Week 4 |
+| Q10 | ~~Analytics~~ — resolved: Cloudflare Web Analytics (S-007) | — | done |
