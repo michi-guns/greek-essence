@@ -1,0 +1,21 @@
+project_name: "Greek Essence"
+default_status: "To Do"
+statuses: ["To Do", "In Progress", "In Review", "Blocked", "Done"]
+labels: []
+date_format: yyyy-mm-dd
+max_column_width: 20
+auto_open_browser: false
+default_port: 6420
+remote_operations: true
+auto_commit: true
+filesystem_only: false
+zero_padded_ids: 3
+bypass_git_hooks: false
+check_active_branches: true
+active_branch_days: 14
+task_prefix: "GE"
+definition_of_done:
+  - "Acceptance criteria met"
+  - "typecheck, lint and unit tests pass"
+  - "Verified in a browser on the preview URL"
+  - "Task branch merged into its phase branch"
