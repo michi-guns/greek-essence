@@ -75,18 +75,30 @@ we would have to keep working. Netlify gets us the same for less risk.
    still a simple application, but env vars, a token, and a server path exist. Keep every page
    prerendered so the server is only doing preview and revalidation.
 
-## S-004 ✅ shadcn + Base UI
+## S-004 ✅ Base UI — **verified** 2026-09-21 (T-00.1)
 
-Carried from v0 **with a verification gate**, not on faith. shadcn is historically Radix-based
-and its Base UI support is comparatively new. T-00.1 is a spike that installs the combination
-and builds a Dialog before the real scaffold exists.
+Confirmed, and more strongly than expected: **Base UI is shadcn's own default.** The v4.21 CLI
+takes `--base <base|radix|aria>` and its default preset is Base-flavoured. This is not an
+experimental path.
 
-If Base UI support turns out to be immature, fall back to **shadcn + Radix** — the well-trodden
-path with far more training data — and record it here. Do not discover this in M1.
+Verified working together in a throwaway build: Next 16.3.5 · React 19.2.8 · Tailwind 4.3.3 ·
+`@base-ui/react` 1.8.0. A Dialog compiles, builds and renders.
 
-*Scope note:* we need seven components and only `Dialog` genuinely needs accessibility
-primitives. The library earns its place through consistency and the CVA variant pattern, not
-through breadth. Resist installing components we do not use.
+### ⚠️ But the shadcn CLI cannot run in our agent environments
+`ui.shadcn.com:443` is **policy-denied** (403 on CONNECT) from both the device VM and the cloud
+container — confirmed at the proxy, not a transient failure. `shadcn init` and `shadcn add`
+fetch from there, so they fail.
+
+**Consequence: we hand-write components against Base UI primitives** and install the underlying
+packages from npm (`@base-ui/react`, `class-variance-authority`, `clsx`, `tailwind-merge`,
+`lucide-react` — all reachable). This is no great loss: shadcn components are source files you
+own anyway, we need only seven, and 06-ARCHITECTURE §4 already forbids generating components we
+do not use.
+
+**Unknown, and worth 30 seconds of your time:** whether `ui.shadcn.com` is reachable from your
+*actual* Windows machine. The block is in Anthropic-managed sandboxes; your own dev environment
+may be unrestricted, in which case you can use the CLI locally to generate a component and
+commit it. Try `curl -I https://ui.shadcn.com` outside the agent and tell me.
 
 ## S-005 ✅ Typography — Fraunces + Inter, self-hosted
 
@@ -96,7 +108,9 @@ journal" direction in 02-DESIGN-SYSTEM without costing anything.
 Body: **Inter** — neutral, excellent at small sizes, enormous language coverage.
 
 **Self-hosted via Fontsource**, not Google Fonts CDN: no third-party request, no privacy
-disclosure to write, better LCP. Subset to `latin` + `latin-ext` (Greek comes with the locale,
+disclosure to write, better LCP. **Validated in T-00.1 for a reason we did not anticipate:**
+`fonts.googleapis.com` is also blocked in the agent environments, so `next/font/google` fails the
+build outright. `@fontsource-variable/{inter,fraunces}` 5.3.0 builds cleanly. Subset to `latin` + `latin-ext` (Greek comes with the locale,
 later). Set `size-adjust` fallback metrics to kill layout shift.
 
 Overridable in M1 — type is visible enough that you should judge it in the comps.
