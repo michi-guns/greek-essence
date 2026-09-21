@@ -1,4 +1,12 @@
 pnpm-lock.yaml
 .next/
 node_modules/
+out/
+
+# Generated or externally owned — not ours to format
+backlog/
+.claude/skills/
+skills-lock.json
+
+# Long-form planning prose; prettier reflows tables and hurts readability
 docs/
