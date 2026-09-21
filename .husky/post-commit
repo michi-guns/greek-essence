@@ -1,0 +1,6 @@
+# Backlog-only commits push themselves so every agent sees a task claim within
+# seconds (D-022). Code pushes stay deliberate.
+changed=$(git diff-tree --no-commit-id --name-only -r HEAD)
+case "$changed" in
+  backlog/*) git push --quiet 2>/dev/null || true ;;
+esac

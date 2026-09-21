@@ -45,3 +45,5 @@ next-env.d.ts
 
 # pnpm store must never live inside the project
 .pnpm-store/
+playwright-report/
+test-results/
