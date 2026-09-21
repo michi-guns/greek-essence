@@ -1,7 +1,7 @@
 # Greek Essence v1 — Roadmap
 
-**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 58 tasks ·
-~125h average · ~8 weeks. Stack rationale: [05-STACK.md](05-STACK.md).
+**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 60 tasks ·
+~129h average · ~8 weeks. Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
 AI-agent work the review is usually the larger half and it does not parallelise.
@@ -33,14 +33,14 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 
 | # | Milestone | Lane | Weeks | avg h | Exit criteria |
 |---|---|---|---|---|---|
-| **M0** | Foundation | Product | 1 | 12.8 | New `main`, empty of v0, builds and deploys to a preview URL |
+| **M0** | Foundation | Product | 1 | 13.0 | New `main`, empty of v0, builds and deploys to a preview URL |
 | **M1** | Design System & Shell | Product | 1–3 | 33.5 | Client has said "yes, this is the look" on two real pages |
-| **M2** | Content Platform | Product | 3–4 | 9.8 | Client can edit a destination in Sanity and see it on preview |
+| **M2** | Content Platform | Product | 3–4 | 13.2 | Client can edit a destination in the Studio and watch the page update live beside her |
 | **M3** | Public Site | Product | 4–5 | 16.2 | All 7 templates live on preview with real content |
 | **M4** | Request Pipeline | **Junior** | 1–3 | 16.2 | A real submission on all 3 forms emails both parties and lands in the Sheet |
 | **M5** | Launch Readiness | Mixed | 6–7 | 19.0 | Live on the real domain, client trained, runbook handed over |
 | **M6** | Content Production | Product | 2–6 | 17.5 | All copy approved, ~30 images curated and licence-logged |
-| | **Total** | | **8** | **125.0** | |
+| | **Total** | | **8** | **128.8** | |
 
 ---
 
@@ -49,10 +49,10 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 ### P0.1 — Stack validation, reset, scaffold
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-00.1 | **Stack verification spike** (throwaway): Next 16 `output: 'export'` + shadcn/Base UI Dialog + Sanity image loader + a Cloudflare Pages deploy. Confirm S-004 or fall back to Radix and record it | 60 | 120 | 240 |
+| T-00.1 | **Stack verification spike** (throwaway): Next 16 on **Netlify** + shadcn/Base UI Dialog + Sanity image loader + Draft Mode round-trip. Confirm S-004 or fall back to Radix and record it | 75 | 135 | 270 |
 | T-00.2 | Salvage set, archive `main` → `archive/v0-preview`, orphan branch, real scaffold, port v0 design tokens, directory structure per 05-STACK, path aliases | 120 | 210 | 420 |
 | T-00.3 | eslint + prettier + commitlint + husky + lint-staged (thin) · Vitest and Playwright configs with one smoke test each | 90 | 150 | 300 |
-| T-00.4 | GitHub Actions CI · Cloudflare Pages project, preview deploys, `_headers` / `_redirects`, env plumbing | 75 | 135 | 270 |
+| T-00.4 | GitHub Actions CI · **Netlify** site, deploy previews per branch, security headers in `next.config`, env plumbing (server-only Sanity token) | 75 | 135 | 270 |
 
 ### P0.2 — Agent context and backlog
 | ID | Task | min | avg | max |
@@ -102,11 +102,13 @@ links, never descriptions. Ask closed questions.
 | T-02.1 | Sanity project on the **client's** account, embedded Studio route, desk structure, field grouping, preview config | 75 | 135 | 270 |
 | T-02.2 | Schemas: `siteSettings`, `homePage`, `personalizedPage`, `page`, `destination`, `package` + publication-gate validation rules | 90 | 180 | 360 |
 
-### P2.2 — Data layer and seed
+### P2.2 — Data layer, seed and preview
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-02.3 | Sanity client, GROQ queries, generated types, image pipeline (`@sanity/image-url` + `next/image`), ISR revalidation webhook | 105 | 180 | 360 |
+| T-02.3 | Sanity client, GROQ queries, generated types, image pipeline (custom Sanity loader + `next/image`), Sanity webhook → `revalidateTag` on-demand revalidation | 105 | 180 | 360 |
 | T-02.4 | Seed script: 2 destinations, 3 packages, all singletons, placeholder media | 45 | 90 | 180 |
+| T-02.5 | **Draft Mode + Sanity Presentation tool**: enable/disable route handlers, draft-aware fetches, click-to-edit overlays, live preview in the Studio | 75 | 135 | 270 |
+| T-02.6 | **Draft-leak test**: Playwright assertion that an unauthenticated request to a page with unpublished changes returns the published version. Server-only token verified absent from the client bundle | 45 | 75 | 150 |
 
 ---
 
@@ -166,7 +168,7 @@ DNS. Chase both in week 1 or this lane idles.
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
 | T-05.1 | Per-page metadata from Sanity, OG images, `TouristTrip` JSON-LD on packages | 60 | 120 | 240 |
-| T-05.2 | `sitemap.xml`, `robots.txt`, canonicals, analytics (**Cloudflare Web Analytics**, S-007 — free, cookieless, no banner) | 45 | 90 | 180 |
+| T-05.2 | `sitemap.xml`, `robots.txt`, canonicals, analytics (**Umami Cloud**, S-007 — cookieless, no banner; confirm the current free-tier limits and fall back to Cloudflare Web Analytics if they disappoint) | 45 | 90 | 180 |
 
 ### P5.2 — Quality · Product lane
 | ID | Task | min | avg | max |
@@ -210,10 +212,10 @@ Each task's `max` assumes two approval rounds.
 
 | | min | avg | max |
 |---|---|---|---|
-| **Total** | 4,035 min · **67.2 h** | 7,500 min · **125.0 h** | 15,300 min · **255.0 h** |
+| **Total** | 4,170 min · **69.5 h** | 7,725 min · **128.8 h** | 15,750 min · **262.5 h** |
 
-At ~15h/week combined (operator 8–12h + junior net of review): **~8 weeks at avg, ~4.5 weeks at
-min, ~17 weeks at max.** The spread is wide because four tasks are client-gated.
+At ~15h/week combined (operator 8–12h + junior net of review): **~8.5 weeks at avg, ~4.5 weeks at
+min, ~17.5 weeks at max.** The spread is wide because four tasks are client-gated.
 
 ### Suggested week shape
 

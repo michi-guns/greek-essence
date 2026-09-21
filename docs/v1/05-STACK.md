@@ -7,10 +7,10 @@ Verified against Next.js 16.3.5 docs and Cloudflare's current framework guidance
 
 ---
 
-## S-001 ✅ Next.js 16, App Router, `output: 'export'`
+## S-001 ✅ Next.js 16, App Router, **server runtime** (no static export)
 
-**Chosen over Astro**, which is arguably the better technical fit for a 7-page static brochure
-site (zero JS by default, islands, more stable API). Next wins on grounds that matter more here:
+**Chosen over Astro**, which is arguably the better technical fit for a brochure site (zero JS by
+default, islands, more stable API). Next wins on grounds that matter more here:
 
 - You already run Next 16.3 on another repo, so knowledge moves both ways.
 - The reference repo (`nextjs-todo-list-example`) is Next, and its agent context files, CI
@@ -21,48 +21,59 @@ site (zero JS by default, islands, more stable API). Next wins on grounds that m
 opens by warning exactly this. Agents must read `node_modules/next/dist/docs/` before writing
 routing or config code. That obligation goes in `AGENTS.md`.
 
-**Rendering: fully static.** `output: 'export'` produces an `out/` folder of HTML/CSS/JS. There
-is no server, no runtime, nothing to attack and nothing to pay for.
+**Rendering: static by default, with a server available.** Every page uses
+`generateStaticParams` and is prerendered at build; the server exists for Draft Mode and
+on-demand revalidation, not to render pages per request. We get static performance *and*
+preview.
 
-## S-002 ✅ Cloudflare Pages
+**`output: 'export'` was considered and rejected.** It would have removed the server entirely —
+attractive for simplicity — but it also removes Draft Mode, which is what Sanity's Presentation
+tool needs. Losing live preview for a client who owns her own content was the wrong trade.
 
-Closes D-015, which flagged Vercel's commercial-use terms as an unresolved launch risk and never
-resolved it. Cloudflare Pages' free tier is unambiguous about commercial use, static performance
-is excellent, and a static export needs nothing Pages lacks.
+## S-002 ✅ Netlify — free plan
 
-Cloudflare currently lists three Next.js paths: **vinext** (their recommended Workers route),
-the **OpenNext adapter**, and **static Next.js on Pages**. We take the third. It is the simplest
-of the three and the only one with no adapter in the dependency chain.
+### Why not Vercel
+Vercel's own docs state it plainly: *"the Hobby plan restricts users to non-commercial, personal
+use only."* A client's business website is commercial, so Hobby is a terms violation rather than
+a grey area — the exact risk v0 flagged in D-015 and never closed. Vercel therefore means Pro at
+roughly $20/month billed to the client indefinitely, which fails the zero-recurring-spend goal
+for no benefit Netlify does not also provide.
 
-## S-003 ✅ Consequences of static export — read this before building
+### Why not Cloudflare
+Cloudflare Pages is free and commercially unambiguous, but its Next.js path is either a static
+export (no Draft Mode) or an adapter — `vinext` or OpenNext on Workers — that adds a moving part
+we would have to keep working. Netlify gets us the same for less risk.
 
-`output: 'export'` disables real features. All of these are fine for v1, but each needs a
-deliberate answer rather than a discovery in week 5.
+### Why Netlify
+- **Commercial use is explicitly permitted on the free plan.** Netlify staff, in their own
+  forum: *"Yes, you can use the free plan for commercial projects… you can definitely charge
+  your customers for your services in building and maintaining their websites."* The only
+  restriction is reselling the hosting itself.
+- **Next.js 16 deploys with zero configuration**, per Netlify's own changelog, via their
+  OpenNext-based runtime — a maintained first-party path, not an experimental one.
+- **`revalidateTag` / `updateTag` are supported**, which is precisely what a Sanity webhook needs
+  for on-demand revalidation.
+- Deploy previews per branch, which we rely on for every client review gate.
 
-| Unsupported | Our answer |
+## S-003 ✅ What the server buys us, and what it costs
+
+### Gained
+| | |
 |---|---|
-| **ISR / `revalidate`** | Sanity webhook → **Cloudflare Pages deploy hook** → full rebuild (~1 min). Simpler than ISR and adequate for a brochure site |
-| **`next/image` default loader** | **Custom Sanity loader.** Sanity's CDN does the transformation (`?w=&q=&fm=`), so we get real optimization without a server. Do *not* use `images.unoptimized` |
-| **`redirects` / `headers` in `next.config`** | Cloudflare `_redirects` and `_headers` files. Security headers (CSP, HSTS, Referrer-Policy) live there |
-| **Middleware / proxy** | Not needed. Nothing to intercept |
-| **Route Handlers reading the request** | Not needed. `force-static` GET handlers still work if we want a generated JSON file |
-| **Server Actions** | Not needed. All mutations are Google Forms |
-| **Cookies** | Not needed. No auth, no session, no consent cookie (see S-007) |
-| **Draft Mode** | ⚠️ **The one real loss.** See below |
+| **Draft Mode** | The reason for this decision. Enables Sanity's **Presentation tool**: the client edits in the Studio and watches the real page update beside her, clicking an element to jump to its field. For a content owner this is a different product from "publish and go look" |
+| **On-demand revalidation** | Sanity webhook → `revalidateTag` → the changed page updates in seconds. No full rebuild, no deploy hook |
+| **`redirects` / `headers` in `next.config`** | Security headers (CSP, HSTS, Referrer-Policy) live in code and are reviewable, rather than in a platform-specific `_headers` file |
+| **Route Handlers** | Not needed today, but the draft-mode enable/disable endpoints are exactly this |
+| **`next/image` default loader** | Works now. We still use a **custom Sanity loader**: Sanity's CDN does the transformation for free and unmetered, which keeps us off Netlify's image quota entirely |
 
-### The Draft Mode problem
-Static export cannot do Next's Draft Mode, so there is no "preview unpublished Sanity content on
-the site" flow. The client will want to see a package before publishing it.
-
-Options, in order of preference:
-1. **Sanity Studio's own preview pane** — she reviews content in the Studio, not on the site.
-   Free, zero build work, but it is not a true page preview.
-2. **A preview branch deploy** — a second Cloudflare Pages environment building from the Sanity
-   *draft* dataset perspective. Real page preview, roughly 2–3h of work.
-3. **Publish and look** — she publishes, the rebuild runs, she checks the live site, she fixes.
-   Crude, and on a site with a handful of visitors it is genuinely survivable.
-
-**Decide this during M2**, not at launch. Start with (1), upgrade to (2) if she struggles.
+### Cost — two things that need real care
+1. **Draft content must never leak to the public.** The Sanity read token is server-only and must
+   never reach the client bundle; `draftMode()` must gate every draft fetch. This wants a
+   Playwright test asserting that an unauthenticated request to a page with unpublished changes
+   returns the published version. Not a matter of being careful — a matter of having a test.
+2. **There is now a runtime.** A static export had nothing to attack and nothing to break. This is
+   still a simple application, but env vars, a token, and a server path exist. Keep every page
+   prerendered so the server is only doing preview and revalidation.
 
 ## S-004 ✅ shadcn + Base UI
 
@@ -99,11 +110,34 @@ Motion: CSS transitions and `tw-animate-css`. **No motion library.** The design 
 motion library would be 30KB in service of restraint. Use the View Transitions API for page
 transitions if browser support allows; degrade silently if not.
 
-## S-007 ✅ Analytics — Cloudflare Web Analytics
+## S-007 ✅ Analytics — Umami Cloud
 
-Supersedes the Plausible/Umami note in the roadmap. Since we are on Cloudflare anyway: free,
-cookieless, no consent banner required, no extra vendor, no script from a third-party domain,
-and no account for the client to own and forget. The host choice makes this the obvious answer.
+Requirements: popular, real free tier, privacy-first, **not Google Analytics**.
+
+**Umami Cloud.** Open source (MIT), widely adopted, **cookieless — so no consent banner**, which
+matters for an EU-facing site and saves writing cookie-policy copy nobody reads. Supports custom
+events if we want them. The escape hatch is real: if the free tier ever changes, Umami
+self-hosts, so we are not trapped.
+
+⚠️ **Verify the current free-tier limits at implementation time (T-05.2).** Their pricing page
+did not render when this was written, and third-party listings citing ~100k events/month are not
+a source I am willing to state as fact.
+
+**Fallback if the free tier disappoints: Cloudflare Web Analytics** — genuinely free and
+unlimited, cookieless, and works on any host via a JS beacon regardless of where the site runs.
+Weaker on custom events, which matters less than usual here (see below).
+
+Rejected: Google Analytics (excluded by you, and needs a consent banner); Plausible, Fathom and
+Simple Analytics (no meaningful free tier); Netlify Analytics (paid $9/mo); Microsoft Clarity
+(free and excellent, but cookies, a consent banner, and session recording on a page where people
+type enquiry details is a privacy conversation we do not need).
+
+### One design consequence worth noticing
+The funnel ends off-site at Google Forms, so the last thing we can measure is the handoff. But
+because D-012 put an **interstitial page** at `/packages/[slug]/request`, that conversion step
+*is a pageview* — no custom event needed. Plain pageview analytics captures the main funnel for
+free. Only the `/personalized` and `/contact` CTAs hand off without an interstitial; if we want
+those measured, that is where a custom event earns its keep.
 
 ## S-008 ✅ Everything else
 
@@ -114,7 +148,7 @@ and no account for the client to own and forget. The host choice makes this the 
 | Language | TypeScript, `strict: true` |
 | Styling | Tailwind 4, CSS-first config in `globals.css` |
 | Variants | `class-variance-authority` + `tailwind-merge` |
-| Content | Sanity (D-011), Portable Text for rich text |
+| Content | Sanity (D-011), Portable Text for rich text, Presentation tool for live preview |
 | Validation | Zod 4 — for Sanity response shapes and the form URL builder, not for forms we do not host |
 | Testing | Vitest (logic) + Playwright (smoke) |
 | CI | GitHub Actions |
@@ -142,5 +176,7 @@ Second rule: **do not create a component for one caller.** Inline it until a sec
 ## Open
 
 - **S-004 verification** — T-00.1 spike must confirm shadcn + Base UI before M1 starts.
-- **S-003 Draft Mode** — pick a preview approach during M2.
+- ~~S-003 Draft Mode~~ — **resolved.** Netlify's server runtime gives us Draft Mode and the
+  Sanity Presentation tool. No preview workaround needed.
+- **S-007 free tier** — confirm Umami Cloud's current limits during T-05.2.
 - Fonts and icons are overridable during M1 if the comps argue otherwise.

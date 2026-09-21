@@ -123,10 +123,11 @@ rate limiting, idempotency keys, request reference codes, retry queues, catalogu
 
 | Area | Bar |
 |---|---|
-| Rendering | Fully static (SSG + ISR revalidate on Sanity webhook). No request-time data fetching |
+| Rendering | Every page prerendered via `generateStaticParams`; server used only for Draft Mode and on-demand `revalidateTag` from the Sanity webhook |
 | Lighthouse | Performance ≥ 90 mobile, Accessibility ≥ 95, SEO 100 |
 | A11y | WCAG 2.2 AA on the 7 templates. Keyboard-navigable, visible focus, real landmarks |
 | Images | Free stock curated per D-034 with a source/author/licence log; served via Sanity CDN + `next/image`, AVIF/WebP, explicit dimensions, LCP preloaded |
 | Browsers | Last 2 versions of Chrome, Safari, Firefox, Edge + iOS Safari |
 | Testing | Vitest for pure logic (form URL builders, Portable Text helpers). Playwright smoke on the 7 templates + the 3 CTA handoffs. No exhaustive unit coverage gate |
 | SEO | Per-page metadata from Sanity, sitemap.xml, robots.txt, OG images, JSON-LD `TouristTrip` on packages |
+| Privacy | Draft content provably unreachable unpublished — asserted by a Playwright test, not by care |
