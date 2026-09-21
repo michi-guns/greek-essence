@@ -264,7 +264,8 @@ One file, target < 200 lines, `CLAUDE.md` is a one-liner pointing at it. Section
 6. **Checks** — the commands and when to run them.
 7. **Posture** — "balanced commercial engineering: deliver the behaviour, handle realistic
    failures, stop when the checks pass. Don't build abstractions for one caller."
-8. **The standing deviation clause** — conventions are direction; deviate when needed and say so.
+8. **Standing authorisations and the `.local/` pointer** — §5.
+9. **The standing deviation clause** — conventions are direction; deviate when needed and say so.
 
 ### Borrow from `nextjs-todo-list-example`, don't copy
 Worth lifting: the Next-16-isn't-what-you-know warning · the engineering-posture paragraph ·
@@ -280,7 +281,91 @@ v1 is five weeks long.
 
 ---
 
-## 5. Quality gates
+## 5. Agentic posture — standing permissions and local preferences
+
+**The operating principle: agents should be able to do the work.** Friction is the tax we are
+trying not to pay, and an approval prompt for `pnpm test` is not a safety control — it is a
+habit that trains everyone to click "allow" without reading, which is how the prompt that
+*should* have stopped something gets waved through too.
+
+So: pre-authorise the routine surface broadly, deny the genuinely destructive specifics, and
+keep the number of prompts small enough that each one still means something.
+
+### `.claude/settings.json` — committed, shared by both developers
+
+This is the real mechanism for the permissions file. Two files exist and the distinction matters:
+
+- **`.claude/settings.json`** — committed. Project-wide standing permissions, so the operator and
+  the junior get the same behaviour without either configuring anything.
+- **`.claude/settings.local.json`** — gitignored. Personal overrides only.
+
+Shape (finalised in T-00.5):
+
+```jsonc
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm *)",                  // install, dev, build, test, lint, typecheck
+      "Bash(npx sanity *)",            // typegen, schema deploy, dataset ops (A-006)
+      "Bash(netlify *)",               // deploy, logs, env, status (A-005)
+      "Bash(backlog *)",               // task management (D-021b)
+      "Bash(npx skills *)",            // agent skill installs
+      "Bash(git *)", "Bash(gh *)",     // the D-023 branch flow
+      "WebFetch", "WebSearch"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean *)",
+      "Bash(rm -rf *)",
+      "Bash(npx sanity dataset delete*)",
+      "Bash(netlify sites:delete*)"
+    ]
+  }
+}
+```
+
+The deny list is the whole safety story, and it is short on purpose: history destruction, file
+destruction, and deleting the client's dataset or site. Everything else an agent might do to
+this project is recoverable from Git.
+
+### Standing authorisations — prose in `AGENTS.md`
+
+Some authorisations are not tool permissions, they are statements of intent. Borrowed in shape
+from `nextjs-todo-list-example`:
+
+> The owner grants standing permission to use the Netlify, Sanity, Google and Resend dashboards
+> through the personal Chrome extension or Computer Use, for tasks already authorised — including
+> inspecting settings and applying routine configuration such as environment variables, webhooks
+> and integrations. Check the intended account and project before writing. No additional
+> permission is needed to reach the browser or save those changes.
+>
+> This does **not** waive: the deny list above, a production deployment (A-003 — deploys are
+> deliberate and budgeted), sending real email to a real customer address, deleting anything of
+> the client's, or any paid commitment.
+
+### `.local/` — untracked, personal
+
+Gitignored directory, matching the convention already used in `marine-engineer-cv` and
+`agentic-wave`:
+
+```
+.local/
+  preferences/user-profile.md    how the owner wants to be talked to — read before replying
+  evidence/<date>-<slug>/        screenshots, logs, run output from verification
+  README.md                      what lives here and why it is untracked
+```
+
+`AGENTS.md` carries a short pointer and nothing more:
+
+> If `.local/preferences/user-profile.md` exists, read it before replying. It holds local
+> preferences; keep it untracked and never copy its contents into shared documentation.
+
+Two rules: **`.local/` is never committed**, and **nothing in it is authoritative for the
+product** — decisions live in `docs/v1/`, tasks live in `backlog/`. It holds preferences and
+evidence, not truth.
+
+## 6. Quality gates
 
 Deliberately thinner than v0. Three tiers:
 

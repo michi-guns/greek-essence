@@ -337,6 +337,31 @@ review would spend most of them on inspection rather than direction.
 Milestone → parent task per phase → subtasks, via `-p/--parent`. Mirrors the Phase/Task branch
 flow exactly and gives roll-up progress. `phase:` labels are not used.
 
+### D-050 ✅ Low-friction agentic development is an explicit goal
+Agents should be able to do the work. An approval prompt for `pnpm test` is not a safety control —
+it trains everyone to click "allow" without reading, which is how the prompt that *should* have
+stopped something gets waved through too.
+
+The shape: **pre-authorise the routine surface broadly in a committed
+`.claude/settings.json`, deny the genuinely destructive specifics, and keep prompts rare enough
+that each one still means something.** Standing authorisation extends to provider dashboards
+(Netlify, Sanity, Google, Resend) via the personal Chrome extension or Computer Use for work
+that is already authorised.
+
+The deny list is deliberately short — history destruction, file destruction, and deleting the
+client's dataset or site. Everything else is recoverable from Git. Production deploys stay
+deliberate for a different reason (A-003: credit budget, not safety).
+
+Detail in [03-WORKFLOW.md](03-WORKFLOW.md) §5.
+
+### D-051 ✅ `.local/` convention for personal preferences and evidence
+Gitignored `.local/` holding `preferences/user-profile.md` (how the owner wants to be talked to)
+and `evidence/<date>-<slug>/` (screenshots, logs, run output). Matches the convention already in
+use in `marine-engineer-cv` and `agentic-wave`.
+
+`AGENTS.md` carries a one-line pointer. Two rules: never committed, and never authoritative for
+the product — decisions live in `docs/v1/`, tasks in `backlog/`.
+
 ---
 
 ## Part D — Open, needs you or the client
