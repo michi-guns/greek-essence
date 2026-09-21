@@ -61,6 +61,70 @@ Accounts · payments · custom calendar/date-picker · live availability · conf
 articles/blog · accommodation pages · attraction pages · newsletter · staff dashboard ·
 Greek locale content · any database.
 
+### D-030 🔴 What a Pre-defined Package *is* — client must choose from a menu
+Still unconfirmed, and it drives the content model, the package page and the legal exposure.
+Do **not** ask her to define it. Give her these four and ask her to pick one (or two):
+
+1. **Fixed itinerary, fixed price** — "7 days Paros & Antiparos, €2,400pp", named hotels and
+   transfers. A product with a SKU. Richest content, highest legal exposure.
+2. **Curated template, customized per customer** — "Cyclades Island Hop, ~8 days". Sells the
+   shape of the trip; price indicative or absent. *Current working assumption.*
+3. **Thematic inspiration** — "Honeymoon in the Cyclades". No fixed duration, hotels or price.
+   Lightest content, pure lead-gen.
+4. **Single day activity or excursion** — a boat day, a cooking class.
+
+The content model in [01-SCOPE.md](01-SCOPE.md) is built for (2) and degrades gracefully to (3).
+If she picks (1), the price qualification rules in D-006 become mandatory, not optional, and
+`includes`/`excludes` become required fields with legal review attached.
+
+### D-031 ✅ Personalized Package = free consultation call, then a quote
+No money changes hands on the site. Flow: form → acknowledgement email → **she emails the
+customer to arrange a call** → call → quote.
+
+*Consequence:* the acknowledgement email must say a call will be arranged by email and must not
+promise a response time without client approval. No phone number is collected, so the v0
+no-telephone rule survives intact. Automated scheduling stays out of v1 — but a free scheduling
+link (Google Calendar appointment schedules) is the obvious v1.1 upgrade if her inbox gets busy.
+
+### D-032 ✅ Launch catalogue is deliberately tiny: 1–2 destinations, 2–3 packages
+*Consequence — this is not a small change:*
+- **Catalogue filters are cut.** Two filters across three packages is UI theatre. D-003's
+  "required filters" no longer apply to v1.
+- **List pages are cut** (D-033).
+- **Organic search is effectively deferred.** Referrals and Instagram carry v1; two destination
+  pages will not rank. Say this to the client explicitly so she does not expect search traffic
+  in month one. Organic becomes a v2 content play.
+
+### D-033 ✅ Seven page templates, not nine
+Home carries packages and destinations directly. Detail pages survive; list pages do not.
+Route structure is preserved so adding `/packages` and `/destinations` later is additive rather
+than a redesign. See [01-SCOPE.md](01-SCOPE.md) §2.
+
+### D-034 ✅ Free stock photography, curated defensively
+Unsplash/Pexels. Licences are permissive for commercial use, but images with recognisable faces
+or private property can still carry model/property-release issues, and Unsplash's terms shifted
+after the Getty acquisition.
+
+Rules: prefer landscape, architecture, food and detail shots over identifiable people; log
+source URL, author and licence for every image in a sheet; avoid anything that could read as a
+claim about a specific hotel or supplier she has no relationship with.
+
+### D-035 ✅ Copy is drafted by agents, edited by the operator, approved by the client
+She starts from concrete drafts, never a blank page — the approach the v0 decisions already
+concluded fits how she works.
+
+*Consequence:* copywriting is **real work in the roadmap**, roughly 22h including photo
+curation. The earlier roadmap omitted it entirely and was wrong by that amount.
+
+### D-036 ✅ Target is ~7 weeks, and the client is told now
+At ~108h average and ~15h/week combined capacity, 7 weeks is the honest number. The client's
+expectation is reset during planning rather than at a missed deadline. Scope and quality are
+preserved; Sanity stays (D-011).
+
+*Why cutting the catalogue didn't help much:* the design system, request pipeline and launch
+readiness are **fixed costs** — identical for 3 packages or 30. Only M2 and M3 scaled down, and
+the previously-omitted copywriting absorbed the savings.
+
 ---
 
 ## Part B — Platform
@@ -190,6 +254,36 @@ deviate and say so in the PR body."*
 Hard cap for v1: `AGENTS.md`, `README.md`, `docs/v1/*` (these five files), `backlog/`.
 New doc ⇒ delete or merge another. Anything an agent won't read before a task doesn't exist.
 
+### D-026 ✅ Two developers, two lanes, phase-level review
+Operator + one junior developer, both using Claude Code (Opus 5).
+
+| Lane | Owner | Scope |
+|---|---|---|
+| **Product** | Operator | M0, M1 design system, M2 content platform, M3 pages, M5 quality + handover |
+| **Pipeline** | Junior | M4 (Forms, Apps Script, email) and M5 P5.1 (SEO, sitemap, metadata, analytics) |
+
+*Why this split:* M4 is the best-isolated chunk in the project — self-contained, testable, zero
+dependency on the design system. M5 P5.1 is well-defined and verifiable with a low taste
+requirement. Neither blocks the other lane.
+
+*Consequence for D-023:* "one phase branch open at a time" **no longer holds** — two lanes means
+two concurrent phase branches by design. The disjoint-directories exception is now the normal
+case. Each phase has exactly one owning lane; cross-lane edits need a word first.
+
+*Watch:* the junior's lane is the one most exposed to client-blocked items (Google account,
+domain, DNS for Resend). Chase those in week 1 or he idles.
+
+### D-027 ✅ Review at phase close, not per task
+Tasks are 3–6h and agents run a whole phase before the operator reviews a preview URL.
+Roughly 20–25 tasks total rather than 40–50.
+
+*Why:* at 8–12h/week the operator's hours are the scarcest resource in the project. Per-task
+review would spend most of them on inspection rather than direction.
+
+### D-028 ✅ Phases are parent tasks in Backlog.md
+Milestone → parent task per phase → subtasks, via `-p/--parent`. Mirrors the Phase/Task branch
+flow exactly and gives roll-up progress. `phase:` labels are not used.
+
 ---
 
 ## Part D — Open, needs you or the client
@@ -200,8 +294,8 @@ New doc ⇒ delete or merge another. Anything an agent won't read before a task 
 | Q2 | Which Google account owns the Forms + Sheet? | Client | Week 1 |
 | Q3 | Business inbox for notifications | Client | Week 1 |
 | Q4 | Vercel commercial-use eligibility, or pick an alternative | You | Week 1 |
-| Q5 | Launch package list — how many, which destinations? | Client | Week 2 |
-| Q6 | Photography — owned, licensed, or stock? Who supplies? | Client | Week 2 (biggest schedule risk) |
+| Q5 | **What a package IS** — pick from the D-030 menu; plus which 1-2 destinations and 2-3 packages | Client | Week 1 |
+| Q6 | ~~Photography~~ — resolved: free stock, curated by us (D-034) | — | done |
 | Q7 | Show prices, or "enquire for pricing"? | Client | Week 2 |
 | Q8 | Exact questions on each of the three forms | Client | Week 2 |
 | Q9 | Privacy policy + terms — template, or lawyer review? | Client | Week 4 |

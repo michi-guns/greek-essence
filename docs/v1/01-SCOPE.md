@@ -16,24 +16,23 @@ paid for, or confirmed on the site.
 
 ## 2. Sitemap
 
+**Seven templates.** List pages are cut (D-033) — Home carries the catalogue directly. Routes
+are structured so `/packages` and `/destinations` list pages are additive later, not a redesign.
+
 | Route | Template | Source | Notes |
 |---|---|---|---|
-| `/` | Home | Sanity `homePage` + latest packages | Hero, value prop, featured destinations, featured packages, personalized CTA, trust block |
-| `/destinations` | List | Sanity `destination[]` | Card grid, no filters (small set) |
-| `/destinations/[slug]` | Detail | Sanity `destination` | Story, gallery, packages in this destination |
-| `/packages` | List + filter | Sanity `package[]` | Filter: destination, type. Client-side, no URL state needed at this size |
+| `/` | Home | Sanity `homePage` + all packages + all destinations | Hero, value prop, **the 2-3 packages as cards**, **the 1-2 destinations as cards**, personalized CTA, trust block |
 | `/packages/[slug]` | Detail | Sanity `package` | Gallery, what's included, itinerary outline, CTA → request |
 | `/packages/[slug]/request` | Interstitial | static + package | Restates the process, then hands off to the pre-filled Form |
+| `/destinations/[slug]` | Detail | Sanity `destination` | Story, gallery, packages in this destination |
 | `/personalized` | Offer page | Sanity `personalizedPage` | How the bespoke service works, CTA → custom Form |
-| `/about` | Content page | Sanity `page` | Agency identity, approach, credibility |
-| `/contact` | Content page | Sanity `siteSettings` | Email, phone, hours + link to the general question Form |
+| `/about` + `/contact` | Content page | Sanity `page` / `siteSettings` | Same template, different content |
 | `/thank-you` | Confirmation | static | Google Forms redirect target. Says what happens next |
-| `/privacy`, `/terms` | Legal | Sanity `page` | Portable Text |
+| `/privacy`, `/terms` | Legal | Sanity `page` | Reuses the content-page template |
 | `/404` | Not found | static | |
 
-**Unique page templates: 9.** That is the real size of v1.
-
----
+**Cut from v1, deliberately:** `/packages` and `/destinations` list pages, and **all catalogue
+filters** (D-032 — two filters across three packages is theatre).
 
 ## 3. Sanity content model
 
@@ -80,6 +79,10 @@ page           // about / privacy / terms
   title, slug, body (PortableText), seo
 ```
 
+**Launch volume (D-032):** 1–2 `destination` documents, 2–3 `package` documents, plus the four
+singletons and the `page` documents. Roughly nine documents in total. Sanity is still worth its
+setup cost because the client edits copy without a developer for the next year (D-011).
+
 **Publication gate (carried from v0 D-005):** a `package` cannot be published without
 title, slug, summary, body, one type, ≥1 published destination, a hero image, and — if
 `price` is set — every field in the price object. Enforce in Sanity validation rules so
@@ -93,6 +96,7 @@ the client cannot publish a broken card.
 |---|---|---|---|
 | **Package request** | `/packages/[slug]/request` | package name, type | name, email, preferred dates (or flexible), adults, children, notes, consent |
 | **Personalized trip** | `/personalized` | — | name, email, party size, destinations/interests, rough dates, budget band, notes, consent |
+| | | | *Flow (D-031): submit → acknowledgement email → she emails to arrange a call → call → quote. No phone number collected, no scheduling tool in v1.* |
 | **General question** | `/contact` | — | name, email, subject, message, consent |
 
 Rules that carry over from v0 and still apply:
@@ -101,6 +105,8 @@ Rules that carry over from v0 and still apply:
 - No telephone number collected, no passport/payment/medical fields, no blanket marketing consent.
 - A short warning above free-text: *"Please don't include passport, payment or medical details."*
 - One combined name field. No separate first/last.
+- The personalized acknowledgement says a **call will be arranged by email**, and promises no
+  response time without client approval.
 
 ---
 
@@ -109,7 +115,7 @@ Rules that carry over from v0 and still apply:
 Accounts, login, payments, Stripe, custom calendar/date picker, live availability, confirmed
 bookings, cancellation/refund flows, staff dashboard, CRM, articles/blog, accommodation pages,
 attraction pages, newsletter, Greek locale content, Neon/Drizzle/any database, Route Handlers,
-rate limiting, idempotency keys, request reference codes, retry queues.
+rate limiting, idempotency keys, request reference codes, retry queues, catalogue list pages, catalogue filters, automated scheduling.
 
 ---
 
@@ -119,8 +125,8 @@ rate limiting, idempotency keys, request reference codes, retry queues.
 |---|---|
 | Rendering | Fully static (SSG + ISR revalidate on Sanity webhook). No request-time data fetching |
 | Lighthouse | Performance ≥ 90 mobile, Accessibility ≥ 95, SEO 100 |
-| A11y | WCAG 2.2 AA on the 9 templates. Keyboard-navigable, visible focus, real landmarks |
-| Images | Sanity CDN + `next/image`, AVIF/WebP, explicit dimensions, LCP image preloaded |
+| A11y | WCAG 2.2 AA on the 7 templates. Keyboard-navigable, visible focus, real landmarks |
+| Images | Free stock curated per D-034 with a source/author/licence log; served via Sanity CDN + `next/image`, AVIF/WebP, explicit dimensions, LCP preloaded |
 | Browsers | Last 2 versions of Chrome, Safari, Firefox, Edge + iOS Safari |
-| Testing | Vitest for pure logic (URL builders, filters, validation). Playwright smoke on the 9 templates + the 3 CTA handoffs. No exhaustive unit coverage gate |
+| Testing | Vitest for pure logic (form URL builders, Portable Text helpers). Playwright smoke on the 7 templates + the 3 CTA handoffs. No exhaustive unit coverage gate |
 | SEO | Per-page metadata from Sanity, sitemap.xml, robots.txt, OG images, JSON-LD `TouristTrip` on packages |
