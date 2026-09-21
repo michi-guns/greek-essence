@@ -540,6 +540,53 @@ and patching a document nobody asked it to touch.
 There is no capability lost: the CLI queries documents for debugging just as well. What is
 avoided is an entire class of incident where an agent "helpfully" tidies the client's content.
 
+### A-007 ✅ Visual work is proved by a live walk, not by a green test
+Adopted from `agentic-wave`'s `references/verification.md`, whose rule we take verbatim:
+
+> **A green unit test is not enough. You must walk the same path a user would walk.**
+
+For any user-visible change, before a task is done:
+1. Run the app (or open the Netlify deploy preview) and drive it with Playwright like a person.
+2. For each step — load, interact, refresh, empty state, error state — capture a **viewport
+   screenshot** and a **full-page screenshot**, and read the console and failed network calls.
+3. Save to `.local/evidence/<date>-<slug>/`, named by step: `01-load-viewport.png`,
+   `01-load-full.png`, `01-console.txt`.
+4. Check the other screens sharing the same data.
+5. File anything odd as a Backlog.md task — `spike`+`triage` if unsure, `bug` if a defect,
+   `external` if outside our control. A dated note plus an evidence path is enough.
+
+Skip the walk for pure refactors with no screen change; still run the tests.
+
+*Why this earns ~15 minutes per UI task:* the operator reviews at **phase** boundaries (D-027) on
+8–12h a week. Without per-task visual evidence, a wrong direction is found at the gate with three
+more tasks built on top of it. This is the cheapest insurance in the project.
+
+### A-008 ✅ Copy is drafted directly into Sanity and reviewed in Presentation
+M6's five copy tasks do **not** produce documents. Agents write copy straight into Sanity as
+**drafts**; the client reviews it in place, on the real page, through the Presentation tool;
+she edits or approves; then she publishes.
+
+*Why:* it deletes the transcription step. The Google-Docs loop is draft → approve → someone
+retypes it into Sanity — effort, delay, and a place to introduce errors into copy that was
+already approved. Here, approved copy is already in the CMS, in the right field, on the right page.
+
+It also puts the client in the Studio repeatedly during weeks 3–6, which is the best possible
+training for T-05.9 — she will have been using it for a month before anyone calls it training.
+
+**Scheduling consequence:** M6's copy tasks now depend on **M2 P2.1 + P2.2 + T-02.5** (schemas and
+Presentation working). Photo curation (T-06.1) has no such dependency and still starts in week 2.
+
+### A-009 ✅ Apps Script is version-controlled in the repo via `clasp`
+Google's official CLI (`@google/clasp` v3.4.1). The junior's `onFormSubmit` handler, email
+templates and backup script live in the repo as TypeScript and go through the normal branch flow.
+
+*Why this is not optional:* without it, the entire M4 output exists only inside a Google editor —
+unreviewable, unversioned, un-diffable, with no rollback, and gone if the client's Google account
+has a problem. It is also the one part of the codebase the operator would otherwise never see.
+
+`clasp` pushes to the client's Apps Script project; the junior owns the workflow, and credentials
+stay in Apps Script Script Properties, never in the repo.
+
 ## 14. Accepted architecture decisions
 
 ### A-001 ✅ No i18n machinery in v1 — accepted 2026-09-21

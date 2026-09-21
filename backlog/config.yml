@@ -14,8 +14,10 @@ bypass_git_hooks: false
 check_active_branches: true
 active_branch_days: 14
 task_prefix: "GE"
+types: ["feature", "chore", "docs", "spike", "bug"]
 definition_of_done:
-  - "Acceptance criteria met"
+  - "Acceptance criteria met; final summary records what was checked and what remains"
   - "typecheck, lint and unit tests pass"
-  - "Verified in a browser on the preview URL"
+  - "User-visible change: live walk completed per A-007 with evidence in .local/evidence/ - or state why not applicable"
+  - "Anything odd noticed is filed as a task, not dropped"
   - "Task branch merged into its phase branch"
