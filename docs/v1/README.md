@@ -1,6 +1,6 @@
 # Greek Essence v1 — Planning Set
 
-Seven files. This is the complete plan for v1. Read in order.
+Eight files. This is the complete plan for v1. Read in order.
 
 | File | What it owns |
 |---|---|
@@ -10,6 +10,7 @@ Seven files. This is the complete plan for v1. Read in order.
 | [03-WORKFLOW.md](03-WORKFLOW.md) | Repo reset procedure, branch flow, Backlog.md conventions, `AGENTS.md` contents, **agentic posture and standing permissions**, `.local/` convention, quality gates |
 | [05-STACK.md](05-STACK.md) | Framework, host, component library, typography, icons, motion, analytics — with the reasoning and the static-export consequences |
 | [06-ARCHITECTURE.md](06-ARCHITECTURE.md) | System context, environments, project layout, dependency rules, data flow and DTOs, server/client boundary, caching, conventions, testing, **Sanity content modelling and Studio UX standards** |
+| [07-CLIENT-BRIEF.md](07-CLIENT-BRIEF.md) | M7: the client asks inventory and the executive brief — exemplars, anti-slop rules, components |
 | [04-ROADMAP.md](04-ROADMAP.md) | 7 milestones · 16 phases · 44 tasks · two lanes · min/avg/max estimates · week-by-week shape |
 
 **This folder is the salvage set.** It is designed to be the only thing carried across the
