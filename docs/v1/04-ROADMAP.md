@@ -1,7 +1,7 @@
 # Greek Essence v1 — Roadmap
 
-**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 60 tasks ·
-~129h average · ~8.5 weeks.
+**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 61 tasks ·
+~131.5h average · ~8.5 weeks.
 Architecture: [06-ARCHITECTURE.md](06-ARCHITECTURE.md). Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
@@ -36,12 +36,12 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 |---|---|---|---|---|---|
 | **M0** | Foundation | Product | 1 | 13.0 | New `main`, empty of v0, builds and deploys to a preview URL |
 | **M1** | Design System & Shell | Product | 1–3 | 33.5 | Client has said "yes, this is the look" on two real pages |
-| **M2** | Content Platform | Product | 3–4 | 13.8 | Client can edit a destination in the Studio and watch the page update live beside her |
+| **M2** | Content Platform | Product | 3–4 | 16.0 | Client can edit a destination in the Studio and watch the page update live beside her |
 | **M3** | Public Site | Product | 4–5 | 16.2 | All 7 templates live on preview with real content |
 | **M4** | Request Pipeline | **Junior** | 1–3 | 16.2 | A real submission on all 3 forms emails both parties and lands in the Sheet |
 | **M5** | Launch Readiness | Mixed | 6–7 | 19.0 | Live on the real domain, client trained, runbook handed over |
 | **M6** | Content Production | Product | 2–6 | 17.5 | All copy approved, ~30 images curated and licence-logged |
-| | **Total** | | **8** | **129.2** | |
+| | **Total** | | **8** | **131.5** | |
 
 ---
 
@@ -100,8 +100,8 @@ links, never descriptions. Ask closed questions.
 ### P2.1 — Sanity
 | ID | Task | min | avg | max |
 |---|---|---|---|---|
-| T-02.1 | Sanity project on the **client's** account, embedded Studio route, desk structure, field grouping, preview config | 75 | 135 | 270 |
-| T-02.2 | Schemas: `siteSettings`, `homePage`, `personalizedPage`, `page`, `destination`, `package` + publication-gate validation rules. **No localization** (D-005 / A-002) | 90 | 180 | 360 |
+| T-02.1 | Sanity project on the **client's** account, Studio embedded at `/studio`, desk structure organised as Packages/Destinations/Pages/Settings, singletons locked (06-ARCH §13) | 75 | 135 | 270 |
+| T-02.2 | Schemas: all six types with `defineType`/`defineField` · field-group tabs · plain-language descriptions · list previews · publication-gate validation with readable messages · required alt text (06-ARCH §13). **No localization** (D-005 / A-002) | 105 | 195 | 390 |
 
 ### P2.2 — Data layer, seed and preview
 | ID | Task | min | avg | max |
@@ -109,6 +109,7 @@ links, never descriptions. Ask closed questions.
 | T-02.3 | Sanity client (`server-only`), GROQ queries, `sanity typegen`, **Zod schemas + `map.ts` domain-DTO mappers (D-040)**, custom image loader, webhook → `revalidateTag` | 120 | 210 | 420 |
 | T-02.4 | Seed script: 2 destinations, 3 packages, all singletons, placeholder media | 45 | 90 | 180 |
 | T-02.5 | **Draft Mode + Sanity Presentation tool**: enable/disable route handlers, draft-aware fetches, click-to-edit overlays, live preview in the Studio | 75 | 135 | 270 |
+| T-02.7 | **Portable Text**: restricted editor config (06-ARCH §13) + serializers mapping every block type to design-system components, incl. embedded images through the Sanity loader | 60 | 120 | 240 |
 | T-02.6 | **Draft-leak test**: Playwright assertion that an unauthenticated request to a page with unpublished changes returns the published version. Server-only token verified absent from the client bundle | 45 | 75 | 150 |
 
 ---
@@ -213,7 +214,7 @@ Each task's `max` assumes two approval rounds.
 
 | | min | avg | max |
 |---|---|---|---|
-| **Total** | 4,170 min · **69.5 h** | 7,750 min · **129.2 h** | 15,810 min · **263.5 h** |
+| **Total** | 4,320 min · **72.0 h** | 7,890 min · **131.5 h** | 16,110 min · **268.5 h** |
 
 At ~15h/week combined (operator 8–12h + junior net of review): **~8.5 weeks at avg, ~4.5 weeks at
 min, ~17.5 weeks at max.** The spread is wide because four tasks are client-gated.

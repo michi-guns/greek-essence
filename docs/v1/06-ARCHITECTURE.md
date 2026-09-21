@@ -315,7 +315,84 @@ No coverage percentage gate — see [03-WORKFLOW.md](03-WORKFLOW.md) §5 for why
 
 ---
 
-## 13. Two decisions that need your confirmation
+## 13. Sanity — concepts, content modelling, and Studio UX
+
+Written because the operator is new to Sanity. Agents follow this section as standards, not
+suggestions. **Nothing here is Sanity's default** — the defaults produce a working Studio that is
+unpleasant to use, and this client will be using it for years.
+
+### The five concepts you need
+
+| Term | What it means |
+|---|---|
+| **Dataset** | A content database. We have one: `production` |
+| **Document** | One editable thing — a package, a destination, the site settings |
+| **Schema** | The typed definition of a document's fields, written in TypeScript with `defineType` / `defineField` |
+| **GROQ** | Sanity's query language. Like SQL for JSON documents. Queries live in `lib/sanity/queries.ts` |
+| **Portable Text** | Rich text stored as typed JSON blocks rather than HTML, rendered by components we supply |
+
+**Studio** is the editing UI. We embed it at `/studio` on the same domain, so the client has one
+URL to remember and the Presentation tool works without cross-origin setup.
+
+### Portable Text — restrict the editor
+
+The single biggest Studio UX decision. By default the block editor offers styles that will make
+the site look wrong. Allow only:
+
+| Allowed | Excluded, deliberately |
+|---|---|
+| Normal, **H2**, **H3** | **H1** — the page owns its one `h1` |
+| Bold, italic | Underline — reads as a broken link |
+| Link (external + internal reference) | Code, code block — not a dev blog |
+| Bullet and numbered lists | Text colour, font size — the design system owns appearance |
+| Image block, with **required** alt text | Blockquote, unless a designed treatment exists after M1 |
+
+Constraining the editor is what stops a non-technical client accidentally producing a page that
+looks broken. It is also fewer serializers for agents to write.
+
+### Studio UX standards — every schema, no exceptions
+
+1. **Field groups as tabs** — `Content` · `Media` · `SEO`. She should never scroll past meta
+   description to reach the body.
+2. **A plain-language `description` on every field.** Not "Slug" — *"The web address for this
+   package. Lowercase, words joined by hyphens. Changing it breaks existing links."*
+3. **List previews with `title`, `subtitle` and `media`.** A list of "Untitled" documents is the
+   most common way a Studio feels broken.
+4. **Validation messages that say what to do.** Not *"Required"* — *"Add a short summary; it
+   appears on the package card on the home page."*
+5. **Character limits with a reason.** `summary` capped at ~160 so cards never break — this is
+   what makes T-01.13's content-shape stress test hold in practice, instead of relying on her
+   restraint.
+6. **Singletons locked**: `siteSettings`, `homePage`, `personalizedPage` cannot be created,
+   duplicated or deleted from the Studio. Only edited.
+7. **Alt text required on every image.** Accessibility, and WCAG 2.2 AA is in our non-functional
+   bar. Required at the schema level so it cannot be skipped.
+8. **Desk structure organised the way she thinks**: *Packages · Destinations · Pages · Site
+   settings* — not a flat alphabetical list of document types.
+9. **Initial values** on new documents so nothing starts fully blank.
+
+### The publication gate, restated as schema
+v0's D-005 says a package cannot be published incomplete. Enforce it as Sanity validation rules
+so the Studio blocks it with a readable reason: title, slug, summary, body, one type, at least
+one published destination, hero image with alt — and if a price exists at all, every D-006
+qualification field with it.
+
+The price rule is enforced **twice on purpose**: in the Studio so she cannot publish a bad one,
+and in `map.ts` (D-040) so the site cannot render one. Belt and braces, because it is the rule
+with actual legal consequences.
+
+### Agent DX standards
+
+| | |
+|---|---|
+| Types | `sanity typegen` generates from schema + GROQ. Never hand-write a Sanity type |
+| Queries | One named query per page in `lib/sanity/queries.ts`. No inline GROQ in components |
+| Schemas | `defineType` / `defineField` throughout, for autocomplete and type safety |
+| Mapping | Every query result passes through `map.ts` (D-040) before leaving `lib/` |
+| Fixtures | `tests/fixtures/domain.ts` exports plain DTO literals, so component tests never touch Sanity |
+| Images | Always through `lib/sanity/image.ts`. Never construct a CDN URL by hand |
+
+## 14. Two decisions that need your confirmation
 
 ### A-001 🟡 Drop `next-intl` from v1 entirely — revises D-005
 D-005 said keep `next-intl` wired with a single active locale so Greek is a later content drop.
