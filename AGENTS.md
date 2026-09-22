@@ -156,7 +156,7 @@ decision, or the "stale" content may be deliberate. Then state the conflict and 
 ### Documentation lifecycle — prune, don't only fix
 
 Fixing drift keeps documents true; it does not stop them accumulating. **Before reporting any
-task, phase or feature done, run the `jz-doc-lifecycle` skill.** It sorts documents into durable
+task, phase or feature done, run the `doc-lifecycle` skill.** It sorts documents into durable
 and work-scoped, updates the first, merges overlaps, and deletes the second once its work has
 landed — never touching `backlog/`, the decisions register or anything git-ignored, and never
 removing a file without accounting for every line unique to it.

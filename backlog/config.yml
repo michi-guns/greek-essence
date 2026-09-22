@@ -21,4 +21,4 @@ definition_of_done:
   - "User-visible change: live walk completed per A-007 with evidence in .local/evidence/ - or state why not applicable"
   - "Anything odd noticed is filed as a task, not dropped"
   - "Task branch merged into its phase branch"
-  - "Documentation lifecycle checked (jz-doc-lifecycle): what this work made stale is updated, what it superseded is merged or deleted - or state why not applicable"
+  - "Documentation lifecycle checked (doc-lifecycle): what this work made stale is updated, what it superseded is merged or deleted - or state why not applicable"
