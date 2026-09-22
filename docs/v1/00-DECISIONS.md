@@ -424,6 +424,30 @@ Native HTML composition was researched and does not solve the problem: Declarati
 encapsulation, but nothing in HTML renders a component N times from data. Shadow DOM is also
 ruled out because the client feeds the document to an AI to audit the hours.
 
+### D-055 ✅ Non-trivial changes go through a closed review loop, capped at three rounds
+
+An agent working alone produces plausible work with real defects in it. The exit condition is
+an independent reviewer's PASS, not the author's judgement. Protocol in
+[09-REVIEW.md](09-REVIEW.md); three reviewer roles in `.claude/agents/`, dispatched by artefact
+type — `code-reviewer`, `visual-reviewer`, `doc-reviewer`.
+
+*Lineage:* adapted from the owner's ICS eight-lens `code-reviewer`, which the marine-engineer-cv
+repo also adapted. Kept: fresh reviewer per round, prior reports with dispositions handed
+forward, Blocking/Material/Minor/Note, the anchor rule, INCOMPLETE as a first-class verdict,
+lead pairs per round, `disallowedTools: Agent`. Changed for this project's size:
+
+- **Three rounds, not five or eight.** marine-engineer-cv's eight-round cap let a three-line
+  helper burn six maximum-effort rounds. Three converged on every loop run in this project.
+- **Three reviewers, not eleven agents.** Dispatch by artefact, not topic.
+- **No plan-reviewer.** Planning is the owner's job — he is the PM (`AGENTS.md` → Roles).
+- **Two rules added** that none of the source repos have, both from defects that reached the
+  owner here: *measuring is not looking* (§8.1) and *every client-facing claim traces to the
+  repo* (§8.2).
+
+*Not adopted:* agentic-wave's mandatory per-task HTML report and its `report:check` script —
+good mechanism, disproportionate for this project. Revisit if review reports start being
+written carelessly.
+
 ## Part D — Open, needs you or the client
 
 | # | Question | Owner | Needed by |

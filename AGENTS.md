@@ -16,7 +16,10 @@ on-demand revalidation.
 2. [`docs/v1/00-DECISIONS.md`](docs/v1/00-DECISIONS.md) — every decision that shapes v1
 3. [`docs/v1/06-ARCHITECTURE.md`](docs/v1/06-ARCHITECTURE.md) — layout, boundaries, data flow
 
-That is the whole reading list. `docs/v1/` has four more files; open the one your task needs.
+That is the whole reading list. `docs/v1/` has five more files; open the one your task needs.
+
+**Finishing a non-trivial change?** It gets an independent review round before it is done —
+[`docs/v1/09-REVIEW.md`](docs/v1/09-REVIEW.md). Ten lines is not an exemption.
 
 Working on an internal report or the client brief instead of the website? That is a separate
 product: start at [`report-kit/README.md`](report-kit/README.md) and read
