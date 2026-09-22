@@ -1,5 +1,11 @@
 # report-kit — build brief
 
+> **Read [PLAN.md](PLAN.md) first.** It is the approved implementation plan and it corrects
+> this document in several places, including the dead-class list (22, not 34 — and `all` must
+> be kept), the component estimate, the size of the inline script, and the screenshot method
+> in §8 (full-page captures are not reproducible at this page height). `PLAN.md` is temporary
+> and gets deleted when the work lands; these corrections move into this file at that point.
+
 **For the agent picking this up.** Everything here is decided. Where a decision is recorded,
 it is not an invitation to redesign — if you think one is wrong, say so and stop, don't
 quietly do something else (`AGENTS.md` → Posture).
@@ -18,12 +24,12 @@ The first and currently only document is the client brief, already finished and 
 
 ## 2. Ground truth
 
-| | |
-|---|---|
-| Current output | `report-kit/dist/greek-essence-brief.html` — one self-contained file, ~219KB |
-| Published at | claude.ai artifact, version 12 — the file above is byte-identical to it |
-| Assets | `report-kit/assets/logos/*.svg` (8), `report-kit/assets/brand/greek-essence-logo.png` |
-| Rules you must follow | `report-kit/CONVENTIONS.md` — **read this first, all of it** |
+|                       |                                                                                       |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| Current output        | `report-kit/dist/greek-essence-brief.html` — one self-contained file, ~219KB          |
+| Published at          | claude.ai artifact, version 12 — the file above is byte-identical to it               |
+| Assets                | `report-kit/assets/logos/*.svg` (8), `report-kit/assets/brand/greek-essence-logo.png` |
+| Rules you must follow | `report-kit/CONVENTIONS.md` — **read this first, all of it**                          |
 
 The published file is the acceptance baseline. It is correct. It has been through three
 adversarial visual review rounds and the client has signed off on how it looks.
@@ -54,17 +60,17 @@ you cannot run it, say so and stop rather than proceeding without it.
 
 ## 4. Decisions already made
 
-| Decision | Choice |
-|---|---|
-| Location | `report-kit/` at repo root. Self-contained — no imports reaching into the parent — so `git subtree split` can lift it out later. Not a submodule. |
-| Renderer | **Preact + `preact-render-to-string`**, transpiled by **esbuild**. Chosen over Astro (wants routing and split assets), 11ty (SSG machinery for one page), and raw template literals (loses escaping, typing and editor support). |
-| Language | **TypeScript.** Typed props on the data-driven components are where an arithmetic error gets caught at compile time instead of by a reviewer. |
-| Styling | Plain CSS, **light DOM**, every class prefixed `ge-`. No `@scope` yet — see CONVENTIONS. |
-| Content | **Hybrid.** Repeating structures (67 tasks, 11 asks, 8 logos, stat tiles) live in typed data files. Prose stays inline in the component that renders it, where it reads in context. |
-| Decomposition depth | **Componentise everything, including single-use blocks.** |
-| Single-use rule | A single-use component takes **no props.** Content inline, zero API. Inventing a props API for one caller is how the library rots. When a second caller appears, *that* tells you the real API. |
-| Dev loop | `npm run build` and a watch flag. No dev server. |
-| Palette | Unchanged. Isolated from the website by decision, not drift. |
+| Decision            | Choice                                                                                                                                                                                                                           |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Location            | `report-kit/` at repo root. Self-contained — no imports reaching into the parent — so `git subtree split` can lift it out later. Not a submodule.                                                                                |
+| Renderer            | **Preact + `preact-render-to-string`**, transpiled by **esbuild**. Chosen over Astro (wants routing and split assets), 11ty (SSG machinery for one page), and raw template literals (loses escaping, typing and editor support). |
+| Language            | **TypeScript.** Typed props on the data-driven components are where an arithmetic error gets caught at compile time instead of by a reviewer.                                                                                    |
+| Styling             | Plain CSS, **light DOM**, every class prefixed `ge-`. No `@scope` yet — see CONVENTIONS.                                                                                                                                         |
+| Content             | **Hybrid.** Repeating structures (67 tasks, 11 asks, 8 logos, stat tiles) live in typed data files. Prose stays inline in the component that renders it, where it reads in context.                                              |
+| Decomposition depth | **Componentise everything, including single-use blocks.**                                                                                                                                                                        |
+| Single-use rule     | A single-use component takes **no props.** Content inline, zero API. Inventing a props API for one caller is how the library rots. When a second caller appears, _that_ tells you the real API.                                  |
+| Dev loop            | `npm run build` and a watch flag. No dev server.                                                                                                                                                                                 |
+| Palette             | Unchanged. Isolated from the website by decision, not drift.                                                                                                                                                                     |
 
 ## 5. Target structure
 
@@ -148,6 +154,7 @@ the extraction is wrong — do not "improve" the design while refactoring. Desig
 separate task with the owner's sign-off.
 
 Also assert, in the build:
+
 - totals still reconcile: 4560 / 8490 / 17280 minutes across 67 rows and 7 phase subtotals
 - every duration cell carries a `data-m` matching its display string
 - no external `src`/`href` in the output except `fonts.googleapis.com`
