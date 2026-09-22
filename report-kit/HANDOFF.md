@@ -139,6 +139,16 @@ Also assert, in the build:
 - no external `src`/`href` in the output except `fonts.googleapis.com`
 - output is a single file under 16MB
 
+## 9. Deliberate oddities — do not "fix" these
+
+- **`assets/logos/google-forms.svg` is not the Google Forms logo.** It is the four-colour
+  Google Developers chevron mark. This was flagged to the owner and kept on purpose: the real
+  Forms mark could not be sourced, the strip scrolls, and the tile is decorative. Leave it.
+- **The Sanity tile carries no text label** while all seven others do. Its wordmark already
+  says the name. Owner's instruction, not an oversight.
+- **`--c3-solid` exists for one bar segment and one legend dot.** See CONVENTIONS → Colour.
+- **The brief's palette does not match the website's.** Deliberate isolation (D-052, D-053).
+
 ## 9. Out of scope
 
 - Any visual change, including ones you believe are improvements.

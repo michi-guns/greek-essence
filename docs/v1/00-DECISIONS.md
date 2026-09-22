@@ -438,3 +438,4 @@ ruled out because the client feeds the document to an AI to audit the hours.
 | Q8 | Exact questions on each of the three forms | Client | Week 2 |
 | Q9 | Privacy policy + terms — template, or lawyer review? (no cookie banner needed — analytics is cookieless) | Client | Week 4 |
 | Q10 | ~~Analytics~~ — resolved: Umami Cloud, cookieless, no consent banner (S-007) | — | done |
+| Q11 | **Netlify housekeeping** — rename the site off `frolicking-pie-16b7ba`, set env vars, enable credit alerts at 50%/75%, reconcile Node version (dashboard shows 24.x, `netlify.toml` pins 22) | Operator | Before first production deploy |

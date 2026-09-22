@@ -18,6 +18,11 @@ and nothing in `app/` should import from here.
 |---|---|---|
 | Greek Essence client brief (M7) | Published, signed off | `dist/greek-essence-brief.html` |
 
+**Published at** `https://claude.ai/artifact/AxtuR89rsCcEUpx58uyfh5` — version 12, private to
+the owner until shared. `dist/greek-essence-brief.html` is that exact version. To publish an
+update, republish the same file to that URL rather than creating a new artifact, or the link
+already given to the client goes stale.
+
 ## Status
 
 **Built, not yet decomposed.** `dist/greek-essence-brief.html` is the finished, published

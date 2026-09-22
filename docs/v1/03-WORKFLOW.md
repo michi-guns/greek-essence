@@ -248,6 +248,22 @@ Backlog.md has an opinionated review flow: **review the spec → review the plan
 code**. For v1, use checkpoint 1 and 3 and skip checkpoint 2 on tasks under ~2 hours. A 9-page
 marketing site does not need a plan review for "build the footer".
 
+### Running the CLI from a cloud agent session
+
+An agent working through the Claude desktop bridge gets a shell in a Linux VM that mounts the
+repo folder only — the operator's global `backlog` install is on the host and is **not** on
+that VM's `PATH`. `backlog: command not found` there means the tool is missing from the VM,
+not from the machine. Install it into the session and carry on:
+
+```bash
+npm config set prefix "$HOME/.npm-global"
+npm install -g backlog.md            # pin: 1.52.0, matching AGENTS.md's instructions-version
+export PATH="$HOME/.npm-global/bin:$PATH"
+```
+
+Do not hand-edit task markdown as a workaround — the status and dependency fields are managed
+by the CLI and hand edits silently desync the index.
+
 ## 4. `AGENTS.md` — what goes in it
 
 One file, target < 200 lines, `CLAUDE.md` is a one-liner pointing at it. Sections:
