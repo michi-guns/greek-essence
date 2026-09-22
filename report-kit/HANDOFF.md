@@ -28,6 +28,20 @@ The first and currently only document is the client brief, already finished and 
 The published file is the acceptance baseline. It is correct. It has been through three
 adversarial visual review rounds and the client has signed off on how it looks.
 
+## 2b. Where this work lives
+
+Branch off `main` as `chore/report-kit-decomposition`, merge back to `main` when the
+acceptance test in §8 passes. Normal repo git conventions otherwise (`AGENTS.md` → Git).
+
+**There is deliberately no Backlog task for this.** `report-kit/` is internal tooling, not
+client scope — the roadmap's 67 estimated tasks and the hour totals in the published brief
+reconcile against each other, and adding tasks here would corrupt numbers the client has
+already been shown. Track progress in the branch and the PR body, not in `backlog/`.
+
+**Before you start,** confirm you can run headless Chromium (Playwright). The acceptance test
+in §8 is a pixel diff and it is not optional — a refactor verified by eye is not verified. If
+you cannot run it, say so and stop rather than proceeding without it.
+
 ## 3. Non-negotiable constraints
 
 1. **Output is one self-contained HTML file.** Artifact pages block every external origin
