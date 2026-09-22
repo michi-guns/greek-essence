@@ -76,8 +76,8 @@ This is the part that matters more than the token list.
 Doing 1–3 before 4 is what stops week 4 turning into "the client doesn't like it."
 
 ### Client review mechanics
-The v0 decisions are right that this client needs **example-led** approval — she can react to
-a concrete thing, not specify from blank. So: deploy every phase to a Vercel preview URL and
+The v0 decisions are right that this client needs **example-led** approval — he can react to
+a concrete thing, not specify from blank. So: deploy every phase to a Netlify deploy preview URL and
 send *links*, never descriptions. Ask closed questions ("keep this hero or the alternative?"),
 never "what do you think?".
 
@@ -103,8 +103,8 @@ A design system cannot be validated against lorem ipsum, and this design in part
 or dies on photography. **Photography is the highest-probability cause of a slipped launch.**
 
 Mitigation, starting week 1:
-- Ask the client for her image library *now*, before any design work.
+- Ask the client for his image library *now*, before any design work.
 - Agree a minimum set: 1 hero + 4 gallery per destination, 1 hero + 4 gallery per package.
-- If she can't supply them, decide early between licensed stock (budget + who pays) or a
+- If he can't supply them, decide early between licensed stock (budget + who pays) or a
   design direction that leans on type and colour rather than full-bleed photography.
 - Build with a clearly-labelled placeholder set so the pipeline is done and only the assets swap.

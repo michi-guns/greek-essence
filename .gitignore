@@ -47,3 +47,6 @@ next-env.d.ts
 .pnpm-store/
 playwright-report/
 test-results/
+
+# Cowork writes chat attachments here; never part of the repo
+Claude outputs/

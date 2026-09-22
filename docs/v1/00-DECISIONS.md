@@ -138,8 +138,10 @@ concluded fits how she works.
 *Consequence:* copywriting is **real work in the roadmap**, roughly 22h including photo
 curation. The earlier roadmap omitted it entirely and was wrong by that amount.
 
-### D-036 ✅ Target is ~7 weeks, and the client is told now
-At ~108h average and ~15h/week combined capacity, 7 weeks is the honest number. The client's
+### D-036 ✅ ⚠️ **REVISED** — target is ~8.5 weeks, and the client is told now
+At ~141.5h average and ~15h/week combined capacity, ~8.5 weeks is the honest number. *(Was
+~7 weeks at ~108h; the estimate rose through the catalogue scope-in — see D-032 — not through
+any change to the rate or the capacity assumption.)* The client's
 expectation is reset during planning rather than at a missed deadline. Scope and quality are
 preserved; Sanity stays (D-011).
 
@@ -377,6 +379,50 @@ use in `marine-engineer-cv` and `agentic-wave`.
 the product — decisions live in `docs/v1/`, tasks in `backlog/`.
 
 ---
+
+### D-052 ✅ Internal reports are a separate product from the website — `report-kit/`
+
+Documents that pass between the developer and the client (the M7 executive brief, and the
+phase reports that follow it) are built by `report-kit/` at the repo root. It is **totally
+isolated** from the website: its own palette, its own components, no imports in either
+direction. Different audience, different job.
+
+*Why not share tokens:* the brief is dense with charts and needs colours validated for
+colourblind-safe data encoding; the site is photographic and needs a warm ground. Convergence
+was evaluated and rejected on coupling grounds, not feasibility — see D-053.
+
+`report-kit/` is self-contained so `git subtree split` can lift it into its own repo if a
+second project ever needs it. A submodule was considered and rejected: known friction for
+agents, and no second consumer exists.
+
+### D-053 ✅ The brief's palette stays as it is — the convergence analysis, for the record
+
+A converged palette using the website's tokens **was tested and does work**, so if this is ever
+revisited, the answer is already computed. `--ge-blue-800 #17475f` / `--ge-teal-700 #34767a` /
+`--ge-warning-800 #7a5725` clears white-text AA on all three (9.99 / 5.23 / 6.53) and clears
+ΔE 38+ for every pair under both protanopia and deuteranopia — comfortably better than the
+current palette, whose weakest pair is 20.7. One constraint found: `--ge-sand-500 #9b7c55`
+cannot be a data fill (white on it is 3.88:1, under AA); sand stays a surface colour.
+
+Rejected anyway: the two products are uncoupled by decision, and re-skinning a signed-off
+document to serve a consistency nobody asked for is not worth the risk.
+
+### D-054 ✅ Report documents are built with Preact, rendered to a string at build time
+
+`preact` + `preact-render-to-string` + `esbuild`, TypeScript, output is inert light-DOM HTML
+with zero runtime framework. Chosen against Astro (wants routing and split assets — we need
+one inlined file), Eleventy (SSG machinery for a single page), and raw template literals
+(loses escaping, typing and editor support). JSX is also the operator's and the agents' native
+idiom.
+
+*Constraint that drove it:* an Artifact page blocks every external origin but
+`fonts.googleapis.com`, so the published form must be a single file with inlined CSS and
+base64 assets. That is a publish constraint, not an authoring one — hence the build step.
+
+Native HTML composition was researched and does not solve the problem: Declarative Shadow DOM
+(Widely Available since Aug 2026) and `@scope` (Newly Available since Jan 2026) give
+encapsulation, but nothing in HTML renders a component N times from data. Shadow DOM is also
+ruled out because the client feeds the document to an AI to audit the hours.
 
 ## Part D — Open, needs you or the client
 

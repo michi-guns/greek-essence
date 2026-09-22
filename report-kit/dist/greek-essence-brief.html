@@ -1,0 +1,2000 @@
+<title>Φάκελος Έργου Greek Essence</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+  :root{
+    color-scheme:light;
+
+    /* ground + surfaces */
+    --sky-1:#E9F3F7; --sky-2:#CBE2EC;
+    --hero:#FDFDFB; --panel:#F8F4EC; --card:#FFFFFF;
+    --track:#E3D9C6;
+    --seg-off:#D5C7AB; --seg-off-warm:#F2DCC4;
+
+    /* neutrals, biased toward the Aegean blue */
+    --ink:#132C37; --soft:#42585F; --muted:#566C77; --hair:#E2D9C8;
+
+    /* validated data colours — do not change */
+    --c1:#0B6FA6; --c2:#2BA6D6; --c3:#C65C14;
+    --c1-wash:#E1EEF6; --c1-ink:#08557E;
+    --c2-ink:#0E6A8C;
+    --c3-wash:#FBE9DA; --c3-ink:#8E410C; --c3-line:#E7BB93;
+    --steel:#5D7079; --c3-solid:#B4520F;
+    --c1-tint:#ABC9D9; --c1-tint-line:#7FA6BD;
+    --on-c2:#06303F;
+
+    --r-lg:22px; --r-md:15px; --r-sm:9px;
+    --sh-1:0 1px 2px rgba(16,48,60,.05), 0 3px 10px rgba(16,48,60,.05);
+    --sh-2:0 2px 4px rgba(16,48,60,.05), 0 14px 36px rgba(16,48,60,.09);
+
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,"Times New Roman",serif;
+    --sans:"Manrope","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    max-width:100%;
+    background-color:var(--sky-1);
+    background-image:linear-gradient(176deg,var(--sky-1) 0%,var(--sky-2) 100%);
+    background-repeat:no-repeat;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    padding-inline:18px;
+    padding-block:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:18px;padding-block:18px 60px;position:relative;z-index:1}
+  h2,h3,p{overflow-wrap:break-word}
+
+  /* ═════════ background layers: waves + particles ═════════ */
+  #waves{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;
+    opacity:.6}
+  #waves g{will-change:transform}
+  #waves .w1{animation:drift1 74s linear infinite}
+  #waves .w2{animation:drift2 96s linear infinite}
+  #waves .w3{animation:drift1 128s linear infinite reverse}
+  @keyframes drift1{from{transform:translate3d(0,0,0)}to{transform:translate3d(-560px,0,0)}}
+  @keyframes drift2{from{transform:translate3d(-560px,0,0)}to{transform:translate3d(0,0,0)}}
+  #dust{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+
+  .num{font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .eyebrow{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800}
+
+  .panel{background:var(--panel);border-radius:var(--r-lg);box-shadow:var(--sh-2);padding:34px 36px}
+  .phead{display:flex;flex-direction:column;gap:7px;margin-bottom:24px}
+  .phead h2{
+    font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.15;margin:0;
+    letter-spacing:-.005em;text-wrap:balance;color:var(--ink);
+  }
+  .phead p{margin:0;font-size:14.5px;color:var(--soft);max-width:62ch}
+  .phead p b{font-weight:800;color:var(--ink)}
+
+  /* ═════════ sticky nav ═════════ */
+  .nav{position:sticky;top:10px;z-index:40;margin-bottom:2px}
+  .nav-in{
+    display:flex;gap:4px;padding:5px;border-radius:999px;
+    background:rgba(253,253,251,.93);
+    -webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);
+    border:1px solid #DCE8EE;box-shadow:0 2px 5px rgba(16,48,60,.06),0 10px 26px rgba(16,48,60,.11);
+  }
+  .nb{
+    flex:1 1 0;min-width:0;appearance:none;-webkit-appearance:none;border:0;cursor:pointer;
+    background:transparent;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:.005em;
+    color:var(--soft);padding:10px 8px;border-radius:999px;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;
+    transition:background .18s ease,color .18s ease;
+  }
+  .nb--wide{flex:1.5 1 0}
+  .nb:hover{color:var(--c1-ink);background:rgba(11,111,166,.08)}
+  .nb[aria-selected="true"]{background:var(--c1);color:#fff}
+  .nb:focus-visible{outline:2px solid var(--c1-ink);outline-offset:2px}
+  .nb .nbn{font-variant-numeric:tabular-nums;color:var(--muted);margin-right:6px;font-weight:700}
+  .nb:hover .nbn{color:var(--c1-ink)}
+  .nb[aria-selected="true"] .nbn{color:var(--c1-wash)}
+
+  .view{display:flex;flex-direction:column;gap:27px}
+  .wrap.js:not(.all) .view:not(.on){display:none}
+  .view:focus{outline:none}
+  .view:focus-visible{outline:2px solid var(--c1-ink);outline-offset:6px;border-radius:var(--r-lg)}
+
+  /* ═════════ entrance animation (3 places only) ═════════ */
+  .rv{opacity:1;transform:none}
+  .js-anim .rv{opacity:0;transform:translateY(16px)}
+  .js-anim .rv.in{opacity:1;transform:none;
+    transition:opacity .65s cubic-bezier(.22,.7,.3,1) var(--d,0s),transform .65s cubic-bezier(.22,.7,.3,1) var(--d,0s)}
+  .grow{width:var(--w)}
+  .js-anim .rv .grow{width:0}
+  .js-anim .rv.in .grow{width:var(--w);transition:width .95s cubic-bezier(.22,.7,.3,1) var(--d,0s)}
+
+  /* ═════════ hero ═════════ */
+  .hero{background:var(--hero);border-radius:var(--r-lg);box-shadow:var(--sh-2);
+    position:relative;z-index:2;overflow:hidden}
+  .hero-art{position:absolute;left:0;right:0;bottom:0;height:150px;width:100%}
+  .hero-in{position:relative;padding:28px 36px 46px;display:flex;flex-direction:column;gap:26px}
+  .hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .brand{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:.01em;color:var(--c1)}
+  .dateline{
+    display:inline-flex;align-items:center;gap:9px;
+    background:var(--c1-wash);color:var(--c1-ink);border-radius:999px;padding:9px 15px;
+    font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    font-variant-numeric:tabular-nums;
+  }
+  .dateline .d{width:5px;height:5px;border-radius:50%;background:var(--c3);flex:none}
+
+  .ratio{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px}
+  .cell{display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;min-width:0}
+  .cell .cap{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .big{font-family:var(--serif);font-size:clamp(64px,14vw,116px);line-height:.86;font-weight:600;letter-spacing:-.025em}
+  .unit{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;line-height:1}
+  .yours .big{color:var(--c3)} .yours .unit{color:var(--c3-ink)}
+  .ours .big,.ours .unit{color:var(--c1)}
+
+  /* CSS arrow — no extra SVG */
+  .arrow{position:relative;width:56px;height:14px;justify-self:center}
+  .arrow::before{content:"";position:absolute;left:0;top:50%;width:100%;height:2.5px;
+    background:var(--c3);transform:translateY(-50%);border-radius:2px}
+  .arrow::after{content:"";position:absolute;right:1px;top:50%;width:12px;height:12px;
+    border-top:2.5px solid var(--c3);border-right:2.5px solid var(--c3);
+    transform:translateY(-50%) rotate(45deg)}
+
+  .cell .who{font-size:11.5px;font-weight:800;letter-spacing:.02em;line-height:1.3;
+    border-radius:999px;padding:5px 12px;margin-top:6px;text-wrap:balance}
+  .yours .who{background:var(--c3-wash);color:var(--c3-ink)}
+  .ours .who{background:var(--c1-wash);color:var(--c1-ink)}
+  .nonadd{margin-top:16px;display:flex;gap:11px;align-items:flex-start;
+    background:var(--c1-wash);border-radius:var(--r-md);padding:13px 16px;
+    font-size:12.5px;line-height:1.5;color:var(--c1-ink)}
+  .nonadd::before{content:"";flex:none;width:3px;align-self:stretch;
+    background:var(--c1);border-radius:2px}
+  .nonadd b{font-weight:800}
+
+  .thesis{text-align:center;font-size:16px;color:var(--soft);max-width:46ch;margin:0 auto;text-wrap:balance}
+  .thesis b{color:var(--ink);font-weight:800}
+  .step .n{width:30px;height:30px;flex:none;border-radius:50%;background:var(--c3-ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;
+    font-variant-numeric:tabular-nums;line-height:1}
+  .step .code{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--c1-ink);text-transform:uppercase}
+  .ask.special{background:var(--c3-wash);border-color:var(--c3-line)}
+  .code{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--c1-ink);
+    background:var(--c1-wash);border-radius:7px;padding:3px 9px;line-height:1.25;font-variant-numeric:tabular-nums}
+  .ask.special .code{background:#fff;color:var(--c3-ink)}
+  .tag{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    border-radius:999px;padding:4px 10px;line-height:1.4}
+  .tag.first{background:var(--c1-wash);color:var(--c1-ink)}
+  .tag.must{background:var(--c3-ink);color:#fff}
+  .ask.special p{color:#6B4520}
+
+  .metrics{display:grid;grid-template-columns:6.2rem 1fr;gap:9px 10px;align-items:center;
+    margin-top:auto;padding-top:14px;border-top:1px solid var(--hair)}
+  .ask.special .metrics{border-top-color:var(--c3-line)}
+  .mk{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+  .mv{display:inline-flex;align-items:baseline;gap:5px;
+    font-family:var(--serif);font-size:20px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+  .mv.you{color:var(--c3)}
+  .unlock{display:flex;align-items:center;gap:10px;min-width:0}
+  .ubar{flex:1 1 auto;min-width:20px;height:10px;background:var(--track);border-radius:999px;overflow:hidden}
+  .ask.special .ubar{background:var(--seg-off-warm)}
+  .ubar i{display:block;height:100%;background:var(--c1);border-radius:999px;min-width:5px}
+  .ask.special .ubar i{background:var(--c3)}
+  .uv{flex:none;display:inline-flex;align-items:baseline;gap:5px;
+    font-family:var(--serif);font-size:20px;font-weight:700;color:var(--c1);line-height:1;
+    font-variant-numeric:tabular-nums}
+  .uu{font-family:var(--sans);font-size:11.5px;font-weight:800;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--c1-ink);white-space:nowrap}
+  .ask.special .uv{color:var(--c3-ink)} .ask.special .uu{color:var(--c3-ink)}
+  .cx{display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap}
+  .segs{display:flex;gap:3px;flex:none}
+  .segs b{width:16px;height:10px;border-radius:2px;background:var(--seg-off);display:block}
+  .ask.special .segs b{background:var(--seg-off-warm)}
+  .segs b.on{background:var(--c1)}
+  .ask.special .segs b.on{background:var(--c3)}
+  .cxw{font-size:12.5px;font-weight:700;color:var(--soft)}
+
+  .scalenote{margin-top:18px;padding-top:16px;border-top:1px solid var(--hair);
+    font-size:12.5px;color:var(--muted);line-height:1.55}
+  .scalenote b{color:var(--soft);font-weight:800}
+
+  /* ═════════ totals / reconciliation ═════════ */
+  .totals{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+  .tbox{border-radius:var(--r-md);padding:18px 20px}
+  .tbox.you{background:var(--c3-wash);color:var(--c3-ink)}
+  .tbox.us{background:var(--c1-wash);color:var(--c1-ink)}
+  .tline{display:flex;align-items:baseline;gap:6px 13px;flex-wrap:wrap}
+  .tline .v{font-family:var(--serif);font-size:27px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums}
+  .tline .k{font-size:13px;font-weight:700;line-height:1.4;max-width:52ch}
+  .tbar{display:flex;gap:3px;height:18px;margin-top:14px}
+  .tbar i{display:block;border-radius:5px}
+  .tbar i.tint,.tkey s.tint{background:var(--c1-tint);box-shadow:inset 0 0 0 1px var(--c1-tint-line)}
+  .tkey{display:flex;gap:8px 20px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;font-weight:700}
+  .tkey span{display:inline-flex;align-items:center;gap:7px}
+  .tkey s{width:11px;height:11px;border-radius:3px;flex:none}
+
+  /* ═════════ stacked bar ═════════ */
+  .sbar{display:flex;gap:3px;height:66px}
+  .sbar > i{display:block;position:relative;border-radius:var(--r-sm)}
+  .seg-l{position:absolute;left:13px;top:50%;transform:translateY(-50%);white-space:nowrap;line-height:1}
+  .seg-l b{display:block;font-family:var(--serif);font-size:21px;font-weight:700;color:#fff;
+    font-variant-numeric:tabular-nums;letter-spacing:-.01em;line-height:1}
+  .seg-l i{display:block;margin-top:4px;font-style:normal;font-size:10.5px;font-weight:800;
+    letter-spacing:.06em;text-transform:uppercase;color:#fff;line-height:1}
+  .seg-l.onc2 b,.seg-l.onc2 i{color:var(--on-c2)}
+  .sbar-under{display:none;gap:3px;margin-top:9px}
+  .sbar-under span{min-width:0;white-space:nowrap;line-height:1}
+  .sbar-under b{display:block;font-family:var(--serif);font-size:15px;font-weight:700;
+    font-variant-numeric:tabular-nums;line-height:1}
+  .sbar-under i{display:block;margin-top:3px;font-style:normal;font-size:10px;font-weight:800;
+    letter-spacing:.04em;text-transform:uppercase;line-height:1}
+
+  .legend{display:flex;flex-direction:column;margin-top:18px}
+  .lg{display:grid;grid-template-columns:13px 1fr auto 3.4em;gap:13px;align-items:center;
+    padding-block:13px;border-bottom:1px solid var(--hair)}
+  .lg:last-child{border-bottom:0}
+  .lg .dot{width:13px;height:13px;border-radius:4px}
+  .lg .nm{font-size:15.5px;font-weight:700;display:block;line-height:1.3}
+  .lg .sub{display:block;font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.35}
+  .lg .h{display:inline-flex;align-items:baseline;gap:5px;
+    font-family:var(--serif);font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .lg .hu{font-family:var(--sans);font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+  .lg .p{font-size:13px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;font-weight:800}
+
+  /* ═════════ comparison ═════════ */
+  .cmp{display:flex;flex-direction:column;gap:14px}
+  .cmp-row{display:grid;grid-template-columns:6.6rem 1fr;gap:14px;align-items:center}
+  .cmp-k{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .cmp-k.on{color:var(--c1-ink)}
+  .cmp-track{height:46px;background:var(--track);border-radius:var(--r-sm);overflow:hidden}
+  .cmp-fill{height:100%;display:flex;align-items:baseline;padding:0 0 0 15px;border-radius:var(--r-sm)}
+  .cmp-fill .in{align-self:center;display:inline-flex;align-items:baseline;gap:6px;color:#fff;white-space:nowrap}
+  .cmp-fill .v{font-family:var(--serif);font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cmp-fill .u{font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+  .saved{margin-top:18px;display:inline-flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    background:var(--c1-wash);color:var(--c1-ink);border-radius:999px;padding:11px 20px}
+  .saved .v{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+  .saved .k{font-size:12.5px;font-weight:800;letter-spacing:.03em}
+
+  /* ═════════ progress ═════════ */
+  .prog-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px 14px;flex-wrap:wrap;margin-bottom:13px}
+  .prog-top .bign{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums}
+  .prog-top .bign em{font-style:normal;color:var(--c1)}
+  .prog-top .rest{font-size:13.5px;color:var(--muted);font-weight:800;font-variant-numeric:tabular-nums}
+  .ptrack{height:18px;background:var(--track);border-radius:999px;overflow:hidden}
+  .ptrack i{display:block;height:100%;background:var(--c1);border-radius:999px;min-width:11px}
+  .pfoot{display:flex;justify-content:space-between;gap:10px;margin-top:10px;
+    font-size:12.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  .recon{margin:14px 0 0;padding-top:13px;border-top:1px solid var(--hair);
+    font-size:12.5px;line-height:1.55;color:var(--muted)}
+  .recon b{color:var(--soft);font-weight:800}
+  .fx .fxs{font-size:11px;font-weight:700;color:var(--muted);line-height:1.35}
+
+  /* ═════════ stats ═════════ */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:14px}
+  .fx{background:rgba(248,244,236,.88);border-radius:var(--r-md);padding:18px 20px;
+    display:flex;flex-direction:column;gap:4px;box-shadow:var(--sh-1)}
+  .fx b{font-family:var(--serif);font-size:31px;font-weight:700;line-height:1;color:var(--c1);font-variant-numeric:tabular-nums}
+  .sig{text-align:center;font-size:12.5px;color:var(--soft);margin:2px 0 0}
+
+  /* ═════════ VIEW 2 — deep dives ═════════ */
+  .jump{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+  .jchip{display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+    background:var(--card);border:1px solid var(--hair);border-radius:999px;
+    padding:7px 13px 7px 9px;font-size:12.5px;font-weight:700;color:var(--soft);
+    transition:border-color .16s ease,color .16s ease,background .16s ease}
+  .jchip b{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--c1-ink);
+    background:var(--c1-wash);border-radius:6px;padding:1px 7px;font-variant-numeric:tabular-nums}
+  .jchip:hover{border-color:var(--c1-tint-line);color:var(--ink);background:#fff}
+  .jchip:focus-visible{outline:2px solid var(--c1-ink);outline-offset:2px}
+
+  .deep{scroll-margin-top:76px}
+  .dhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .dhead h2{font-family:var(--serif);font-weight:600;font-size:24px;line-height:1.18;margin:0;
+    letter-spacing:-.005em;flex:1 1 220px;min-width:0;text-wrap:balance}
+  .dmeta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;font-weight:700;color:var(--muted);
+    margin-bottom:20px;font-variant-numeric:tabular-nums}
+  .dmeta b{color:var(--c3-ink);font-weight:800}
+  .dmeta b.u{color:var(--c1-ink)}
+  .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .dcell{display:flex;flex-direction:column;gap:6px}
+  .dk{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:800}
+  .dcell p{margin:0;font-size:14px;line-height:1.55;color:var(--soft)}
+  .dcell p b{color:var(--ink);font-weight:800}
+
+  .ex{margin-top:18px;background:var(--card);border:1px solid var(--hair);
+    border-radius:var(--r-md);padding:18px 18px 20px}
+  .ex.warm{background:#FFFCF7;border-color:var(--c3-line)}
+  .exk{display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--c1-ink);font-weight:800;margin-bottom:14px}
+  .exk::before{content:"";width:16px;height:2px;background:var(--c3);border-radius:2px;flex:none}
+  .exfoot{margin:14px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+  .exfoot b{color:var(--soft);font-weight:800}
+
+  /* four package mock cards (A4) */
+  .pkgs{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+  .pk{background:#fff;border:1px solid var(--hair);border-radius:13px;overflow:hidden;
+    display:flex;flex-direction:column;box-shadow:var(--sh-1)}
+  .pk-img{height:58px;position:relative;overflow:hidden;
+    background:linear-gradient(168deg,#DCEBF2 0%,#BFDCE9 55%,#A9CFE0 100%)}
+  .pk-img::before{content:"";position:absolute;right:13px;top:11px;width:13px;height:13px;
+    border-radius:50%;background:#F4E2CB}
+  .pk-img::after{content:"";position:absolute;left:-6%;right:-6%;bottom:-16px;height:36px;
+    border-radius:50% 50% 0 0;background:#EDF5F8}
+  .pk-let{position:absolute;left:9px;top:9px;z-index:2;width:21px;height:21px;border-radius:6px;
+    background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:11.5px;font-weight:800;line-height:1}
+  .pk-b{padding:12px 12px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
+  .pk-t{font-size:13px;font-weight:800;line-height:1.28;letter-spacing:-.005em}
+  .pk-m{font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+  .pk-p{margin-top:9px;font-family:var(--serif);font-size:18px;font-weight:700;color:var(--c1);
+    line-height:1.1;font-variant-numeric:tabular-nums}
+  .pk-p.none{font-size:14.5px;color:var(--steel)}
+  .pk-p em{font-style:normal;font-family:var(--sans);font-size:11px;font-weight:800;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:3px}
+  .pk-cta{margin-top:10px;background:var(--c1-wash);color:var(--c1-ink);border-radius:7px;
+    padding:6px 8px;text-align:center;font-size:10.5px;font-weight:800;letter-spacing:.03em}
+  .pk-note{margin:9px 0 0;padding-top:9px;border-top:1px dashed var(--hair);
+    font-size:11.5px;line-height:1.45;color:var(--soft)}
+  .pk-note b{color:var(--c3-ink);font-weight:800}
+
+  /* flow diagram (A2, A8) */
+  .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}
+  .fs{background:#fff;border:1px solid var(--hair);border-radius:12px;padding:14px 11px;
+    display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+  .fs.acc{border-color:var(--c3-line);background:#FFFCF7}
+  .fs svg{width:26px;height:26px;flex:none}
+  .fs .ftx{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .fs b{font-size:13px;font-weight:800;line-height:1.25}
+  .fs span{font-size:11.5px;color:var(--muted);line-height:1.42}
+  .fch{align-self:center;position:relative;width:15px;height:15px;flex:none}
+  .fch::after{content:"";position:absolute;left:1px;top:50%;width:10px;height:10px;
+    border-top:2.5px solid var(--c1-tint-line);border-right:2.5px solid var(--c1-tint-line);
+    transform:translateY(-50%) rotate(45deg)}
+  .flownote{display:inline-flex;align-items:center;gap:9px;margin-top:14px;
+    background:var(--c3-ink);color:#fff;border-radius:999px;padding:8px 15px;
+    font-size:11.5px;font-weight:800;letter-spacing:.04em}
+
+  /* good / bad pairs (A1, A6) */
+  .gb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .gbx{border-radius:12px;padding:15px 16px;border:1px solid;display:flex;flex-direction:column;gap:9px}
+  .gbx.ok{background:var(--c1-wash);border-color:#B7D6E8}
+  .gbx.no{background:var(--c3-wash);border-color:var(--c3-line)}
+  .gbt{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;
+    border-radius:999px;padding:4px 11px;font-size:10.5px;font-weight:800;
+    letter-spacing:.08em;text-transform:uppercase}
+  .gbx.ok .gbt{background:var(--c1);color:#fff}
+  .gbx.no .gbt{background:var(--c3-ink);color:#fff}
+  .addr{background:#fff;border:1px solid var(--hair);border-radius:8px;padding:9px 11px;
+    font-size:13px;font-weight:800;line-height:1.35;word-break:break-all;color:var(--ink)}
+  .gbx p{margin:0;font-size:12.5px;line-height:1.5}
+  .gbx.ok p{color:var(--c1-ink)} .gbx.no p{color:#6B4520}
+  .price{font-family:var(--serif);font-size:26px;font-weight:700;line-height:1.05;
+    font-variant-numeric:tabular-nums;color:var(--ink)}
+  .price small{font-family:var(--sans);font-size:12px;font-weight:800;color:var(--muted);
+    letter-spacing:.03em;margin-left:4px}
+  .plist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px;font-size:12.5px}
+  .plist li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;line-height:1.45}
+  .plist s{width:14px;height:14px;margin-top:2px;flex:none}
+  .pnil{font-size:12.5px;font-style:italic;color:#6B4520}
+
+  /* mail mock (A3) */
+  .mail{background:#fff;border:1px solid var(--hair);border-radius:12px;overflow:hidden;max-width:460px}
+  .mail-h{background:var(--panel);border-bottom:1px solid var(--hair);padding:9px 14px;
+    font-size:10.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+  .mail-b{padding:13px 14px;display:grid;grid-template-columns:4.9rem 1fr;gap:7px 11px;align-items:baseline}
+  .mail-k{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .mail-v{font-size:13.5px;font-weight:700;line-height:1.4;word-break:break-word}
+  .mail-v.sub{font-family:var(--serif);font-size:15px;font-weight:700}
+
+  /* claims table (A9) */
+  .ctab{display:flex;flex-direction:column}
+  .chd,.crow{display:grid;grid-template-columns:1fr 1fr 5.2rem;gap:0;align-items:start}
+  .chd span{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--muted);padding:0 12px 7px}
+  .crow{border-top:1px solid var(--hair)}
+  .crow > span{padding:11px 12px;font-size:13px;line-height:1.45}
+  .crow .cn{color:var(--muted)}
+  .crow .vr{text-align:center;font-weight:800;white-space:nowrap}
+  .yes{color:var(--c1-ink)} .no{color:var(--c3-ink)}
+
+  /* chips + options (A10, A11) */
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{background:var(--c1-wash);color:var(--c1-ink);border-radius:999px;padding:7px 13px;
+    font-size:12.5px;font-weight:800}
+  .chip.off{background:transparent;border:1px dashed var(--c1-tint-line);color:var(--muted);font-weight:700}
+  .chip.pick{background:var(--c3);color:#fff}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .opt{background:#fff;border:1px solid var(--hair);border-radius:12px;padding:14px 15px;
+    display:flex;flex-direction:column;gap:5px}
+  .opt b{font-size:13.5px;font-weight:800}
+  .opt span{font-size:12.5px;color:var(--soft);line-height:1.45}
+  .say{margin-top:14px;background:#fff;border:1px dashed var(--c1-tint-line);border-radius:12px;
+    padding:15px 17px;font-family:var(--serif);font-size:16px;line-height:1.5;color:var(--ink)}
+  .say b{font-weight:700;color:var(--c1-ink)}
+  .saylabel{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+    font-weight:800;display:block;margin-bottom:7px;font-family:var(--sans)}
+
+  /* ═════════ VIEW 3 — technical ═════════ */
+  .tot3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+  .t3{border-radius:var(--r-md);padding:16px 17px;display:flex;flex-direction:column;gap:2px;
+    background:var(--card);border:1px solid var(--hair)}
+  .t3.mid{background:var(--c1);border-color:var(--c1);color:#fff}
+  .t3 .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+  .t3.mid .k{color:var(--c1-wash)}
+  .t3 .v{font-family:var(--serif);font-size:29px;font-weight:700;line-height:1.05;
+    font-variant-numeric:tabular-nums;color:var(--c1)}
+  .t3.mid .v{color:#fff}
+  .t3 .s{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:700}
+  .t3.mid .s{color:var(--c1-wash)}
+
+  .note{background:var(--c3-wash);border:1px solid var(--c3-line);border-radius:var(--r-md);
+    padding:16px 18px;color:#6B4520;font-size:13px;line-height:1.55}
+  .note b{color:var(--c3-ink);font-weight:800}
+
+  .stackg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(238px,100%),1fr));gap:10px}
+  .st{background:var(--card);border:1px solid var(--hair);border-radius:11px;padding:12px 14px;
+    display:flex;flex-direction:column;gap:3px}
+  .st b{font-size:13.5px;font-weight:800;letter-spacing:-.005em}
+  .st span{font-size:12px;color:var(--soft);line-height:1.45}
+
+  .ms{display:flex;flex-direction:column}
+  .msr{display:grid;grid-template-columns:1fr 6.4rem;gap:7px 14px;align-items:center;
+    padding-block:13px;border-bottom:1px solid var(--hair)}
+  .msr:last-child{border-bottom:0}
+  .msnm{grid-column:1;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;min-width:0}
+  .mcode{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--c1-ink);
+    background:var(--c1-wash);border-radius:6px;padding:2px 8px;flex:none;font-variant-numeric:tabular-nums}
+  .msnm .t{font-size:14.5px;font-weight:700;line-height:1.3}
+  .msnm .c{font-size:11.5px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+  .gbar{grid-column:1;height:11px;background:var(--track);border-radius:999px;overflow:hidden}
+  .gbar i{display:block;height:100%;background:var(--c1);border-radius:999px;min-width:4px}
+  .msh{grid-column:2;grid-row:1/3;text-align:right;display:flex;flex-direction:column;gap:2px}
+  .msh b{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--c1);
+    line-height:1;font-variant-numeric:tabular-nums}
+  .msh span{font-size:10.5px;color:var(--muted);font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+
+  .mbox{margin-top:16px}
+  .mbox h3{margin:0 0 3px;font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.2}
+  .mbox .msub{display:block;font-size:11.5px;color:var(--muted);font-weight:700;
+    margin-bottom:8px;font-variant-numeric:tabular-nums}
+  .ltab{width:100%;border-collapse:collapse;font-size:12.5px}
+  .ltab th{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+    font-weight:800;text-align:right;padding:7px 5px;border-bottom:1px solid var(--hair);white-space:nowrap}
+  .ltab th.l{text-align:left}
+  .ltab td{padding:8px 5px;border-bottom:1px solid #EFE8DA;vertical-align:top;line-height:1.4}
+  .ltab td.c{color:var(--c1-ink);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:11.5px}
+  .ltab td.t{color:var(--soft)}
+  .ltab td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;width:3.1rem;font-weight:700}
+  .ltab td.n.e{color:var(--c1-ink);font-weight:800}
+  .ltab tr.phr td{background:var(--c1-wash);color:var(--c1-ink);font-size:10.5px;font-weight:800;
+    letter-spacing:.07em;text-transform:uppercase;padding:6px 8px;border-bottom:0;border-radius:5px}
+  .ltab tfoot td{border-bottom:0;border-top:2px solid var(--c1-tint);padding-top:9px;font-weight:800}
+  .ltab tfoot td.t{color:var(--ink)}
+  .ltab tfoot td.n{color:var(--c1-ink)}
+
+  .grand{margin-top:18px;background:var(--c1);color:#fff;border-radius:var(--r-md);padding:18px 20px}
+  .grand .gk{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c1-wash);
+    font-weight:800;margin-bottom:12px;display:block}
+  .grow3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .grow3 div{display:flex;flex-direction:column;gap:2px}
+  .grow3 .k{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--c1-wash);font-weight:800}
+  .grow3 .v{font-family:var(--serif);font-size:24px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums}
+  .grow3 .s{font-size:11.5px;color:var(--c1-wash);font-weight:700;font-variant-numeric:tabular-nums}
+
+  .audit{background:var(--card);border:1px solid var(--c1-tint-line);border-radius:var(--r-md);
+    padding:18px 20px;color:var(--soft);font-size:13px;line-height:1.55}
+  .audit h3{margin:0 0 9px;font-size:14.5px;font-weight:800;color:var(--ink)}
+  .audit ol{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:5px}
+  .audit li::marker{color:var(--c1);font-weight:800}
+  .checkline{margin-top:14px;padding-top:13px;border-top:1px solid var(--hair);
+    font-size:12.5px;font-weight:800;color:var(--c1-ink);font-variant-numeric:tabular-nums}
+  .ghost{appearance:none;-webkit-appearance:none;cursor:pointer;font-family:inherit;
+    background:#fff;border:1px solid var(--c1);color:var(--c1-ink);
+    border-radius:999px;padding:9px 17px;font-size:12.5px;font-weight:800;margin-top:14px;
+    transition:background .16s ease}
+  .ghost:hover{background:var(--c1-wash)}
+  .ghost:focus-visible{outline:2px solid var(--c1-ink);outline-offset:2px}
+
+  /* ═════════ footer “next” navigation ═════════ */
+  .nextnav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+  .nx{display:flex;flex-direction:column;gap:4px;text-decoration:none;
+    border-radius:var(--r-md);padding:17px 19px;border:1px solid var(--hair);background:var(--card);
+    transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
+  .nx .nxk{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+  .nx .nxt{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.2;color:var(--ink);
+    display:flex;align-items:center;gap:9px}
+  .nx .nxt::after{content:"";width:8px;height:8px;flex:none;
+    border-top:2.2px solid var(--c1);border-right:2.2px solid var(--c1);transform:rotate(45deg)}
+  .nx .nxs{font-size:12.5px;line-height:1.45;color:var(--soft)}
+  .nx:hover{border-color:var(--c1-tint-line);box-shadow:var(--sh-1);transform:translateY(-1px)}
+  .nx:focus-visible{outline:2px solid var(--c1-ink);outline-offset:3px}
+  .nx.lead{background:var(--c1);border-color:var(--c1)}
+  .nx.lead .nxk{color:var(--c1-wash)}
+  .nx.lead .nxt{color:#fff}
+  .nx.lead .nxt::after{border-color:#fff}
+  .nx.lead .nxs{color:var(--c1-wash)}
+  .nx.lead:hover{background:var(--c1-ink);border-color:var(--c1-ink)}
+
+  /* ═════════ A2 — external Google Form marker ═════════ */
+  .fs.ext{border-color:var(--c3-line);background:#FFFCF7}
+  .ftag{align-self:center;max-width:100%;
+    background:var(--c3-ink);color:#fff;border-radius:999px;padding:3px 10px;margin-top:5px;
+    font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;line-height:1.6;
+    text-align:center;text-wrap:balance}
+
+  /* ═════════ A4 — draft itinerary ═════════ */
+  .draft{display:flex;flex-direction:column;gap:13px}
+  .dstrip{display:flex;flex-wrap:wrap;gap:6px}
+  .dchip{background:#fff;border:1px solid var(--hair);border-radius:8px;padding:5px 10px;
+    font-size:11.5px;font-weight:800;color:var(--soft);font-variant-numeric:tabular-nums}
+  .dchip.on{background:var(--c1);border-color:var(--c1);color:#fff}
+  .dayc{background:#fff;border:1px solid var(--c1-tint-line);border-radius:12px;overflow:hidden}
+  .dayc-h{background:var(--c1-wash);color:var(--c1-ink);padding:9px 14px;
+    font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+  .slots{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .slot{padding:12px 14px;border-top:1px solid var(--hair);display:flex;flex-direction:column;gap:3px}
+  .slot:nth-child(odd){border-right:1px solid var(--hair)}
+  .slot .sk{font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--c1)}
+  .slot b{font-size:13px;font-weight:800;line-height:1.25}
+  .slot span{font-size:11.5px;color:var(--muted);line-height:1.42}
+  .daytip{border-top:1px dashed var(--c3-line);background:#FFFCF7;padding:10px 14px;
+    font-size:11.5px;color:#6B4520;line-height:1.45}
+  .daytip b{color:var(--c3-ink);font-weight:800}
+  .sumstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .sm{background:var(--c1-wash);border-radius:9px;padding:10px 11px;display:flex;flex-direction:column;gap:2px}
+  .sm b{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--c1-ink);line-height:1;
+    font-variant-numeric:tabular-nums}
+  .sm span{font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--c2-ink);line-height:1.3}
+  .absent{display:flex;flex-wrap:wrap;gap:7px}
+  .abx{display:inline-flex;align-items:center;gap:6px;border:1px dashed var(--c3-line);
+    border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:700;color:#6B4520;background:#FFFCF7}
+  .abx::before{content:"";width:9px;height:1.8px;background:var(--c3);border-radius:2px;flex:none}
+
+  /* ═════════ A5 — catalogue mock ═════════ */
+  .cat{background:#fff;border:1px solid var(--hair);border-radius:13px;overflow:hidden}
+  .catbar{padding:13px 14px;border-bottom:1px solid var(--hair);background:var(--panel);
+    display:flex;flex-direction:column;gap:10px}
+  .catbar-k{font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+  .catpills{display:flex;flex-wrap:wrap;gap:7px}
+  .cp{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 12px;
+    font-size:12px;font-weight:800;line-height:1.35;border:1px solid var(--c1-tint-line);
+    background:#fff;color:var(--soft)}
+  .cp em{font-style:normal;font-weight:700;color:var(--muted)}
+  .cp.on{background:var(--c1);border-color:var(--c1);color:#fff}
+  .cp.on em{color:var(--c1-wash)}
+  .cp.on::after{content:"×";font-size:14px;line-height:1;margin-left:1px}
+  .catres{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+    font-size:11.5px;font-weight:800;color:var(--c1-ink);font-variant-numeric:tabular-nums}
+  .catres s{text-decoration:none;color:var(--muted);font-weight:700}
+  .catgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair)}
+  .cc{background:#fff;padding:13px 13px 15px;display:flex;flex-direction:column;gap:5px}
+  .cc-img{height:46px;border-radius:8px;margin-bottom:4px;
+    background:linear-gradient(168deg,#DCEBF2 0%,#BFDCE9 55%,#A9CFE0 100%);position:relative;overflow:hidden}
+  .cc-img::after{content:"";position:absolute;left:-8%;right:-8%;bottom:-12px;height:26px;
+    border-radius:50% 50% 0 0;background:#EDF5F8}
+  .cc-d{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--c1)}
+  .cc-t{font-size:12.5px;font-weight:800;line-height:1.25;letter-spacing:-.005em}
+  .cc-m{font-size:11px;color:var(--muted);font-weight:700;line-height:1.4}
+  .cc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+  .cc-tags i{font-style:normal;background:var(--c1-wash);color:var(--c1-ink);border-radius:5px;
+    padding:2px 7px;font-size:9.5px;font-weight:800;letter-spacing:.03em}
+  .cc-p{margin-top:auto;padding-top:9px;font-size:12px;font-weight:800;color:var(--steel)}
+  .catfoot{border-top:1px solid var(--hair);background:var(--c1-wash);color:var(--c1-ink);
+    padding:11px 14px;font-size:11.5px;font-weight:700;line-height:1.45}
+  .catfoot b{font-weight:800}
+
+  /* ═════════ raw minutes under every duration (view 3) ═════════ */
+  .ltab td.n b{font-weight:700;display:block;white-space:nowrap}
+  .ltab td.n.e b{font-weight:800}
+  .ltab td.n i{font-style:normal;display:block;margin-top:1px;font-size:9.5px;font-weight:600;
+    color:var(--muted);letter-spacing:.02em}
+  .ltab tfoot td.n b{font-weight:800}
+
+  /* ═════════ narrow ═════════ */
+
+  /* ══ TECH STRIP ══ */
+  .techstrip{background:var(--card);border:1px solid var(--hair);border-top:0;
+    border-radius:0 0 var(--r-md) var(--r-md);box-shadow:var(--sh-1);overflow:hidden;
+    margin:-39px 14px 4px;padding-top:13px;position:relative;z-index:1}
+  .ts-vp{position:relative;overflow:hidden;padding:9px 0 13px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 64px,#000 calc(100% - 64px),transparent 100%);
+            mask-image:linear-gradient(90deg,transparent 0,#000 64px,#000 calc(100% - 64px),transparent 100%)}
+  .ts-rail{display:flex;width:max-content;animation:tsmove 46s linear infinite}
+  .techstrip:hover .ts-rail,.techstrip:focus-within .ts-rail{animation-play-state:paused}
+  @keyframes tsmove{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+  .ts-seq{display:flex;flex:none}
+  .ts-tile{display:flex;align-items:center;gap:10px;padding:0 24px;position:relative}
+  .ts-tile::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);
+    width:1px;height:26px;background:var(--hair)}
+  .tlogo{flex:none;background-repeat:no-repeat;background-position:center;background-size:contain;
+    display:block;border:0;padding:0}
+  .ts-nm{display:flex;align-items:center;white-space:nowrap}
+  .ts-nm b{font-family:var(--serif);font-size:15.5px;font-weight:700;color:var(--ink);line-height:1}
+  .tlogo-next{width:23px;height:23px}
+  .tlogo-react{width:27px;height:24px}
+  .tlogo-ts{width:23px;height:23px}
+  .tlogo-tw{width:37px;height:22px}
+  .tlogo-netlify{width:26px;height:23px}
+  .tlogo-resend{width:22px;height:22px}
+  .tlogo-forms{width:42px;height:20px}
+  .tlogo-sanity{width:70px;height:15px}
+  .ts-tile.word .ts-nm{display:none}
+  .tlogo-next{background-image:url("data:image/svg+xml,%3Csvg width=%22256px%22 height=%22256px%22 viewBox=%220 0 256 256%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cdefs%3E%3Ccircle id=%22path-1%22 cx=%22128%22 cy=%22128%22 r=%22128%22%3E%3C/circle%3E%3ClinearGradient x1=%2255.6325605%25%22 y1=%2256.3850422%25%22 x2=%2283.2279093%25%22 y2=%2296.0801119%25%22 id=%22nextjsLinearGradient-3%22%3E%3Cstop stop-color=%22%23FFFFFF%22 offset=%220%25%22%3E%3C/stop%3E%3Cstop stop-color=%22%23FFFFFF%22 stop-opacity=%220%22 offset=%22100%25%22%3E%3C/stop%3E%3C/linearGradient%3E%3ClinearGradient x1=%2250%25%22 y1=%220%25%22 x2=%2249.9534722%25%22 y2=%2273.4375%25%22 id=%22nextjsLinearGradient-4%22%3E%3Cstop stop-color=%22%23FFFFFF%22 offset=%220%25%22%3E%3C/stop%3E%3Cstop stop-color=%22%23FFFFFF%22 stop-opacity=%220%22 offset=%22100%25%22%3E%3C/stop%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%3E%3Cmask id=%22mask-2%22 fill=%22white%22%3E%3Cuse xlink:href=%22%23path-1%22%3E%3C/use%3E%3C/mask%3E%3Cg mask=%22url(%23mask-2)%22%3E%3Ccircle fill=%22%23000000%22 cx=%22128%22 cy=%22128%22 r=%22128%22%3E%3C/circle%3E%3Cpath d=%22M212.6336,224.028444 L98.3352889,76.8 L76.8,76.8 L76.8,179.157333 L94.0282311,179.157333 L94.0282311,98.6788978 L199.109689,234.446222 C203.851378,231.273244 208.368356,227.790222 212.6336,224.028444 Z%22 fill=%22url(%23nextjsLinearGradient-3)%22%3E%3C/path%3E%3Crect fill=%22url(%23nextjsLinearGradient-4)%22 x=%22163.555556%22 y=%2276.8%22 width=%2217.0666667%22 height=%22102.4%22%3E%3C/rect%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+  .tlogo-react{background-image:url("data:image/svg+xml,%3Csvg width=%22256px%22 height=%22228px%22 viewBox=%220 0 256 228%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cg%3E%3Cpath d=%22M210.483381,73.8236374 C207.827698,72.9095503 205.075867,72.0446761 202.24247,71.2267368 C202.708172,69.3261098 203.135596,67.4500894 203.515631,65.6059664 C209.753843,35.3248922 205.675082,10.9302478 191.747328,2.89849283 C178.392359,-4.80289661 156.551327,3.22703567 134.492936,22.4237776 C132.371761,24.2697233 130.244662,26.2241201 128.118477,28.2723861 C126.701777,26.917204 125.287358,25.6075897 123.876584,24.3549348 C100.758745,3.82852863 77.5866802,-4.82157937 63.6725966,3.23341515 C50.3303869,10.9571328 46.3792156,33.8904224 51.9945178,62.5880206 C52.5367729,65.3599011 53.1706189,68.1905639 53.8873982,71.068617 C50.6078941,71.9995641 47.4418534,72.9920277 44.4125156,74.0478303 C17.3093297,83.497195 0,98.3066828 0,113.667995 C0,129.533287 18.5815786,145.446423 46.8116526,155.095373 C49.0394553,155.856809 51.3511025,156.576778 53.7333796,157.260293 C52.9600965,160.37302 52.2875179,163.423318 51.7229345,166.398431 C46.3687351,194.597975 50.5500231,216.989464 63.8566899,224.664425 C77.6012619,232.590464 100.66852,224.443422 123.130185,204.809231 C124.905501,203.257196 126.687196,201.611293 128.472081,199.886102 C130.785552,202.113904 133.095375,204.222319 135.392897,206.199955 C157.14963,224.922338 178.637969,232.482469 191.932332,224.786092 C205.663234,216.837268 210.125675,192.78347 204.332202,163.5181 C203.88974,161.283006 203.374826,158.99961 202.796573,156.675661 C204.416503,156.196743 206.006814,155.702335 207.557482,155.188332 C236.905331,145.46465 256,129.745175 256,113.667995 C256,98.2510906 238.132466,83.3418093 210.483381,73.8236374 L210.483381,73.8236374 Z M204.118035,144.807565 C202.718197,145.270987 201.281904,145.718918 199.818271,146.153177 C196.578411,135.896354 192.205739,124.989735 186.854729,113.72131 C191.961041,102.721277 196.164656,91.9540963 199.313837,81.7638014 C201.93261,82.5215915 204.474374,83.3208483 206.923636,84.1643056 C230.613348,92.3195488 245.063763,104.377206 245.063763,113.667995 C245.063763,123.564379 229.457753,136.411268 204.118035,144.807565 L204.118035,144.807565 Z M193.603754,165.642007 C196.165567,178.582766 196.531475,190.282717 194.834536,199.429057 C193.309843,207.64764 190.243595,213.12715 186.452366,215.321689 C178.384612,219.991462 161.131788,213.921395 142.525146,197.909832 C140.392124,196.074366 138.243609,194.114502 136.088259,192.040261 C143.301619,184.151133 150.510878,174.979732 157.54698,164.793993 C169.922699,163.695814 181.614905,161.900447 192.218042,159.449363 C192.740247,161.555956 193.204126,163.621993 193.603754,165.642007 L193.603754,165.642007 Z M87.2761866,214.514686 C79.3938934,217.298414 73.1160375,217.378157 69.3211631,215.189998 C61.2461189,210.532528 57.8891498,192.554265 62.4682434,168.438039 C62.9927272,165.676183 63.6170041,162.839142 64.3365173,159.939216 C74.8234575,162.258154 86.4299951,163.926841 98.8353334,164.932519 C105.918826,174.899534 113.336329,184.06091 120.811247,192.08264 C119.178102,193.65928 117.551336,195.16028 115.933685,196.574699 C106.001303,205.256705 96.0479605,211.41654 87.2761866,214.514686 L87.2761866,214.514686 Z M50.3486141,144.746959 C37.8658105,140.48046 27.5570398,134.935332 20.4908634,128.884403 C14.1414664,123.446815 10.9357817,118.048415 10.9357817,113.667995 C10.9357817,104.34622 24.8334611,92.4562517 48.0123604,84.3748281 C50.8247961,83.3942121 53.7689223,82.4701001 56.8242337,81.6020363 C60.0276398,92.0224477 64.229889,102.917218 69.3011135,113.93411 C64.1642716,125.11459 59.9023288,136.182975 56.6674809,146.725506 C54.489347,146.099407 52.3791089,145.440499 50.3486141,144.746959 L50.3486141,144.746959 Z M62.7270678,60.4878073 C57.9160346,35.9004118 61.1112387,17.3525532 69.1516515,12.6982729 C77.7160924,7.74005624 96.6544653,14.8094222 116.614922,32.5329619 C117.890816,33.6657739 119.171723,34.8514442 120.456275,36.0781256 C113.018267,44.0647686 105.66866,53.1573386 98.6480514,63.0655695 C86.6081646,64.1815215 75.0831931,65.9741531 64.4868907,68.3746571 C63.8206914,65.6948233 63.2305903,63.0619242 62.7270678,60.4878073 L62.7270678,60.4878073 Z M173.153901,87.7550367 C170.620796,83.3796304 168.020249,79.1076627 165.369124,74.9523483 C173.537126,75.9849113 181.362914,77.3555864 188.712066,79.0329319 C186.505679,86.1041206 183.755673,93.4974728 180.518546,101.076741 C178.196419,96.6680702 175.740322,92.2229454 173.153901,87.7550367 L173.153901,87.7550367 Z M128.122121,43.8938899 C133.166461,49.3588189 138.218091,55.4603279 143.186789,62.0803968 C138.179814,61.8439007 133.110868,61.720868 128.000001,61.720868 C122.937434,61.720868 117.905854,61.8411667 112.929865,62.0735617 C117.903575,55.515009 122.99895,49.4217021 128.122121,43.8938899 L128.122121,43.8938899 Z M82.8018984,87.830679 C80.2715265,92.2183886 77.8609975,96.6393627 75.5753239,101.068539 C72.3906004,93.5156998 69.6661103,86.0886276 67.440586,78.9171899 C74.7446255,77.2826781 82.5335049,75.9461789 90.6495601,74.9332099 C87.9610684,79.1268011 85.3391054,83.4302106 82.8018984,87.8297677 L82.8018984,87.830679 L82.8018984,87.830679 Z M90.8833221,153.182899 C82.4979621,152.247395 74.5919739,150.979704 67.289757,149.390303 C69.5508242,142.09082 72.3354636,134.505173 75.5876271,126.789657 C77.8792246,131.215644 80.2993228,135.638441 82.8451877,140.03572 L82.8456433,140.03572 C85.4388987,144.515476 88.1255676,148.90364 90.8833221,153.182899 L90.8833221,153.182899 Z M128.424691,184.213105 C123.24137,178.620587 118.071264,172.434323 113.021912,165.780078 C117.923624,165.972373 122.921029,166.0708 128.000001,166.0708 C133.217953,166.0708 138.376211,165.953235 143.45336,165.727219 C138.468257,172.501308 133.434855,178.697141 128.424691,184.213105 L128.424691,184.213105 Z M180.622896,126.396409 C184.044571,134.195313 186.929004,141.741317 189.219234,148.9164 C181.796719,150.609693 173.782736,151.973534 165.339049,152.986959 C167.996555,148.775595 170.619884,144.430263 173.197646,139.960532 C175.805484,135.438399 178.28163,130.90943 180.622896,126.396409 L180.622896,126.396409 Z M163.724586,134.496971 C159.722835,141.435557 155.614455,148.059271 151.443648,154.311611 C143.847063,154.854776 135.998946,155.134562 128.000001,155.134562 C120.033408,155.134562 112.284171,154.887129 104.822013,154.402745 C100.48306,148.068386 96.285368,141.425078 92.3091341,134.556664 L92.3100455,134.556664 C88.3442923,127.706935 84.6943232,120.799333 81.3870228,113.930466 C84.6934118,107.045648 88.3338117,100.130301 92.276781,93.292874 L92.2758697,93.294241 C96.2293193,86.4385872 100.390102,79.8276317 104.688954,73.5329157 C112.302398,72.9573964 120.109505,72.6571055 127.999545,72.6571055 L128.000001,72.6571055 C135.925583,72.6571055 143.742714,72.9596746 151.353879,73.5402067 C155.587114,79.7888993 159.719645,86.3784378 163.688588,93.2350031 C167.702644,100.168578 171.389978,107.037901 174.724618,113.77508 C171.400003,120.627999 167.720871,127.566587 163.724586,134.496971 L163.724586,134.496971 Z M186.284677,12.3729198 C194.857321,17.3165548 198.191049,37.2542268 192.804953,63.3986692 C192.461372,65.0669011 192.074504,66.7661189 191.654369,68.4881206 C181.03346,66.0374921 169.500286,64.2138746 157.425315,63.0810626 C150.391035,53.0639249 143.101577,43.9572289 135.784778,36.073113 C137.751934,34.1806885 139.716356,32.3762092 141.672575,30.673346 C160.572216,14.2257007 178.236518,7.73185406 186.284677,12.3729198 L186.284677,12.3729198 Z M128.000001,90.8080696 C140.624975,90.8080696 150.859926,101.042565 150.859926,113.667995 C150.859926,126.292969 140.624975,136.527922 128.000001,136.527922 C115.375026,136.527922 105.140075,126.292969 105.140075,113.667995 C105.140075,101.042565 115.375026,90.8080696 128.000001,90.8080696 L128.000001,90.8080696 Z%22 fill=%22%2300D8FF%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E")}
+  .tlogo-ts{background-image:url("data:image/svg+xml,%3Csvg width=%22256px%22 height=%22256px%22 viewBox=%220 0 256 256%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cg%3E%3Cpath d=%22M20,0 L236,0 C247.045695,0 256,8.954305 256,20 L256,236 C256,247.045695 247.045695,256 236,256 L20,256 C8.954305,256 0,247.045695 0,236 L0,20 C0,8.954305 8.954305,0 20,0 Z%22 fill=%22%233178C6%22%3E%3C/path%3E%3Cpath d=%22M150.518,200.475 L150.518,228.095 C155.01,230.397 160.323,232.123 166.456,233.274 C172.589,234.425 179.053,235 185.849,235 C192.471,235 198.763,234.367 204.723,233.101 C210.683,231.835 215.91,229.749 220.401,226.844 C224.893,223.938 228.449,220.14 231.07,215.45 C233.69,210.761 235,204.964 235,198.059 C235,193.053 234.251,188.665 232.754,184.896 C231.257,181.127 229.097,177.775 226.275,174.841 C223.454,171.906 220.07,169.274 216.126,166.943 C212.181,164.613 207.732,162.412 202.779,160.341 C199.151,158.844 195.898,157.392 193.018,155.982 C190.139,154.572 187.691,153.134 185.676,151.666 C183.66,150.199 182.105,148.645 181.011,147.005 C179.917,145.365 179.37,143.51 179.37,141.438 C179.37,139.539 179.859,137.828 180.838,136.303 C181.817,134.778 183.2,133.469 184.985,132.376 C186.77,131.282 188.958,130.434 191.55,129.829 C194.141,129.225 197.021,128.923 200.188,128.923 C202.492,128.923 204.925,129.096 207.487,129.441 C210.05,129.786 212.627,130.318 215.219,131.038 C217.81,131.757 220.329,132.663 222.777,133.757 C225.224,134.85 227.485,136.116 229.558,137.554 L229.558,111.747 C225.354,110.136 220.761,108.942 215.78,108.165 C210.799,107.388 205.083,107 198.633,107 C192.068,107 185.849,107.705 179.975,109.115 C174.101,110.524 168.932,112.725 164.469,115.717 C160.006,118.71 156.479,122.522 153.887,127.154 C151.296,131.786 150,137.324 150,143.769 C150,151.997 152.375,159.017 157.127,164.829 C161.878,170.64 169.09,175.56 178.765,179.588 C182.566,181.142 186.108,182.666 189.39,184.163 C192.673,185.659 195.509,187.212 197.899,188.823 C200.289,190.434 202.175,192.189 203.557,194.088 C204.939,195.987 205.63,198.145 205.63,200.562 C205.63,202.345 205.198,204 204.334,205.525 C203.471,207.049 202.16,208.373 200.404,209.495 C198.648,210.617 196.459,211.494 193.839,212.127 C191.219,212.76 188.152,213.077 184.639,213.077 C178.65,213.077 172.719,212.027 166.845,209.926 C160.97,207.826 155.528,204.676 150.518,200.475 L150.518,200.475 Z M104.482,131.742 L140,131.742 L140,109 L41,109 L41,131.742 L76.3447,131.742 L76.3447,233 L104.482,233 L104.482,131.742 Z%22 fill=%22%23FFFFFF%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E")}
+  .tlogo-tw{background-image:url("data:image/svg+xml,%3Csvg width=%22256px%22 height=%22154px%22 viewBox=%220 0 256 154%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cdefs%3E%3ClinearGradient x1=%22-2.77777778%25%22 y1=%2232%25%22 x2=%22100%25%22 y2=%2267.5555556%25%22 id=%22linearGradient-1%22%3E%3Cstop stop-color=%22%232298BD%22 offset=%220%25%22%3E%3C/stop%3E%3Cstop stop-color=%22%230ED7B5%22 offset=%22100%25%22%3E%3C/stop%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%3E%3Cpath d=%22M128,-1.0658141e-14 C93.8666667,-1.0658141e-14 72.5333333,17.0666667 64,51.2 C76.8,34.1333333 91.7333333,27.7333333 108.8,32 C118.537481,34.4343704 125.497363,41.4985481 133.201067,49.3184 C145.750756,62.0567704 160.275437,76.8 192,76.8 C226.133333,76.8 247.466667,59.7333333 256,25.6 C243.2,42.6666667 228.266667,49.0666667 211.2,44.8 C201.462519,42.3656296 194.502637,35.3014519 186.798933,27.4816 C174.249244,14.7432296 159.724563,-1.0658141e-14 128,-1.0658141e-14 Z M64,76.8 C29.8666667,76.8 8.53333333,93.8666667 0,128 C12.8,110.933333 27.7333333,104.533333 44.8,108.8 C54.5374815,111.23437 61.497363,118.298548 69.2010667,126.1184 C81.7507556,138.85677 96.275437,153.6 128,153.6 C162.133333,153.6 183.466667,136.533333 192,102.4 C179.2,119.466667 164.266667,125.866667 147.2,121.6 C137.462519,119.16563 130.502637,112.101452 122.798933,104.2816 C110.249244,91.5432296 95.724563,76.8 64,76.8 Z%22 fill=%22url(%23linearGradient-1)%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E")}
+  .tlogo-sanity{background-image:url("data:image/svg+xml,%3Csvg width=%22512px%22 height=%22104px%22 viewBox=%220 0 512 104%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cg%3E%3Cpolygon fill=%22%23F37368%22 points=%22381.461756 36.9858357 381.461756 101.81983 360.575637 101.81983 360.575637 26.8328612%22%3E%3C/polygon%3E%3Cpath d=%22M85.8651558,89.7813031 L101.529745,103.415297 L167.524079,69.0402266 L160.707082,52.6504249 L85.8651558,89.7813031 Z M360.575637,48.0090652 L413.66119,20.4509915 L404.668555,4.93144476 L360.575637,26.8328612 L360.575637,48.0090652 Z%22 fill=%22%23F7A199%22%3E%3C/path%3E%3Cpath d=%22M211.18187,31.9093484 L211.18187,101.81983 L191.166006,101.81983 L191.166006,2.17563739 L211.18187,31.9093484 Z M85.8651558,89.7813031 L101.529745,103.415297 L131.698584,27.9932011 L121.980737,2.17563739 L85.8651558,89.7813031 Z%22 fill=%22%23F37368%22%3E%3C/path%3E%3Cpath d=%22M121.980737,2.17563739 L142.576771,2.17563739 L180.722946,101.81983 L159.546742,101.81983 L121.980737,2.17563739 Z M214.227762,2.17563739 L258.175637,70.2005666 L258.175637,101.81983 L191.166006,2.17563739 L214.227762,2.17563739 Z M295.886686,2.17563739 L316.627762,2.17563739 L316.627762,101.81983 L295.886686,101.81983 L295.886686,2.17563739 Z M360.575637,20.4509915 L328.666289,20.4509915 L328.666289,2.17563739 L403.073088,2.17563739 L413.66119,20.4509915 L381.461756,20.4509915 L360.575637,20.4509915 Z%22 fill=%22%23F04939%22%3E%3C/path%3E%3Cpolyline fill=%22%23F7A199%22 points=%22475.014164 63.9637394 475.014164 101.81983 454.41813 101.81983 454.41813 63.9637394%22%3E%3C/polyline%3E%3Cpolygon fill=%22%23F04939%22 points=%22489.228329 2.17563739 454.41813 63.9637394 475.014164 63.9637394 511.129745 2.17563739%22%3E%3C/polygon%3E%3Cpolygon fill=%22%23F37368%22 points=%22454.41813 63.9637394 418.447592 2.17563739 441.074221 2.17563739 465.296317 44.5280453%22%3E%3C/polygon%3E%3Cpath d=%22M8.55750708,13.7790368 C8.55750708,27.5580737 17.1150142,35.8254958 34.2300283,40.1767705 L52.3603399,44.3830028 C68.6050992,48.1541076 78.4679887,57.4368272 78.4679887,72.5212465 C78.6130312,79.0481586 76.4373938,85.4300283 72.5212465,90.6515581 C72.5212465,75.5671388 64.6889518,67.4447592 45.9784703,62.5133144 L28.1382436,58.4521246 C13.7790368,55.2611898 2.75580737,47.5739377 2.75580737,31.184136 C2.75580737,24.9473088 4.78640227,18.7104816 8.55750708,13.7790368%22 fill=%22%23F04939%22%3E%3C/path%3E%3Cpolygon fill=%22%23F37368%22 points=%22258.175637 65.1240793 258.175637 2.17563739 278.191501 2.17563739 278.191501 101.81983 258.175637 101.81983%22%3E%3C/polygon%3E%3Cpath d=%22M61.3529745,68.7501416 C69.0402266,73.6815864 72.5212465,80.6436261 72.5212465,90.6515581 C65.9943343,98.9189802 54.8260623,103.415297 41.6271955,103.415297 C19.4356941,103.415297 3.62606232,92.392068 0.290084986,73.3915014 L21.6113314,73.3915014 C24.3671388,82.094051 31.6192635,86.1552408 41.482153,86.1552408 C53.2305949,86.3002833 61.207932,79.9184136 61.3529745,68.7501416 M8.55750708,13.6339943 C14.7943343,5.51161473 25.5274788,0.580169972 38.5813031,0.580169972 C61.3529745,0.580169972 74.4067989,12.6186969 77.7427762,29.4436261 L57.1467422,29.4436261 C54.8260623,22.7716714 49.1694051,17.5501416 38.8713881,17.5501416 C27.7031161,17.6951841 20.1609065,24.0770538 19.725779,34.2300283 C12.2517705,30.1081799 8.2674221,22.0464589 8.55750708,13.6339943 Z%22 fill=%22%23F37368%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E")}
+  .tlogo-netlify{background-image:url("data:image/svg+xml,%3Csvg width=%22256px%22 height=%22226px%22 viewBox=%220 0 256 226%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cg%3E%3Cpolygon fill=%22%2305BDBA%22 points=%2269.1805953 188.087106 66.7635841 188.087106 54.6985267 176.022048 54.6985267 173.605237 73.1428857 155.161078 85.9210874 155.161078 87.6247543 156.864745 87.6247543 169.642947%22%3E%3C/polygon%3E%3Cpolygon fill=%22%2305BDBA%22 points=%2254.6985267 51.6279666 54.6985267 49.2109554 66.7635841 37.145898 69.1805953 37.145898 87.6247543 55.590057 87.6247543 68.3682587 85.9210874 70.0721256 73.1428857 70.0721256%22%3E%3C/polygon%3E%3Cpath d=%22M160.906229,149.197744 L143.3536,149.197744 L141.887515,147.731858 L141.887515,106.643468 C141.887515,99.3332396 139.014939,93.6670823 130.199028,93.4690977 C125.662183,93.350107 120.471588,93.4690977 114.924622,93.6868807 L114.092487,94.5388142 L114.092487,147.71206 L112.626401,149.177945 L95.0737724,149.177945 L93.6076869,147.71206 L93.6076869,77.5211437 L95.0737724,76.0550582 L134.577286,76.0550582 C149.930887,76.0550582 162.372315,88.4964862 162.372315,103.850087 L162.372315,147.731858 L160.906229,149.197744 Z%22 fill=%22%23014847%22%3E%3C/path%3E%3Cpolygon fill=%22%2305BDBA%22 points=%2271.6768002 122.888599 1.46602547 122.888599 0 121.422514 0 103.830288 1.46602547 102.364203 71.6768002 102.364203 73.1428857 103.830288 73.1428857 121.422514%22%3E%3C/polygon%3E%3Cpolygon fill=%22%2305BDBA%22 points=%22254.534115 122.888599 184.323 122.888599 182.856914 121.422514 182.856914 103.830288 184.323 102.364203 254.534115 102.364203 256 103.830288 256 121.422514%22%3E%3C/polygon%3E%3Cpolygon fill=%22%2305BDBA%22 points=%22117.876391 54.1241715 117.876391 1.46602547 119.342476 0 136.934702 0 138.400787 1.46602547 138.400787 54.1241715 136.934702 55.590057 119.342476 55.590057%22%3E%3C/polygon%3E%3Cpolygon fill=%22%2305BDBA%22 points=%22117.876391 223.786517 117.876391 171.128831 119.342476 169.662745 136.934702 169.662745 138.400787 171.128831 138.400787 223.786517 136.934702 225.252402 119.342476 225.252402%22%3E%3C/polygon%3E%3C/g%3E%3C/svg%3E")}
+  .tlogo-forms{background-image:url("data:image/svg+xml,%3Csvg width=%22256px%22 height=%22125px%22 viewBox=%220 0 256 125%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cg%3E%3Cpath d=%22M184.31481,67.7044587 C197.78381,59.9684587 211.21681,52.1694587 224.73181,44.5134587 C237.55981,37.2454587 252.65281,43.9484587 255.56081,58.0924587 C257.24381,66.2744587 253.59081,75.1134587 246.20381,79.4184587 C221.98581,93.5314587 197.73281,107.588459 173.35881,121.430459 C165.81481,125.714459 158.04381,124.926459 151.16881,119.676459 C144.18481,114.346459 141.98381,106.994459 143.62181,98.4374587 C145.49181,91.9234587 149.77181,87.5684587 155.60881,84.3104587 C165.25981,78.9244587 174.75381,73.2544587 184.31481,67.7044587%22 fill=%22%23FABC05%22%3E%3C/path%3E%3Cpath d=%22M194.20341,62.0789587 C180.76841,54.2829587 167.29941,46.5479587 153.91141,38.6729587 C141.20241,31.1969587 139.46241,14.7749587 150.25641,5.18295871 C156.50041,-0.364041286 165.98141,-1.62104129 173.40341,2.62395871 C197.73541,16.5409587 222.03541,30.5169587 246.20941,44.7039587 C253.69141,49.0949587 256.89341,56.2199587 255.78641,64.7989587 C254.66141,73.5109587 249.39541,79.0929587 241.16641,81.9539587 C234.58941,83.5919587 228.67841,82.0619587 222.93841,78.6359587 C213.44741,72.9709587 203.79041,67.5829587 194.20341,62.0789587%22 fill=%22%23109D58%22%3E%3C/path%3E%3Cpath d=%22M71.7518102,56.5628587 C63.1308102,61.4608587 54.5048102,66.3498587 45.8928102,71.2628587 C40.8548102,74.1368587 35.8728102,77.1088587 30.8088102,79.9348587 C20.6058102,85.6298587 8.48381017,82.2918587 2.69881017,72.2608587 C-2.82218983,62.6888587 0.35081017,50.2788587 10.1768102,44.5428587 C34.2018102,30.5198587 58.2888102,16.5988587 82.4628102,2.83385871 C89.8768102,-1.38814129 97.5688102,-0.857141286 104.42481,4.18985871 C111.66081,9.51685871 114.02981,17.0128587 112.40481,25.8008587 C111.39681,27.9268587 110.79481,30.4198587 109.28581,32.0948587 C106.83081,34.8198587 104.04081,37.4288587 100.93481,39.3448587 C91.3228102,45.2718587 81.4958102,50.8498587 71.7518102,56.5628587%22 fill=%22%23E94436%22%3E%3C/path%3E%3Cpath d=%22M61.8670102,62.0569587 C70.4200102,67.0729587 78.9670102,72.0999587 87.5280102,77.1019587 C92.5350102,80.0279587 97.6000102,82.8569587 102.57901,85.8279587 C112.61301,91.8179587 115.78401,103.983959 109.98901,114.008959 C104.45901,123.576959 92.1260102,127.034959 82.2450102,121.391959 C58.0880102,107.596959 33.9890102,93.6989587 9.98101017,79.6459587 C2.61801017,75.3359587 -0.76798983,68.4089587 0.17501017,59.9479587 C1.17001017,51.0169587 6.47701017,45.2179587 14.9000102,42.2309587 C17.2450102,42.0419587 19.7050102,41.3159587 21.9110102,41.7859587 C25.4980102,42.5499587 29.1530102,43.6609587 32.3650102,45.3929587 C42.3040102,50.7529587 52.0480102,56.4749587 61.8670102,62.0569587%22 fill=%22%234385F3%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E")}
+  .tlogo-resend{background-image:url("data:image/svg+xml,%3Csvg width=%22256px%22 height=%22256px%22 viewBox=%220 0 256 256%22 version=%221.1%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 preserveAspectRatio=%22xMidYMid%22%3E%3Cg%3E%3Cpath d=%22M156.575013,0 C206.156903,0 235.645205,29.4882415 235.645205,68.6321242 C235.645205,107.775758 206.156903,137.264248 156.575013,137.264248 L131.522862,137.264248 L256,256 L168.057508,256 L73.3292552,165.969704 C66.5447381,159.706673 63.4127527,152.400011 63.4127527,146.13698 C63.4127527,137.264248 69.6761015,129.43577 81.679765,126.043036 L130.479281,112.995158 C149.006878,108.036977 161.794159,93.6842489 161.794159,74.8951554 C161.794159,51.9307906 143.004735,38.6216317 119.779782,38.6216317 L0,38.6216317 L0,0 L156.575013,0 Z%22 fill=%22%23000000%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E")}
+
+  /* ══ HERO — project statement ══ */
+  .hblurb{display:flex;align-items:flex-start;gap:26px}
+  .hblurb>div{flex:1 1 auto;min-width:0}
+  .hlogo{order:2;flex:none;width:clamp(96px,15vw,164px);height:auto;margin:-4px -9px 0 0;
+    align-self:center;filter:drop-shadow(0 6px 16px rgba(16,48,60,.10))}
+  .hkicker{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--c1);margin:0 0 9px}
+  .hstate{font-family:var(--serif);font-size:clamp(25px,4.4vw,36px);line-height:1.17;
+    font-weight:600;letter-spacing:-.012em;color:var(--ink);margin:0 0 11px;max-width:27ch}
+  .hsub{font-size:14px;line-height:1.55;color:var(--soft);margin:0;max-width:58ch}
+  .hsub b{color:var(--ink)}
+  .tl{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+  .tlc{display:flex;align-items:baseline;gap:6px;background:var(--c1-wash);
+    border:1px solid var(--c1-tint-line);border-radius:999px;padding:6px 13px}
+  .tlc b{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--c1-ink);
+    line-height:1;font-variant-numeric:tabular-nums}
+  .tlc span{font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--c2-ink)}
+  .tlc.warm{background:var(--c3-wash);border-color:var(--c3-line)}
+  .tlc.warm b{color:var(--c3-ink)} .tlc.warm span{color:var(--c3-ink)}
+  .askline{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:18px 0 0;
+    padding:13px 15px;background:var(--panel);border:1px solid var(--hair);border-radius:var(--r-md)}
+  .askline .q{font-size:13px;line-height:1.5;color:var(--soft);flex:1 1 230px}
+  .askline .q b{color:var(--ink)}
+  .askline a{flex:none;display:inline-flex;align-items:center;gap:7px;background:var(--c1);
+    color:#fff;text-decoration:none;font-size:12px;font-weight:800;letter-spacing:.02em;
+    border-radius:999px;padding:9px 16px}
+  .askline a::after{content:"→"}
+  .askline a:hover{background:var(--c1-ink)}
+
+  /* ══ WHAT WE BUILD ══ */
+  .build{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .bq{background:var(--card);border:1px solid var(--hair);border-radius:var(--r-md);padding:15px 16px}
+  .bq .bn{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;
+    border-radius:7px;background:var(--c1-wash);color:var(--c1-ink);font-family:var(--serif);
+    font-size:13px;font-weight:700;margin:0 0 9px}
+  .bq h3{font-family:var(--serif);font-size:16.5px;font-weight:700;line-height:1.24;
+    color:var(--ink);margin:0 0 6px}
+  .bq p{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0}
+  .bq p b{color:var(--soft)}
+  @media(max-width:620px){.build{grid-template-columns:1fr}}
+
+  @media(prefers-reduced-motion:reduce){
+    .ts-rail{animation:none;width:100%;flex-wrap:wrap;justify-content:center}
+    .ts-seq:nth-child(2){display:none}
+    .ts-seq{flex:0 1 auto;max-width:500px;flex-wrap:wrap;justify-content:center;
+      row-gap:16px;column-gap:26px}
+    .ts-tile::after{display:none}
+    .ts-tile{padding:0}
+    .ts-vp{-webkit-mask-image:none;mask-image:none;padding:13px 14px 15px}
+  }
+
+  @media(max-width:660px){
+    .hblurb{flex-direction:column;gap:14px;align-items:flex-start}
+    .hlogo{order:0;width:104px;align-self:flex-start;margin:0}
+    .brand{display:none}
+    .hero-top{justify-content:flex-start}
+    .techstrip{margin:-33px 8px 4px;padding-top:11px}
+    .ts-tile{padding:0 18px;gap:9px}
+  }
+
+  @media(max-width:760px){
+    .pkgs{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:620px){
+    .catgrid{grid-template-columns:1fr}
+  }
+  @media(max-width:660px){
+    .nextnav{grid-template-columns:1fr}
+    .sumstrip{grid-template-columns:1fr 1fr}
+    .panel{padding:26px 20px;border-radius:var(--r-md)}
+    .hero{border-radius:var(--r-md)}
+    .hero-in{padding:22px 20px 44px;gap:24px}
+    .phead h2{font-size:23px}
+    .ratio{grid-template-columns:1fr;gap:8px}
+    .arrow{width:14px;height:46px;margin-block:4px}
+    .arrow::before{left:50%;top:0;width:2.5px;height:100%;transform:translateX(-50%)}
+    .arrow::after{left:50%;right:auto;top:auto;bottom:2px;transform:translateX(-50%) rotate(135deg)}
+    .wrap{gap:14px}
+    .view{gap:20px}
+    .ask,.step{padding:18px}
+    .cmp-row{grid-template-columns:1fr;gap:6px}
+    .sbar{height:54px}
+    .seg-l{display:none}
+    .sbar-under{display:flex}
+    .lg{gap:10px;grid-template-columns:12px 1fr auto 3em}
+    .prog-top .bign{font-size:25px}
+    .tline .v{font-size:23px}
+    .dateline{font-size:11.5px;letter-spacing:.04em}
+    .dhead h2{font-size:21px}
+    .dgrid,.gb,.opts{grid-template-columns:1fr}
+    .ex{padding:16px}
+    .flow{grid-template-columns:1fr;gap:8px}
+    .fch{justify-self:center;transform:rotate(90deg)}
+    .fs{flex-direction:row;text-align:left;gap:12px;align-items:center;padding:12px 14px}
+    .fs .ftag{align-self:flex-start;text-align:left}
+    .tot3,.grow3{grid-template-columns:1fr 1fr}
+    .t3.mid{grid-column:1/-1;order:-1}
+    .deep{scroll-margin-top:70px}
+  }
+  @media(max-width:560px){
+    .ltab thead{display:none}
+    .ltab,.ltab tbody,.ltab tfoot,.ltab tr,.ltab td{display:block}
+    .ltab tr{display:grid;grid-template-columns:repeat(3,1fr);gap:3px 9px;
+      padding:9px 0;border-bottom:1px solid #EFE8DA}
+    .ltab td{border:0;padding:0}
+    .ltab td.c{grid-column:1/2}
+    .ltab td.t{grid-column:2/4}
+    .ltab tr.phr{padding:0;border-bottom:0;margin-top:6px}
+    .ltab tr.phr td{grid-column:1/-1;display:block}
+    .ltab td.n{text-align:left;width:auto;margin-top:2px}
+    .ltab td.n::before{content:attr(data-l) " ";font-size:9.5px;letter-spacing:.06em;
+      text-transform:uppercase;color:var(--muted);font-weight:800;margin-right:3px}
+    .ltab tfoot tr{border-bottom:0;border-top:2px solid var(--c1-tint);padding-top:9px;margin-top:2px}
+    .ltab tfoot td.t{grid-column:1/-1;color:var(--ink);font-weight:800}
+    .chd{display:none}
+    .crow{grid-template-columns:1fr 4.6rem;gap:3px 10px;padding:11px 0}
+    .crow > span{padding:0}
+    .crow .cl{grid-column:1;grid-row:1;font-weight:800}
+    .crow .vr{grid-column:2;grid-row:1;text-align:right}
+    .crow .cn{grid-column:1/-1;grid-row:2;font-size:12px}
+  }
+  @media(max-width:430px){
+    .pkgs{grid-template-columns:1fr}
+    .slots{grid-template-columns:1fr}
+    .slot:nth-child(odd){border-right:0}
+  }
+  @media(max-width:410px){
+    body{padding-inline:16px}
+    .metrics{grid-template-columns:1fr;gap:3px 0}
+    .mk{margin-top:7px}
+    .sbar-under b{font-size:13px}
+    .sbar-under i{font-size:9px;letter-spacing:.02em}
+    .nb{font-size:11.5px;padding:9px 6px}
+    .nb .nbn{margin-right:4px}
+    .tot3,.grow3{grid-template-columns:1fr}
+    .msr{grid-template-columns:1fr 5.4rem;gap:6px 10px}
+    .mail-b{grid-template-columns:1fr;gap:2px}
+    .mail-k{margin-top:7px}
+  }
+  @media print{
+    .nav{display:none}
+    .wrap.js .view:not(.on){display:flex!important}
+    #dust,#waves{display:none}
+    .nextnav{display:none}
+    .panel,.hero{box-shadow:none;border:1px solid var(--hair)}
+    .ghost{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+    .js-anim .rv{opacity:1!important;transform:none!important}
+    .js-anim .rv .grow{width:var(--w)!important}
+  }
+</style>
+
+<svg id="waves" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <g class="w1" fill="none" stroke="#0B6FA6" stroke-opacity=".13" stroke-width="1.5" stroke-linecap="round">
+    <path d="M-1120,150 q140,-56 280,0 q140,56 280,0 q140,-56 280,0 q140,56 280,0 q140,-56 280,0 q140,56 280,0 q140,-56 280,0 q140,56 280,0 q140,-56 280,0 q140,56 280,0 q140,-56 280,0"/>
+    <path d="M-1120,232 q140,50 280,0 q140,-50 280,0 q140,50 280,0 q140,-50 280,0 q140,50 280,0 q140,-50 280,0 q140,50 280,0 q140,-50 280,0 q140,50 280,0 q140,-50 280,0 q140,50 280,0"/>
+  </g>
+  <g class="w2" fill="none" stroke="#2BA6D6" stroke-opacity=".12" stroke-width="1.5" stroke-linecap="round">
+    <path d="M-1120,430 q140,62 280,0 q140,-62 280,0 q140,62 280,0 q140,-62 280,0 q140,62 280,0 q140,-62 280,0 q140,62 280,0 q140,-62 280,0 q140,62 280,0 q140,-62 280,0 q140,62 280,0"/>
+    <path d="M-1120,505 q140,-54 280,0 q140,54 280,0 q140,-54 280,0 q140,54 280,0 q140,-54 280,0 q140,54 280,0 q140,-54 280,0 q140,54 280,0 q140,-54 280,0 q140,54 280,0 q140,-54 280,0"/>
+  </g>
+  <g class="w3" fill="none" stroke="#0B6FA6" stroke-opacity=".10" stroke-width="1.5" stroke-linecap="round">
+    <path d="M-1120,700 q140,-66 280,0 q140,66 280,0 q140,-66 280,0 q140,66 280,0 q140,-66 280,0 q140,66 280,0 q140,-66 280,0 q140,66 280,0 q140,-66 280,0 q140,66 280,0 q140,-66 280,0"/>
+    <path d="M-1120,790 q140,58 280,0 q140,-58 280,0 q140,58 280,0 q140,-58 280,0 q140,58 280,0 q140,-58 280,0 q140,58 280,0 q140,-58 280,0 q140,58 280,0 q140,-58 280,0 q140,58 280,0"/>
+  </g>
+</svg>
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<div class="wrap" id="wrap" lang="el">
+
+  <!-- ══════════ STICKY NAV ══════════ -->
+  <nav class="nav" aria-label="Ενότητες φακέλου">
+    <div class="nav-in" role="tablist">
+      <button class="nb" type="button" role="tab" id="t1" aria-controls="v1" aria-selected="true"><span class="nbn">1</span>Σύνοψη</button>
+      <button class="nb nb--wide" type="button" role="tab" id="t2" aria-controls="v2" aria-selected="false" tabindex="-1"><span class="nbn">2</span>Τι χρειαζόμαστε</button>
+      <button class="nb" type="button" role="tab" id="t3" aria-controls="v3" aria-selected="false" tabindex="-1"><span class="nbn">3</span>Τεχνικά</button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       VIEW 1 — ΣΥΝΟΨΗ
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="view on" id="v1" role="tabpanel" aria-labelledby="t1" tabindex="0">
+
+  <!-- ══════════ HERO ══════════ -->
+  <div class="hero">
+    <svg class="hero-art" viewBox="0 0 800 150" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="none" stroke="#0B6FA6" stroke-opacity=".15" stroke-width="1.6" stroke-linecap="round">
+        <path d="M-10,58 C90,32 160,86 260,62 C360,38 430,90 530,66 C630,42 712,94 812,70"/>
+        <path d="M-10,90 C100,64 165,118 265,94 C365,70 435,122 535,98 C635,74 722,126 812,102"/>
+        <path d="M-10,122 C95,98 170,144 270,120 C370,96 440,148 540,124 C640,100 717,150 812,126"/>
+      </g>
+    </svg>
+
+    <div class="hero-in">
+      <div class="hero-top">
+        <div class="brand">Greek&nbsp;Essence</div>
+        <div class="dateline"><span class="d"></span>Φάκελος έργου · 22.09.2026</div>
+      </div>
+
+      <div class="hblurb">
+        <img class="hlogo" src="data:image/png;base64,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" alt="Greek Essence" width="360" height="337">
+        <div>
+        <p class="hkicker">Τι φτιάχνουμε</p>
+        <h1 class="hstate">Ένας ιστότοπος που πουλάει ταξίδια στην Ελλάδα — και τον ενημερώνετε μόνος σας.</h1>
+        <p class="hsub">Έτοιμα πακέτα και προσωποποιημένα αιτήματα, σε έναν <b>κατάλογο με φίλτρα</b>. Τους προορισμούς, τα πακέτα, τα κείμενα και τις φωτογραφίες τα αλλάζετε εσείς, <b>χωρίς να μας ρωτήσετε</b>. Κάθε αίτημα πελάτη καταλήγει στο email σας.</p>
+        </div>
+      </div>
+
+
+      <div class="ratio">
+        <div class="cell yours rv" style="--d:.05s">
+          <span class="cap">εσείς δίνετε</span>
+          <span class="big num">9</span>
+          <span class="unit">ώρες</span>
+          <span class="who">ο χρόνος του Γιώργου</span>
+        </div>
+        <span class="arrow rv" style="--d:.22s" aria-hidden="true"></span>
+        <div class="cell ours rv" style="--d:.34s">
+          <span class="cap">εμείς χτίζουμε</span>
+          <span class="big num">141</span>
+          <span class="unit">ώρες</span>
+          <span class="who">ο χρόνος της ομάδας</span>
+        </div>
+      </div>
+
+      <div class="tl rv" style="--d:.46s">
+        <span class="tlc"><b>~8,5</b><span>εβδομάδες συνολικά</span></span>
+        <span class="tlc"><b>~1</b><span>ώρα δική σας ανά εβδομάδα</span></span>
+        <span class="tlc warm"><b>60′</b><span>από αυτές, μέσα στην 1η εβδομάδα</span></span>
+      </div>
+
+      <p class="thesis rv" style="--d:.56s">Δύο ξεχωριστά ρολόγια: οι <b>9 ώρες</b> είναι δικές σας, οι <b>141</b> δικές μας. <b>Καμία δεν περιέχει την άλλη</b> — οι 9 σας βάζουν σε κίνηση τις 141.</p>
+
+      <div class="askline rv" style="--d:.64s">
+        <span class="q">Χρειαζόμαστε <b>έντεκα πράγματα</b> από εσάς. Τα τέσσερα πρώτα παίρνουν περίπου <b>60 λεπτά</b> και ξεκλειδώνουν τη δουλειά.</span>
+        <a href="#v2" data-go="v2">Τι χρειαζόμαστε</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ TECH STRIP ══════════ -->
+  <div class="techstrip">
+    <div class="ts-vp">
+      <div class="ts-rail" aria-label="Next.js, React, TypeScript, Tailwind, Sanity, Netlify, Google Forms, Resend">
+      <div class="ts-seq">
+        <div class="ts-tile"><i class="tlogo tlogo-next" role="img" aria-label="Next.js"></i><span class="ts-nm"><b>Next.js</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-react" role="img" aria-label="React"></i><span class="ts-nm"><b>React</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-ts" role="img" aria-label="TypeScript"></i><span class="ts-nm"><b>TypeScript</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-tw" role="img" aria-label="Tailwind"></i><span class="ts-nm"><b>Tailwind</b></span></div>
+        <div class="ts-tile word"><i class="tlogo tlogo-sanity" role="img" aria-label="Sanity"></i><span class="ts-nm"><b>Sanity</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-netlify" role="img" aria-label="Netlify"></i><span class="ts-nm"><b>Netlify</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-forms" role="img" aria-label="Google Forms"></i><span class="ts-nm"><b>Google Forms</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-resend" role="img" aria-label="Resend"></i><span class="ts-nm"><b>Resend</b></span></div>
+      </div>
+      <div class="ts-seq">
+        <div class="ts-tile"><i class="tlogo tlogo-next" role="img" aria-label="Next.js"></i><span class="ts-nm"><b>Next.js</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-react" role="img" aria-label="React"></i><span class="ts-nm"><b>React</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-ts" role="img" aria-label="TypeScript"></i><span class="ts-nm"><b>TypeScript</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-tw" role="img" aria-label="Tailwind"></i><span class="ts-nm"><b>Tailwind</b></span></div>
+        <div class="ts-tile word"><i class="tlogo tlogo-sanity" role="img" aria-label="Sanity"></i><span class="ts-nm"><b>Sanity</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-netlify" role="img" aria-label="Netlify"></i><span class="ts-nm"><b>Netlify</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-forms" role="img" aria-label="Google Forms"></i><span class="ts-nm"><b>Google Forms</b></span></div>
+        <div class="ts-tile"><i class="tlogo tlogo-resend" role="img" aria-label="Resend"></i><span class="ts-nm"><b>Resend</b></span></div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ WHAT WE BUILD ══════════ -->
+  <div class="panel">
+    <div class="phead">
+      <span class="eyebrow">Η ουσία σε τέσσερα</span>
+      <h2>Τι κάνει ο ιστότοπος</h2>
+    </div>
+    <div class="build">
+      <div class="bq">
+        <span class="bn">1</span>
+        <h3>Κατάλογος με φίλτρα</h3>
+        <p>Ο επισκέπτης φιλτράρει σε <b>προορισμό, μέγεθος παρέας και τύπο ταξιδιού</b>. Ποια φίλτρα υπάρχουν το ορίζετε εσείς στο Sanity.</p>
+      </div>
+      <div class="bq">
+        <span class="bn">2</span>
+        <h3>Δύο τρόποι να αγοράσει</h3>
+        <p>Ένα <b>έτοιμο πακέτο</b> από τον κατάλογο, ή ένα <b>προσωποποιημένο αίτημα</b> με δικές του ημερομηνίες και παρέα.</p>
+      </div>
+      <div class="bq">
+        <span class="bn">3</span>
+        <h3>Τα αλλάζετε μόνος σας</h3>
+        <p>Βρίσκετε μια προσφορά, φτιάχνετε πακέτο για Μύκονο, 4–6 άτομα, από Χ έως Ψ. <b>Χωρίς προγραμματιστή.</b></p>
+      </div>
+      <div class="bq">
+        <span class="bn">4</span>
+        <h3>Κάθε αίτημα φτάνει</h3>
+        <p>Ο πελάτης συμπληρώνει τη φόρμα. Έρχεται <b>email σε εσάς</b> και <b>αυτόματη επιβεβαίωση σε εκείνον</b>.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════ WHERE THE 141 GO ══════════ -->
+  <div class="panel">
+    <div class="phead">
+      <span class="eyebrow">Οι 141 ώρες της ομάδας</span>
+      <h2>Πού πάει ο χρόνος μας</h2>
+      <p>Και οι τρεις μοίρες είναι <b>δικές μας ώρες</b>. Οι 9 ώρες του Γιώργου είναι ξεχωριστές και δεν μετριούνται εδώ.</p>
+    </div>
+
+    <div class="sbar" role="img" aria-label="Κατασκευή 93 ώρες, Σκέψη και αποφάσεις 16 ώρες, Εξαρτώνται από εσάς 32 ώρες, σύνολο 141 ώρες">
+      <i style="flex:93;background:var(--c1)"><span class="seg-l"><b>93</b><i>ώρες</i></span></i>
+      <i style="flex:16;background:var(--c2)"><span class="seg-l onc2"><b>16</b><i>ώρες</i></span></i>
+      <i style="flex:32;background:var(--c3-solid)"><span class="seg-l"><b>32</b><i>ώρες</i></span></i>
+    </div>
+    <div class="sbar-under" aria-hidden="true">
+      <span style="flex:93;color:var(--c1-ink)"><b>93</b><i>ώρες</i></span>
+      <span style="flex:16;color:var(--c2-ink)"><b>16</b><i>ώρες</i></span>
+      <span style="flex:32;color:var(--c3-ink)"><b>32</b><i>ώρες</i></span>
+    </div>
+
+    <div class="legend">
+      <div class="lg">
+        <span class="dot" style="background:var(--c1)"></span>
+        <span><span class="nm">Κατασκευή</span><span class="sub">Σελίδες, κώδικας, δοκιμές</span></span>
+        <span class="h num">93<span class="hu">ώρες</span></span><span class="p">66%</span>
+      </div>
+      <div class="lg">
+        <span class="dot" style="background:var(--c2)"></span>
+        <span><span class="nm">Σκέψη &amp; αποφάσεις</span><span class="sub">Σχεδιασμός, έλεγχος, επιλογές</span></span>
+        <span class="h num">16<span class="hu">ώρες</span></span><span class="p">11%</span>
+      </div>
+      <div class="lg">
+        <span class="dot" style="background:var(--c3-solid)"></span>
+        <span><span class="nm" style="color:var(--c3-ink)">Εξαρτώνται από εσάς</span><span class="sub">Δικές μας ώρες σε εργασίες που χρειάζονται απάντηση ή έγκρισή σας</span></span>
+        <span class="h num" style="color:var(--c3-ink)">32<span class="hu">ώρες</span></span><span class="p">23%</span>
+      </div>
+    </div>
+
+    <p class="nonadd"><span><b>Η εκτίμηση ανέβηκε από 133 σε 141,5 ώρες</b> — για έναν λόγο: τον κατάλογο με φίλτρα που ζητήσατε (A5). Πέντε εργασίες, <b>+8,25 ώρες</b>. Τι κόψαμε για να μη μεγαλώσει άλλο, αναλυτικά στα <b>Τεχνικά</b>.</span></p>
+  </div>
+
+  <!-- ══════════ AI COMPARISON ══════════ -->
+  <div class="panel">
+    <div class="phead">
+      <span class="eyebrow">Γιατί 141 και όχι 281</span>
+      <h2>Με AI εργαλεία, ή χωρίς</h2>
+    </div>
+
+    <div class="cmp">
+      <div class="cmp-row">
+        <span class="cmp-k on">με AI</span>
+        <div class="cmp-track"><div class="cmp-fill" style="width:50%;background:var(--c1)"><span class="in"><span class="v num">141</span><span class="u">ώρες</span></span></div></div>
+      </div>
+      <div class="cmp-row">
+        <span class="cmp-k">χωρίς AI</span>
+        <div class="cmp-track"><div class="cmp-fill" style="width:100%;background:var(--steel)"><span class="in"><span class="v num">281</span><span class="u">ώρες</span></span></div></div>
+      </div>
+    </div>
+
+    <div class="saved"><span class="v num">140 ώρες</span><span class="k">λιγότερες — ώρες που δεν σας χρεώνονται</span></div>
+
+    <p class="recon">Πώς βγαίνουν οι 281: συμπιέζεται μόνο η <b>κατασκευή</b>. 93 ώρες κατασκευής × <b>2,5</b> ≈ 233 · οι 16 ώρες σκέψης και οι 32 που εξαρτώνται από εσάς δεν συμπιέζονται · 233 + 16 + 32 ≈ <b>281 ώρες</b>. Ο πολλαπλασιαστής 2,5 είναι <b>δική μας εκτίμηση από προηγούμενα έργα, όχι μετρημένο μέγεθος</b> — το μόνο νούμερο του φακέλου που δεν προκύπτει από τον πίνακα εργασιών.</p>
+  </div>
+
+  <!-- ══════════ PROGRESS ══════════ -->
+  <div class="panel">
+    <div class="phead">
+      <span class="eyebrow">Πού βρισκόμαστε σήμερα</span>
+      <h2>Πρόοδος εργασιών</h2>
+    </div>
+
+    <div class="prog-top">
+      <span class="bign num"><em>5</em> από 74 εργασίες</span>
+      <span class="rest">7% ολοκληρωμένο</span>
+    </div>
+    <div class="ptrack" role="img" aria-label="5 από 74 εργασίες ολοκληρωμένες, 7 τοις εκατό. Οι 74 είναι 67 εργασίες με εκτίμηση συν 7 χωρίς εκτίμηση.">
+      <i style="width:6.8%"></i>
+    </div>
+    <div class="pfoot">
+      <span>5 ολοκληρωμένες</span>
+      <span>69 απομένουν</span>
+    </div>
+
+    <p class="recon"><b>74 = 67 εργασίες με εκτίμηση χρόνου + 7 χωρίς.</b> Οι 7 είναι το ορόσημο <b>M7</b> (ευθυγράμμιση με εσάς) και δεν μετρούν στις 141,5 ώρες. Ομοίως <b>8 ορόσημα = 7 με εκτίμηση (M0–M6) + το M7</b>. Όλες οι 67 αναλυτικά στην ενότητα <b>Τεχνικά</b>.</p>
+  </div>
+
+  <!-- ══════════ STATS ══════════ -->
+  <div class="stats">
+    <div class="fx"><span class="eyebrow">αποφάσεις</span><b class="num">51</b><span class="fxs">καταγεγραμμένες</span></div>
+    <div class="fx"><span class="eyebrow">αιτήματα</span><b class="num">11</b><span class="fxs">τα 4 πρώτα άμεσα</span></div>
+    <div class="fx"><span class="eyebrow">ορόσημα</span><b class="num">8</b><span class="fxs">7 με εκτίμηση + M7</span></div>
+    <div class="fx"><span class="eyebrow">ώρες ομάδας</span><b class="num">141</b><span class="fxs">από 67 εργασίες</span></div>
+  </div>
+
+  <nav class="nextnav" aria-label="Συνέχεια σε άλλη ενότητα">
+    <a class="nx lead" href="#v2" data-go="v2"><span class="nxk">επόμενο βήμα</span><span class="nxt">Τι χρειαζόμαστε</span><span class="nxs">Τα έντεκα αιτήματα αναλυτικά, με ένα συγκεκριμένο παράδειγμα στο καθένα — ώστε να ξέρετε ακριβώς τι να στείλετε.</span></a>
+    <a class="nx" href="#v3" data-go="v3"><span class="nxk">ή, αν θέλετε να ελέγξετε</span><span class="nxt">Τεχνικά</span><span class="nxs">Οι 67 εργασίες μία προς μία, με ελάχιστο, αναμενόμενο και μέγιστο χρόνο. Τα αθροίσματα ελέγχονται.</span></a>
+  </nav>
+
+  <p class="sig">Greek Essence · Φάκελος έργου · 22.09.2026</p>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       VIEW 2 — ΤΙ ΧΡΕΙΑΖΟΜΑΣΤΕ
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="view" id="v2" role="tabpanel" aria-labelledby="t2" tabindex="0">
+
+    <div class="panel">
+      <div class="phead">
+        <span class="eyebrow">Ενότητα 2 — αναλυτικά</span>
+        <h2>Τα έντεκα αιτήματα, με παραδείγματα</h2>
+        <p>Για καθένα: <b>τι είναι</b>, <b>γιατί μετράει</b> και ένα <b>συγκεκριμένο παράδειγμα</b> για να δείτε ακριβώς τι σας ζητάμε. Δεν χρειάζεται να τα διαβάσετε όλα μαζί — τα τέσσερα πρώτα αρκούν για να ξεκινήσουμε.</p>
+        <p>Σε κάθε αίτημα, ο <b>«χρόνος σας»</b> είναι δικός σας χρόνος (9 ώρες συνολικά για τα έντεκα). Το <b>«ξεκλειδώνει»</b> είναι δικές μας ώρες που δεν μπορούν να ξεκινήσουν χωρίς αυτή την απάντηση — <b>οι αριθμοί αυτοί επικαλύπτονται και δεν αθροίζονται</b>.</p>
+      </div>
+      <nav class="jump" aria-label="Μετάβαση σε αίτημα">
+        <a class="jchip" href="#a1"><b>A1</b>Διεύθυνση site</a>
+        <a class="jchip" href="#a2"><b>A2</b>Λογαριασμός Google</a>
+        <a class="jchip" href="#a3"><b>A3</b>Πού φτάνουν τα αιτήματα</a>
+        <a class="jchip" href="#a4"><b>A4</b>Τι είναι ένα πακέτο</a>
+        <a class="jchip" href="#a5"><b>A5</b>Κατάλογος με φίλτρα</a>
+        <a class="jchip" href="#a6"><b>A6</b>Τιμές</a>
+        <a class="jchip" href="#a7"><b>A7</b>Φωτογραφίες</a>
+        <a class="jchip" href="#a8"><b>A8</b>Κείμενα</a>
+        <a class="jchip" href="#a9"><b>A9</b>Ισχυρισμοί</a>
+        <a class="jchip" href="#a10"><b>A10</b>Απόρρητο</a>
+        <a class="jchip" href="#a11"><b>A11</b>Χρόνος απάντησης</a>
+      </nav>
+    </div>
+
+    <!-- ───── A1 ───── -->
+    <article class="panel deep" id="a1">
+      <div class="dhead"><span class="code">A1</span><h2>Η διεύθυνση του site (domain &amp; DNS)</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>10 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">9 ώρες</b></span><span>Δυσκολία: απλό</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Το όνομα του site — π.χ. <b>greek-essence.gr</b> — και η άδεια να προσθέσουμε τρεις μικρές τεχνικές εγγραφές σε αυτό. Αυτές οι εγγραφές λένε στα Gmail, Outlook και στα υπόλοιπα ότι επιτρέπετε στο site να στέλνει email με το όνομά σας.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Κάθε πελάτης που συμπληρώνει φόρμα παίρνει ένα email επιβεβαίωσης. Χωρίς αυτές τις εγγραφές, το email φεύγει από διεύθυνση που δεν σας ανήκει και <b>καταλήγει στα ανεπιθύμητα</b>. Ο πελάτης νομίζει ότι δεν τον ακούσατε.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — τι βλέπει ο πελάτης</span>
+        <div class="gb">
+          <div class="gbx ok">
+            <span class="gbt">Φτάνει στα εισερχόμενα</span>
+            <span class="addr">info@greek-essence.gr</span>
+            <p>Ίδιο όνομα με το site. Ο πελάτης το αναγνωρίζει αμέσως και το ανοίγει.</p>
+          </div>
+          <div class="gbx no">
+            <span class="gbt">Καταλήγει στα ανεπιθύμητα</span>
+            <span class="addr">greekessence-site@gmail.com</span>
+            <p>Γενική διεύθυνση, άγνωστη στον πελάτη. Τα φίλτρα τη βαθμολογούν χαμηλά και συχνά τη στέλνουν στον φάκελο spam.</p>
+          </div>
+        </div>
+        <p class="exfoot">Τι χρειαζόμαστε από εσάς: <b>πρόσβαση στον πάροχο του domain</b> (εκεί που το αγοράσατε) ή απλώς να μας πείτε ποιος είναι — τις εγγραφές τις γράφουμε εμείς.</p>
+      </div>
+    </article>
+
+    <!-- ───── A2 ───── -->
+    <article class="panel deep" id="a2">
+      <div class="dhead"><span class="code">A2</span><h2>Λογαριασμός Google</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>15 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">16 ώρες</b></span><span>Δυσκολία: απλό</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Ένας λογαριασμός Google της επιχείρησης, στον οποίο μας δίνετε πρόσβαση. Οι τρεις φόρμες του site είναι <b>Google Forms</b> — φιλοξενούνται από την Google, <b>όχι πάνω στο greek-essence</b> — και τα αιτήματα γράφονται σε <b>Google Sheet</b> δικό σας. <b>Ο λογαριασμός παραμένει δικός σας</b> — εμείς είμαστε απλώς συνεργάτες μέσα σε αυτόν.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Είναι ο κορμός όλου του συστήματος αιτημάτων. Χωρίς αυτόν δεν φτιάχνονται οι Google Forms, δεν υπάρχει πού να γραφτούν τα αιτήματα και δεν στέλνεται κανένα email. Αυτή είναι και η σκόπιμη επιλογή: <b>καμία βάση δεδομένων, κανένας server δικός μας</b> — γι’ αυτό ο επισκέπτης φεύγει προς τη φόρμα της Google. <b>Αυτή τη στιγμή ένας προγραμματιστής περιμένει.</b></p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — η διαδρομή ενός αιτήματος</span>
+        <div class="flow">
+          <div class="fs ext">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C65C14" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 9h8M8 13h8M8 17h4"/></svg>
+            <span class="ftx"><b>1. Google Form</b><span>Ο επισκέπτης πατάει το κουμπί στο site και <b>φεύγει από το site</b>: η φόρμα ανοίγει στη Google, με τα στοιχεία του πακέτου ήδη συμπληρωμένα</span><span class="ftag">φιλοξενείται από τη Google</span></span>
+          </div>
+          <span class="fch" aria-hidden="true"></span>
+          <div class="fs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0B6FA6" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M9 9.5V20M15 9.5V20"/></svg>
+            <span class="ftx"><b>2. Google Sheet</b><span>Η Google γράφει την απάντηση σε μια νέα γραμμή του φύλλου σας</span></span>
+          </div>
+          <span class="fch" aria-hidden="true"></span>
+          <div class="fs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0B6FA6" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+            <span class="ftx"><b>3. Email</b><span>Ο πελάτης παίρνει επιβεβαίωση και επιστρέφει στη σελίδα «Ευχαριστούμε» του site· εσείς παίρνετε ειδοποίηση</span></span>
+          </div>
+        </div>
+        <span class="flownote">Το βήμα 1 γίνεται εκτός greek-essence, σε σελίδα της Google</span>
+        <p class="exfoot">Δεν υπάρχει βάση δεδομένων και δεν υπάρχει μηνιαία συνδρομή σε αυτό το κομμάτι: <b>τα αιτήματά σας μένουν σε ένα Google Sheet που ανοίγετε μόνος σας</b>, όπως ένα Excel.</p>
+      </div>
+    </article>
+
+    <!-- ───── A3 ───── -->
+    <article class="panel deep" id="a3">
+      <div class="dhead"><span class="code">A3</span><h2>Πού φτάνουν τα αιτήματα</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>5 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">3 ώρες</b></span><span>Δυσκολία: απλό</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Μία διεύθυνση email της επιχείρησης όπου θα φτάνει η ειδοποίηση «νέο αίτημα». Μπορεί να είναι η δική σας ή ένα κοινό γραμματοκιβώτιο που βλέπει όλη η ομάδα.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Είναι η διαφορά ανάμεσα στο να δείτε το αίτημα σε δέκα λεπτά και στο να το δείτε την επόμενη μέρα. <b>Αλλάζει σε ένα λεπτό αργότερα</b>, οπότε μην το σκέφτεστε πολύ.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — η ειδοποίηση που θα λαμβάνετε</span>
+        <div class="mail">
+          <div class="mail-h">Νέο αίτημα</div>
+          <div class="mail-b">
+            <span class="mail-k">Προς</span><span class="mail-v">giorgos@greek-essence.gr</span>
+            <span class="mail-k">Θέμα</span><span class="mail-v sub">Νέο αίτημα — Σαντορίνη, 4 άτομα, Ιούλιος</span>
+            <span class="mail-k">Όνομα</span><span class="mail-v">Anna Weber</span>
+            <span class="mail-k">Email</span><span class="mail-v">a.weber@example.de</span>
+            <span class="mail-k">Ημερομηνίες</span><span class="mail-v">12–19 Ιουλίου 2027 (ευέλικτες)</span>
+          </div>
+        </div>
+        <p class="exfoot">Το ίδιο αίτημα καταγράφεται και ως γραμμή στο Google Sheet — αυτή είναι η διαδρομή του A2. Το email είναι η ειδοποίηση· το φύλλο είναι η καταγραφή.</p>
+      </div>
+    </article>
+
+    <!-- ───── A4 ───── -->
+    <article class="panel deep" id="a4">
+      <div class="dhead"><span class="code">A4</span><h2>Τι είναι ένα «πακέτο»</h2><span class="tag must">Η σημαντικότερη απόφαση</span></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>30 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">12 ώρες</b></span><span>Δυσκολία: απαιτητικό</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Πρέπει να αποφασίσετε <b>τι ακριβώς αγοράζει</b> ο πελάτης όταν βλέπει ένα «πακέτο» στο site σας. Σταθερό πρόγραμμα με τιμή; Σκελετό που τον προσαρμόζετε; Έμπνευση χωρίς τιμή; Μονοήμερη δραστηριότητα;</p>
+          <p><b>Έχετε ήδη ένα σχέδιο</b> — το δείγμα «Αθήνα &amp; Πάρος, 7 ημέρες». Μας δίνει τη <b>δομή</b>. Δεν μας δίνει ακόμη τον <b>ορισμό του τι πουλάτε</b>.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Η απόφαση καθορίζει τι πεδία έχει κάθε σελίδα, τι γράφει το κουμπί, τι ρωτάει η φόρμα και <b>τι υπόσχεστε νομικά</b>. Αν αλλάξει αργότερα, ξαναγράφονται οι σελίδες. Το δείγμα δείχνει <b>πώς μοιάζει</b> ένα πρόγραμμα· εμείς χρειαζόμαστε να ξέρουμε <b>τι από αυτό είναι το προϊόν</b>.</p></div>
+      </div>
+
+      <div class="ex warm">
+        <span class="exk">Το δικό σας σχέδιο — «Αθήνα &amp; Πάρος», 7 ημέρες</span>
+        <div class="draft">
+          <div class="sumstrip">
+            <span class="sm"><b>7</b><span>ημέρες</span></span>
+            <span class="sm"><b>2</b><span>νύχτες Αθήνα</span></span>
+            <span class="sm"><b>4</b><span>νύχτες Πάρος</span></span>
+            <span class="sm"><b>4–5ω</b><span>ένα πλοίο</span></span>
+          </div>
+          <div class="dstrip" role="list" aria-label="Οι επτά ημέρες του δείγματος">
+            <span class="dchip on" role="listitem">Ημέρα 01</span>
+            <span class="dchip" role="listitem">02</span>
+            <span class="dchip" role="listitem">03</span>
+            <span class="dchip" role="listitem">04</span>
+            <span class="dchip" role="listitem">05</span>
+            <span class="dchip" role="listitem">06</span>
+            <span class="dchip" role="listitem">07</span>
+          </div>
+          <div class="dayc">
+            <div class="dayc-h">Ημέρα 01 · η δομή που επαναλαμβάνεται και στις 7</div>
+            <div class="slots">
+              <div class="slot"><span class="sk">Πρωί</span><b>Άφιξη</b><span>Τίτλος και δύο γραμμές περιγραφή</span></div>
+              <div class="slot"><span class="sk">Μεσημέρι</span><b>Πλάκα</b><span>Τίτλος και δύο γραμμές περιγραφή</span></div>
+              <div class="slot"><span class="sk">Απόγευμα</span><b>Ακρόπολη</b><span>Τίτλος και δύο γραμμές περιγραφή</span></div>
+              <div class="slot"><span class="sk">Βράδυ</span><b>Δείπνο</b><span>Τίτλος και δύο γραμμές περιγραφή</span></div>
+            </div>
+            <p class="daytip" style="margin:0"><b>Πρακτική συμβουλή της ημέρας:</b> μία ανά ημέρα, όπως στο δικό σας αρχείο.</p>
+          </div>
+          <div class="absent">
+            <span class="abx">Καμία τιμή</span>
+            <span class="abx">Κανένα ξενοδοχείο με όνομα</span>
+            <span class="abx">Καμία λίστα «τι περιλαμβάνει»</span>
+          </div>
+        </div>
+        <p class="exfoot">Αυτό που λείπει από το δείγμα είναι ακριβώς αυτό που σας ζητάμε: <b>τιμή ή μη, τι περιλαμβάνεται, τι δεσμεύεστε ότι παραδίδετε</b>. Από τις τέσσερις κάρτες παρακάτω, το δείγμα μοιάζει με την <b>Γ</b> — επιμελημένο πολυήμερο πρόγραμμα <b>χωρίς σταθερή τιμή</b>.</p>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — η ίδια κάρτα πακέτου, με τέσσερις τρόπους</span>
+        <div class="pkgs">
+
+          <div class="pk rv" style="--d:.04s">
+            <div class="pk-img"><span class="pk-let">Α</span></div>
+            <div class="pk-b">
+              <span class="pk-m">Σαντορίνη · 7 ημέρες</span>
+              <span class="pk-t">Καλντέρα &amp; Αμπελώνες</span>
+              <span class="pk-p">2.400 € <em>ανά άτομο</em></span>
+              <span class="pk-cta">Κράτηση</span>
+              <p class="pk-note"><b>Σταθερή τιμή.</b> Ο πελάτης ξέρει ακριβώς τι πληρώνει. Δεσμεύεστε στην τιμή και στο πρόγραμμα.</p>
+            </div>
+          </div>
+
+          <div class="pk rv" style="--d:.12s">
+            <div class="pk-img"><span class="pk-let">Β</span></div>
+            <div class="pk-b">
+              <span class="pk-m">Σαντορίνη · 7 ημέρες</span>
+              <span class="pk-t">Καλντέρα &amp; Αμπελώνες</span>
+              <span class="pk-p">από 1.900 € <em>ανά άτομο</em></span>
+              <span class="pk-cta">Ζητήστε προσφορά</span>
+              <p class="pk-note"><b>Τιμή «από».</b> Δίνει μέτρο σύγκρισης χωρίς να κλειδώνει. Χρειάζεται να λέτε τι περιλαμβάνει η βασική τιμή.</p>
+            </div>
+          </div>
+
+          <div class="pk rv" style="--d:.2s">
+            <div class="pk-img"><span class="pk-let">Γ</span></div>
+            <div class="pk-b">
+              <span class="pk-m">Σαντορίνη · 7 ημέρες</span>
+              <span class="pk-t">Καλντέρα &amp; Αμπελώνες</span>
+              <span class="pk-p none">Κατόπιν προσφοράς</span>
+              <span class="pk-cta">Ζητήστε προσφορά</span>
+              <p class="pk-note"><b>Χωρίς τιμή.</b> Μηδενική νομική έκθεση, μέγιστη ευελιξία. Κάποιοι επισκέπτες φεύγουν χωρίς να ρωτήσουν. <b>Εδώ μοιάζει το δικό σας δείγμα.</b></p>
+            </div>
+          </div>
+
+          <div class="pk rv" style="--d:.28s">
+            <div class="pk-img"><span class="pk-let">Δ</span></div>
+            <div class="pk-b">
+              <span class="pk-m">Σαντορίνη · 6 ώρες</span>
+              <span class="pk-t">Ηλιοβασίλεμα στην Οία</span>
+              <span class="pk-p">95 € <em>ανά άτομο</em></span>
+              <span class="pk-cta">Κράτηση</span>
+              <p class="pk-note"><b>Μονοήμερη δραστηριότητα.</b> Όχι ταξίδι — μία εμπειρία. Απλή τιμή, άμεση κράτηση, μικρό ρίσκο.</p>
+            </div>
+          </div>
+
+        </div>
+        <p class="exfoot">Δεν χρειάζεται να διαλέξετε μία για πάντα: <b>μπορείτε να έχετε Α και Δ μαζί</b>. Αυτό που χρειαζόμαστε είναι να ξέρουμε ποιες από τις τέσσερις υπάρχουν, ώστε να χτίσουμε τις σελίδες να τις αντέχουν όλες. <b>Το αίτημα παραμένει ανοιχτό</b>: το δείγμα λύνει τη δομή, όχι τον ορισμό του προϊόντος.</p>
+      </div>
+    </article>
+
+    <!-- ───── A5 ───── -->
+    <article class="panel deep" id="a5">
+      <div class="dhead"><span class="code">A5</span><h2>Κατάλογος προορισμών &amp; πακέτων, με φίλτρα</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>1 ώρα</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">19 ώρες</b></span><span>Δυσκολία: μέτριο</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Δεν υπάρχουν σταθερά, μόνιμα πακέτα. <b>Εσείς φτιάχνετε και αλλάζετε μόνος σας</b> προορισμούς και πακέτα μέσα στο Sanity, όποτε προκύπτει ευκαιρία: «βρήκα μια καλή τιμή — φτιάχνω πακέτο Μύκονος, για 4–6 άτομα, γι’ αυτές τις ημερομηνίες». Το site τα δείχνει όλα σε έναν <b>κατάλογο με φίλτρα</b>.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Όταν τα πακέτα αλλάζουν συνέχεια, ο επισκέπτης χρειάζεται τρόπο να βρει <b>το δικό του</b>. Τα φίλτρα είναι τρία: <b>προορισμός</b>, <b>μέγεθος γκρουπ</b>, <b>τύπος</b>. Η λίστα των επιλογών δεν είναι καρφωμένη στον κώδικα — <b>τη ρυθμίζετε κι αυτήν μέσα στο Sanity</b>.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — ο κατάλογος με ένα φίλτρο ενεργό</span>
+        <div class="cat">
+          <div class="catbar">
+            <span class="catbar-k">Φίλτρα — οι επιλογές τους ορίζονται στο Sanity</span>
+            <div class="catpills">
+              <span class="cp on">Μύκονος</span>
+              <span class="cp"><em>Μέγεθος γκρουπ:</em> όλα</span>
+              <span class="cp"><em>Τύπος:</em> όλοι</span>
+            </div>
+            <span class="catres">3 πακέτα <s>από 9 συνολικά</s></span>
+          </div>
+          <div class="catgrid">
+            <div class="cc">
+              <span class="cc-img" aria-hidden="true"></span>
+              <span class="cc-d">Μύκονος</span>
+              <span class="cc-t">Νότιες παραλίες</span>
+              <span class="cc-m">4–6 άτομα · 15–22 Ιουνίου</span>
+              <span class="cc-tags"><i>Παρέα</i><i>Θάλασσα</i></span>
+              <span class="cc-p">Κατόπιν προσφοράς</span>
+            </div>
+            <div class="cc">
+              <span class="cc-img" aria-hidden="true"></span>
+              <span class="cc-d">Μύκονος</span>
+              <span class="cc-t">Χώρα &amp; Δήλος</span>
+              <span class="cc-m">2 άτομα · Σεπτέμβριος</span>
+              <span class="cc-tags"><i>Ζευγάρι</i><i>Πολιτισμός</i></span>
+              <span class="cc-p">Κατόπιν προσφοράς</span>
+            </div>
+            <div class="cc">
+              <span class="cc-img" aria-hidden="true"></span>
+              <span class="cc-d">Μύκονος</span>
+              <span class="cc-t">Τρεις μέρες, χωρίς βιασύνη</span>
+              <span class="cc-m">2–4 άτομα · τέλη Μαΐου</span>
+              <span class="cc-tags"><i>Σύντομο</i></span>
+              <span class="cc-p">Κατόπιν προσφοράς</span>
+            </div>
+          </div>
+          <p class="catfoot" style="margin:0">Με το φίλτρο «Μύκονος» ενεργό, το πλέγμα έδειξε <b>3 από τα 9</b>. Χωρίς φίλτρο, φαίνονται και τα 9. Οι <b>ημερομηνίες είναι απλό κείμενο</b> που γράφετε εσείς — το site δεν τις ελέγχει και δεν τις συγκρίνει με τίποτα.</p>
+        </div>
+
+        <div class="gb" style="margin-top:14px">
+          <div class="gbx ok">
+            <span class="gbt">Τι χτίζεται</span>
+            <p><b>Τρία φίλτρα:</b> προορισμός, μέγεθος γκρουπ, τύπος.<br><b>Ρυθμιζόμενα από εσάς</b> στο Sanity — προσθέτετε ή αφαιρείτε επιλογές χωρίς εμάς.<br><b>Ημερομηνίες ως κείμενο</b>, π.χ. «15–22 Ιουνίου», σαν περιεχόμενο της κάρτας.</p>
+          </div>
+          <div class="gbx no">
+            <span class="gbt">Τι σκόπιμα δεν χτίζεται</span>
+            <p><b>Φίλτρο τιμής.</b> Θα απαιτούσε δημοσιευμένες τιμές σε κάθε πακέτο — που ο κανόνας του <b>A6</b> δεν επιτρέπει χωρίς πλήρη τεκμηρίωση.<br><b>Λογική ημερομηνιών.</b> Χωρίς ημερολόγιο, χωρίς διαθεσιμότητα, χωρίς αυτόματη λήξη, χωρίς φίλτρο ημερομηνίας.</p>
+          </div>
+        </div>
+
+        <p class="exfoot">Τι χρειαζόμαστε από εσάς τώρα: <b>ποιοι προορισμοί ξεκινούν</b> και <b>ποιες επιλογές θέλετε μέσα σε κάθε φίλτρο</b> (π.χ. τύποι: ζευγάρι, παρέα, οικογένεια, πολιτισμός, θάλασσα). Τα ίδια τα πακέτα τα γράφετε εσείς στο Sanity — και τα αλλάζετε όποτε θέλετε, χωρίς να μας ρωτήσετε.</p>
+      </div>
+    </article>
+
+    <!-- ───── A6 ───── -->
+    <article class="panel deep" id="a6">
+      <div class="dhead"><span class="code">A6</span><h2>Τιμές ή προσφορά</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>20 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">2 ώρες</b></span><span>Δυσκολία: μέτριο</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Αν αποφασίσετε να δείχνετε τιμές, κάθε τιμή χρειάζεται τέσσερα πράγματα: <b>νόμισμα</b>, <b>μονάδα</b> (ανά άτομο ή συνολικά), <b>τι περιλαμβάνει</b> και <b>ημερομηνία ελέγχου</b>.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Μια τιμή σε σελίδα ταξιδιού διαβάζεται ως δέσμευση. Ένας «2.400 €» χωρίς εξηγήσεις είναι <b>υπόσχεση που δεν ξέρετε αν μπορείτε να τηρήσετε</b> τον επόμενο χρόνο. Με τα τέσσερα στοιχεία, είναι σαφής πληροφορία.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — η ίδια τιμή, σωστά και λάθος</span>
+        <div class="gb">
+          <div class="gbx ok">
+            <span class="gbt">Σωστό</span>
+            <span class="price">από 2.400 €<small>/ άτομο</small></span>
+            <ul class="plist">
+              <li><s style="border-radius:50%;background:var(--c1)"></s><span><b>Περιλαμβάνει:</b> 6 διανυκτερεύσεις, μεταφορές, 2 ξεναγήσεις</span></li>
+              <li><s style="border-radius:50%;background:var(--c1-tint)"></s><span><b>Δεν περιλαμβάνει:</b> αεροπορικά εισιτήρια, γεύματα</span></li>
+              <li><s style="border-radius:50%;background:var(--c1-tint)"></s><span>Τιμή σε ισχύ · <b>έλεγχος 09/2026</b></span></li>
+            </ul>
+            <p>Ο πελάτης ξέρει τι συγκρίνει. Εσείς ξέρετε πότε να την ξανακοιτάξετε.</p>
+          </div>
+          <div class="gbx no">
+            <span class="gbt">Ανεπαρκές</span>
+            <span class="price">2.400 €</span>
+            <p class="pnil">Κανένα άλλο στοιχείο στη σελίδα.</p>
+            <p>Ανά άτομο ή για δύο; Με ή χωρίς αεροπορικά; Ισχύει ακόμη; Κάθε απάντηση που λείπει γίνεται τηλέφωνο, παρεξήγηση — ή παράπονο.</p>
+          </div>
+        </div>
+        <p class="exfoot">Θεμιτή επιλογή είναι και το <b>να μη δείξετε καμία τιμή</b> (επιλογή Γ στο A4). Αυτό που δεν γίνεται είναι τιμή χωρίς συμφραζόμενα.</p>
+      </div>
+    </article>
+
+    <!-- ───── A7 ───── -->
+    <article class="panel deep" id="a7">
+      <div class="dhead"><span class="code">A7</span><h2>Έγκριση φωτογραφιών</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>30 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">3 ώρες</b></span><span>Δυσκολία: απλό</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Διαλέγουμε περίπου <b>30 φωτογραφίες</b> με ελεύθερη άδεια χρήσης και σας τις στέλνουμε σε μία σελίδα. Εσείς λέτε «ναι» ή «όχι αυτή» — δεν χρειάζεται να εξηγήσετε γιατί.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Οι φωτογραφίες ορίζουν την εντύπωση πριν διαβαστεί λέξη. Κρατάμε <b>αρχείο άδειας για κάθε εικόνα</b> (πηγή, δημιουργός, άδεια), ώστε η προέλευση κάθε φωτογραφίας να είναι ανά πάσα στιγμή τεκμηριωμένη.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — γιατί το ζητάμε νωρίς</span>
+        <div class="cmp">
+          <div class="cmp-row">
+            <span class="cmp-k on">τώρα</span>
+            <div class="cmp-track"><div class="cmp-fill" style="width:9%;background:var(--c1)"><span class="in"><span class="v num">10</span><span class="u">λεπτά</span></span></div></div>
+          </div>
+          <div class="cmp-row">
+            <span class="cmp-k">αφού χτιστούν οι σελίδες</span>
+            <div class="cmp-track"><div class="cmp-fill" style="width:100%;background:var(--steel)"><span class="in"><span class="v num">3</span><span class="u">ώρες</span></span></div></div>
+          </div>
+        </div>
+        <p class="exfoot">Μια αλλαγή φωτογραφίας τώρα είναι ένα κλικ. Αργότερα σημαίνει νέες περικοπές, νέα μεγέθη και έλεγχο ταχύτητας σε κάθε σελίδα όπου εμφανίζεται. Οι δύο αριθμοί του διαγράμματος είναι <b>ενδεικτική τάξη μεγέθους, όχι μετρημένο κόστος</b> — η διαφορά όμως είναι πραγματική.</p>
+      </div>
+    </article>
+
+    <!-- ───── A8 ───── -->
+    <article class="panel deep" id="a8">
+      <div class="dhead"><span class="code">A8</span><h2>Έγκριση κειμένων</h2><span class="tag must">Χωρίς εναλλακτική</span></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>5 ώρες</b> (σε δόσεις)</span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">14 ώρες</b></span><span>Δυσκολία: απαιτητικό</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Τα κείμενα του site τα γράφουμε εμείς. Εσείς τα διαβάζετε και τα εγκρίνετε, <b>σε μικρές δόσεις των 30–45 λεπτών</b>, όχι όλα μαζί στο τέλος.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Ό,τι δημοσιεύεται μιλάει εξ ονόματος της επιχείρησής σας. <b>Δεν δημοσιεύουμε ισχυρισμό που δεν έχετε διαβάσει</b> — δεν είναι θέμα διαδικασίας, είναι θέμα ευθύνης. Είναι το μόνο σημείο του έργου χωρίς εναλλακτική διαδρομή.</p></div>
+      </div>
+
+      <div class="ex warm">
+        <span class="exk">Παράδειγμα — ο κύκλος έγκρισης, ανά κείμενο</span>
+        <div class="flow">
+          <div class="fs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C65C14" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 20l1-4.6L15.4 5A2.2 2.2 0 0 1 18.5 8L8.1 18.4 4 20z"/></svg>
+            <span class="ftx"><b>1. Γράφουμε</b><span>Σχέδιο κειμένου από εμάς, με τα δικά σας στοιχεία</span></span>
+          </div>
+          <span class="fch" aria-hidden="true"></span>
+          <div class="fs acc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C65C14" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M3 5.5h7a2.5 2.5 0 0 1 2 2.5 2.5 2.5 0 0 1 2-2.5h7v13h-7a2.5 2.5 0 0 0-2 1 2.5 2.5 0 0 0-2-1H3z"/></svg>
+            <span class="ftx"><b>2. Διαβάζετε</b><span>30–45 λεπτά. Διορθώνετε ή γράφετε «εντάξει»</span></span>
+          </div>
+          <span class="fch" aria-hidden="true"></span>
+          <div class="fs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C65C14" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.3 12.2l2.6 2.6 4.8-5.2"/></svg>
+            <span class="ftx"><b>3. Δημοσιεύουμε</b><span>Μπαίνει στο site μόνο μετά το «εντάξει»</span></span>
+          </div>
+        </div>
+        <span class="flownote">Το μόνο αίτημα χωρίς εναλλακτική διαδρομή</span>
+      </div>
+    </article>
+
+    <!-- ───── A9 ───── -->
+    <article class="panel deep" id="a9">
+      <div class="dhead"><span class="code">A9</span><h2>Δημόσιοι ισχυρισμοί</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>45 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">2 ώρες</b></span><span>Δυσκολία: μέτριο</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Η λίστα με ό,τι θέλετε να λέει το site για εσάς: χρόνια εμπειρίας, συνεργασίες, μέλη ενώσεων, βραβεία, αριθμός πελατών. <b>Για κάθε ένα, ένα στοιχείο που το στηρίζει.</b></p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Οι ισχυρισμοί εμπιστοσύνης είναι ό,τι πιο πειστικό έχει ένα site — και ό,τι πιο επικίνδυνο αν δεν στέκουν. Ένα «ο καλύτερος στην Ελλάδα» δεν αποδεικνύεται· ένα «15 χρόνια» αποδεικνύεται με μία ημερομηνία.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — τι περνάει και τι όχι</span>
+        <div class="ctab">
+          <div class="chd"><span>Ισχυρισμός</span><span>Τι χρειάζεται</span><span>Περνάει;</span></div>
+          <div class="crow"><span class="cl">«15 χρόνια στον χώρο»</span><span class="cn">Έτος έναρξης της επιχείρησης</span><span class="vr yes">Ναι</span></div>
+          <div class="crow"><span class="cl">«Μέλος ΗΑΤΤΑ»</span><span class="cn">Αριθμός μητρώου μέλους</span><span class="vr yes">Ναι</span></div>
+          <div class="crow"><span class="cl">«Συνεργαζόμαστε με τοπικούς παραγωγούς»</span><span class="cn">Δύο ονόματα που μπορούμε να αναφέρουμε</span><span class="vr yes">Ναι</span></div>
+          <div class="crow"><span class="cl">«Ο καλύτερος στην Ελλάδα»</span><span class="cn">Δεν υπάρχει μετρήσιμο στοιχείο</span><span class="vr no">Όχι</span></div>
+          <div class="crow"><span class="cl">«Εγγυημένα η καλύτερη τιμή»</span><span class="cn">Θα σας δέσμευε απέναντι σε κάθε πελάτη</span><span class="vr no">Όχι</span></div>
+        </div>
+        <p class="exfoot">Ό,τι δεν περνάει <b>δεν χάνεται</b> — το ξαναγράφουμε ως κάτι που στέκει. Το «ο καλύτερος στην Ελλάδα» γίνεται «ταξίδια σχεδιασμένα ένα προς ένα, από ανθρώπους που ζουν εδώ».</p>
+      </div>
+    </article>
+
+    <!-- ───── A10 ───── -->
+    <article class="panel deep" id="a10">
+      <div class="dhead"><span class="code">A10</span><h2>Πολιτική απορρήτου</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>15 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">2 ώρες</b></span><span>Δυσκολία: μέτριο</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Μια σελίδα που λέει τι στοιχεία μαζεύει το site και τι τα κάνετε. Χρειάζεται <b>μία απόφαση από εσάς</b>: έτοιμο πρότυπο ή δικηγόρος.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Από τη στιγμή που μια φόρμα δέχεται όνομα και email, ο νόμος απαιτεί να δηλώνεται. Το site είναι σχεδιασμένο ώστε <b>να μαζεύει όσο λιγότερα γίνεται</b> — στατιστικά χωρίς cookies, χωρίς διαφημιστικά ίχνη, χωρίς banner συγκατάθεσης.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — τι ακριβώς μαζεύει το site</span>
+        <div class="chips">
+          <span class="chip">Όνομα</span>
+          <span class="chip">Email</span>
+          <span class="chip">Τηλέφωνο (προαιρετικό)</span>
+          <span class="chip">Ημερομηνίες &amp; άτομα</span>
+          <span class="chip">Το μήνυμά τους</span>
+          <span class="chip off">Χωρίς cookies παρακολούθησης</span>
+          <span class="chip off">Χωρίς διαφημιστικά δίκτυα</span>
+        </div>
+        <div class="opts">
+          <div class="opt"><b>Επιλογή 1 — έτοιμο πρότυπο</b><span>Το συμπληρώνουμε εμείς με τα στοιχεία σας. Γρήγορο και χωρίς κόστος. Καλύπτει την τυπική περίπτωση.</span></div>
+          <div class="opt"><b>Επιλογή 2 — δικηγόρος</b><span>Δικό σας κόστος και δικός σας χρόνος. Προτιμότερο αν έχετε ήδη νομικό σύμβουλο ή πελάτες εκτός ΕΕ.</span></div>
+        </div>
+        <p class="exfoot">Χρειαζόμαστε μόνο <b>ποια από τις δύο</b>. Αν διαλέξετε τη δεύτερη, συνεχίζουμε κανονικά και η σελίδα μπαίνει τελευταία.</p>
+      </div>
+    </article>
+
+    <!-- ───── A11 ───── -->
+    <article class="panel deep" id="a11">
+      <div class="dhead"><span class="code">A11</span><h2>Χρόνος απάντησης</h2></div>
+      <div class="dmeta"><span>Ο χρόνος σας: <b>5 λεπτά</b></span><span>Ξεκλειδώνει δικές μας ώρες: <b class="u">2 ώρες</b></span><span>Δυσκολία: απλό</span></div>
+
+      <div class="dgrid">
+        <div class="dcell"><span class="dk">Τι είναι</span>
+          <p>Σε πόσο χρόνο δεσμεύεστε να απαντάτε σε ένα αίτημα. Ένας αριθμός: μία, δύο ή τρεις εργάσιμες ημέρες.</p></div>
+        <div class="dcell"><span class="dk">Γιατί μετράει</span>
+          <p>Αυτό το γράφει το email επιβεβαίωσης και η σελίδα «Ευχαριστούμε». <b>Δεν το αποφασίζουμε εμείς εκ μέρους σας</b> — αν το site υποσχεθεί 24 ώρες και εσείς απαντάτε σε τρεις μέρες, η πρώτη εντύπωση χάνεται.</p></div>
+      </div>
+
+      <div class="ex">
+        <span class="exk">Παράδειγμα — διαλέγετε έναν αριθμό, τον γράφουμε παντού</span>
+        <div class="chips">
+          <span class="chip off">1 εργάσιμη ημέρα</span>
+          <span class="chip pick">2 εργάσιμες ημέρες</span>
+          <span class="chip off">3 εργάσιμες ημέρες</span>
+        </div>
+        <div class="say">
+          <span class="saylabel">Έτσι θα εμφανίζεται στον πελάτη</span>
+          Λάβαμε το αίτημά σας για τη Σαντορίνη. Θα σας απαντήσουμε <b>εντός 2 εργάσιμων ημερών</b> με μια πρόταση φτιαγμένη για εσάς.
+        </div>
+        <p class="exfoot">Συμβουλή: <b>διαλέξτε τον αριθμό που τηρείτε στις κακές εβδομάδες</b>, όχι στις καλές. Μια υπόσχεση που τηρείται πάντα αξίζει περισσότερο από μια γρήγορη που σπάει.</p>
+      </div>
+    </article>
+
+  <nav class="nextnav" aria-label="Συνέχεια σε άλλη ενότητα">
+    <a class="nx lead" href="#v3" data-go="v3"><span class="nxk">επόμενο βήμα</span><span class="nxt">Τεχνικά</span><span class="nxs">Δείτε ακριβώς ποιες από τις 67 εργασίες ξεκλειδώνουν οι απαντήσεις σας, και πόσο χρόνο πιάνει η καθεμιά.</span></a>
+    <a class="nx" href="#v1" data-go="v1"><span class="nxk">ή, πίσω στη μεγάλη εικόνα</span><span class="nxt">Σύνοψη</span><span class="nxs">Οι 9 δικές σας ώρες, οι 141 δικές μας, και πού πάει ο χρόνος.</span></a>
+  </nav>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       VIEW 3 — ΤΕΧΝΙΚΑ
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="view" id="v3" role="tabpanel" aria-labelledby="t3" tabindex="0">
+
+    <div class="panel">
+      <div class="phead">
+        <span class="eyebrow">Ενότητα 3 — τεχνικά</span>
+        <h2>Οι 67 εργασίες, μία προς μία</h2>
+        <p>Αυτή η ενότητα είναι φτιαγμένη για να <b>ελέγχεται</b>. Κάθε εργασία έχει τρεις εκτιμήσεις — ελάχιστη, αναμενόμενη, μέγιστη — γραμμένες σε <b>ώρες και λεπτά</b> (π.χ. «2ω 15λ»), με τα <b>ωμά λεπτά από κάτω, μικρότερα</b>, ώστε ο καθένας (ή ένα AI) να μπορεί να κάνει την πρόσθεση.</p>
+      </div>
+
+      <div class="tot3">
+        <div class="t3"><span class="k">ελάχιστο</span><span class="v num">76ω</span><span class="s">4560 λεπτά · 76,0 ώρες</span></div>
+        <div class="t3 mid"><span class="k">αναμενόμενο</span><span class="v num">141ω 30λ</span><span class="s">8490 λεπτά · 141,5 ώρες</span></div>
+        <div class="t3"><span class="k">μέγιστο</span><span class="v num">288ω</span><span class="s">17280 λεπτά · 288,0 ώρες</span></div>
+      </div>
+
+      <p class="scalenote">Η πρόσθεση γίνεται πάντα στα <b>λεπτά</b>: 8490 λεπτά ÷ 60 = <b>141,5 ώρες</b> = <b>141ω 30λ</b>. Στη <b>Σύνοψη</b> το γράφουμε 141 (ακέραιο) — ίδιος αριθμός, διαφορετική στρογγυλοποίηση. Το ελάχιστο και το μέγιστο δεν είναι διαπραγμάτευση: είναι το εύρος που δηλώνουμε εξ αρχής.</p>
+      <p class="recon"><b>Η εκτίμηση ανέβηκε από 133 σε 141,5 ώρες.</b> Δεν άλλαξαν οι τιμές των παλιών εργασιών· προστέθηκαν <b>πέντε νέες</b>, επειδή ζητήθηκε <b>δυναμικός κατάλογος πακέτων με φίλτρα</b> που ελέγχετε από το Sanity (A5): T-02.9 και T-03.11 έως T-03.14, δηλαδή 5 νέες εργασίες, <b>συνολικά</b> 495 λεπτά αναμενόμενα = <b>+8,25 ώρες</b>. Για να μείνει εκεί και να μη μεγαλώσει, <b>δεν χτίστηκαν σκόπιμα</b>: φίλτρο τιμής (θα απαιτούσε δημοσιευμένες τιμές, που ο κανόνας του A6 δεν επιτρέπει) και λογική ημερομηνιών — διαθεσιμότητα, λήξη, φίλτρο ημερομηνίας. Οι ημερομηνίες είναι απλό κείμενο.</p>
+    </div>
+
+    <div class="panel">
+      <div class="phead">
+        <span class="eyebrow">Πριν κρίνετε τους αριθμούς</span>
+        <h2>Τι υποθέτουν αυτές οι εκτιμήσεις</h2>
+      </div>
+      <div class="note">
+        <p style="margin:0 0 10px"><b>Οι 141,5 ώρες υποθέτουν ότι το μεγαλύτερο μέρος του κώδικα και των κειμένων το γράφει σύγχρονο AI</b>, με άνθρωπο που κατευθύνει, ελέγχει και διορθώνει. Δεν είναι εκτιμήσεις χειροκίνητης κατασκευής.</p>
+        <p style="margin:0 0 10px">Η ίδια δουλειά με συμβατικό τρόπο, γραμμένη εξ ολοκλήρου από ανθρώπους, εκτιμάται σε <b>περίπου 281 ώρες</b>. Αν κάποιος συγκρίνει τις 141,5 με τιμοκατάλογο συμβατικής κατασκευής, συγκρίνει δύο διαφορετικά πράγματα.</p>
+        <p style="margin:0 0 10px"><b>Πώς προκύπτουν οι 281:</b> ο πολλαπλασιαστής εφαρμόζεται <b>μόνο στις 93 ώρες κατασκευής</b> — η σκέψη και οι ώρες που εξαρτώνται από τον πελάτη δεν συμπιέζονται από το AI. 93 × 2,5 ≈ 233 · 233 + 16 (σκέψη) + 32 (εξαρτώνται από εσάς) ≈ <b>281</b>.</p>
+        <p style="margin:0"><b>Προσοχή στον έλεγχο:</b> ο πολλαπλασιαστής <b>2,5</b> είναι <b>εκτίμησή μας από προηγούμενα έργα, χωρίς μέτρηση</b>. Είναι το μόνο μέγεθος αυτού του φακέλου που δεν προκύπτει από τον πίνακα των 67 εργασιών. Οι 141,5 ώρες δεν εξαρτώνται από αυτόν.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="phead">
+        <span class="eyebrow">Εργαλεία</span>
+        <h2>Με τι χτίζεται, και γιατί</h2>
+        <p>Έντεκα εργαλεία, ένας λόγος το καθένα. Επιλέχθηκαν για να χωράνε σε δωρεάν ή πολύ φθηνό πλάνο στο μέγεθος που ξεκινάει το site· <b>τα τρέχοντα όρια τα επιβεβαιώνουμε στην πορεία</b> (T-05.2) και η κατανάλωση της φιλοξενίας παρακολουθείται με όριο ειδοποίησης (T-00.4).</p>
+      </div>
+      <div class="stackg">
+        <div class="st"><b>Next.js 16</b><span>το framework των σελίδων</span></div>
+        <div class="st"><b>TypeScript</b><span>πιάνει λάθη πριν φτάσουν στο site</span></div>
+        <div class="st"><b>Tailwind 4</b><span>συνεπής εμφάνιση σε όλες τις σελίδες</span></div>
+        <div class="st"><b>Base UI</b><span>προσβάσιμα έτοιμα components</span></div>
+        <div class="st"><b>Sanity</b><span>το CMS που θα χρησιμοποιεί ο Γιώργος</span></div>
+        <div class="st"><b>Netlify</b><span>φιλοξενία, δωρεάν πλάνο</span></div>
+        <div class="st"><b>Google Forms + Apps Script</b><span>τα αιτήματα, χωρίς backend</span></div>
+        <div class="st"><b>Resend</b><span>τα email επιβεβαίωσης</span></div>
+        <div class="st"><b>Umami</b><span>στατιστικά χωρίς cookies</span></div>
+        <div class="st"><b>GitHub Actions</b><span>αυτόματοι έλεγχοι σε κάθε αλλαγή</span></div>
+        <div class="st"><b>Playwright + Vitest</b><span>αυτόματα τεστ</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="phead">
+        <span class="eyebrow">7 ορόσημα · 18 φάσεις · 67 εργασίες</span>
+        <h2>Πώς μοιράζονται οι ώρες</h2>
+        <p>Αναμενόμενες ώρες ανά ορόσημο. Η μπάρα είναι σε σχέση με το μεγαλύτερο ορόσημο (M1).</p>
+      </div>
+      <div class="ms">
+        <div class="msr rv" style="--d:0.00s">
+          <span class="msnm"><span class="mcode">M0</span><span class="t">Θεμέλια</span><span class="c">5 εργασίες</span></span>
+          <span class="gbar"><i class="grow" style="--w:39.6%"></i></span>
+          <span class="msh"><b class="num">13,2</b><span>ώρες</span></span>
+        </div>
+        <div class="msr rv" style="--d:0.04s">
+          <span class="msnm"><span class="mcode">M1</span><span class="t">Σχεδιαστικό σύστημα</span><span class="c">14 εργασίες</span></span>
+          <span class="gbar"><i class="grow" style="--w:100.0%"></i></span>
+          <span class="msh"><b class="num">33,5</b><span>ώρες</span></span>
+        </div>
+        <div class="msr rv" style="--d:0.08s">
+          <span class="msnm"><span class="mcode">M2</span><span class="t">Σύστημα περιεχομένου</span><span class="c">8 εργασίες</span></span>
+          <span class="gbar"><i class="grow" style="--w:52.2%"></i></span>
+          <span class="msh"><b class="num">17,5</b><span>ώρες</span></span>
+        </div>
+        <div class="msr rv" style="--d:0.12s">
+          <span class="msnm"><span class="mcode">M3</span><span class="t">Οι σελίδες</span><span class="c">14 εργασίες</span></span>
+          <span class="gbar"><i class="grow" style="--w:68.7%"></i></span>
+          <span class="msh"><b class="num">23,0</b><span>ώρες</span></span>
+        </div>
+        <div class="msr rv" style="--d:0.16s">
+          <span class="msnm"><span class="mcode">M4</span><span class="t">Φόρμες & email</span><span class="c">11 εργασίες</span></span>
+          <span class="gbar"><i class="grow" style="--w:53.0%"></i></span>
+          <span class="msh"><b class="num">17,8</b><span>ώρες</span></span>
+        </div>
+        <div class="msr rv" style="--d:0.20s">
+          <span class="msnm"><span class="mcode">M5</span><span class="t">Ετοιμότητα δημοσίευσης</span><span class="c">9 εργασίες</span></span>
+          <span class="gbar"><i class="grow" style="--w:56.7%"></i></span>
+          <span class="msh"><b class="num">19,0</b><span>ώρες</span></span>
+        </div>
+        <div class="msr rv" style="--d:0.24s">
+          <span class="msnm"><span class="mcode">M6</span><span class="t">Παραγωγή περιεχομένου</span><span class="c">6 εργασίες</span></span>
+          <span class="gbar"><i class="grow" style="--w:52.2%"></i></span>
+          <span class="msh"><b class="num">17,5</b><span>ώρες</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="phead">
+        <span class="eyebrow">Για τον ελεγκτή</span>
+        <h2>Πώς ελέγχεται αυτός ο πίνακας</h2>
+      </div>
+      <div class="audit">
+        <h3>Τέσσερα βήματα, καμία κρυφή εργασία</h3>
+        <ol>
+          <li>Κάθε εργασία έχει τρεις διάρκειες: ελάχιστη, αναμενόμενη, μέγιστη. Γράφονται σε <b>ώρες και λεπτά</b>, με τα <b>ωμά λεπτά από κάτω</b> — αυτά προσθέτετε.</li>
+          <li>Προσθέστε τη στήλη μέσα σε κάθε ορόσημο — βγάζει το <b>υποσύνολο</b> που τυπώνεται στο τέλος του πίνακά του.</li>
+          <li>Προσθέστε τα 7 υποσύνολα — βγάζει το <b>γενικό σύνολο</b> στο τέλος της σελίδας: <b>8490 λεπτά</b>.</li>
+          <li>Διαιρέστε με 60 για ώρες. Οι ώρες είναι στρογγυλοποιημένες· η πρόσθεση γίνεται πάντα στα λεπτά.</li>
+        </ol>
+        <p style="margin:12px 0 0"><b>Όλες οι ώρες αυτού του πίνακα είναι ώρες της ομάδας.</b> Οι 9 ώρες που ζητάμε από τον ιδιοκτήτη είναι χρόνος άλλου προσώπου και δεν περιλαμβάνονται πουθενά μέσα στις 141,5. Οι «32 ώρες που εξαρτώνται από εσάς» στη Σύνοψη είναι <b>υποσύνολο των 141,5</b>: δικές μας ώρες σε εργασίες που χρειάζονται απάντηση ή έγκρισή του.</p>
+        <p style="margin:12px 0 0">Ο πίνακας περιέχει <b>και τις 67 εργασίες που έχουν εκτίμηση</b> — δεν υπάρχει τίποτα εκτός. Στη Σύνοψη ο μετρητής προόδου δείχνει 74 εργασίες και 8 ορόσημα, επειδή περιλαμβάνει και 7 εργασίες που δεν έχουν ακόμη εκτίμηση χρόνου. Είναι οι εργασίες του οροσήμου <b>M7 — ευθυγράμμιση με τον πελάτη</b>: εξαρτώνται από τον ρυθμό του πελάτη, γι’ αυτό δεν τους δίνουμε εκτίμηση και <b>δεν περιλαμβάνονται στις 141,5 ώρες</b>. Τίποτα άλλο δεν λείπει από τον πίνακα.</p>
+        <p class="checkline" id="audit-res">Έλεγχος αθροισμάτων: 67 εργασίες · 4560 / 8490 / 17280 λεπτά.</p>
+        <button class="ghost" type="button" id="showall">Άνοιγμα όλων των ενοτήτων σε μία σελίδα</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="phead">
+        <span class="eyebrow">Πλήρης κατάλογος</span>
+        <h2>Οι 67 εργασίες με τις εκτιμήσεις τους</h2>
+        <p>Κάθε κελί δείχνει τη διάρκεια σε <b>ώρες και λεπτά</b> και, από κάτω με μικρότερα γράμματα, τα <b>ωμά λεπτά</b> για την πρόσθεση. «Ελάχ.» = αν όλα πάνε καλά, «Αναμ.» = η εκτίμηση που χρησιμοποιούμε, «Μέγ.» = αν χρειαστούν πολλοί γύροι.</p>
+      </div>
+
+      <div class="mbox">
+        <h3>M0 — Θεμέλια</h3>
+        <span class="msub">Στήνουμε το εργοτάξιο: εργαλεία, αυτόματοι έλεγχοι, καθαρός κώδικας. · 5 εργασίες · αναμενόμενο 13,2 ώρες</span>
+        <table class="ltab">
+          <thead><tr><th class="l" scope="col">Κωδ.</th><th class="l" scope="col">Εργασία</th><th scope="col">Ελάχ.</th><th scope="col">Αναμ.</th><th scope="col">Μέγ.</th></tr></thead>
+          <tbody>
+            <tr class="phr"><td colspan="5">P0.1 · Έλεγχος εργαλείων, καθαρό ξεκίνημα, σκελετός</td></tr>
+            <tr><td class="c">T-00.1</td><td class="t">Δοκιμή ότι όλα τα εργαλεία δουλεύουν μαζί (πρόχειρη, πετιέται μετά)</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="135" title="135 λεπτά"><b>2ω 15λ</b><i>135</i></td><td class="n" data-l="μέγ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td></tr>
+            <tr><td class="c">T-00.2</td><td class="t">Καθαρό ξεκίνημα κώδικα: αρχειοθέτηση του παλιού, νέος σκελετός, μεταφορά χρωμάτων και γραμματοσειρών</td><td class="n" data-l="ελάχ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n e" data-l="αναμ." data-m="195" title="195 λεπτά"><b>3ω 15λ</b><i>195</i></td><td class="n" data-l="μέγ." data-m="390" title="390 λεπτά"><b>6ω 30λ</b><i>390</i></td></tr>
+            <tr><td class="c">T-00.3</td><td class="t">Αυτόματοι κανόνες γραφής κώδικα, ώστε να μη μπαίνουν λάθη εξ αρχής</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="165" title="165 λεπτά"><b>2ω 45λ</b><i>165</i></td><td class="n" data-l="μέγ." data-m="330" title="330 λεπτά"><b>5ω 30λ</b><i>330</i></td></tr>
+            <tr><td class="c">T-00.4</td><td class="t">Αυτόματοι έλεγχοι σε κάθε αλλαγή + σύνδεση με τη φιλοξενία και προεπισκόπηση ανά αλλαγή</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td><td class="n" data-l="μέγ." data-m="300" title="300 λεπτά"><b>5ω</b><i>300</i></td></tr>
+            <tr class="phr"><td colspan="5">P0.2 · Οδηγίες για τα AI εργαλεία και λίστα εργασιών</td></tr>
+            <tr><td class="c">T-00.5</td><td class="t">Οδηγίες προς τα AI εργαλεία του έργου: τι επιτρέπεται, πώς δουλεύουμε</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td><td class="n" data-l="μέγ." data-m="300" title="300 λεπτά"><b>5ω</b><i>300</i></td></tr>
+          </tbody>
+          <tfoot><tr><td class="t" colspan="2">Υποσύνολο M0 — 13,2 ώρες αναμενόμενα</td><td class="n" data-l="ελάχ." data-m="435" title="435 λεπτά"><b>7ω 15λ</b><i>435</i></td><td class="n" data-l="αναμ." data-m="795" title="795 λεπτά"><b>13ω 15λ</b><i>795</i></td><td class="n" data-l="μέγ." data-m="1590" title="1590 λεπτά"><b>26ω 30λ</b><i>1590</i></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="mbox">
+        <h3>M1 — Σχεδιαστικό σύστημα</h3>
+        <span class="msub">Η εμφάνιση: τρεις προτάσεις, μία επιλογή, και τα επαναχρησιμοποιήσιμα κομμάτια. · 14 εργασίες · αναμενόμενο 33,5 ώρες</span>
+        <table class="ltab">
+          <thead><tr><th class="l" scope="col">Κωδ.</th><th class="l" scope="col">Εργασία</th><th scope="col">Ελάχ.</th><th scope="col">Αναμ.</th><th scope="col">Μέγ.</th></tr></thead>
+          <tbody>
+            <tr class="phr"><td colspan="5">P1.1 · Κατεύθυνση</td></tr>
+            <tr><td class="c">T-01.1</td><td class="t">Έρευνα εμφάνισης: 8–12 σχολιασμένα παραδείγματα από καλά site φιλοξενίας, όχι πρότυπα τουριστικών γραφείων</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-01.2</td><td class="t">Καταγραφή σχεδιαστικών αποφάσεων: πώς φτιάχνονται και πώς ονομάζονται τα κομμάτια της σελίδας</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-01.3</td><td class="t">Τρεις διαφορετικές προτάσεις για την πρώτη οθόνη, με ίδιο περιεχόμενο</td><td class="n" data-l="ελάχ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td><td class="n e" data-l="αναμ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td><td class="n" data-l="μέγ." data-m="540" title="540 λεπτά"><b>9ω</b><i>540</i></td></tr>
+            <tr><td class="c">T-01.4</td><td class="t">Επιλογή κατεύθυνσης (με τον Γιώργο, αν θέλει να συμμετέχει)</td><td class="n" data-l="ελάχ." data-m="30" title="30 λεπτά"><b>30λ</b><i>30</i></td><td class="n e" data-l="αναμ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n" data-l="μέγ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td></tr>
+            <tr class="phr"><td colspan="5">P1.2 · Θεμέλια, από την πρόταση που κερδίζει</td></tr>
+            <tr><td class="c">T-01.5</td><td class="t">Χρώματα, μεγέθη γραμμάτων, αποστάσεις, γωνίες — με έλεγχο αναγνωσιμότητας</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-01.6</td><td class="t">Γραμματοσειρές: εγκατάσταση, γρήγορο φόρτωμα, στυλ για μεγάλα κείμενα</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr><td class="c">T-01.7</td><td class="t">Βασικά στοιχεία: κουμπιά, ετικέτες, κάρτες, διαδρομή πλοήγησης</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="135" title="135 λεπτά"><b>2ω 15λ</b><i>135</i></td><td class="n" data-l="μέγ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td></tr>
+            <tr><td class="c">T-01.8</td><td class="t">Σύνθετα στοιχεία: γκαλερί φωτογραφιών, αναδυόμενα παράθυρα, εμφάνιση κειμένων του CMS</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="135" title="135 λεπτά"><b>2ω 15λ</b><i>135</i></td><td class="n" data-l="μέγ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td></tr>
+            <tr><td class="c">T-01.9</td><td class="t">Σκελετός σελίδας: κεφαλίδα, μενού για υπολογιστή και κινητό, υποσέλιδο, βασική δομή</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td><td class="n" data-l="μέγ." data-m="360" title="360 λεπτά"><b>6ω</b><i>360</i></td></tr>
+            <tr class="phr"><td colspan="5">P1.3 · Μακέτες και έγκριση</td></tr>
+            <tr><td class="c">T-01.10</td><td class="t">Αρχική σελίδα σε τελική ποιότητα, στην επιλεγμένη κατεύθυνση</td><td class="n" data-l="ελάχ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n e" data-l="αναμ." data-m="195" title="195 λεπτά"><b>3ω 15λ</b><i>195</i></td><td class="n" data-l="μέγ." data-m="390" title="390 λεπτά"><b>6ω 30λ</b><i>390</i></td></tr>
+            <tr><td class="c">T-01.11</td><td class="t">Σελίδα πακέτου σε τελική ποιότητα</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="165" title="165 λεπτά"><b>2ω 45λ</b><i>165</i></td><td class="n" data-l="μέγ." data-m="330" title="330 λεπτά"><b>5ω 30λ</b><i>330</i></td></tr>
+            <tr><td class="c">T-01.12</td><td class="t">Εξαγωγή των 4 επαναλαμβανόμενων ενοτήτων από αυτές τις δύο σελίδες</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-01.13</td><td class="t">Αντοχή σε ακραίο περιεχόμενο: μεγάλοι τίτλοι, χωρίς φωτογραφία, χωρίς τιμή, 2 κάρτες αντί 3</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr><td class="c">T-01.14</td><td class="t">Έγκριση εμφάνισης από τον πελάτη + ένας γύρος διορθώσεων</td><td class="n" data-l="ελάχ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n e" data-l="αναμ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td><td class="n" data-l="μέγ." data-m="600" title="600 λεπτά"><b>10ω</b><i>600</i></td></tr>
+          </tbody>
+          <tfoot><tr><td class="t" colspan="2">Υποσύνολο M1 — 33,5 ώρες αναμενόμενα</td><td class="n" data-l="ελάχ." data-m="1065" title="1065 λεπτά"><b>17ω 45λ</b><i>1065</i></td><td class="n" data-l="αναμ." data-m="2010" title="2010 λεπτά"><b>33ω 30λ</b><i>2010</i></td><td class="n" data-l="μέγ." data-m="4140" title="4140 λεπτά"><b>69ω</b><i>4140</i></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="mbox">
+        <h3>M2 — Σύστημα περιεχομένου</h3>
+        <span class="msub">Το Sanity: εκεί μπαίνει ο Γιώργος και φτιάχνει προορισμούς, πακέτα και φίλτρα μόνος του. · 8 εργασίες · αναμενόμενο 17,5 ώρες</span>
+        <table class="ltab">
+          <thead><tr><th class="l" scope="col">Κωδ.</th><th class="l" scope="col">Εργασία</th><th scope="col">Ελάχ.</th><th scope="col">Αναμ.</th><th scope="col">Μέγ.</th></tr></thead>
+          <tbody>
+            <tr class="phr"><td colspan="5">P2.1 · Το CMS (Sanity)</td></tr>
+            <tr><td class="c">T-02.1</td><td class="t">Στήσιμο του CMS στον λογαριασμό σας, με μενού Πακέτα / Προορισμοί / Σελίδες</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="135" title="135 λεπτά"><b>2ω 15λ</b><i>135</i></td><td class="n" data-l="μέγ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td></tr>
+            <tr><td class="c">T-02.2</td><td class="t">Τα πεδία που θα συμπληρώνετε: έξι τύποι περιεχομένου, με οδηγίες σε απλά ελληνικά</td><td class="n" data-l="ελάχ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n e" data-l="αναμ." data-m="195" title="195 λεπτά"><b>3ω 15λ</b><i>195</i></td><td class="n" data-l="μέγ." data-m="390" title="390 λεπτά"><b>6ω 30λ</b><i>390</i></td></tr>
+            <tr><td class="c">T-02.9</td><td class="t">Πεδία καταλόγου: μέγεθος γκρουπ, ημερομηνίες ως κείμενο, κατηγορίες — και η λίστα των φίλτρων, επεξεργάσιμη από εσάς στις ρυθμίσεις</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr class="phr"><td colspan="5">P2.2 · Σύνδεση δεδομένων, δοκιμαστικό περιεχόμενο, προεπισκόπηση</td></tr>
+            <tr><td class="c">T-02.3</td><td class="t">Σύνδεση site με CMS: ερωτήματα, έλεγχοι εγκυρότητας, διαχείριση φωτογραφιών</td><td class="n" data-l="ελάχ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n e" data-l="αναμ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td><td class="n" data-l="μέγ." data-m="420" title="420 λεπτά"><b>7ω</b><i>420</i></td></tr>
+            <tr><td class="c">T-02.4</td><td class="t">Δοκιμαστικό περιεχόμενο: 2 προορισμοί, 3 πακέτα, προσωρινές φωτογραφίες</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr><td class="c">T-02.5</td><td class="t">Προεπισκόπηση αλλαγών πριν δημοσιευτούν, με κλικ πάνω στο κείμενο για διόρθωση</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="135" title="135 λεπτά"><b>2ω 15λ</b><i>135</i></td><td class="n" data-l="μέγ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td></tr>
+            <tr><td class="c">T-02.7</td><td class="t">Επεξεργαστής κειμένου με περιορισμένες επιλογές, ώστε να μη χαλάει η εμφάνιση</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-02.6</td><td class="t">Δοκιμή ότι τα αδημοσίευτα δεν διαρρέουν σε επισκέπτες</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n" data-l="μέγ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td></tr>
+          </tbody>
+          <tfoot><tr><td class="t" colspan="2">Υποσύνολο M2 — 17,5 ώρες αναμενόμενα</td><td class="n" data-l="ελάχ." data-m="570" title="570 λεπτά"><b>9ω 30λ</b><i>570</i></td><td class="n" data-l="αναμ." data-m="1050" title="1050 λεπτά"><b>17ω 30λ</b><i>1050</i></td><td class="n" data-l="μέγ." data-m="2100" title="2100 λεπτά"><b>35ω</b><i>2100</i></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="mbox">
+        <h3>M3 — Οι σελίδες</h3>
+        <span class="msub">Οι σελίδες του site, μαζί με τον κατάλογο και τα φίλτρα, συνδεδεμένες με το CMS. · 14 εργασίες · αναμενόμενο 23,0 ώρες</span>
+        <table class="ltab">
+          <thead><tr><th class="l" scope="col">Κωδ.</th><th class="l" scope="col">Εργασία</th><th scope="col">Ελάχ.</th><th scope="col">Αναμ.</th><th scope="col">Μέγ.</th></tr></thead>
+          <tbody>
+            <tr class="phr"><td colspan="5">P3.1 · Σελίδες πακέτου και προορισμού</td></tr>
+            <tr><td class="c">T-03.1</td><td class="t">Σελίδα πακέτου: δομή και σύνδεση με τα δεδομένα του CMS</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-03.2</td><td class="t">Φωτογραφίες πακέτου: γκαλερί, σωστές περικοπές, γρήγορο φόρτωμα της πρώτης εικόνας</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-03.3</td><td class="t">Μπλοκ τιμής, τι περιλαμβάνει και τι δεν περιλαμβάνει (με τον κανόνα του A6)</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr><td class="c">T-03.4</td><td class="t">Σελίδα προορισμού και τα πακέτα που ανήκουν σε αυτόν</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-03.5</td><td class="t">Ενδιάμεση σελίδα «Ζητήστε προσφορά» με προσυμπληρωμένα στοιχεία</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr class="phr"><td colspan="5">P3.3 · Ο κατάλογος και τα φίλτρα του</td></tr>
+            <tr><td class="c">T-03.11</td><td class="t">Σελίδα καταλόγου: πλέγμα με τις κάρτες όλων των πακέτων</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-03.12</td><td class="t">Τα φίλτρα: προορισμός, μέγεθος γκρουπ, τύπος — με τις επιλογές να έρχονται από το CMS, όχι από τον κώδικα</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="165" title="165 λεπτά"><b>2ω 45λ</b><i>165</i></td><td class="n" data-l="μέγ." data-m="330" title="330 λεπτά"><b>5ω 30λ</b><i>330</i></td></tr>
+            <tr><td class="c">T-03.13</td><td class="t">Σελίδα με τη λίστα των προορισμών</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n" data-l="μέγ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td></tr>
+            <tr><td class="c">T-03.14</td><td class="t">Αυτόματο τεστ: τα φίλτρα περιορίζουν σωστά το πλέγμα, και το «κανένα αποτέλεσμα» δείχνει πραγματικό μήνυμα</td><td class="n" data-l="ελάχ." data-m="30" title="30 λεπτά"><b>30λ</b><i>30</i></td><td class="n e" data-l="αναμ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n" data-l="μέγ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td></tr>
+            <tr class="phr"><td colspan="5">P3.2 · Μάρκα και βοηθητικές σελίδες</td></tr>
+            <tr><td class="c">T-03.6</td><td class="t">Αρχική σελίδα συνδεδεμένη με το CMS, με κάρτες πακέτων και προορισμών</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-03.7</td><td class="t">Σελίδα «Εξατομικευμένο ταξίδι»</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-03.8</td><td class="t">Κοινό πρότυπο για: Ποιοι είμαστε, Επικοινωνία, Απόρρητο, Όροι</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-03.9</td><td class="t">Σελίδα «Ευχαριστούμε» και σελίδα «δεν βρέθηκε» (404)</td><td class="n" data-l="ελάχ." data-m="30" title="30 λεπτά"><b>30λ</b><i>30</i></td><td class="n e" data-l="αναμ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n" data-l="μέγ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td></tr>
+            <tr><td class="c">T-03.10</td><td class="t">Πακέτο που αποσύρθηκε: η παλιά διεύθυνση δεν δείχνει παλιές τιμές ή υποσχέσεις</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n" data-l="μέγ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td></tr>
+          </tbody>
+          <tfoot><tr><td class="t" colspan="2">Υποσύνολο M3 — 23,0 ώρες αναμενόμενα</td><td class="n" data-l="ελάχ." data-m="795" title="795 λεπτά"><b>13ω 15λ</b><i>795</i></td><td class="n" data-l="αναμ." data-m="1380" title="1380 λεπτά"><b>23ω</b><i>1380</i></td><td class="n" data-l="μέγ." data-m="2760" title="2760 λεπτά"><b>46ω</b><i>2760</i></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="mbox">
+        <h3>M4 — Φόρμες & email</h3>
+        <span class="msub">Από το κουμπί του πελάτη μέχρι το email που παίρνει — και την ειδοποίηση που παίρνετε εσείς. · 11 εργασίες · αναμενόμενο 17,8 ώρες</span>
+        <table class="ltab">
+          <thead><tr><th class="l" scope="col">Κωδ.</th><th class="l" scope="col">Εργασία</th><th scope="col">Ελάχ.</th><th scope="col">Αναμ.</th><th scope="col">Μέγ.</th></tr></thead>
+          <tbody>
+            <tr class="phr"><td colspan="5">P4.1 · Συμφωνία πεδίων και φόρμες</td></tr>
+            <tr><td class="c">T-04.0</td><td class="t">Σύνδεση του κώδικα των αυτοματισμών Google με το αποθετήριο του έργου</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr><td class="c">T-04.1</td><td class="t">Προδιαγραφή φορμών: ποια πεδία, ποια υποχρεωτικά, πού καταλήγει το καθένα</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-04.2</td><td class="t">Κατασκευή των 3 φορμών Google στον λογαριασμό σας, με τα χρώματα του site</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td><td class="n" data-l="μέγ." data-m="300" title="300 λεπτά"><b>5ω</b><i>300</i></td></tr>
+            <tr><td class="c">T-04.3</td><td class="t">Προσυμπλήρωση και ανακατεύθυνση στο «Ευχαριστούμε», με έλεγχο πεδίο προς πεδίο</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr class="phr"><td colspan="5">P4.2 · Email</td></tr>
+            <tr><td class="c">T-04.4</td><td class="t">Λογαριασμός αποστολής email και επαλήθευση της διεύθυνσής σας (εγγραφές DNS)</td><td class="n" data-l="ελάχ." data-m="30" title="30 λεπτά"><b>30λ</b><i>30</i></td><td class="n e" data-l="αναμ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-04.5</td><td class="t">Τι ακριβώς λένε τα email: χωρίς υποσχέσεις που δεν μπορείτε να τηρήσετε</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr><td class="c">T-04.6</td><td class="t">Αυτόματη επιβεβαίωση στον πελάτη μόλις στείλει τη φόρμα</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="135" title="135 λεπτά"><b>2ω 15λ</b><i>135</i></td><td class="n" data-l="μέγ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td></tr>
+            <tr><td class="c">T-04.7</td><td class="t">Ειδοποίηση «νέο αίτημα» στο email της επιχείρησης</td><td class="n" data-l="ελάχ." data-m="30" title="30 λεπτά"><b>30λ</b><i>30</i></td><td class="n e" data-l="αναμ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n" data-l="μέγ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td></tr>
+            <tr><td class="c">T-04.8</td><td class="t">Προστασία από διπλά ή χαμένα email, και ειδοποίηση σε περίπτωση σφάλματος</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr class="phr"><td colspan="5">P4.3 · Λειτουργία και επαλήθευση</td></tr>
+            <tr><td class="c">T-04.9</td><td class="t">Νυχτερινό αντίγραφο των αιτημάτων σε αρχείο στο Drive</td><td class="n" data-l="ελάχ." data-m="30" title="30 λεπτά"><b>30λ</b><i>30</i></td><td class="n e" data-l="αναμ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n" data-l="μέγ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td></tr>
+            <tr><td class="c">T-04.10</td><td class="t">Δοκιμή από άκρη σε άκρη: και οι 3 φόρμες, και τα 2 email, οι γραμμές στο φύλλο</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+          </tbody>
+          <tfoot><tr><td class="t" colspan="2">Υποσύνολο M4 — 17,8 ώρες αναμενόμενα</td><td class="n" data-l="ελάχ." data-m="540" title="540 λεπτά"><b>9ω</b><i>540</i></td><td class="n" data-l="αναμ." data-m="1065" title="1065 λεπτά"><b>17ω 45λ</b><i>1065</i></td><td class="n" data-l="μέγ." data-m="2250" title="2250 λεπτά"><b>37ω 30λ</b><i>2250</i></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="mbox">
+        <h3>M5 — Ετοιμότητα δημοσίευσης</h3>
+        <span class="msub">Google, ταχύτητα, προσβασιμότητα, πραγματική δημοσίευση και εκπαίδευση. · 9 εργασίες · αναμενόμενο 19,0 ώρες</span>
+        <table class="ltab">
+          <thead><tr><th class="l" scope="col">Κωδ.</th><th class="l" scope="col">Εργασία</th><th scope="col">Ελάχ.</th><th scope="col">Αναμ.</th><th scope="col">Μέγ.</th></tr></thead>
+          <tbody>
+            <tr class="phr"><td colspan="5">P5.1 · Google και στατιστικά</td></tr>
+            <tr><td class="c">T-05.1</td><td class="t">Τίτλοι και περιγραφές ανά σελίδα, εικόνα για κοινοποίηση, δομημένα δεδομένα ταξιδιού</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-05.2</td><td class="t">Χάρτης σελίδων, οδηγίες στις μηχανές αναζήτησης, στατιστικά χωρίς cookies</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td></tr>
+            <tr class="phr"><td colspan="5">P5.2 · Ποιότητα</td></tr>
+            <tr><td class="c">T-05.3</td><td class="t">Έλεγχος προσβασιμότητας σε όλα τα πρότυπα σελίδων και διορθώσεις</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="165" title="165 λεπτά"><b>2ω 45λ</b><i>165</i></td><td class="n" data-l="μέγ." data-m="330" title="330 λεπτά"><b>5ω 30λ</b><i>330</i></td></tr>
+            <tr><td class="c">T-05.4</td><td class="t">Ταχύτητα: φωτογραφίες, γραμματοσειρές, χρόνος πρώτης εμφάνισης</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-05.5</td><td class="t">Δοκιμές σε διαφορετικά προγράμματα περιήγησης και μεγέθη οθόνης</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n" data-l="μέγ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td></tr>
+            <tr><td class="c">T-05.6</td><td class="t">Αυτόματα τεστ στα 7 πρότυπα σελίδων και στα 3 κουμπιά αιτήματος</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr class="phr"><td colspan="5">P5.3 · Δημοσίευση και παράδοση</td></tr>
+            <tr><td class="c">T-05.7</td><td class="t">Διεύθυνση, DNS, πιστοποιητικό ασφαλείας, πρώτη πραγματική δημοσίευση</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="150" title="150 λεπτά"><b>2ω 30λ</b><i>150</i></td><td class="n" data-l="μέγ." data-m="300" title="300 λεπτά"><b>5ω</b><i>300</i></td></tr>
+            <tr><td class="c">T-05.8</td><td class="t">Τελικά κείμενα απορρήτου και όρων, απόφαση για cookies</td><td class="n" data-l="ελάχ." data-m="45" title="45 λεπτά"><b>45λ</b><i>45</i></td><td class="n e" data-l="αναμ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+            <tr><td class="c">T-05.9</td><td class="t">Εκπαίδευσή σας (αλλαγές στο CMS, ανάγνωση αιτημάτων) και εγχειρίδιο με τους λογαριασμούς</td><td class="n" data-l="ελάχ." data-m="105" title="105 λεπτά"><b>1ω 45λ</b><i>105</i></td><td class="n e" data-l="αναμ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td><td class="n" data-l="μέγ." data-m="360" title="360 λεπτά"><b>6ω</b><i>360</i></td></tr>
+          </tbody>
+          <tfoot><tr><td class="t" colspan="2">Υποσύνολο M5 — 19,0 ώρες αναμενόμενα</td><td class="n" data-l="ελάχ." data-m="600" title="600 λεπτά"><b>10ω</b><i>600</i></td><td class="n" data-l="αναμ." data-m="1140" title="1140 λεπτά"><b>19ω</b><i>1140</i></td><td class="n" data-l="μέγ." data-m="2340" title="2340 λεπτά"><b>39ω</b><i>2340</i></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="mbox">
+        <h3>M6 — Παραγωγή περιεχομένου</h3>
+        <span class="msub">Φωτογραφίες και κείμενα — δικές μας ώρες· η έγκρισή σας (A8) τρέχει παράλληλα και δεν μετριέται εδώ. · 6 εργασίες · αναμενόμενο 17,5 ώρες</span>
+        <table class="ltab">
+          <thead><tr><th class="l" scope="col">Κωδ.</th><th class="l" scope="col">Εργασία</th><th scope="col">Ελάχ.</th><th scope="col">Αναμ.</th><th scope="col">Μέγ.</th></tr></thead>
+          <tbody>
+            <tr class="phr"><td colspan="5">P6.1 · Φωτογραφία</td></tr>
+            <tr><td class="c">T-06.1</td><td class="t">Επιλογή ~30 φωτογραφιών με ελεύθερη άδεια, αρχείο αδειών, επεξεργασία και ανέβασμα</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="180" title="180 λεπτά"><b>3ω</b><i>180</i></td><td class="n" data-l="μέγ." data-m="360" title="360 λεπτά"><b>6ω</b><i>360</i></td></tr>
+            <tr class="phr"><td colspan="5">P6.2 · Κείμενα</td></tr>
+            <tr><td class="c">T-06.2</td><td class="t">Κείμενα Αρχικής και «Εξατομικευμένο»: γραφή, επιμέλεια, έγκριση από εσάς</td><td class="n" data-l="ελάχ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n e" data-l="αναμ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td><td class="n" data-l="μέγ." data-m="480" title="480 λεπτά"><b>8ω</b><i>480</i></td></tr>
+            <tr><td class="c">T-06.3</td><td class="t">Κείμενα προορισμών (1–2): γραφή, επιμέλεια, έγκριση</td><td class="n" data-l="ελάχ." data-m="90" title="90 λεπτά"><b>1ω 30λ</b><i>90</i></td><td class="n e" data-l="αναμ." data-m="165" title="165 λεπτά"><b>2ω 45λ</b><i>165</i></td><td class="n" data-l="μέγ." data-m="330" title="330 λεπτά"><b>5ω 30λ</b><i>330</i></td></tr>
+            <tr><td class="c">T-06.4</td><td class="t">Κείμενα πακέτων (2–3): γραφή, επιμέλεια, έγκριση</td><td class="n" data-l="ελάχ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n e" data-l="αναμ." data-m="210" title="210 λεπτά"><b>3ω 30λ</b><i>210</i></td><td class="n" data-l="μέγ." data-m="420" title="420 λεπτά"><b>7ω</b><i>420</i></td></tr>
+            <tr><td class="c">T-06.5</td><td class="t">Κείμενα «Ποιοι είμαστε», επικοινωνίας και εμπιστοσύνης — μόνο εγκεκριμένοι ισχυρισμοί</td><td class="n" data-l="ελάχ." data-m="75" title="75 λεπτά"><b>1ω 15λ</b><i>75</i></td><td class="n e" data-l="αναμ." data-m="135" title="135 λεπτά"><b>2ω 15λ</b><i>135</i></td><td class="n" data-l="μέγ." data-m="270" title="270 λεπτά"><b>4ω 30λ</b><i>270</i></td></tr>
+            <tr><td class="c">T-06.6</td><td class="t">Ερωτήσεις φορμών, κείμενα email, κείμενο σελίδας «Ευχαριστούμε»</td><td class="n" data-l="ελάχ." data-m="60" title="60 λεπτά"><b>1ω</b><i>60</i></td><td class="n e" data-l="αναμ." data-m="120" title="120 λεπτά"><b>2ω</b><i>120</i></td><td class="n" data-l="μέγ." data-m="240" title="240 λεπτά"><b>4ω</b><i>240</i></td></tr>
+          </tbody>
+          <tfoot><tr><td class="t" colspan="2">Υποσύνολο M6 — 17,5 ώρες αναμενόμενα</td><td class="n" data-l="ελάχ." data-m="555" title="555 λεπτά"><b>9ω 15λ</b><i>555</i></td><td class="n" data-l="αναμ." data-m="1050" title="1050 λεπτά"><b>17ω 30λ</b><i>1050</i></td><td class="n" data-l="μέγ." data-m="2100" title="2100 λεπτά"><b>35ω</b><i>2100</i></td></tr></tfoot>
+        </table>
+      </div>
+
+      <div class="grand">
+        <span class="gk">Γενικό σύνολο — άθροισμα των 7 υποσυνόλων</span>
+        <div class="grow3">
+          <div><span class="k">ελάχιστο</span><span class="v num">76ω</span><span class="s">4560 λεπτά · 76,0 ώρες</span></div>
+          <div><span class="k">αναμενόμενο</span><span class="v num">141ω 30λ</span><span class="s">8490 λεπτά · 141,5 ώρες</span></div>
+          <div><span class="k">μέγιστο</span><span class="v num">288ω</span><span class="s">17280 λεπτά · 288,0 ώρες</span></div>
+        </div>
+      </div>
+
+      <p class="scalenote">Υποσύνολα ανά ορόσημο σε λεπτά (αναμενόμενα): M0 795 + M1 2010 + M2 1050 + M3 1380 + M4 1065 + M5 1140 + M6 1050. Άθροισμα: <b>8490 λεπτά = 141ω 30λ</b>.</p>
+    </div>
+
+  <nav class="nextnav" aria-label="Συνέχεια σε άλλη ενότητα">
+    <a class="nx lead" href="#v1" data-go="v1"><span class="nxk">επόμενο βήμα</span><span class="nxt">Σύνοψη</span><span class="nxs">Η μεγάλη εικόνα σε μία σελίδα: 9 ώρες δικές σας, 141 δικές μας, και τα τέσσερα πράγματα που ξεκινούν πρώτα.</span></a>
+    <a class="nx" href="#v2" data-go="v2"><span class="nxk">ή, για να απαντήσετε</span><span class="nxt">Τι χρειαζόμαστε</span><span class="nxs">Τα έντεκα αιτήματα με παραδείγματα — από τον λογαριασμό Google μέχρι τον κατάλογο με τα φίλτρα.</span></a>
+  </nav>
+
+    <p class="sig">Greek Essence · Τεχνικό παράρτημα · 67 εργασίες · 141ω 30λ αναμενόμενα · 22.09.2026</p>
+
+  </section>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var wrap = document.getElementById('wrap');
+  if(!wrap) return;
+
+  var reduce = false;
+  try { reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+
+  /* ─────────── view switching (no reload, hidden views stay in the DOM) ─────────── */
+  var tabs  = Array.prototype.slice.call(document.querySelectorAll('.nb'));
+  var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
+  wrap.classList.add('js');
+
+  function activate(id, moveFocus){
+    wrap.classList.remove('all');
+    syncAllBtn();
+    tabs.forEach(function(t){
+      var on = t.getAttribute('aria-controls') === id;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      if(on && moveFocus) t.focus();
+    });
+    views.forEach(function(v){ v.classList.toggle('on', v.id === id); });
+    try { window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'}); } catch(e){ window.scrollTo(0,0); }
+    setTimeout(observeAll, 60);
+  }
+
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ activate(t.getAttribute('aria-controls'), false); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key, j = -1;
+      if(k === 'ArrowRight' || k === 'ArrowDown') j = (i + 1) % tabs.length;
+      else if(k === 'ArrowLeft' || k === 'ArrowUp') j = (i - 1 + tabs.length) % tabs.length;
+      else if(k === 'Home') j = 0;
+      else if(k === 'End') j = tabs.length - 1;
+      if(j > -1){ e.preventDefault(); activate(tabs[j].getAttribute('aria-controls'), true); }
+    });
+  });
+
+  /* ─────────── footer "next section" links (plain anchors without JS) ─────────── */
+  Array.prototype.forEach.call(document.querySelectorAll('.nx[data-go]'), function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('data-go');
+      if(!document.getElementById(id)) return;
+      e.preventDefault();
+      activate(id, false);
+    });
+  });
+
+  /* ─────────── "open everything on one page" (for printing / copying) ─────────── */
+  var allBtn = document.getElementById('showall');
+  function syncAllBtn(){
+    if(!allBtn) return;
+    var on = wrap.classList.contains('all');
+    allBtn.textContent = on ? 'Επιστροφή στις 3 ενότητες' : 'Άνοιγμα όλων των ενοτήτων σε μία σελίδα';
+    allBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+  if(allBtn){
+    allBtn.setAttribute('aria-pressed','false');
+    allBtn.addEventListener('click', function(){
+      var on = wrap.classList.toggle('all');
+      syncAllBtn();
+      if(on) setTimeout(observeAll, 60);
+    });
+  }
+
+  /* ─────────── entrance animation, 3 places only, visible by default ─────────── */
+  var io = null;
+  if(!reduce && 'IntersectionObserver' in window){
+    wrap.classList.add('js-anim');
+    io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {rootMargin:'0px 0px -6% 0px', threshold:0.06});
+  }
+  function observeAll(){
+    if(!io) return;
+    Array.prototype.forEach.call(document.querySelectorAll('.rv:not(.in)'), function(el){ io.observe(el); });
+  }
+  observeAll();
+  /* safety net: nothing ever stays invisible */
+  setTimeout(function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.rv:not(.in)'), function(el){
+      var r = el.getBoundingClientRect();
+      if(r.width && r.top < (window.innerHeight || 800)) el.classList.add('in');
+    });
+  }, 2500);
+
+  /* ─────────── arithmetic self-check for the ledger table ─────────── */
+  (function(){
+    var out = document.getElementById('audit-res');
+    if(!out) return;
+    var rows = document.querySelectorAll('#v3 .ltab tbody tr:not(.phr)');
+    var a = 0, b = 0, c = 0, n = 0;
+    Array.prototype.forEach.call(rows, function(tr){
+      var nums = tr.querySelectorAll('td.n[data-m]');
+      if(nums.length !== 3) return;
+      a += parseInt(nums[0].getAttribute('data-m'), 10) || 0;
+      b += parseInt(nums[1].getAttribute('data-m'), 10) || 0;
+      c += parseInt(nums[2].getAttribute('data-m'), 10) || 0;
+      n++;
+    });
+    var ok = (n === 67 && a === 4560 && b === 8490 && c === 17280);
+    out.textContent = (ok ? '✓ ' : '⚠ ') + 'Έλεγχος αθροισμάτων επί της σελίδας: ' + n +
+      ' εργασίες · ' + a + ' / ' + b + ' / ' + c + ' λεπτά' +
+      (ok ? ' — συμφωνούν με τα δηλωμένα υποσύνολα και το γενικό σύνολο.'
+          : ' — ΔΕΝ συμφωνούν με τα δηλωμένα σύνολα.');
+  })();
+
+  /* ─────────── subtle background particles ─────────── */
+  (function(){
+    var cv = document.getElementById('dust');
+    if(!cv) return;
+    if(reduce || !cv.getContext){ cv.parentNode && cv.parentNode.removeChild(cv); return; }
+    var ctx = cv.getContext('2d');
+    if(!ctx){ cv.parentNode && cv.parentNode.removeChild(cv); return; }
+
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = 0, h = 0, ps = [], raf = null;
+
+    function make(n){
+      ps = [];
+      for(var i = 0; i < n; i++){
+        var big = Math.random() < 0.18;
+        ps.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: big ? (3.2 + Math.random() * 2.6) : (1.3 + Math.random() * 2.1),
+          vy: (big ? 0.03 : 0.07) + Math.random() * 0.16,
+          ph: Math.random() * 6.28,
+          sw: 0.12 + Math.random() * 0.30,
+          a: big ? (0.07 + Math.random() * 0.06) : (0.12 + Math.random() * 0.13),
+          c: Math.random() < 0.34 ? '43,166,214' : '11,111,166'
+        });
+      }
+    }
+    function size(){
+      w = cv.clientWidth; h = cv.clientHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      make(Math.max(22, Math.min(56, Math.round(w / 24))));
+    }
+    function frame(){
+      ctx.clearRect(0, 0, w, h);
+      for(var i = 0; i < ps.length; i++){
+        var p = ps[i];
+        p.y -= p.vy;
+        p.ph += 0.006;
+        if(p.y < -6){ p.y = h + 6; p.x = Math.random() * w; }
+        ctx.beginPath();
+        ctx.arc(p.x + Math.sin(p.ph) * (p.sw * 26), p.y, p.r, 0, 6.2832);
+        ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
+        ctx.fill();
+      }
+      raf = window.requestAnimationFrame(frame);
+    }
+    function start(){ if(raf === null) raf = window.requestAnimationFrame(frame); }
+    function stop(){ if(raf !== null){ window.cancelAnimationFrame(raf); raf = null; } }
+
+    size();
+    start();
+
+    var t = null;
+    window.addEventListener('resize', function(){
+      clearTimeout(t);
+      t = setTimeout(function(){ stop(); size(); start(); }, 180);
+    });
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden) stop(); else start();
+    });
+  })();
+})();
+</script>

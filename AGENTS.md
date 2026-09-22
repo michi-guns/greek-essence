@@ -18,6 +18,10 @@ on-demand revalidation.
 
 That is the whole reading list. `docs/v1/` has four more files; open the one your task needs.
 
+Working on an internal report or the client brief instead of the website? That is a separate
+product: start at [`report-kit/README.md`](report-kit/README.md) and read
+[`report-kit/CONVENTIONS.md`](report-kit/CONVENTIONS.md) before editing anything that renders.
+
 ## Stack
 
 Next.js 16 (App Router) · TypeScript strict · Tailwind 4 · Base UI · Sanity · Netlify · pnpm.
@@ -84,6 +88,19 @@ needed to reach the browser or save those changes.
 This does not waive: the deny list in `.claude/settings.json`, a production deployment, sending
 real email to a real customer address, deleting anything belonging to the client, or any paid
 commitment.
+
+### Documentation drift — fix it, don't report it
+
+If you find a document that contradicts the current state of the code, the decisions or the
+roadmap — a stale number, a superseded tool, a wrong pronoun, a dead link, duplicated content,
+a file in the wrong place — **correct it in the same pass, without asking.** Say what you
+changed in the commit body. This is the one exception to the Posture rule against unrequested
+cleanup: docs that agents read first propagate their errors, so leaving a known-stale line is
+more expensive than fixing it.
+
+Ask the owner only when the fix requires a judgement you cannot make alone: two documents
+disagree and you cannot tell which is current, the correction would reopen an accepted
+decision, or the "stale" content may be deliberate. Then state the conflict and stop.
 
 ## Local preferences
 

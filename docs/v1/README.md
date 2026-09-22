@@ -11,7 +11,7 @@ Eight files. This is the complete plan for v1. Read in order.
 | [05-STACK.md](05-STACK.md) | Framework, host, component library, typography, icons, motion, analytics — with the reasoning and the static-export consequences |
 | [06-ARCHITECTURE.md](06-ARCHITECTURE.md) | System context, environments, project layout, dependency rules, data flow and DTOs, server/client boundary, caching, conventions, testing, **Sanity content modelling and Studio UX standards** |
 | [07-CLIENT-BRIEF.md](07-CLIENT-BRIEF.md) | M7: the client asks inventory and the executive brief — exemplars, anti-slop rules, components |
-| [04-ROADMAP.md](04-ROADMAP.md) | 7 milestones · 16 phases · 44 tasks · two lanes · min/avg/max estimates · week-by-week shape |
+| [04-ROADMAP.md](04-ROADMAP.md) | 8 milestones · 18 phases · 67 estimated tasks · two lanes · min/avg/max estimates · week-by-week shape |
 
 **This folder is the salvage set.** It is designed to be the only thing carried across the
 `main` reset (see 03-WORKFLOW §1), and to be the seed for `backlog/` (T-00.10).

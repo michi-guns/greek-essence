@@ -1,7 +1,7 @@
 # Greek Essence v1 — Roadmap
 
-**Revised after discovery and the stack decisions.** 7 milestones · 18 phases · 67 tasks ·
-~141.5h average · ~8.5 weeks.
+**Revised after discovery and the stack decisions.** 8 milestones (M0–M6 estimated, plus M7) ·
+18 phases · 67 estimated tasks · ~141.5h average · ~8.5 weeks.
 Architecture: [06-ARCHITECTURE.md](06-ARCHITECTURE.md). Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
