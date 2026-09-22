@@ -322,8 +322,12 @@ those numbers in the published brief. Adding tasks here would corrupt them. Trac
 the branch and the pull-request body instead.
 
 **Branch.** One branch off `main`, `chore/report-kit-decomposition`, rather than the phase and
-task branches the website work uses — there are no backlog tasks to name them after. **The
-merge to `main` waits for the owner's say-so.** Commits and pushes do not.
+task branches the website work uses — there are no backlog tasks to name them after.
+
+**The merge to `main` is pre-authorised once the checks are green** (D-023: agents may merge
+phase into `main` once checks pass). This corrects an earlier draft of this plan, which said
+the merge waits for the owner. It does not. What still needs the owner is a force-push, a
+history rewrite, or deleting an unmerged branch.
 
 **Before starting,** confirm headless Chromium runs. The pixel diff is not optional; a refactor
 verified by eye is not verified. If it cannot run, say so and stop.
