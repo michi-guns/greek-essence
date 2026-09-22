@@ -8,10 +8,10 @@ owner's weekly model-usage budget was exhausted, not for any technical reason.
 
 **When this plan has been implemented and the work is merged, delete this file.** It is the
 only instruction in it that outlives the work. The repository should not carry a plan for
-something that already exists; `README.md` and `CONVENTIONS.md` are the durable documents
+something that already exists; `README.md` and `CONVENTIONS.md` are the timeless documents
 here. Remove the pointer to this file from `README.md` in the same commit.
 
-This file absorbed `HANDOFF.md`, the earlier build brief, which was then deleted. Its durable
+This file absorbed `HANDOFF.md`, the earlier build brief, which was then deleted. Its timeless
 rules — component architecture, and the list of deliberate oddities not to "fix" — moved into
 `CONVENTIONS.md`, where they survive this file.
 

@@ -47,8 +47,8 @@ READMEs, plans, handoffs, briefs, conventions, architecture notes, runbooks, age
 
 This is the judgement the whole skill turns on. Two kinds:
 
-- **Durable.** It stays true after the work lands. Conventions, architecture, the index,
-  rules for editing. These get _updated_.
+- **Timeless** (durable). It stays true after the work lands. Conventions, architecture, the
+  index, rules for editing. These get _updated_.
 - **Work-scoped.** It exists to get a piece of work done and dies with it. Plans, handoffs,
   build briefs, migration notes, TODO lists. These get _deleted_ when the work lands.
 
@@ -57,12 +57,12 @@ straight delete.
 
 ## Step 3 — Act
 
-**Update** a durable document that drifted. Correct it in the same pass, without asking. Say
+**Update** a timeless document that drifted. Correct it in the same pass, without asking. Say
 what changed in the commit body.
 
 **Merge** when two documents overlap. The bigger or more current one absorbs the other. Route
-each piece of unique content by _lifespan_, not by convenience: durable content goes to the
-durable document even if you are merging into a work-scoped one, or it dies a second time when
+each piece of unique content by _lifespan_, not by convenience: timeless content goes to the
+timeless document even if you are merging into a work-scoped one, or it dies a second time when
 that file is deleted.
 
 **Delete** a work-scoped document whose work has landed, and remove every pointer to it in the

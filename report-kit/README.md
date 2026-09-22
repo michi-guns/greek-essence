@@ -32,7 +32,7 @@ and re-read `CONVENTIONS.md` first.
 
 The extraction has been planned in full and the plan is approved: see [PLAN.md](PLAN.md). It is
 not started because the owner's weekly model-usage budget ran out, not for any technical
-reason. The plan absorbed the earlier build brief, which was deleted; that brief's durable
+reason. The plan absorbed the earlier build brief, which was deleted; that brief's timeless
 rules now live in `CONVENTIONS.md`.
 
 **`PLAN.md` is temporary. Delete it, and this paragraph, in the commit that completes the
