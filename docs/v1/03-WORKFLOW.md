@@ -359,9 +359,26 @@ Shape (finalised in T-00.5):
 }
 ```
 
-The deny list is the whole safety story, and it is short on purpose: history destruction, file
-destruction, and deleting the client's dataset or site. Everything else an agent might do to
-this project is recoverable from Git.
+The deny list is the whole safety story. It is **enumerated rather than described**, and that
+is the point: an agent should not have to judge whether an operation is "destructive enough" to
+warrant asking, because that judgement is where friction creeps back in. If a command is not on
+the list, it runs.
+
+Five families, 25 entries (T-00.5 shipped a shorter version; extended once the role split was
+written down):
+
+1. **History destruction** — `push --force`/`-f`, `reset --hard`, `clean`, `branch -D`, remote
+   branch deletion, `filter-branch`, `filter-repo`, `reflog expire`, `gc --prune=now`,
+   `stash drop`/`clear`
+2. **Uncommitted work** — `checkout -- `, `restore .`
+3. **Filesystem** — `rm -rf`
+4. **Production** — `push :release`, `netlify deploy --prod`. Not destructive in the Git sense,
+   but it changes the live client site and spends 15 of 300 monthly credits (A-003)
+5. **Client property** — Sanity dataset/document deletion and `--replace` imports, Netlify site
+   deletion and `env:unset`, `gh repo delete`, `gh release delete`
+
+Everything else an agent might do to this project is recoverable from Git, which is precisely
+why the list can stay this short.
 
 ### Standing authorisations — prose in `AGENTS.md`
 

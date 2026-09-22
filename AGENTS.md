@@ -85,14 +85,27 @@ calls, and asking for them spends his attention on decisions he has delegated.
 - mark a task or milestone Done when its work is demonstrably finished
 - begin work that has already been agreed — do not check in again before starting
 
-**Stop and ask:**
+**Ask before running — and this list is the whole of it:**
 
-- a scope change, or anything that reopens an accepted decision
-- anything that reaches the client: a document, an email, a published link
-- anything irreversible or that spends money — production deploys, deleting client assets,
-  paid commitments
-- a conflict you cannot resolve alone: two sources disagree and you cannot tell which is current
-- a visual or design change to something already signed off
+The `deny` list in `.claude/settings.json` is the complete set of operations that need a human.
+It is enumerated on purpose: history destruction (`--force`, `reset --hard`, `clean`,
+`branch -D`, `filter-branch`, `reflog expire`, `gc --prune=now`, stash drops, remote branch
+deletion), destruction of uncommitted work (`checkout -- `, `restore .`), `rm -rf`, production
+(`push :release`, `netlify deploy --prod` — 15 credits against a hard 300/month cap on the
+live client site), and anything that deletes or overwrites client property (Sanity datasets and
+documents, Netlify sites and env vars, the GitHub repo, releases).
+
+**If a command is not on that list, run it.** Do not invent a category to be careful about.
+Everything else in this repo is recoverable from Git, which is the entire reason the list is
+short.
+
+**Two things are not permission requests — they are escalations, and you must still make them:**
+
+- **You cannot decide alone.** Two sources disagree and you cannot tell which is current; a
+  task needs a scope call; the work would reopen an accepted decision. You are not asking for
+  authority, you are missing information only the owner has. State the conflict and stop.
+- **It reaches the client.** A document, an email or a link going to Giorgos. That is the
+  owner's relationship, and sending is not undoable. Build it, show him, let him send it.
 
 **Report, don't request.** When something is done, say what changed and what is left, in a
 sentence or two. *"Shall I…?"* on work already agreed is friction. *"Done — here is what
