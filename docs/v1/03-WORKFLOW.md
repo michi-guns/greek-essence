@@ -261,6 +261,17 @@ npm install -g backlog.md            # pin: 1.52.0, matching AGENTS.md's instruc
 export PATH="$HOME/.npm-global/bin:$PATH"
 ```
 
+### Pushing from a cloud agent session — you can't, and that is not a permissions problem
+
+`.claude/settings.json` allows `Bash(git *)`; agents commit freely. **Pushing is different.**
+The desktop-bridge VM mounts the repo folder and nothing else, so it has no credential helper,
+no `~/.ssh`, no `gh`, and its egress proxy does not resolve `github.com` over SSH. HTTPS fails
+with `could not read Username`, SSH with `Could not resolve hostname`.
+
+Nothing in the allow-list changes this, and an agent should not be handling a token to work
+around it. **Commit normally and tell the operator which commits are waiting.** Do not report
+this as "I need approval to push" — the approval already exists; the remote is unreachable.
+
 Do not hand-edit task markdown as a workaround — the status and dependency fields are managed
 by the CLI and hand edits silently desync the index.
 
