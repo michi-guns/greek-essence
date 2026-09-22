@@ -1,7 +1,7 @@
 # Greek Essence v1 — Roadmap
 
-**Revised after discovery and the stack decisions.** 7 milestones · 17 phases · 62 tasks ·
-~133.2h average · ~8.5 weeks.
+**Revised after discovery and the stack decisions.** 7 milestones · 18 phases · 67 tasks ·
+~141.5h average · ~8.5 weeks.
 Architecture: [06-ARCHITECTURE.md](06-ARCHITECTURE.md). Stack rationale: [05-STACK.md](05-STACK.md).
 
 Estimates are **minutes**, meaning *agent wall-clock plus the reviewing human's time*. For
@@ -36,8 +36,8 @@ is relaxed — two branches open by design, disjoint directories, one owning lan
 |---|---|---|---|---|---|
 | **M0** | Foundation | Product | 1 | 13.3 | New `main`, empty of v0, builds and deploys to a preview URL |
 | **M1** | Design System & Shell | Product | 1–3 | 33.5 | Client has said "yes, this is the look" on two real pages |
-| **M2** | Content Platform | Product | 3–4 | 16.0 | Client can edit a destination in the Studio and watch the page update live beside her |
-| **M3** | Public Site | Product | 4–5 | 16.2 | All 7 templates live on preview with real content |
+| **M2** | Content Platform | Product | 3–4 | 17.5 | Client can edit a destination in the Studio and watch the page update live beside her |
+| **M3** | Public Site | Product | 4–5 | 23.0 | All 7 templates live on preview with real content |
 | **M4** | Request Pipeline | **Junior** | 1–3 | 16.2 | A real submission on all 3 forms emails both parties and lands in the Sheet |
 | **M5** | Launch Readiness | Mixed | 6–7 | 19.0 | Live on the real domain, client trained, runbook handed over |
 | **M6** | Content Production | Product | 2–6 | 17.5 | All copy approved, ~30 images curated and licence-logged |
@@ -102,6 +102,7 @@ links, never descriptions. Ask closed questions.
 |---|---|---|---|---|
 | T-02.1 | Sanity project on the **client's** account, Studio embedded at `/studio`, desk structure organised as Packages/Destinations/Pages/Settings, singletons locked (06-ARCH §13) | 75 | 135 | 270 |
 | T-02.2 | Schemas: all six types with `defineType`/`defineField` · field-group tabs · plain-language descriptions · list previews · publication-gate validation with readable messages · required alt text (06-ARCH §13). **No localization** (D-005 / A-002) | 105 | 195 | 390 |
+| T-02.9 | **Catalogue facets**: `groupSizeMin/Max`, display-only `dateWindowLabel`, `facets[]` on package, and the editable facet config in `siteSettings` so the client changes the filter list himself (D-032) | 45 | 90 | 180 |
 
 ### P2.2 — Data layer, seed and preview
 | ID | Task | min | avg | max |
@@ -124,6 +125,14 @@ links, never descriptions. Ask closed questions.
 | T-03.3 | Price / includes / excludes blocks. The D-006 qualification rule is enforced in `map.ts` (D-040), so this renders `price` or nothing — plus the unit test for the mapper | 45 | 90 | 180 |
 | T-03.4 | `/destinations/[slug]` detail + packages in this destination | 60 | 105 | 210 |
 | T-03.5 | `/packages/[slug]/request` interstitial + `buildFormUrl()` prefill helper | 60 | 105 | 210 |
+
+### P3.3 — Catalogue (D-032 / D-033 revised)
+| ID | Task | min | avg | max |
+|---|---|---|---|---|
+| T-03.11 | `/packages` catalogue page: card grid over the full prerendered set | 60 | 105 | 210 |
+| T-03.12 | **Filter UI** — destination · group size · type, driven by the Sanity facet config. Fourth `'use client'` component; client-side over the shipped payload, no server round-trip | 90 | 165 | 330 |
+| T-03.13 | `/destinations` list page | 45 | 75 | 150 |
+| T-03.14 | Playwright: filtering narrows the grid correctly, and an empty result renders a real empty state | 30 | 60 | 120 |
 
 ### P3.2 — Brand and utility
 | ID | Task | min | avg | max |
@@ -218,7 +227,7 @@ assumes two approval rounds.
 
 | | min | avg | max |
 |---|---|---|---|
-| **Total** | 4,320 min · **72.0 h** | 7,905 min · **131.8 h** | 16,140 min · **269.0 h** |
+| **Total** | 4,560 min · **76.0 h** | 8,490 min · **141.5 h** | 17,280 min · **288.0 h** |
 
 At ~15h/week combined (operator 8–12h + junior net of review): **~8.5 weeks at avg, ~4.5 weeks at
 min, ~17.5 weeks at max.** The spread is wide because four tasks are client-gated.

@@ -16,12 +16,14 @@ paid for, or confirmed on the site.
 
 ## 2. Sitemap
 
-**Seven templates.** List pages are cut (D-033) — Home carries the catalogue directly. Routes
-are structured so `/packages` and `/destinations` list pages are additive later, not a redesign.
+**Eight templates.** List pages are back (D-033 revised): the client edits the catalogue himself
+in Sanity and needs somewhere for visitors to browse and filter it.
 
 | Route | Template | Source | Notes |
 |---|---|---|---|
-| `/` | Home | Sanity `homePage` + all packages + all destinations | Hero, value prop, **the 2-3 packages as cards**, **the 1-2 destinations as cards**, personalized CTA, trust block |
+| `/` | Home | Sanity `homePage` + featured | Hero, value prop, featured packages and destinations, personalized CTA, trust block |
+| `/packages` | **Catalogue** | Sanity `package[]` + `siteSettings.facets` | Card grid with client-side filters: destination, group size, type. Facet list configurable in Sanity |
+| `/destinations` | List | Sanity `destination[]` | Card grid |
 | `/packages/[slug]` | Detail | Sanity `package` | Gallery, what's included, itinerary outline, CTA → request |
 | `/packages/[slug]/request` | Interstitial | static + package | Restates the process, then hands off to the pre-filled Form |
 | `/destinations/[slug]` | Detail | Sanity `destination` | Story, gallery, packages in this destination |
@@ -31,8 +33,9 @@ are structured so `/packages` and `/destinations` list pages are additive later,
 | `/privacy`, `/terms` | Legal | Sanity `page` | Reuses the content-page template |
 | `/404` | Not found | static | |
 
-**Cut from v1, deliberately:** `/packages` and `/destinations` list pages, and **all catalogue
-filters** (D-032 — two filters across three packages is theatre).
+**Cut from v1, deliberately:** a **budget filter** (needs published prices, D-006 forbids them
+unqualified) and **any date logic** — package date windows are display text only, with no expiry,
+no availability matching and no date filter (D-032b, D-032c).
 
 ## 3. Sanity content model
 
@@ -42,6 +45,7 @@ siteSettings   // singleton
   contact { email, phone, address, hours }
   forms { packageRequestUrl, personalizedUrl, generalUrl }   // base Google Form URLs
   formEntryIds { packageName, packageType }                   // prefill param mapping
+  facets[]     { key, label, values[] }                       // catalogue filter config (D-032)
   social[], nav[], footerLinks[]
 
 homePage       // singleton
@@ -67,7 +71,10 @@ package
   destinations[] -> destination            // required, min 1
   summary, body (PortableText)
   heroImage, gallery[]
-  durationDays (number), groupSize (string)
+  durationDays (number)
+  groupSizeMin, groupSizeMax (number)   // the filter facet
+  dateWindowLabel (string)              // DISPLAY ONLY — "15–22 Ιουνίου". No logic (D-032c)
+  facets[] -> string                    // configurable tags from siteSettings
   highlights[], includes[], excludes[]
   price?  { amount, currency, basis: 'per-person'|'per-group', includesNote, reviewedAt }
   requestable (bool, default false)        // carried over from v0 D-001
