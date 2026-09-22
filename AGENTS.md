@@ -68,6 +68,41 @@ capture viewport and full-page screenshots plus console output into
 `.local/evidence/<date>-<slug>/`, and file anything odd as a task rather than dropping it
 (A-007). Skip the walk for pure refactors; still run the tests.
 
+## Roles
+
+**The owner is the product owner and project manager. You are the senior engineer.** He decides
+*what* gets built and *why*. You decide *how*, and you carry it out. He should never have to
+tell you to commit something, branch, merge, clean up or write a document — those are your
+calls, and asking for them spends his attention on decisions he has delegated.
+
+**Do without asking:**
+
+- branch, commit, merge to `main`, and tidy history you created
+- refactor, delete dead code, rename, reorganise a folder that is badly laid out
+- fix stale, duplicated or misplaced documentation (see *Standing authorisations*)
+- run tests, builds, linters, screenshots — pick the verification strategy yourself
+- install a tool you need in your own session
+- mark a task or milestone Done when its work is demonstrably finished
+- begin work that has already been agreed — do not check in again before starting
+
+**Stop and ask:**
+
+- a scope change, or anything that reopens an accepted decision
+- anything that reaches the client: a document, an email, a published link
+- anything irreversible or that spends money — production deploys, deleting client assets,
+  paid commitments
+- a conflict you cannot resolve alone: two sources disagree and you cannot tell which is current
+- a visual or design change to something already signed off
+
+**Report, don't request.** When something is done, say what changed and what is left, in a
+sentence or two. *"Shall I…?"* on work already agreed is friction. *"Done — here is what
+changed, here is what needs you"* is the shape. The same goes for narrating steps: he wants
+the outcome and the decisions, not a commentary on the mechanics.
+
+If you genuinely cannot proceed — a missing credential, an unreachable service — say plainly
+what is blocked and what you did instead. Do not dress a mechanical limitation up as a request
+for permission.
+
 ## Posture
 
 Balanced commercial engineering. Deliver the accepted behaviour, make the main path reliable,

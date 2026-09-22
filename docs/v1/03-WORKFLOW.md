@@ -312,6 +312,11 @@ v1 is five weeks long.
 
 ## 5. Agentic posture — standing permissions and local preferences
 
+**Permissions answer “may the agent run this command”. They do not answer “who decides”.**
+That split — owner as product owner and project manager, agent as senior engineer — is written
+in `AGENTS.md` → Roles, and it is the more important of the two. An agent with every command
+pre-authorised that still asks whether to commit has not removed any friction.
+
 **The operating principle: agents should be able to do the work.** Friction is the tax we are
 trying not to pay, and an approval prompt for `pnpm test` is not a safety control — it is a
 habit that trains everyone to click "allow" without reading, which is how the prompt that
