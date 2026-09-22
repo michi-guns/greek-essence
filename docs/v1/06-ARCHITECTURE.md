@@ -207,15 +207,16 @@ the one place the two lanes touch; T-04.1's contract spec defines the key names.
 ## 6. Server / client boundary
 
 **React Server Components by default.** `'use client'` is an exception that needs a reason, and
-in v1 there are exactly three:
+in v1 there are exactly four:
 
 | Component | Why |
 |---|---|
 | `MobileNav` | Open/close state |
 | `Gallery` | Lightbox state, keyboard handling |
 | `Dialog` | Base UI primitive, inherently client |
+| `CatalogueFilters` | Filter state (D-032 revised). Filters client-side over the already-prerendered set — at this catalogue size every package ships in the payload, so no server round-trip |
 
-Everything else — every page, every section, every card — is a Server Component. If a fourth
+Everything else — every page, every section, every card — is a Server Component. If a fifth
 appears, it is a design conversation, not a quick fix.
 
 `lib/sanity/client.ts` imports `server-only` so a mistaken client import fails the build rather

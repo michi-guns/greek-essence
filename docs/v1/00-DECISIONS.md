@@ -94,19 +94,33 @@ promise a response time without client approval. No phone number is collected, s
 no-telephone rule survives intact. Automated scheduling stays out of v1 — but a free scheduling
 link (Google Calendar appointment schedules) is the obvious v1.1 upgrade if her inbox gets busy.
 
-### D-032 ✅ Launch catalogue is deliberately tiny: 1–2 destinations, 2–3 packages
-*Consequence — this is not a small change:*
-- **Catalogue filters are cut.** Two filters across three packages is UI theatre. D-003's
-  "required filters" no longer apply to v1.
-- **List pages are cut** (D-033).
-- **Organic search is effectively deferred.** Referrals and Instagram carry v1; two destination
-  pages will not rank. Say this to the client explicitly so she does not expect search traffic
-  in month one. Organic becomes a v2 content play.
+### D-032 ⚠️ **REVISED** — launch catalogue is small, but the catalogue is dynamic and filterable
+*Original:* 1–2 destinations, 2–3 packages, **filters cut**, list pages cut.
 
-### D-033 ✅ Seven page templates, not nine
-Home carries packages and destinations directly. Detail pages survive; list pages do not.
-Route structure is preserved so adding `/packages` and `/destinations` later is additive rather
-than a redesign. See [01-SCOPE.md](01-SCOPE.md) §2.
+*Revised 2026-09-22, client requirement:* the client will not have fixed, static packages. He
+creates and edits **both destinations and packages in Sanity**, on his own, as opportunities
+appear — "finds a deal, makes a Mykonos package for 4–6 people, for these dates". So:
+
+- **Filters are back in.** Destination and group size at minimum; the facet list is configurable
+  in Sanity rather than hard-coded.
+- **Budget is NOT a filter** (D-032b). A budget facet needs published prices, which D-006
+  forbids without full qualification. Decided: drop it rather than weaken D-006.
+- **Dates are display text only** (D-032c). A package may read "15–22 Ιουνίου" as content. There
+  is no expiry logic, no availability matching, no date filter. This was the single largest cost
+  avoided in this change.
+- Launch *volume* is still deliberately small. Small catalogue, real catalogue machinery.
+
+*Consequence:* +6 tasks, +9.3h. The estimate moves 133.2h → **142.5h**. Recorded openly rather
+than absorbed.
+
+### D-033 ⚠️ **REVISED** — list pages are back
+`/packages` returns as a filterable catalogue page; `/destinations` returns as a list. A
+catalogue without a list page is not a catalogue. Eight page templates, not seven.
+
+*Consequence for the architecture:* the filter UI is the **fourth** `'use client'` component,
+alongside MobileNav, Gallery and Dialog (06-ARCHITECTURE §6). Filtering happens client-side over
+the already-prerendered set — no query params round-tripping to a server, since every package
+ships in the payload at this catalogue size.
 
 ### D-034 ✅ Free stock photography, curated defensively
 Unsplash/Pexels. Licences are permissive for commercial use, but images with recognisable faces
