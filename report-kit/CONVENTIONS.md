@@ -12,8 +12,8 @@ and cross-applied: legend rows inherited background sizing, and every logo inher
 legend's `display:grid` and `border-bottom`. It looked plausible on screen and took a user
 report to find.
 
-Do **not** reach for CSS `@scope` yet. It is the right mechanism and it is Baseline *Newly
-Available* (Firefox 146, January 2026), but an unsupporting browser drops the whole block —
+Do **not** reach for CSS `@scope` yet. It is the right mechanism and it is Baseline _Newly
+Available_ (Firefox 146, January 2026), but an unsupporting browser drops the whole block —
 the styles vanish rather than degrade. A prefix convention costs nothing and cannot fail.
 Revisit when `@scope` reaches Widely Available.
 
@@ -33,9 +33,9 @@ than the tile's own 18px padding — so the first tile's text rendered at nearly
 right at the strip edge and read as clipped, broken text. Use fixed lengths:
 `linear-gradient(90deg,transparent 0,#000 64px,#000 calc(100% - 64px),transparent 100%)`.
 
-**Overlap needs geometry *and* paint order.** The tech strip is pulled 12px up under the hero
+**Overlap needs geometry _and_ paint order.** The tech strip is pulled 12px up under the hero
 card. Correct geometry, but `position:relative; z-index:0` on the strip creates a stacking
-context, and as a later sibling it painted *in front* of the hero — its square top corner sat
+context, and as a later sibling it painted _in front_ of the hero — its square top corner sat
 on top of the hero's rounded corner. Pixel-sampling columns will not catch this; it tells you
 which pixels are there, not which element drew them. Zoom in and look. Fix was `z-index` on
 the hero, above the strip.
@@ -48,7 +48,7 @@ the hero, above the strip.
   form is for the client; the raw form is for the AI auditor he will paste this into.
 - **Every number must reconcile, in every view.** 67 rows, seven phase subtotals, and the
   grand totals 4560 / 8490 / 17280 minutes = 76.0 / 141.5 / 288.0 hours. Change one estimate
-  and all three views plus the hero move. A wrong arithmetic *operator* shipped once — `5 × 495`
+  and all three views plus the hero move. A wrong arithmetic _operator_ shipped once — `5 × 495`
   where the truth was `5 tasks totalling 495` — inside the exact paragraph written for the
   auditor. Re-verify totals after any content edit.
 
@@ -75,11 +75,44 @@ Any asymmetry between the two sequences shows as a visible jump once per cycle.
 ## Publishing (Artifact pages)
 
 - The only external origin allowed is `fonts.googleapis.com`. Everything else — CSS, JS,
-  images — must be inline or a `data:` URI. This is a *publish* constraint, not an authoring
+  images — must be inline or a `data:` URI. This is a _publish_ constraint, not an authoring
   one: author in separate files, inline at build time.
 - **No Shadow DOM.** The client feeds this document to an AI to sanity-check the hours.
   Shadow content is harder to parse and complicates find-in-page and print. Light DOM only.
 - Page size ceiling is 16MB. The current document is ~219KB, of which ~40KB is base64 assets.
+
+## Component architecture
+
+Decided before the library was built. These rules outlive any one document.
+
+- **Componentise everything, including single-use blocks.** A block that appears once still
+  gets its own file. The document root then reads as an outline.
+- **A single-use component takes no props.** Content inline, zero API. Inventing a props API
+  for one caller is how the library rots. When a second caller appears, _that_ tells you the
+  real API.
+- **Content is hybrid.** Repeating structures — task rows, ask panels, logo tiles, stat tiles
+  — live in typed data files. Prose stays inline in the component that renders it, where it
+  reads in context.
+- **TypeScript, always.** Typed props on the data-driven components are where an arithmetic
+  error is caught at compile time instead of by a reviewer.
+- **Plain CSS in the light DOM.** No CSS-in-JS, no Shadow DOM, no `@scope` yet — see Naming.
+- **Zero runtime framework.** Preact renders to a string at build time and ships nothing. The
+  only JavaScript in the output is the document's own inline script.
+
+## Deliberate oddities — do not "fix" these
+
+Each looks like a defect and is not. All were flagged to the owner and kept on purpose.
+
+- **`assets/logos/google-forms.svg` is not the Google Forms logo.** It is the four-colour
+  Google Developers chevron. The real Forms mark could not be sourced, the strip scrolls, and
+  the tile is decorative. Leave it.
+- **The Sanity tile's label is in the markup but hidden by CSS**, while the other seven tiles
+  show theirs. Its wordmark already says the name. Keep the label in the DOM — the rail's
+  accessible name is built from it.
+- **`--c3-solid` exists for exactly one bar segment and one legend dot.** See Colour.
+- **The palette does not match the website's.** Deliberate isolation (D-052, D-053).
+- **The hero's call-to-action link carries a `data-go` attribute that nothing binds.**
+  Pre-existing and harmless. Giving it the handler class would change its appearance.
 
 ## Review
 

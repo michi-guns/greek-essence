@@ -8,8 +8,12 @@ owner's weekly model-usage budget was exhausted, not for any technical reason.
 
 **When this plan has been implemented and the work is merged, delete this file.** It is the
 only instruction in it that outlives the work. The repository should not carry a plan for
-something that already exists; `README.md`, `HANDOFF.md` and `CONVENTIONS.md` are the durable
-documents here. Remove the pointer to this file from `README.md` in the same commit.
+something that already exists; `README.md` and `CONVENTIONS.md` are the durable documents
+here. Remove the pointer to this file from `README.md` in the same commit.
+
+This file absorbed `HANDOFF.md`, the earlier build brief, which was then deleted. Its durable
+rules — component architecture, and the list of deliberate oddities not to "fix" — moved into
+`CONVENTIONS.md`, where they survive this file.
 
 Written 2026-09-22.
 
@@ -35,8 +39,8 @@ split` can lift it out later.
 
 What exists today is the **finished brief as one hand-written 2000-line HTML file** at
 `report-kit/dist/greek-essence-brief.html`, published to the client and signed off, plus
-`HANDOFF.md`, `CONVENTIONS.md` and the source assets. There is no package, no build script and
-no component in the folder. `HANDOFF.md` is the build brief; this plan executes it.
+`CONVENTIONS.md` and the source assets. There is no package, no build script and no component
+in the folder.
 
 **Outcome:** a working build step and a component library that reproduce the published
 document exactly. That converts a one-off artifact into a tool.
@@ -47,10 +51,10 @@ reproduce pixel-perfect, then wait for a real second document to force the API o
 
 ---
 
-## Findings that amend the handoff
+## Findings about the baseline
 
-Six things exploration and design turned up that `HANDOFF.md` gets wrong or omits. All are
-load-bearing.
+Six things exploration and design turned up. Each contradicted the original build brief, and
+each is load-bearing — they are recorded here so nobody has to re-derive them.
 
 1. **The baseline is an HTML fragment.** No doctype, no html, head or body element. The CSS
    styles `body` anyway and the browser auto-wraps. The build must emit the same fragment
@@ -162,6 +166,47 @@ markup gate catch it mechanically if it ever slips.
 
 ---
 
+## Target structure
+
+```
+report-kit/
+  package.json  tsconfig.json  pnpm-workspace.yaml
+  build.ts              # esbuild transpile -> renderToString -> inline CSS and assets -> dist/
+  src/
+    styles/             # tokens, base, one file per component, media tail last
+    runtime/brief.js    # the document's inline script, copied verbatim, never transpiled
+    components/         # one .tsx + one .css per component
+    document/greek-essence-brief/
+      render.tsx        # the document root — reads as an outline
+      data/             # tasks, asks, logos, stats, stack, build tiles, time split
+  assets/  dist/  tests/{baseline,visual}/
+  README.md  CONVENTIONS.md
+```
+
+The root should read as an outline: page, backgrounds, tab nav, then three views each holding
+a list of named blocks.
+
+## Inventory, for orientation
+
+30 top-level blocks across three views. 221 distinct classes, 135 used more than once.
+
+- **Summary view, 9 blocks:** hero, tech strip, what-we-build tiles, where-time-goes stacked
+  bar with legend, the comparison, progress, stat tiles, footer nav, signature.
+- **Asks view, 13 blocks:** an intro panel, eleven near-identical ask panels, footer nav.
+  **This is the highest-value extraction in the job** — one component driven by eleven typed
+  records replaces eleven hand-written panels. Note there is no signature here, deliberately.
+- **Technical view, 8 blocks:** table intro, estimate assumptions, stack rationale, hours
+  distribution, how-to-audit, the 67-row ledger, footer nav, signature.
+
+## Out of scope
+
+- Any visual change, including ones you believe are improvements.
+- Converging with the website's palette or tokens. Decided against; see D-052 and D-053.
+- Shadow DOM, `@scope`, a dev server, a second document, a published package.
+- Generalising components for hypothetical future documents.
+
+---
+
 ## Phase 0 — clear the ground
 
 Two commits on `main`, before branching.
@@ -256,10 +301,9 @@ cluster.
 
 ## Phase 10 — close it out
 
-Write the component index. Add one line to the root agent guide. Correct `HANDOFF.md` where
-this plan contradicts it: the dead-class count and the `all` class, the component estimate, the
-full-page screenshot instruction, and the script's real size. Record the prefix decision and
-the asset encoders in `CONVENTIONS.md`.
+Write the component index into `README.md`. Add one line to the root agent guide so agents
+find this without a skill. Record the class-prefix decision and the two asset encoders in
+`CONVENTIONS.md`. **Then delete this file and its pointer in `README.md`.**
 
 Add a separate continuous-integration workflow for report-kit, filtered to its own paths so the
 website's checks keep running untouched on every change. It typechecks, builds, asserts that the
@@ -271,12 +315,18 @@ frozen baseline catches a rebuild whose rendering has moved.
 
 ## Process
 
-**Backlog.** No task covers this work. Create a phase task under milestone 7 with subtasks
-matching the phases above, via the command-line tool, never by editing the files.
+**No backlog task, deliberately.** This corrects an earlier draft of this plan, which said to
+create one. `report-kit/` is internal tooling, not client scope. The roadmap's 67 estimated
+tasks and the hour totals reconcile against each other, and the client has already been shown
+those numbers in the published brief. Adding tasks here would corrupt them. Track progress in
+the branch and the pull-request body instead.
 
-**Branches.** The repo's flow is `main` into a phase branch into task branches. Task merges
-into its phase, phase into `main`. This repository's guide does not authorise merging to `main`
-unattended, so **the final merge waits for your say-so**. Commits and pushes do not.
+**Branch.** One branch off `main`, `chore/report-kit-decomposition`, rather than the phase and
+task branches the website work uses — there are no backlog tasks to name them after. **The
+merge to `main` waits for the owner's say-so.** Commits and pushes do not.
+
+**Before starting,** confirm headless Chromium runs. The pixel diff is not optional; a refactor
+verified by eye is not verified. If it cannot run, say so and stop.
 
 **Review.** Every phase from 2 onward is a non-trivial change, so each goes through the
 independent review loop before it is called done: a fresh reviewer with no session context,
