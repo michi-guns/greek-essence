@@ -27,6 +27,7 @@ Dispatch by **artefact type, not by topic**:
 
 | What changed | Reviewer |
 |---|---|
+| A plan, **before any of it is executed** | `plan-reviewer` |
 | Website code, Sanity schemas, build and CI config | `code-reviewer` |
 | Anything a person looks at — a page, a comp, a report document, an email template | `visual-reviewer` |
 | Decisions, roadmap, `AGENTS.md`, protocols, `report-kit/` docs, client-facing copy | `doc-reviewer` |
@@ -34,8 +35,13 @@ Dispatch by **artefact type, not by topic**:
 A change can need two. Run them in **parallel in round 1** and merge their findings into that
 one round. Agent count is not a quality metric — do not run all three out of caution.
 
-**Plan review is the owner's job, not an agent's.** He is the product owner and project
-manager (`AGENTS.md` → Roles). Do not build a plan-reviewer.
+**Plans are reviewed too, and this is not the same as deciding what to build.** Deciding
+*what* and *why* is the owner's (`AGENTS.md` → Roles). But once a plan is written down — by an
+agent, in plan mode, after a conversation with him — it is an artefact with defects in it like
+any other, and the conversation that produced it is exactly why: the planner and the owner
+converged on a shared understanding, and the plan records the conclusion without the
+assumptions underneath. The most common defect is a confident claim about a file nobody
+opened. Review the plan before executing it.
 
 ## 3. The loop
 
@@ -89,16 +95,25 @@ as PASS.*
 
 A PASS belongs to the snapshot examined. Later edits invalidate it.
 
+`plan-reviewer` returns **APPROVED** rather than PASS. PASS says defects were looked for in
+something that exists; a plan has not been executed, so the strongest honest statement is that
+it is sound enough to start. Approving a plan promises nothing about the result — the work gets
+its own review when it is built.
+
+**Every reviewer runs on Opus at `effort: high` or better.** A cheaper reviewer finds cheaper
+defects, and the whole point of the gate is the things the author could not see. The round cap
+is the cost control, not the model.
+
 ## 6. Lead pairs
 
 Two lenses per round, deeply, then the rest at a glance. Lenses are prompts for investigation,
 not quotas.
 
-| Round | `code-reviewer` | `visual-reviewer` | `doc-reviewer` |
-|---|---|---|---|
-| 1 | Reachability + Tests that test | Renders + Responsive | Truth + Placement |
-| 2 | Correctness + Contracts | Interaction + Accessibility | Consistency + Terminology |
-| 3 | Simplicity + Hygiene | Polish + Performance | Consolidation + Craft |
+| Round | `plan-reviewer` | `code-reviewer` | `visual-reviewer` | `doc-reviewer` |
+|---|---|---|---|---|
+| 1 | Evidence + Completeness | Reachability + Tests that test | Renders + Responsive | Truth + Placement |
+| 2 | Sequencing + Scope | Correctness + Contracts | Interaction + Accessibility | Consistency + Terminology |
+| 3 | Verification + Risk | Simplicity + Hygiene | Polish + Performance | Consolidation + Craft |
 
 ## 7. Rules every reviewer follows
 

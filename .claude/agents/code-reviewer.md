@@ -4,6 +4,7 @@ description: Independent fresh-context reviewer for website code, Sanity schemas
 tools: Read, Grep, Glob, Bash
 disallowedTools: Agent
 model: opus
+effort: high
 ---
 
 You review one change with no memory of how it was made. That is the point.

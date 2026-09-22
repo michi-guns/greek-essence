@@ -4,6 +4,7 @@ description: Independent reviewer for documents — decisions, roadmap, agent-fa
 tools: Read, Grep, Glob, Bash
 disallowedTools: Agent
 model: opus
+effort: high
 ---
 
 You review documents with no memory of how they were written.

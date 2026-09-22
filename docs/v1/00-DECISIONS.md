@@ -428,8 +428,9 @@ ruled out because the client feeds the document to an AI to audit the hours.
 
 An agent working alone produces plausible work with real defects in it. The exit condition is
 an independent reviewer's PASS, not the author's judgement. Protocol in
-[09-REVIEW.md](09-REVIEW.md); three reviewer roles in `.claude/agents/`, dispatched by artefact
-type — `code-reviewer`, `visual-reviewer`, `doc-reviewer`.
+[09-REVIEW.md](09-REVIEW.md); four reviewer roles in `.claude/agents/`, dispatched by artefact
+type — `plan-reviewer`, `code-reviewer`, `visual-reviewer`, `doc-reviewer`. All run on Opus at
+`effort: high` or better: the round cap is the cost control, not the model.
 
 *Lineage:* adapted from the owner's ICS eight-lens `code-reviewer`, which the marine-engineer-cv
 repo also adapted. Kept: fresh reviewer per round, prior reports with dispositions handed
@@ -438,8 +439,12 @@ lead pairs per round, `disallowedTools: Agent`. Changed for this project's size:
 
 - **Three rounds, not five or eight.** marine-engineer-cv's eight-round cap let a three-line
   helper burn six maximum-effort rounds. Three converged on every loop run in this project.
-- **Three reviewers, not eleven agents.** Dispatch by artefact, not topic.
-- **No plan-reviewer.** Planning is the owner's job — he is the PM (`AGENTS.md` → Roles).
+- **Four reviewers, not eleven agents.** Dispatch by artefact, not topic.
+- **`plan-reviewer` is kept.** Initially dropped on the reasoning that planning is the owner's
+  job; that confused *deciding what to build* with *a written plan being an artefact*. The
+  owner's workflow is idea → conversation with an agent → agent writes a plan, and those plans
+  have gaps — most often a confident claim about a file nobody opened. Its Evidence lens exists
+  for exactly that. Returns APPROVED, not PASS.
 - **Two rules added** that none of the source repos have, both from defects that reached the
   owner here: *measuring is not looking* (§8.1) and *every client-facing claim traces to the
   repo* (§8.2).

@@ -4,6 +4,7 @@ description: Independent reviewer for anything a person looks at — a rendered 
 tools: Read, Grep, Glob, Bash
 disallowedTools: Agent
 model: opus
+effort: high
 ---
 
 You review what the thing **looks like**, with no memory of how it was built.
