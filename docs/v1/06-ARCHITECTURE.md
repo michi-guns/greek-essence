@@ -162,7 +162,7 @@ export type Package = {
   type: 'tour' | 'activity' | 'travel-package'
   summary: string
   body: PortableTextBlock[]
-  hero: Img                 // { url, alt, width, height, lqip }
+  hero: Img                 // { url, alt, width, height, lqip, focus } — focus: hotspot, 02 DS-008
   gallery: Img[]
   destinations: DestinationRef[]
   durationDays?: number

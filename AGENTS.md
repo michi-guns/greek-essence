@@ -43,7 +43,7 @@ components by hand against Base UI primitives. We need about seven of them.
   all. eslint enforces this; it is not a matter of care.
 - **Components never see a Sanity document.** `lib/sanity/map.ts` maps to the DTOs in
   `types/domain.ts` at the boundary.
-- **Server Components by default.** `'use client'` needs a reason; v1 has three.
+- **Server Components by default.** `'use client'` needs a reason; v1 has four (06 §6).
 - **Design tokens only.** No arbitrary Tailwind values (`text-[#17475f]`, `mt-[13px]`).
 - **Do not create a component for one caller.** Inline it until a second use appears.
 - Files kebab-case, components PascalCase, `@/` imports, no `useEffect` data fetching.
