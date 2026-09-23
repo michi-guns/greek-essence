@@ -378,6 +378,10 @@ use in `marine-engineer-cv` and `agentic-wave`.
 `AGENTS.md` carries a one-line pointer. Two rules: never committed, and never authoritative for
 the product — decisions live in `docs/v1/`, tasks in `backlog/`.
 
+*Extended 2026-09-23 (operator):* design research goes to `design-exploration/<date>-<slug>/`,
+with its scripts in `design-exploration/tools/`. `evidence/` stays for verification only
+(03-WORKFLOW §5).
+
 ---
 
 ### D-052 ✅ Internal reports are a separate product from the website — `report-kit/`

@@ -423,8 +423,14 @@ Gitignored directory, matching the convention already used in `marine-engineer-c
 .local/
   preferences/user-profile.md    how the owner wants to be talked to — read before replying
   evidence/<date>-<slug>/        screenshots, logs, run output from verification
+  design-exploration/
+    <date>-<slug>/               design research: reference captures, measurements, reports
+    tools/                       the capture and report scripts that produce them
   README.md                      what lives here and why it is untracked
 ```
+
+Evidence proves a piece of work was checked. Design exploration is input to a design decision;
+the decision itself lives in `docs/v1/` and its annotated evidence in `backlog/docs/`.
 
 `AGENTS.md` carries a short pointer and nothing more:
 
@@ -432,8 +438,8 @@ Gitignored directory, matching the convention already used in `marine-engineer-c
 > preferences; keep it untracked and never copy its contents into shared documentation.
 
 Two rules: **`.local/` is never committed**, and **nothing in it is authoritative for the
-product** — decisions live in `docs/v1/`, tasks live in `backlog/`. It holds preferences and
-evidence, not truth.
+product** — decisions live in `docs/v1/`, tasks live in `backlog/`. It holds preferences,
+evidence and design exploration, not truth.
 
 ## 6. Quality gates
 
