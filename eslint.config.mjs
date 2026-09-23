@@ -30,7 +30,7 @@ const restrict = (...patterns) => ({
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts', '.local/**']),
   { files: ['components/sections/**/*.{ts,tsx}'], rules: restrict(NO_SANITY) },
   { files: ['components/patterns/**/*.{ts,tsx}'], rules: restrict(NO_SANITY, NO_SECTIONS) },
   { files: ['components/ui/**/*.{ts,tsx}'], rules: restrict(NO_SANITY, NO_SECTIONS, NO_PATTERNS) },
