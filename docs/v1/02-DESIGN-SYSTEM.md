@@ -38,11 +38,11 @@ Colour (above) · type scale · spacing scale · radii · shadows · motion dura
 ```
 Type   — display 3.5rem/3rem/2.25rem · h1 2.5rem · h2 2rem · h3 1.5rem
          body-lg 1.125rem · body 1rem · small 0.875rem · caption 0.75rem
-         Heading font: a serif with character (Fraunces / Newsreader / Cormorant)
-         Body font: Inter or Geist. Two families, no more.
+         Heading font: Fraunces · Body font: Inter (S-005). Two families, no more.
+         How to set them: §4.1
 Space  — 4 8 12 16 24 32 48 64 96 128   (Tailwind default is fine; just don't freestyle)
-Radius — sm 4 · md 8 · lg 16 · full
-Shadow — one elevation for cards, one for overlays. That's it.
+Radius — 0 on images, cards and buttons (§4.5) · sm 4 for inputs · full for pills
+Shadow — none on cards (§4.5); one elevation for overlays. That's it.
 Motion — 150ms ease-out (micro) · 300ms ease-out (transitions). Respect prefers-reduced-motion
 ```
 
@@ -83,7 +83,7 @@ never "what do you think?".
 
 ---
 
-## 4. Visual direction brief (for whoever/whatever generates the comps)
+## 4. Art-direction brief (for whoever/whatever generates the comps)
 
 > Quiet premium. Editorial, not e-commerce. The photography carries the emotion; the interface
 > gets out of its way. Generous whitespace, large type, few borders, restrained colour — deep
@@ -92,8 +92,123 @@ never "what do you think?".
 > a well-made printed travel journal that happens to be a website. The visitor should believe a
 > real person in Greece is behind this, and that they take care with things.
 
-Anti-patterns to avoid: booking-engine chrome (price badges, urgency counters, star ratings),
-stock-photo collage heroes, icon grids of abstract benefits, carousel heroes.
+The rules below turn that paragraph into decisions. Each one comes from ten boutique-hotel and
+travel-editorial sites measured in Chrome (GE-003.01). The evidence — screenshots described,
+fonts, sizes and colours read from each live page — is in
+[`backlog/docs/doc-001`](../../backlog/docs/doc-001%20-%20Visual-research-annotated-references.md).
+Reference names in parentheses point there.
+
+### 4.1 Type
+
+- **Fraunces is set like a book serif, not a novelty face.** Weight 300–400 for display, never
+  above 500. `opsz` follows the size (the default). `SOFT` 0–50, `WONK` 0. Every reference sets its
+  display serif at regular or light weight — Lyon (Aman), Caslon (The Newt), Garamond
+  (Openhouse), Epicene (Le Sirenuse). Nobody uses bold.
+- **Display sizes are large and few.** 56–80px on desktop for the one headline per page (Le Sirenuse
+  and The Newt set 60px, Openhouse 75px), tracking about −0.01em. Section heads 28–40px. Headlines are
+  sentence case — uppercase serif reads as a magazine cover, not a sentence (Kinfolk).
+- **One italic moment.** A headline may pair a roman line with an italic line — the place, then
+  what it feels like: *"Paros & Antiparos / Slow days between two harbours"* (Openhouse, The Newt).
+  Fraunces has true italics.
+- **The lede is serif.** The intro paragraph under a page headline is Fraunces at 22–28px
+  (Le Sirenuse, Kinsterna). Everything after it is Inter.
+- **Inter is the working voice.** Body 16–18px, line-height 1.5–1.6, **60–72 characters per line**
+  (Aman 62, Dexamenes 70). Left-aligned, never justified.
+- **Labels are tracked caps.** Eyebrows, captions and nav: Inter 12–13px, uppercase, tracking
+  0.1–0.2em (Aman's *AMANJENA, MOROCCO*, The Newt's nav at 0.2em). This is where the place names
+  live: *CYCLADES · 8 DAYS*.
+
+### 4.2 Colour
+
+- **Ground:** `--ge-ivory-100 #faf6ed`. It already sits where the best references do — Aman
+  `#f3eee7`, Cereal `#f7f6ef`. `--ge-limestone-100` for a secondary band, at most one per page.
+- **Ink is blue.** Headlines in `--ge-blue-900` (12.2:1 on ivory), body in `--ge-slate-950`
+  (15.2:1). Le Sirenuse sets *every* word in its one brand green and has no other UI colour; the
+  equivalent here is Aegean blue as ink, not as a filled band.
+- **Punctuation, not fields:** `--ge-teal-700` for links and focus only (4.85:1 on ivory; it falls
+  to 4.47:1 on limestone, so no small teal text there). One solid `--ge-blue-800` button per view.
+  No full-width coloured bands except, at most, one `CtaBand`.
+- **Never as text:** `--ge-slate-500` (3.99:1) and `--ge-sand-500` (3.60:1) — lines and rules only.
+- **Target: under ~12% saturated pixels per page, photographs included.** The ten references
+  measure 0.4–27% (median ≈ 9%); the calmest — Moroseta, Cereal, Dexamenes, Openhouse — sit at
+  7–8%, and Kinfolk tops the range only because its content is colourful magazine covers. The
+  colour a visitor sees should come from the photographs.
+
+### 4.3 Photography
+
+This is the brief for image curation (M6), and it matters more than any rule above: the most
+expensive-looking references are the ones whose photographs share one grade (Cereal, Aman).
+
+- **One grade across the site:** natural light, warm, slightly muted. Late afternoon over midday.
+  No HDR, no boosted turquoise, no sunset-orange skies. Where a stock image is too saturated,
+  leave it out rather than use it.
+- **Architecture, texture, food and detail over panoramas:** a whitewashed doorway, a plate from
+  above, an olive grove, stone steps (Masseria Moroseta, Kinsterna). Each image carries one idea.
+  People appear from behind or at a distance — which D-034 already asks for, for licence reasons.
+- **Text goes beside or under a photograph, not on it**, except the one `Hero`. Captions sit
+  below the image as tracked caps (Dexamenes, Moroseta).
+- **Heroes are inset or full-bleed, never a carousel.** Inset means a 24–64px margin of ground
+  around the image (Aman, The Newt); full-bleed means edge to edge (Dexamenes, Moroseta). A hero
+  scrim is allowed only as far as the headline needs to pass contrast.
+
+### 4.4 Space and layout
+
+- **55–70% of the page below the fold is bare ground.** Measured: Cereal 70%, Dexamenes 66%,
+  Moroseta 62%, Monocle 57%, The Newt 54%. Aman, at 34%, shows what dense looks like — it can
+  afford it; a small catalogue cannot.
+- **Asymmetry is allowed and useful:** two-thirds plus one-third image pairs (Aman), an offset
+  cluster of three or four photographs beside a text column (Dexamenes), or alternating 50/50
+  rows with the photograph running to the viewport edge (The Newt, which is our `SplitFeature`).
+- **Header: three things.** Menu, wordmark centred, one action (*Plan your trip*) — Le Sirenuse and
+  Dexamenes do exactly this; Aman adds only search and a language switch. On mobile the one action may pin to the bottom as a
+  full-width bar (Aman).
+
+### 4.5 Components in this voice
+
+- **Corners are square.** Every call-to-action measured has `border-radius: 0` (nine of the ten
+  references; Cereal has no buttons), and every photograph in the captures is square-cornered. Radius
+  4 only on form inputs; `full` only on pills. The token audit (T-01.5) carries this into
+  `app/globals.css`.
+- **A card is an image and a caption on the ground** — eyebrow, title, one line, a text link. No
+  border, no fill, no shadow (Aman, Moroseta, Kinfolk).
+- **Links do most of the work.** Secondary actions are underlined text — *Discover the itinerary*
+  — not buttons (Aman, The Newt, Openhouse). One solid button per view; an outline button only on
+  a photograph (Dexamenes).
+- **Rules, not boxes.** Where structure is needed, a 1px `--color-border` hairline (Monocle), not
+  a bordered container.
+
+### 4.6 The three directions for GE-003.03 (T-01.3)
+
+Same content, same tokens, deliberately different. Each takes its lead from references here.
+
+| | Type-led | Image-led | Editorial grid |
+|---|---|---|---|
+| **After** | Le Sirenuse, Kinfolk, Openhouse | Dexamenes, Moroseta, Aman | Cereal, Monocle, The Newt |
+| **First fold** | Headline in Fraunces at 72–80px, blue ink on ivory, italic second line. Photograph starts below it, inset. | Full-bleed photograph, wordmark and one outline button on it; headline small, bottom-left. | Headline + dek left, one tall photograph right, hairline rule under the header; packages begin inside the fold. |
+| **Below** | Lede paragraph in the serif, then one image at a time. | Offset photo clusters with captions, very little text. | Numbered package index — *(01) Cyclades · 8 days* — in a 3-column grid. |
+| **Risk** | Needs very good copy; weak headlines show. | Lives or dies on photography we do not yet have (§5). | Can read as a magazine rather than a service. |
+
+### 4.7 What is ruled out
+
+From the counter-examples in the evidence file:
+
+- **Booking-engine chrome** — date pickers, "who / where / when" bars, price badges, "best rate
+  guaranteed", urgency counters, star ratings (Casa Cook, Xenodocheio Milos, Hoshino). We have no
+  availability to search (D-001, D-032c) and must not look as if we do.
+- **The default Greek-hotel template** — one geometric sans for everything, justified body at 150+
+  characters per line, a 12-link nav with a phone bar, saturated postcard colour (Perivolas).
+- **Two brand colours as fields** — gold and navy boxed buttons, bordered slogan boxes, icon tiles
+  (Xenodocheio Milos).
+- **"Why book with us" checklists, testimonial carousels, splash intros** (Kinsterna).
+- **Carried over:** stock-photo collage heroes, icon grids of abstract benefits, carousel heroes.
+
+### 4.8 Checking a comp against this brief
+
+Measurable, so a reviewer can check without taste arguments: display weight ≤ 500 · body line
+length 60–72 characters · every radius on images and buttons is 0 · one solid button per viewport ·
+bare ground 55–70% below the fold · saturated pixels under ~12%. The evidence file describes how
+each number is taken. **The numbers support a visual
+review; they do not replace one** (09-REVIEW §8.1).
 
 ---
 
