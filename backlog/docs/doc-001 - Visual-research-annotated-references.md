@@ -3,7 +3,7 @@ id: doc-001
 title: Visual research - annotated references
 type: specification
 created_date: '2026-09-23 09:17'
-updated_date: '2026-09-23 09:34'
+updated_date: '2026-09-23 09:37'
 ---
 # Visual research — annotated references (GE-003.01)
 
@@ -169,8 +169,8 @@ links, *Buy | Read*. Then a horizontal strip of story cards, each an image with 
 issue number in brackets and a title: *(032-15) Modern Living*. Image heights vary; the grid's
 top edges step.
 
-- **Type:** Adobe Text Pro 12px for nearly everything (Neue Haas Unica for a few links). Hierarchy comes from position and space, not
-  size. The wordmark is widely letterspaced caps.
+- **Type:** Adobe Text Pro 12px for nearly everything (Neue Haas Unica for a few links).
+  Hierarchy comes from position and space, not size. The wordmark is widely letterspaced caps.
 - **Colour:** ground `#f7f6ef`, ink `#363531`, 7% saturated. The ground is within a few units of
   our `--ge-ivory-100 #faf6ed`.
 - **Image:** one consistent grade across ~60 photographs from different shoots — muted, warm,
@@ -183,9 +183,8 @@ top edges step.
 
 **Seen:** full-bleed dark photograph, a small category label, and a two-line headline in which the
 first line is roman and the second italic: *"Blasco / The heritage in every piece"* in the
-capture (the hero rotates between stories; an earlier load showed *"Ca's Xorc / A Place to Return
-To"* in the same form). One underlined
-"Read more".
+capture (the hero rotates between stories; an earlier load showed *"Ca's Xorc / A Place to
+Return To"* in the same form). One underlined "Read more".
 
 - **Type:** EB Garamond 75px roman + italic; Sneak (a grotesque) for nav. Intro text 35px serif.
 - **Colour:** photograph does the work; white text; ground white below.
