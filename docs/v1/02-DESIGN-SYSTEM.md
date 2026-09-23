@@ -167,9 +167,8 @@ expensive-looking references are the ones whose photographs share one grade (Cer
   below the image as tracked caps (Dexamenes, Moroseta).
 - **Heroes are inset or full-bleed, never a carousel.** Inset means a 24–64px margin of ground
   around the image (Aman, The Newt); full-bleed means edge to edge (Dexamenes, Moroseta). A hero
-  scrim is allowed only as far as the headline needs to pass contrast. The inset form is a
-  variant of the `Hero` pattern in §2, not a fifth pattern; the direction pick decides which one
-  ships.
+  scrim is allowed only as far as the headline needs to pass contrast. **The full-bleed form
+  ships** — the image-led direction was picked (§4.6) — and the inset form is not built.
 
 ### 4.4 Space and layout
 
@@ -180,8 +179,9 @@ expensive-looking references are the ones whose photographs share one grade (Cer
   cluster of three or four photographs beside a text column (Dexamenes), or alternating 50/50
   rows with the photograph running to the viewport edge (The Newt, which is our `SplitFeature`).
 - **Header: three things.** Menu, wordmark centred, one action (*Plan your trip*) — Le Sirenuse and
-  Dexamenes do exactly this; Aman adds only search and a language switch. On mobile the one
-  action may pin to the bottom as a full-width bar (Aman).
+  Dexamenes do exactly this; Aman adds only search and a language switch. On phones the
+  image-led direction (§4.6) keeps the header to menu and wordmark; the action lives in the
+  `Hero` and after the content, not in a pinned bottom bar (DS-006).
 
 ### 4.5 Components in this voice
 
@@ -199,7 +199,7 @@ expensive-looking references are the ones whose photographs share one grade (Cer
 - **Rules, not boxes.** Where structure is needed, a 1px `--color-border` hairline (Monocle), not
   a bordered container.
 
-### 4.6 The three directions for GE-003.03 (T-01.3)
+### 4.6 The three directions for GE-003.03 (T-01.3) — image-led picked
 
 Same content, same tokens, deliberately different. Each takes its lead from references here.
 
@@ -209,6 +209,20 @@ Same content, same tokens, deliberately different. Each takes its lead from refe
 | **First fold** | Headline in Fraunces at 72–80px, blue ink on ivory, italic second line. Photograph starts below it, inset. | Full-bleed photograph, wordmark and one outline button on it; headline small, bottom-left. | Headline + dek left, one tall photograph right, hairline rule under the header; packages begin inside the fold. |
 | **Below** | Lede paragraph in the serif, then one image at a time. | Offset photo clusters with captions, very little text. | Numbered package index — *(01) Cyclades · 8 days* — in a 3-column grid. |
 | **Risk** | Needs very good copy; weak headlines show. | Lives or dies on photography we do not yet have (§5). | Can read as a magazine rather than a service. |
+
+**✅ Picked: Image-led** — by the operator on 2026-09-23 (GE-003.04), from the three demos built in
+GE-003.03 (`app/directions/`, deleted by GE-005.01). The GE-003.03 report recommended the
+editorial grid; the operator chose image-led. The client has not seen them; the client's
+look-and-feel sign-off is GE-005.05. What the pick carries into the later phases, as demoed:
+
+- The full-bleed `Hero` (§4.3): photograph edge to edge, the header on it, the headline small at
+  the bottom left with a scrim only as deep as it needs. The one outline button sits in the
+  header from `md`, under the headline on phones. What the header does once the hero has passed
+  is DS-006.
+- Below the fold: offset photo clusters with tracked-caps captions under each photo (Dexamenes),
+  very little text, and the one solid button after the packages.
+- Its risk is now the plan's risk: every page that opens with a `Hero` — Home, `/personalized`,
+  each destination and each package — needs a landscape photograph that can carry it (§5, DS-008).
 
 ### 4.7 What is ruled out
 
@@ -242,8 +256,11 @@ or dies on photography. **Photography is the highest-probability cause of a slip
 Mitigation, starting week 1:
 - Ask the client for his image library *now*, before any design work.
 - Agree a minimum set: 1 hero + 4 gallery per destination, 1 hero + 4 gallery per package.
-- If he can't supply them, decide early between licensed stock (budget + who pays) or a
-  design direction that leans on type and colour rather than full-bleed photography.
+- Where the client's library falls short: free stock, curated by us (D-034). **The fallback of a
+  type-led direction is gone** since the image-led pick (§4.6), so photography is on the critical
+  path: Home, `/personalized`, every destination and every package need a landscape photograph
+  that works as a full-bleed `Hero`, at the DS-008 minimum (GE-016.01 curates them; GE-006.02
+  tells the editor what to upload).
 - Build with a clearly-labelled placeholder set so the pipeline is done and only the assets swap.
 
 ---
@@ -349,7 +366,7 @@ and closer.** Approved by the operator on 2026-09-23 after trying it on a scroll
 | Image in a card | Scale to 1.03 inside a fixed frame; the caption link underlines | 700ms, `--ease-emphasized` | The Hoxton 1.07 at 600ms; Kinsterna's 1.20 at 2s is the ceiling not to reach |
 | Content below the fold | Fade from 0 and rise 24px, once, as it enters the viewport. Up to three siblings stagger 100ms apart | 800ms, `--ease-emphasized` | Openhouse 800ms / 60px, the quickest reference; Dexamenes moves a block its own height |
 | The `Hero` on load | Photograph settles from scale 1.04 to 1; the italic headline line fades up 150ms after the roman line, which is at rest from the first paint | 1600ms photo, 800ms text | Judgement, not measured. Neither the photo nor the first headline line fades, so the largest paint is not delayed |
-| Header | Sticky, and it does not change. Over a full-bleed photograph it takes the ivory ground once the hero has passed | 220ms colour fade | 9 of 14 sticky and unchanged |
+| Header | Sticky; it never shrinks or hides. Over a full-bleed photograph it takes the ivory ground once the hero has passed, and its action changes from an outline button to `Button variant="link"` in the nav label style (§4.1) — an outline button belongs on a photograph (§4.5), and a solid one would add a second per viewport (§4.8). On pages without a `Hero` it starts that way. Below `md` the header is menu and wordmark only: the action sits under the `Hero` headline and after the content (§4.4) | 220ms colour fade | 9 of 14 sticky and unchanged |
 | Focus ring | Appears at once, teal, 2px, offset 2px. Never animated | 0ms | 5 of 14 sites draw no outline or ring on any element tested — the one place to beat them |
 
 **Ruled out:** smooth-scroll libraries that take over the wheel (Lenis, Locomotive — Kinfolk,
@@ -403,7 +420,7 @@ Four shapes, no others:
 | Ratio | Where |
 |---|---|
 | 4:5 portrait | `PackageCard`, `DestinationCard`; the full-bleed `Hero` below `md` |
-| 3:2 landscape | `SplitFeature`, `Gallery` thumbnails, images inside Portable Text, the inset `Hero`; the full-bleed `Hero` from `md` to `lg` |
+| 3:2 landscape | `SplitFeature`, `Gallery` thumbnails, images inside Portable Text; the full-bleed `Hero` from `md` to `lg` |
 | Full-bleed `Hero` from `lg` | Viewport-bound: full width, height `--hero-h` = `min(100svh − --header-h, 56rem)`. Both tokens are added by GE-004.01 (T-01.5), since arbitrary values are not allowed (06 §9) |
 | Original | The `Gallery` lightbox only — the photograph uncropped |
 
@@ -438,3 +455,8 @@ editor uploads each photograph once.
   original image, and adds `focus: { x, y }` to the `Img` DTO in 06 §5, which keeps its `lqip`.
 - The Studio field description tells the editor what the circle means: *put it on what must
   never be cut off.*
+- **A `Hero` photograph is landscape and at least 3,000px wide.** Desktop from `lg` needs
+  1440 × 2 = 2,880px; a phone's 4:5 box needs 390 × 3 × (photoRatio ÷ 0.8) — 2,194px for 3:2,
+  2,600px for 16:9. The Studio description for every hero image field (Home, `/personalized`,
+  destination, package) says so, and warns on a narrower upload. It also says that the headline
+  covers the bottom third of the frame on a phone: keep the hotspot out of it.
