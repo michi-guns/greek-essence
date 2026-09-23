@@ -354,8 +354,8 @@ and closer.** 🟡 because motion is a design call, and it refines S-006 (below)
 
 **Ruled out:** smooth-scroll libraries that take over the wheel (Lenis, Locomotive — Kinfolk,
 Casa Cook, Le Sirenuse); parallax; carousels (§4.3); hero video; page-transition libraries;
-anything that moves after the page has loaded without the visitor scrolling, hovering or
-clicking, and anything that loops; cursor effects. S-006's View Transitions stay: a plain
+anything that starts moving after the page has loaded without the visitor scrolling, hovering
+or clicking, and anything that loops; cursor effects. S-006's View Transitions stay: a plain
 cross-fade between pages, no library.
 
 **How it is built** (S-006 stays "no motion library"; 06 §6's client-component count is
@@ -365,22 +365,31 @@ unchanged):
 - Reveals and the header's colour change need one small script, not CSS alone. CSS scroll-driven
   animations were considered: they scrub with the scroll and play backwards on the way up, which
   is not how any reference feels.
-- **Where the script lives:** `app/layout.tsx`, not a React component.
-  1. A one-line inline script in `<head>` adds `js` to `<html>` before the first paint, so there
-     is no flash of visible-then-hidden content.
-  2. One `IntersectionObserver`, loaded with `next/script`, sets `data-inview` on each
-     `[data-reveal]` element as it enters and stops watching it.
+- **Where the script lives:** one plain file, `public/motion.js`, loaded from `app/layout.tsx`
+  with `<Script src="/motion.js" strategy="afterInteractive" />`. It is not a React component.
+  1. **It adds `js` to `<html>` itself, as its first line.** Nothing hides content before this
+     script is running, so a script that fails to load or throws leaves every section visible.
+     Only content below the fold carries `data-reveal`, so adding the class after the first paint
+     causes no visible flash.
+  2. One `IntersectionObserver` sets `data-inview` on each `[data-reveal]` element as it enters,
+     then stops watching it.
   3. The same observer watches the `Hero` and sets `data-past-hero` on the header once the hero
      leaves the viewport.
-- **The hidden state exists only when both hold** — the script has run, and the visitor has not
+  4. **A `MutationObserver` on `<main>` keeps it current across client-side navigation:** a
+     `<Link>` swaps the page without reloading the script, so new `[data-reveal]` elements and the
+     new `Hero` are picked up as they are added. With no `Hero`, `data-past-hero` is set at once.
+- **The hidden state exists only when both hold** — the script is running, and the visitor has not
   asked for reduced motion:
   `@media (prefers-reduced-motion: no-preference) { .js [data-reveal]:not([data-inview]) { … } }`.
   A failed script, a crawler or a reduced-motion visitor never sees an empty section — the
   problem that made three GE-003.01 captures unreadable. The existing reduced-motion rule at the
-  end of `app/globals.css` keeps zeroing every duration.
+  end of `app/globals.css` keeps zeroing every duration; it gains
+  `::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none }`,
+  because `*` does not match those pseudo-elements and the page cross-fade would otherwise run.
 - **A-007 walks run with reduced motion,** so full-page screenshots show every section at rest.
   The task that builds the reveal sets `use: { contextOptions: { reducedMotion: 'reduce' } }` in
-  `playwright.config.ts`, and checks the reveal itself once in a normal-motion walk.
+  `playwright.config.ts`, and checks the reveal once in a normal-motion walk that navigates Home →
+  a package page by link, so the client-side case is covered.
 - Tokens handed to GE-004.01 (T-01.5): keep `--motion-base` 220ms, `--ease-standard` and
   `--ease-emphasized`; `--motion-image` becomes 700ms; add `--motion-reveal` 800ms and
   `--motion-stagger` 100ms.
@@ -419,6 +428,9 @@ editor uploads each photograph once.
   so the browser downloads about 88% more pixels than it shows. Set `sizes` to the box width ×
   `max(1, photoRatio ÷ boxRatio)`, from the DTO's `width` / `height` — otherwise the phone `Hero`
   loads a file too small for its rendered width and the largest image on the page looks soft.
+  The `Hero` changes ratio at `md` and `lg`, so its `sizes` is a media-query list, one entry per
+  ratio. Expect a large file on phones: 390px × 3 (screen density) × 1.875 ≈ 2,200 device pixels
+  wide, capped by the original's width because the CDN serves `fit=max`.
 - `lib/sanity/map.ts` converts the hotspot into percentages relative to the crop, not the
   original image, and adds `focus: { x, y }` to the `Img` DTO in 06 §5, which keeps its `lqip`.
 - The Studio field description tells the editor what the circle means: *put it on what must
