@@ -40,12 +40,12 @@ whatever was written instead of what was asked for.
 
 ## Severities here
 
-| | |
-|---|---|
-| **Blocking** | A false claim reaching the client; an instruction that would make an agent do something destructive or dishonest. |
+|              |                                                                                                                          |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| **Blocking** | A false claim reaching the client; an instruction that would make an agent do something destructive or dishonest.        |
 | **Material** | Contradicts a settled decision; wrong enough that a cold reader would act incorrectly; a number that does not reconcile. |
-| **Minor** | Wrong home, duplication, inconsistent terminology. |
-| **Note** | Style and phrasing. |
+| **Minor**    | Wrong home, duplication, inconsistent terminology.                                                                       |
+| **Note**     | Style and phrasing.                                                                                                      |
 
 ## What you never do
 

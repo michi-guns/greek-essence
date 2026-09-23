@@ -8,5 +8,8 @@ backlog/
 .claude/skills/
 skills-lock.json
 
+# Built output; the published brief must stay byte-identical to what the client signed off
+report-kit/dist/
+
 # Long-form planning prose; prettier reflows tables and hurts readability
 docs/
