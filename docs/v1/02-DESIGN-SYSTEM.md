@@ -23,8 +23,8 @@ This is genuinely good work and it is the single highest-value thing to carry ac
 repo reset. **Copy it verbatim into the new tree, then validate it rather than redesign it.**
 
 Validation (do this once, in Phase 1.1, ~1 hour):
-- Contrast-check every foreground/background pair against WCAG AA. `--color-slate-500` on
-  `--color-limestone-100` is the one to watch.
+- Contrast-check every foreground/background pair against WCAG AA. `--ge-slate-500` on
+  `--ge-limestone-100` is the one to watch.
 - Decide dark mode: **recommendation — no dark mode in v1.** A warm ivory travel brand does
   not need it, and it doubles every visual review.
 
@@ -36,7 +36,8 @@ Validation (do this once, in Phase 1.1, ~1 hour):
 Colour (above) · type scale · spacing scale · radii · shadows · motion durations.
 
 ```
-Type   — display 3.5rem/3rem/2.25rem · h1 2.5rem · h2 2rem · h3 1.5rem
+Type   — provisional; §4.1 governs the comps, GE-004.01 (T-01.5) sets the final scale
+         display 3.5–5rem · h1 2.5rem · h2 2rem · h3 1.5rem · lede 1.375–1.75rem (serif)
          body-lg 1.125rem · body 1rem · small 0.875rem · caption 0.75rem
          Heading font: Fraunces · Body font: Inter (S-005). Two families, no more.
          How to set them: §4.1
@@ -103,16 +104,25 @@ Reference names in parentheses point there.
 - **Load the whole family first.** `app/layout.tsx` imports `@fontsource-variable/fraunces`, which
   is the weight axis only, upright only: `opsz`, `SOFT` and `WONK` are missing and an italic would
   be a fake, browser-slanted one. The comps need `@fontsource-variable/fraunces/full.css` and
-  `full-italic.css` (T-01.6 / GE-004.02 owns the final import).
+  `full-italic.css` (GE-004.02 (T-01.6) owns the final import).
+- **The comps come before the token work — set this brief in the comp CSS.** GE-003.03 (T-01.3)
+  runs before the P1.2 foundations, and today's `app/globals.css` contradicts §4: headings at
+  weight 600, `h1` up to 6.8rem, buttons at `--radius-sm`, cards with border, fill and shadow, and
+  `--font-display` / `--font-inter` defined nowhere. Until P1.2 lands, each comp sets its own:
+  `font-family: 'Fraunces Variable'` and `'Inter Variable'`, display weight ≤ 500, radius 0, no
+  card border, fill or shadow. Otherwise the §4.8 checks fail and the pick is made on comps that
+  do not show the brief.
 - **Fraunces is set like a book serif, not a novelty face.** Weight 300–400 for display, never
   above 500. `opsz` follows the size (automatic once `full.css` is loaded). `SOFT` 0–50, `WONK` 0.
-  The references set their display serifs at weight 500 or lighter, mostly regular or light —
-  Lyon (Aman), Caslon (The Newt), Garamond (Openhouse), Epicene (Le Sirenuse). Nobody uses bold.
+  The references set their display serifs at weight 500 or lighter, mostly regular, light or thin
+  — Lyon (Aman), Caslon (The Newt), Garamond (Openhouse), Epicene (Le Sirenuse, weight 100).
+  Nobody uses bold.
 - **Display sizes are large and few.** 56–80px on desktop for the one headline per page (Le Sirenuse
   and The Newt set 60px, Openhouse 75px), tracking about −0.01em. Section heads 28–40px. Headlines are
   sentence case — uppercase serif reads as a magazine cover, not a sentence (Kinfolk).
 - **One italic moment.** A headline may pair a roman line with an italic line — the place, then
-  what it feels like: *"Paros & Antiparos / Slow days between two harbours"* (Openhouse, The Newt).
+  what it feels like: *"Paros & Antiparos / Slow days between two harbours"* (Openhouse; The Newt
+  sets its whole hero headline in italic).
   Fraunces has true italics, once `full-italic.css` is loaded.
 - **The lede is serif.** The intro paragraph under a page headline is Fraunces at 22–28px
   (Kinsterna sets 23.5px; Le Sirenuse goes as far as 40px). Everything after it is Inter.
@@ -174,12 +184,12 @@ expensive-looking references are the ones whose photographs share one grade (Cer
 
 ### 4.5 Components in this voice
 
-- **Corners are square.** Every call-to-action measured has `border-radius: 0` (nine of the ten
-  references; Cereal has no buttons), and every photograph in the captures is square-cornered.
-  4px (`--radius-xs`) only on form inputs; `full` only on pills.
-- **Handed to the token audit (T-01.5 / GE-004.01):** today `app/globals.css` still rounds with
-  `--radius-sm` (8px) and up, and `.editorial-card` and the showcase card carry `--shadow-soft`.
-  Both change to match this section.
+- **Corners are square.** The three references with boxed buttons (Aman, Dexamenes, Kinsterna)
+  all use `border-radius: 0`; the others use plain text links. Every photograph in the captures is
+  square-cornered. 4px (`--radius-xs`) only on form inputs; `full` only on pills.
+- **Handed to the token audit (GE-004.01 (T-01.5)):** today `app/globals.css` still rounds with
+  `--radius-sm` (8px) and up, and `.editorial-card` and the showcase card carry a border, a
+  `--surface` fill and `--shadow-soft`. All of it changes to match this section.
 - **A card is an image and a caption on the ground** — eyebrow, title, one line, a text link. No
   border, no fill, no shadow (Aman, Moroseta, Kinfolk).
 - **Links do most of the work.** Secondary actions are underlined text — *Discover the itinerary*
