@@ -167,9 +167,8 @@ expensive-looking references are the ones whose photographs share one grade (Cer
   below the image as tracked caps (Dexamenes, Moroseta).
 - **Heroes are inset or full-bleed, never a carousel.** Inset means a 24–64px margin of ground
   around the image (Aman, The Newt); full-bleed means edge to edge (Dexamenes, Moroseta). A hero
-  scrim is allowed only as far as the headline needs to pass contrast. The inset form is a
-  variant of the `Hero` pattern in §2, not a fifth pattern; the direction pick decides which one
-  ships.
+  scrim is allowed only as far as the headline needs to pass contrast. **The full-bleed form
+  ships** — the image-led direction was picked (§4.6) — and the inset form is not built.
 
 ### 4.4 Space and layout
 
@@ -210,6 +209,18 @@ Same content, same tokens, deliberately different. Each takes its lead from refe
 | **Below** | Lede paragraph in the serif, then one image at a time. | Offset photo clusters with captions, very little text. | Numbered package index — *(01) Cyclades · 8 days* — in a 3-column grid. |
 | **Risk** | Needs very good copy; weak headlines show. | Lives or dies on photography we do not yet have (§5). | Can read as a magazine rather than a service. |
 
+**✅ Picked: Image-led** — by the operator on 2026-09-23 (GE-003.04), from the three demos built in
+GE-003.03 (`app/directions/`, deleted by GE-005.01). The client has not seen them; the client's
+look-and-feel sign-off is GE-005.05. What the pick carries into P1.2 and P1.3, as demoed:
+
+- The full-bleed `Hero` (§4.3): photograph edge to edge, the header and one outline button on it,
+  the headline small at the bottom left with a scrim only as deep as it needs. Header behaviour
+  over it is DS-006.
+- Below the fold: offset photo clusters with tracked-caps captions under each photo (Dexamenes),
+  very little text, and the one solid button after the packages.
+- Its risk is now the plan's risk: every page that opens with a `Hero` needs a landscape
+  photograph that can carry it (§5).
+
 ### 4.7 What is ruled out
 
 From the counter-examples in the evidence file:
@@ -245,6 +256,9 @@ Mitigation, starting week 1:
 - If he can't supply them, decide early between licensed stock (budget + who pays) or a
   design direction that leans on type and colour rather than full-bleed photography.
 - Build with a clearly-labelled placeholder set so the pipeline is done and only the assets swap.
+- **Since the image-led pick (§4.6), there is no type-led fallback.** Photography is on the
+  critical path: every destination and package needs a landscape photograph that works as a
+  full-bleed `Hero` (GE-016.01 curates them; GE-006.02 tells the editor what to upload).
 
 ---
 
@@ -403,7 +417,7 @@ Four shapes, no others:
 | Ratio | Where |
 |---|---|
 | 4:5 portrait | `PackageCard`, `DestinationCard`; the full-bleed `Hero` below `md` |
-| 3:2 landscape | `SplitFeature`, `Gallery` thumbnails, images inside Portable Text, the inset `Hero`; the full-bleed `Hero` from `md` to `lg` |
+| 3:2 landscape | `SplitFeature`, `Gallery` thumbnails, images inside Portable Text; the full-bleed `Hero` from `md` to `lg` |
 | Full-bleed `Hero` from `lg` | Viewport-bound: full width, height `--hero-h` = `min(100svh − --header-h, 56rem)`. Both tokens are added by GE-004.01 (T-01.5), since arbitrary values are not allowed (06 §9) |
 | Original | The `Gallery` lightbox only — the photograph uncropped |
 
