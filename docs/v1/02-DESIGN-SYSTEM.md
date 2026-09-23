@@ -367,10 +367,10 @@ unchanged):
   is not how any reference feels.
 - **Where the script lives:** one plain file, `public/motion.js`, loaded from `app/layout.tsx`
   with `<Script src="/motion.js" strategy="afterInteractive" />`. It is not a React component.
-  1. **It adds `js` to `<html>` itself, as its first line.** Nothing hides content before this
-     script is running, so a script that fails to load or throws leaves every section visible.
-     Only content below the fold carries `data-reveal`, so adding the class after the first paint
-     causes no visible flash.
+  1. **It adds `js` to `<html>` itself, as its last line,** after both observers are set up and
+     after every `[data-reveal]` element already in view has been marked `data-inview`. Nothing
+     hides content until then, so a script that fails to load or throws anywhere leaves every
+     section visible, and nothing already on screen blinks out.
   2. One `IntersectionObserver` sets `data-inview` on each `[data-reveal]` element as it enters,
      then stops watching it.
   3. The same observer watches the `Hero` and sets `data-past-hero` on the header once the hero
@@ -378,6 +378,8 @@ unchanged):
   4. **A `MutationObserver` on `<main>` keeps it current across client-side navigation:** a
      `<Link>` swaps the page without reloading the script, so new `[data-reveal]` elements and the
      new `Hero` are picked up as they are added. With no `Hero`, `data-past-hero` is set at once.
+     The callback only queries `[data-reveal]` and the `Hero`, and `motion.js` is not loaded on
+     `/studio`, where the embedded Studio changes the DOM constantly.
 - **The hidden state exists only when both hold** — the script is running, and the visitor has not
   asked for reduced motion:
   `@media (prefers-reduced-motion: no-preference) { .js [data-reveal]:not([data-inview]) { … } }`.
@@ -429,7 +431,8 @@ editor uploads each photograph once.
   `max(1, photoRatio ÷ boxRatio)`, from the DTO's `width` / `height` — otherwise the phone `Hero`
   loads a file too small for its rendered width and the largest image on the page looks soft.
   The `Hero` changes ratio at `md` and `lg`, so its `sizes` is a media-query list, one entry per
-  ratio. Expect a large file on phones: 390px × 3 (screen density) × 1.875 ≈ 2,200 device pixels
+  ratio; from `lg` the box is full width and viewport-shaped, so `100vw` fits common desktops
+  and a tall screen needs about 1.3 × that. Expect a large file on phones: 390px × 3 (screen density) × 1.875 ≈ 2,200 device pixels
   wide, capped by the original's width because the CDN serves `fit=max`.
 - `lib/sanity/map.ts` converts the hotspot into percentages relative to the crop, not the
   original image, and adds `focus: { x, y }` to the `Img` DTO in 06 §5, which keeps its `lqip`.
