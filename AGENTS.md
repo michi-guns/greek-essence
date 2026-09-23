@@ -80,7 +80,8 @@ calls, and asking for them spends his attention on decisions he has delegated.
 
 **Do without asking:**
 
-- branch, commit, merge to `main`, and tidy history you created
+- branch, commit, merge to `main`, push to `origin`, and tidy unpushed history you created. A
+  local session can push; only the desktop-bridge VM cannot ([`03-WORKFLOW.md`](docs/v1/03-WORKFLOW.md) §2)
 - refactor, delete dead code, rename, reorganise a folder that is badly laid out
 - fix stale, duplicated or misplaced documentation (see _Standing authorisations_)
 - run tests, builds, linters, screenshots — pick the verification strategy yourself

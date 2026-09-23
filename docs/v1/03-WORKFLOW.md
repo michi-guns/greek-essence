@@ -79,6 +79,36 @@ Agent judgement. Hotfix straight off `main` into `fix/<slug>` and merge back is 
 abandoning a task branch. Say what you did in the merge commit body. These rules are
 conventions to keep the history legible — they are not a permission system.
 
+### Pushing — local sessions push; only a desktop-bridge VM session cannot
+Push is standing authority (above). Whether you can reach the remote depends on the session:
+
+| Session | Can push? | What to do |
+|---|---|---|
+| Local Claude Code session (any developer's machine) | **Yes** — Git credentials and `gh` are there | Push branches freely. Do not hand a push to the operator. |
+| Desktop-bridge VM (repo folder mounted, nothing else) | **No** | Commit, and tell the operator which commits are waiting. |
+
+CI runs only on pushes to `main` and on PRs. After pushing `main`, watch the run for *that*
+commit — `--branch main --limit 1` can return the previous run before GitHub registers the new
+one, and agent shells are non-interactive, so give `gh` the run ID:
+
+```bash
+sha=$(git rev-parse HEAD)
+for i in $(seq 24); do   # wait up to ~2 min for the run to register
+  id=$(gh run list --commit "$sha" --limit 1 --json databaseId -q '.[0].databaseId')
+  [ -n "$id" ] && break; sleep 5
+done
+gh run watch "$id" --exit-status
+```
+
+**Test, don't guess:** run `git push`. `could not read Username` (HTTPS) or `Could not resolve
+hostname` (SSH) means you are in the VM, or on a machine with no Git credentials. The VM has no
+credential helper, no `~/.ssh`, no `gh`, and its egress proxy does not resolve `github.com`.
+Nothing in the allow-list changes this, and an agent should not handle a token to work around
+it. Do not report it as "I need approval to push" — the approval exists; the remote is
+unreachable.
+
+Production is still the operator's: `git push origin main:release` is on the deny list (A-003).
+
 ### Commit messages
 Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `style:`, `refactor:`, `test:`).
 Scope optional. Keep commitlint; drop everything else from the old husky chain except
@@ -260,17 +290,6 @@ npm config set prefix "$HOME/.npm-global"
 npm install -g backlog.md            # pin: 1.52.0, matching AGENTS.md's instructions-version
 export PATH="$HOME/.npm-global/bin:$PATH"
 ```
-
-### Pushing from a cloud agent session — you can't, and that is not a permissions problem
-
-`.claude/settings.json` allows `Bash(git *)`; agents commit freely. **Pushing is different.**
-The desktop-bridge VM mounts the repo folder and nothing else, so it has no credential helper,
-no `~/.ssh`, no `gh`, and its egress proxy does not resolve `github.com` over SSH. HTTPS fails
-with `could not read Username`, SSH with `Could not resolve hostname`.
-
-Nothing in the allow-list changes this, and an agent should not be handling a token to work
-around it. **Commit normally and tell the operator which commits are waiting.** Do not report
-this as "I need approval to push" — the approval already exists; the remote is unreachable.
 
 Do not hand-edit task markdown as a workaround — the status and dependency fields are managed
 by the CLI and hand edits silently desync the index.
