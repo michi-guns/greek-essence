@@ -198,7 +198,7 @@ expensive-looking references are the ones whose photographs share one grade (Cer
 - **Rules, not boxes.** Where structure is needed, a 1px `--color-border` hairline (Monocle), not
   a bordered container.
 
-### 4.6 The three directions for GE-003.03 (T-01.3)
+### 4.6 The three directions for GE-003.03 (T-01.3) — image-led picked
 
 Same content, same tokens, deliberately different. Each takes its lead from references here.
 
@@ -210,16 +210,18 @@ Same content, same tokens, deliberately different. Each takes its lead from refe
 | **Risk** | Needs very good copy; weak headlines show. | Lives or dies on photography we do not yet have (§5). | Can read as a magazine rather than a service. |
 
 **✅ Picked: Image-led** — by the operator on 2026-09-23 (GE-003.04), from the three demos built in
-GE-003.03 (`app/directions/`, deleted by GE-005.01). The client has not seen them; the client's
-look-and-feel sign-off is GE-005.05. What the pick carries into P1.2 and P1.3, as demoed:
+GE-003.03 (`app/directions/`, deleted by GE-005.01). The GE-003.03 report recommended the
+editorial grid; the operator chose image-led. The client has not seen them; the client's
+look-and-feel sign-off is GE-005.05. What the pick carries into the later phases, as demoed:
 
-- The full-bleed `Hero` (§4.3): photograph edge to edge, the header and one outline button on it,
-  the headline small at the bottom left with a scrim only as deep as it needs. Header behaviour
-  over it is DS-006.
+- The full-bleed `Hero` (§4.3): photograph edge to edge, the header on it, the headline small at
+  the bottom left with a scrim only as deep as it needs. The one outline button sits in the
+  header from `md`, under the headline on phones. What the header does once the hero has passed
+  is DS-006.
 - Below the fold: offset photo clusters with tracked-caps captions under each photo (Dexamenes),
   very little text, and the one solid button after the packages.
-- Its risk is now the plan's risk: every page that opens with a `Hero` needs a landscape
-  photograph that can carry it (§5).
+- Its risk is now the plan's risk: every page that opens with a `Hero` — Home, `/personalized`,
+  each destination and each package — needs a landscape photograph that can carry it (§5, DS-008).
 
 ### 4.7 What is ruled out
 
@@ -253,12 +255,12 @@ or dies on photography. **Photography is the highest-probability cause of a slip
 Mitigation, starting week 1:
 - Ask the client for his image library *now*, before any design work.
 - Agree a minimum set: 1 hero + 4 gallery per destination, 1 hero + 4 gallery per package.
-- If he can't supply them, decide early between licensed stock (budget + who pays) or a
-  design direction that leans on type and colour rather than full-bleed photography.
+- Where the client's library falls short: free stock, curated by us (D-034). **The fallback of a
+  type-led direction is gone** since the image-led pick (§4.6), so photography is on the critical
+  path: Home, `/personalized`, every destination and every package need a landscape photograph
+  that works as a full-bleed `Hero`, at the DS-008 minimum (GE-016.01 curates them; GE-006.02
+  tells the editor what to upload).
 - Build with a clearly-labelled placeholder set so the pipeline is done and only the assets swap.
-- **Since the image-led pick (§4.6), there is no type-led fallback.** Photography is on the
-  critical path: every destination and package needs a landscape photograph that works as a
-  full-bleed `Hero` (GE-016.01 curates them; GE-006.02 tells the editor what to upload).
 
 ---
 
@@ -363,7 +365,7 @@ and closer.** Approved by the operator on 2026-09-23 after trying it on a scroll
 | Image in a card | Scale to 1.03 inside a fixed frame; the caption link underlines | 700ms, `--ease-emphasized` | The Hoxton 1.07 at 600ms; Kinsterna's 1.20 at 2s is the ceiling not to reach |
 | Content below the fold | Fade from 0 and rise 24px, once, as it enters the viewport. Up to three siblings stagger 100ms apart | 800ms, `--ease-emphasized` | Openhouse 800ms / 60px, the quickest reference; Dexamenes moves a block its own height |
 | The `Hero` on load | Photograph settles from scale 1.04 to 1; the italic headline line fades up 150ms after the roman line, which is at rest from the first paint | 1600ms photo, 800ms text | Judgement, not measured. Neither the photo nor the first headline line fades, so the largest paint is not delayed |
-| Header | Sticky, and it does not change. Over a full-bleed photograph it takes the ivory ground once the hero has passed | 220ms colour fade | 9 of 14 sticky and unchanged |
+| Header | Sticky, and it does not change. Over a full-bleed photograph it takes the ivory ground once the hero has passed; its action is then a tracked-caps text link, not a button — an outline button belongs on a photograph (§4.5) and the page's one solid button comes later (§4.6, §4.8) | 220ms colour fade | 9 of 14 sticky and unchanged |
 | Focus ring | Appears at once, teal, 2px, offset 2px. Never animated | 0ms | 5 of 14 sites draw no outline or ring on any element tested — the one place to beat them |
 
 **Ruled out:** smooth-scroll libraries that take over the wheel (Lenis, Locomotive — Kinfolk,
@@ -452,3 +454,8 @@ editor uploads each photograph once.
   original image, and adds `focus: { x, y }` to the `Img` DTO in 06 §5, which keeps its `lqip`.
 - The Studio field description tells the editor what the circle means: *put it on what must
   never be cut off.*
+- **A `Hero` photograph is landscape and at least 3,000px wide.** Desktop from `lg` needs
+  1440 × 2 = 2,880px; a phone's 4:5 box needs 390 × 3 × (photoRatio ÷ 0.8) — 2,194px for 3:2,
+  2,633px for 16:9. The Studio description for every hero image field (Home, `/personalized`,
+  destination, package) says so, and warns on a narrower upload. It also says that the headline
+  covers the bottom third of the frame on a phone: keep the hotspot out of it.
