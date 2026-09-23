@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Credits, DemoBar, DemoHeader, MobileAction } from '../_shared/chrome'
 import { copy, packages } from '../_shared/content'
-import { Photo } from '../_shared/photo'
+import { coverFactor, Photo } from '../_shared/photo'
 
 export const metadata: Metadata = { title: 'A · Type-led' }
 
@@ -40,7 +40,7 @@ export default function TypeLedPage() {
               <Photo
                 name={p.photo}
                 className="d-portrait"
-                sizes="(min-width: 64rem) 34vw, (min-width: 48rem) 45vw, 90vw"
+                sizes={`(min-width: 48rem) ${Math.ceil(50 * coverFactor(p.photo, 0.8))}vw, ${Math.ceil(90 * coverFactor(p.photo, 0.8))}vw`}
               />
               <div className="d-a-item-copy">
                 <p className="d-eyebrow">

@@ -6,6 +6,9 @@ import '@fontsource-variable/fraunces/full.css'
 import '@fontsource-variable/fraunces/full-italic.css'
 import './_shared/directions.css'
 
+// Static only: the CONTEXT check must run at build time, never per request on a function.
+export const dynamic = 'error'
+
 export const metadata: Metadata = {
   title: 'Direction demos',
   robots: { index: false, follow: false },

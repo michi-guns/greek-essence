@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Credits, DemoBar, DemoHeader, MobileAction } from '../_shared/chrome'
 import { copy, packages } from '../_shared/content'
-import { Photo } from '../_shared/photo'
+import { coverFactor, Photo } from '../_shared/photo'
 
 export const metadata: Metadata = { title: 'C · Editorial grid' }
 
@@ -45,7 +45,7 @@ export default function EditorialGridPage() {
               <Photo
                 name={p.photo}
                 className="d-portrait"
-                sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 90vw"
+                sizes={`(min-width: 64rem) ${Math.ceil(30 * coverFactor(p.photo, 0.8))}vw, (min-width: 48rem) ${Math.ceil(45 * coverFactor(p.photo, 0.8))}vw, ${Math.ceil(90 * coverFactor(p.photo, 0.8))}vw`}
               />
               <p className="d-eyebrow">
                 ({String(i + 1).padStart(2, '0')}) {p.region} · {p.days} days

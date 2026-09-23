@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Credits, DemoBar, DemoHeader } from '../_shared/chrome'
 import { copy, packages } from '../_shared/content'
-import { Photo } from '../_shared/photo'
+import { coverFactor, Photo } from '../_shared/photo'
 
 export const metadata: Metadata = { title: 'B · Image-led' }
 
@@ -44,7 +44,7 @@ export default function ImageLedPage() {
                 <Photo
                   name={d.photo}
                   className="d-portrait"
-                  sizes="(min-width: 64rem) 22vw, (min-width: 48rem) 30vw, 60vw"
+                  sizes={`(min-width: 64rem) ${Math.ceil(30 * coverFactor(d.photo, 0.8))}vw, ${Math.ceil(60 * coverFactor(d.photo, 0.8))}vw`}
                 />
                 <figcaption className="d-eyebrow">{d.caption}</figcaption>
               </figure>
@@ -60,7 +60,11 @@ export default function ImageLedPage() {
         <ul className="d-b-grid">
           {packages.map((p) => (
             <li key={p.place} className="d-card">
-              <Photo name={p.photo} className="d-portrait" sizes="(min-width: 48rem) 30vw, 90vw" />
+              <Photo
+                name={p.photo}
+                className="d-portrait"
+                sizes={`(min-width: 48rem) ${Math.ceil(30 * coverFactor(p.photo, 0.8))}vw, ${Math.ceil(90 * coverFactor(p.photo, 0.8))}vw`}
+              />
               <p className="d-eyebrow">
                 {p.region} · {p.days} days
               </p>
