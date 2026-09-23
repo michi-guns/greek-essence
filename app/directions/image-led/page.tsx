@@ -69,10 +69,12 @@ export default function ImageLedPage() {
                 {p.region} · {p.days} days
               </p>
               <h3 className="d-b-card-title">
-                <a href="#" className="d-link-quiet">
-                  {p.place}
-                </a>
+                {p.place}
+                <em className="d-card-dek">{p.dek}</em>
               </h3>
+              <a href="#" className="d-link">
+                {copy.journeyLink}
+              </a>
             </li>
           ))}
         </ul>

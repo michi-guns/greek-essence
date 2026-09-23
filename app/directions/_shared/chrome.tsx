@@ -9,11 +9,14 @@ export function DemoBar({ current }: { current: Slug }) {
   const here = directions.find((d) => d.slug === current)!
   return (
     <aside className="d-demobar" aria-label="About this demo">
-      <p>
+      <p className="d-demobar-long">
         <strong>
           Direction {here.letter} · {here.name}
         </strong>{' '}
         — a design demo. Copy, packages, day counts and photographs are placeholders.
+      </p>
+      <p className="d-demobar-short">
+        <strong>Demo</strong> · placeholders
       </p>
       <nav aria-label="Directions">
         {directions.map((d) => (

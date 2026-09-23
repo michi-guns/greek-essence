@@ -66,9 +66,11 @@
   line-height: 1.4;
   color: var(--d-ink);
   max-width: 34em;
+  text-wrap: pretty;
 }
 
 .d-body {
+  text-wrap: pretty;
   font-size: 1.0625rem;
   line-height: 1.65;
   max-width: 36em;
@@ -96,8 +98,7 @@
 }
 
 /* Links do most of the work (§4.5): underlined text, colour change on hover */
-.d-link,
-.d-link-quiet {
+.d-link {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -106,17 +107,10 @@
   text-decoration-thickness: 1px;
   text-underline-offset: 0.3em;
   text-decoration-color: var(--ge-sand-200);
-}
-.d-link {
   font-size: 0.9375rem;
   font-weight: 500;
 }
-.d-link-quiet {
-  color: inherit;
-  text-decoration-color: transparent;
-}
 .d-link:hover,
-.d-link-quiet:hover,
 .d-card:hover .d-link {
   color: var(--color-link-hover);
   text-decoration-color: currentColor;
@@ -256,6 +250,21 @@
   color: var(--ge-slate-800);
   background: var(--ge-limestone-200);
 }
+.d-demobar-short {
+  display: none;
+}
+@media (max-width: 47.99rem) {
+  .d-demobar {
+    flex-wrap: nowrap;
+  }
+  .d-demobar-long {
+    display: none;
+  }
+  .d-demobar-short {
+    display: inline;
+    white-space: nowrap;
+  }
+}
 .d-demobar nav {
   display: flex;
   gap: 0.25rem;
@@ -285,7 +294,6 @@
 /* Motion (DS-006) — only when the visitor has not asked for less */
 @media (prefers-reduced-motion: no-preference) {
   .d-link,
-  .d-link-quiet,
   .d-btn {
     transition:
       color var(--motion-base) var(--ease-standard),
@@ -385,10 +393,11 @@
 }
 .d-a-close {
   display: grid;
-  justify-items: center;
+  justify-items: start;
   gap: 1rem;
+  width: min(100%, 38.25rem + 2 * var(--d-gutter)); /* the body measure, 36em at 17px */
+  margin-inline: auto;
   padding: 0 var(--d-gutter) clamp(4rem, 2.607rem + 5.714vw, 8rem);
-  text-align: center;
 }
 
 /* ---------- B · Image-led ---------- */
@@ -483,8 +492,8 @@
   grid-column: 1 / 5;
 }
 .d-b-cluster li:nth-child(2) {
-  grid-column: 4 / 7;
-  margin-top: -30%;
+  grid-column: 5 / 7;
+  margin-top: 40%;
 }
 .d-b-cluster li:nth-child(3) {
   grid-column: 2 / 6;
@@ -581,6 +590,7 @@
   font-weight: 300;
   line-height: 1.45;
   color: var(--ge-slate-800);
+  text-wrap: pretty;
 }
 @media (min-width: 48rem) {
   .d-c-fold {
