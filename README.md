@@ -10,6 +10,6 @@ pnpm install
 pnpm dev
 ```
 
-Requires Node 22+ and pnpm 11+. Copy `.env.example` to `.env.local` before running.
+Requires Node 24+ and pnpm 11+. Copy `.env.example` to `.env.local` before running.
 
 The previous prototype and its documentation are preserved on the `archive/v0-preview` branch.
