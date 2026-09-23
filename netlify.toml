@@ -6,7 +6,7 @@
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
 
 # Production deploys cost 15 credits each against a hard 300/month budget, and
 # they compete with the bandwidth that serves real visitors. So merging to main
