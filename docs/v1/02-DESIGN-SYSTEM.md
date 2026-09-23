@@ -99,19 +99,20 @@ fonts, sizes and colours read from each live page — is in
 [`backlog/docs/doc-001`](../../backlog/docs/doc-001%20-%20Visual-research-annotated-references.md).
 Reference names in parentheses point there.
 
+**Comps: set this brief in your own CSS.** GE-003.03 (T-01.3) runs before the P1.2 token work,
+and today's `app/globals.css` contradicts §4 (headings at weight 600, `h1` up to 6.8rem, 8px
+buttons, cards with border, fill and shadow — full list in §4.5 — and `--font-display` /
+`--font-inter` defined nowhere). Until P1.2 lands, each comp sets its own:
+`font-family: 'Fraunces Variable'` and `'Inter Variable'`, display weight ≤ 500, radius 0, no card
+border, fill or shadow. The §4.5 handoff to the token audit does not cover the comps.
+
 ### 4.1 Type
 
 - **Load the whole family first.** `app/layout.tsx` imports `@fontsource-variable/fraunces`, which
   is the weight axis only, upright only: `opsz`, `SOFT` and `WONK` are missing and an italic would
   be a fake, browser-slanted one. The comps need `@fontsource-variable/fraunces/full.css` and
-  `full-italic.css` (GE-004.02 (T-01.6) owns the final import).
-- **The comps come before the token work — set this brief in the comp CSS.** GE-003.03 (T-01.3)
-  runs before the P1.2 foundations, and today's `app/globals.css` contradicts §4: headings at
-  weight 600, `h1` up to 6.8rem, buttons at `--radius-sm`, cards with border, fill and shadow, and
-  `--font-display` / `--font-inter` defined nowhere. Until P1.2 lands, each comp sets its own:
-  `font-family: 'Fraunces Variable'` and `'Inter Variable'`, display weight ≤ 500, radius 0, no
-  card border, fill or shadow. Otherwise the §4.8 checks fail and the pick is made on comps that
-  do not show the brief.
+  `full-italic.css` (GE-004.02 (T-01.6) owns the final import). Fraunces has **no Greek
+  glyphs** — no Greek-script display text in the comps (GE-022).
 - **Fraunces is set like a book serif, not a novelty face.** Weight 300–400 for display, never
   above 500. `opsz` follows the size (automatic once `full.css` is loaded). `SOFT` 0–50, `WONK` 0.
   The references set their display serifs at weight 500 or lighter, mostly regular, light or thin
@@ -141,8 +142,8 @@ Reference names in parentheses point there.
   equivalent here is Aegean blue as ink, not as a filled band.
 - **Punctuation, not fields:** links keep the existing `--color-link` (`--ge-blue-800`, 9.3:1).
   `--ge-teal-700` is the focus ring (`--color-ring`) and the occasional accent — 4.85:1 on ivory,
-  4.47:1 on limestone, so no small teal text on limestone. One solid `--ge-blue-800` button per
-  view. No full-width coloured bands except, at most, one `CtaBand`.
+  4.47:1 on limestone, so no small teal text on limestone. The one solid button per view (§4.5)
+  is `--ge-blue-800`. No full-width coloured bands except, at most, one `CtaBand`.
 - **Never as text:** `--ge-slate-500` (3.99:1) and `--ge-sand-500` (3.60:1) — lines and rules only.
   The one exception is disabled text (`--color-disabled-fg`), which WCAG exempts.
 - **Target: under ~12% saturated pixels per page, photographs included.** The nine references
@@ -173,8 +174,8 @@ expensive-looking references are the ones whose photographs share one grade (Cer
 ### 4.4 Space and layout
 
 - **55–70% of the page below the fold is bare ground.** Measured: Cereal 70%, Moroseta 62%,
-  Monocle 57%, The Newt 54% (Dexamenes' 66% is an upper bound — one section did not render in the
-  capture). Aman, at 34%, shows what dense looks like — it can afford it; a small catalogue cannot.
+  Monocle 57%; The Newt sits just under at 54%, and Dexamenes' 66% is an upper bound (one section
+  did not render in the capture). Aman, at 34%, shows what dense looks like — it can afford it; a small catalogue cannot.
 - **Asymmetry is allowed and useful:** two-thirds plus one-third image pairs (Aman), an offset
   cluster of three or four photographs beside a text column (Dexamenes), or alternating 50/50
   rows with the photograph running to the viewport edge (The Newt, which is our `SplitFeature`).
