@@ -457,6 +457,6 @@ editor uploads each photograph once.
   never be cut off.*
 - **A `Hero` photograph is landscape and at least 3,000px wide.** Desktop from `lg` needs
   1440 × 2 = 2,880px; a phone's 4:5 box needs 390 × 3 × (photoRatio ÷ 0.8) — 2,194px for 3:2,
-  2,600px for 16:9. 3,000px covers common desktops; a tall screen asks for about 1.3 × 2,880 (above), and the CDN serves what the original has. The Studio description for every hero image field (Home, `/personalized`,
+  2,600px for 16:9. The Studio description for every hero image field (Home, `/personalized`,
   destination, package) says so, and warns on a narrower upload. It also says that the headline
   covers the bottom third of the frame on a phone: keep the hotspot out of it.
