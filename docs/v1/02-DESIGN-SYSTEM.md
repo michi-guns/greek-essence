@@ -44,7 +44,7 @@ Type   — provisional; §4.1 governs the comps, GE-004.01 (T-01.5) sets the fin
 Space  — 4 8 12 16 24 32 48 64 96 128   (Tailwind default is fine; just don't freestyle)
 Radius — 0 on images, cards and buttons (§4.5) · xs 4 for inputs · full for pills
 Shadow — none on cards (§4.5); one elevation for overlays. That's it.
-Motion — 150ms ease-out (micro) · 300ms ease-out (transitions). Respect prefers-reduced-motion
+Motion — 220ms hover · 700ms image · 800ms reveal. Rules in DS-006 (§6). Reduced motion = none
 ```
 
 ### Components (8, built on shadcn + Base UI)
@@ -245,3 +245,160 @@ Mitigation, starting week 1:
 - If he can't supply them, decide early between licensed stock (budget + who pays) or a
   design direction that leans on type and colour rather than full-bleed photography.
 - Build with a clearly-labelled placeholder set so the pipeline is done and only the assets swap.
+
+---
+
+## 6. Design decisions record
+
+How the design language in §2 and §4 is built in code. Written in GE-003.02 (T-01.2), before the
+comps, so the comps (GE-003.03) and the P1.2 foundations build the same way. Numbered `DS-nnn`
+alongside `D-` (00), `S-` (05) and `A-` (06).
+
+### DS-001 Three component layers
+
+Per S-004 (hand-written against Base UI) and 06-ARCHITECTURE §3–4 (folders, import direction).
+
+| Layer | What goes in it | Props | Examples |
+|---|---|---|---|
+| `components/ui/` | One styled element. Wraps a Base UI primitive **only** when it needs behaviour — focus trap, dismiss, keyboard | element props + `variant` / `size` + `className` | `Button`, `Badge`, `Dialog` |
+| `components/patterns/` | A repeatable composition around one domain DTO | a DTO | `PackageCard`, `Gallery` |
+| `components/sections/` | A full-width page block. Owns vertical rhythm and the grid | DTOs or arrays of them | `Hero`, `CardGrid` |
+
+- **Base UI where there is behaviour, plain HTML everywhere else.** v1 needs it for the mobile
+  filter sheet (`Dialog`), the mobile menu and the `Gallery` lightbox. A link styled as a button
+  is an `<a>`, not a primitive.
+- **`'use client'` stays on those wrappers,** never on a section. A section passes server-rendered
+  children into them.
+- **Every `ui/` component takes `className`, merged last with `cn()`.** A component never sets its
+  own outer margin; spacing between things belongs to the caller or the section.
+
+### DS-002 Utility, CVA variant, or new component
+
+| Situation | Do | Example |
+|---|---|---|
+| Placement at one call site — margin, width, grid position | Utility classes through `className` | `<Button className="mt-8">` |
+| A look that repeats and has a name | A CVA variant | `Button` `variant: solid \| outline \| link` — `outline` only on a photograph (§4.5) |
+| Different markup, slots or meaning | A new component — after the second caller (06 §4) | `PackageCard` vs `DestinationCard` |
+| A look used once | Nothing. It means the design is drifting; raise it | — |
+
+- At most two variant axes per component (`variant`, `size`). No boolean style props
+  (`isLarge`); compound variants only for a combination that really ships.
+- Tokens only, no arbitrary values (06 §9). No per-component CSS files and no global component
+  classes: the old `.editorial-card`, `.nav-links` and `.split` rules in `app/globals.css` are
+  deleted in P1.2 as the components that replace them land.
+
+### DS-003 Breakpoints
+
+Tailwind 4 defaults, mobile-first. Three of them shape layout:
+
+| Name | From | Layout |
+|---|---|---|
+| base | 0 | One column. Designed at 390px |
+| `md` | 48rem · 768px | Two-column splits, two-column card grid |
+| `lg` | 64rem · 1024px | Full desktop: three-column grid, asymmetric pairs (§4.4). Designed at 1440px |
+| `xl` | 80rem · 1280px | Container max-width only |
+
+`sm` and `2xl` are not used for layout. **Cards answer to their container, not the viewport:**
+`CardGrid` cells are `@container`, and a card changes shape at `@sm` / `@md`, because the same
+`PackageCard` sits in a three-column grid and in a one-column related list. A-007 walks check
+390, 768, 1024 and 1440.
+
+### DS-004 Fluid type with `clamp()`
+
+- **Fluid:** display, h1–h3, the lede and the pull quote. **Fixed:** body (16 / 18px), labels,
+  captions — small text that changes size between devices only reads as inconsistent.
+- **The middle value is `rem + vw`, never `vw` alone.** A pure `vw` size ignores browser zoom, which
+  fails WCAG 1.4.4. Today's `--text-*` tokens are `vw`-only (`clamp(3rem, 6vw, 4.75rem)`); handed
+  to GE-004.01.
+- **Interpolate from 390px to 1440px** (24.375rem to 90rem): `slope = (max − min) / 65.625`, middle
+  value `(min − slope × 24.375)rem + (slope × 100)vw`.
+- **Max no more than 2.5 × min,** so 200% zoom still enlarges the text.
+- Example — display 40px on a phone to 80px at 1440: `clamp(2.5rem, 1.571rem + 3.81vw, 5rem)`.
+
+### DS-005 Icons
+
+`lucide-react` (S-006).
+
+- **Functional only:** menu, close, arrows, chevrons, plus / minus, and `ArrowUpRight` for a link
+  that leaves the site (the Google Form handoff). No icon grids, no icons as decoration (§4.7).
+- **Size follows the text:** 16px beside body text, 20px beside larger text, 24px only for a
+  standalone icon button. `strokeWidth={1.5}` — lucide's default 2 is heavier than light Fraunces
+  and Inter 400.
+- **Colour is `currentColor`.** Never a filled or tinted icon tile.
+- **Accessibility:** lucide 1.47 adds `aria-hidden` unless the icon gets `aria-label` or `title`
+  (checked in `node_modules`). An icon-only button puts `aria-label` on the button, and its hit
+  area is at least 44 × 44px.
+- Named imports only (`import { ArrowRight } from 'lucide-react'`), so the bundle carries only
+  the icons used.
+
+### DS-006 🟡 Motion policy
+
+Measured on 14 sites in Chrome — hover timings, scroll reveals and header behaviour read from
+the live pages (evidence: [`backlog/docs/doc-002`](../../backlog/docs/doc-002%20-%20Motion-research-hover-reveal-scroll.md)).
+The calmest references move least: Aman, Cereal, Monocle, Moroseta and The Newt have no scroll
+reveals at all. Five of the ten references reveal on scroll (Le Sirenuse, Dexamenes, Kinsterna,
+Kinfolk, Openhouse), taking 0.8–1.9s and travelling 50–100px. **This policy keeps their reveal,
+but shorter and closer.** 🟡 because motion is a design call, and it refines S-006 (below).
+
+| Where | What moves | Timing | Evidence |
+|---|---|---|---|
+| Links, buttons | Colour or underline only. No movement, no scale | `--motion-base` 220ms, `--ease-standard` | References 100–500ms, median 300ms |
+| Image in a card | Scale to 1.03 inside a fixed frame; the caption link underlines | 700ms, `--ease-emphasized` | The Hoxton 1.07 at 600ms; Kinsterna's 1.20 at 2s is the ceiling not to reach |
+| Content below the fold | Fade from 0 and rise 24px, once, as it enters the viewport. Up to three siblings stagger 100ms apart | 800ms, `--ease-emphasized` | Openhouse 800ms / 60px, the quickest reference; Dexamenes moves a block its own height |
+| The `Hero` on load | Photograph settles from scale 1.04 to 1; headline fades up, the italic line 150ms later | 1600ms photo, 800ms text | Judgement, not measured. The photo never fades, so the largest paint is not delayed |
+| Header | Sticky, and it does not change. Over a full-bleed photograph it takes the ivory ground once the hero has passed | 220ms colour fade | 9 of 14 sticky and unchanged |
+| Focus ring | Appears at once, teal, 2px, offset 2px. Never animated | 0ms | 5 of 14 sites draw no outline or ring on any element tested — the one place to beat them |
+
+**Ruled out:** smooth-scroll libraries that take over the wheel (Lenis, Locomotive — Kinfolk,
+Casa Cook, Le Sirenuse); parallax; carousels (§4.3); hero video; page-transition libraries;
+anything that moves on its own without the visitor scrolling, hovering or clicking; cursor
+effects.
+
+**How it is built** (S-006 stays "no motion library"):
+
+- Hover, focus and the header are CSS transitions.
+- Reveals need one small script, not CSS alone: an `IntersectionObserver` that sets
+  `data-inview` on elements marked `data-reveal`. CSS scroll-driven animations were considered —
+  they scrub with the scroll and play backwards on the way up, which is not how any reference
+  feels, and Firefox has not shipped them.
+- **Content is visible without the script.** The hidden starting state applies only once the script
+  has run (`.js [data-reveal]:not([data-inview])`), so a failed script, a crawler or a full-page
+  screenshot never gets an empty section — the problem that made three GE-003.01 captures
+  unreadable.
+- **`prefers-reduced-motion: reduce` turns all of it off** — the rule already at the end of
+  `app/globals.css`. Playwright walks (A-007) run with `reducedMotion: 'reduce'` so screenshots
+  show every section at rest.
+- Tokens handed to GE-004.01 (T-01.5): keep `--motion-base` 220ms, `--ease-standard` and
+  `--ease-emphasized`; `--motion-image` becomes 700ms; add `--motion-reveal` 800ms and
+  `--motion-stagger` 100ms.
+
+### DS-007 Image aspect ratios
+
+Four shapes, no others:
+
+| Ratio | Where |
+|---|---|
+| 4:5 portrait | `PackageCard`, `DestinationCard`; the full-bleed `Hero` on phones |
+| 3:2 landscape | `SplitFeature`, `Gallery` thumbnails, images inside Portable Text, the inset `Hero` |
+| Full-bleed `Hero` at `lg` | Viewport-bound: `min(100svh − header, 56rem)` tall, full width |
+| Original | The `Gallery` lightbox only — the photograph uncropped |
+
+Two card-and-feature ratios keep a page calm the way one photographic grade does (§4.3), and an
+editor uploads each photograph once.
+
+### DS-008 Sanity hotspot and crop
+
+- **Every image field** has `options: { hotspot: true }` and a required `alt` (06 §13).
+- **The crop rectangle is applied on Sanity's CDN** (`rect=` in `lib/sanity/image.ts`), because
+  it is the editor's decision about what is in the photograph.
+- **The hotspot becomes CSS:** `object-fit: cover` plus `object-position: x% y%` inside a
+  fixed-ratio box, while the CDN serves `fit=max` widths. One set of URLs then works for every
+  ratio in DS-007 and every breakpoint, including the `Hero` that is 4:5 on a phone and wide on
+  desktop.
+- **Why not crop per ratio on the CDN** (`fit=crop&crop=focalpoint`): a `next/image` loader only
+  receives a width, so each ratio would need its own loader, and a box that changes ratio at a
+  breakpoint would load the wrong crop. The cost is a few percent of extra pixels.
+- `lib/sanity/map.ts` converts the hotspot into percentages relative to the crop, not the
+  original image, and the DTO carries `{ url, alt, width, height, focus: { x, y } }`.
+- The Studio field description tells the editor what the circle means: *put it on what must
+  never be cut off.*

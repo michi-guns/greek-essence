@@ -124,6 +124,10 @@ Motion: CSS transitions and `tw-animate-css`. **No motion library.** The design 
 motion library would be 30KB in service of restraint. Use the View Transitions API for page
 transitions if browser support allows; degrade silently if not.
 
+*Refined by DS-006 🟡 (02-DESIGN-SYSTEM §6), from the GE-003.02 motion research:* scroll
+reveals use one small `IntersectionObserver` script rather than CSS alone, still no library.
+`tw-animate-css` is not installed and not needed.
+
 ## S-007 ✅ Analytics — Umami Cloud
 
 Requirements: popular, real free tier, privacy-first, **not Google Analytics**.
