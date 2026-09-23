@@ -41,7 +41,7 @@ Type   — display 3.5rem/3rem/2.25rem · h1 2.5rem · h2 2rem · h3 1.5rem
          Heading font: Fraunces · Body font: Inter (S-005). Two families, no more.
          How to set them: §4.1
 Space  — 4 8 12 16 24 32 48 64 96 128   (Tailwind default is fine; just don't freestyle)
-Radius — 0 on images, cards and buttons (§4.5) · sm 4 for inputs · full for pills
+Radius — 0 on images, cards and buttons (§4.5) · xs 4 for inputs · full for pills
 Shadow — none on cards (§4.5); one elevation for overlays. That's it.
 Motion — 150ms ease-out (micro) · 300ms ease-out (transitions). Respect prefers-reduced-motion
 ```
@@ -100,18 +100,22 @@ Reference names in parentheses point there.
 
 ### 4.1 Type
 
+- **Load the whole family first.** `app/layout.tsx` imports `@fontsource-variable/fraunces`, which
+  is the weight axis only, upright only: `opsz`, `SOFT` and `WONK` are missing and an italic would
+  be a fake, browser-slanted one. The comps need `@fontsource-variable/fraunces/full.css` and
+  `full-italic.css` (T-01.6 / GE-004.02 owns the final import).
 - **Fraunces is set like a book serif, not a novelty face.** Weight 300–400 for display, never
-  above 500. `opsz` follows the size (the default). `SOFT` 0–50, `WONK` 0. Every reference sets its
-  display serif at regular or light weight — Lyon (Aman), Caslon (The Newt), Garamond
-  (Openhouse), Epicene (Le Sirenuse). Nobody uses bold.
+  above 500. `opsz` follows the size (automatic once `full.css` is loaded). `SOFT` 0–50, `WONK` 0.
+  The references set their display serifs at weight 500 or lighter, mostly regular or light —
+  Lyon (Aman), Caslon (The Newt), Garamond (Openhouse), Epicene (Le Sirenuse). Nobody uses bold.
 - **Display sizes are large and few.** 56–80px on desktop for the one headline per page (Le Sirenuse
   and The Newt set 60px, Openhouse 75px), tracking about −0.01em. Section heads 28–40px. Headlines are
   sentence case — uppercase serif reads as a magazine cover, not a sentence (Kinfolk).
 - **One italic moment.** A headline may pair a roman line with an italic line — the place, then
   what it feels like: *"Paros & Antiparos / Slow days between two harbours"* (Openhouse, The Newt).
-  Fraunces has true italics.
+  Fraunces has true italics, once `full-italic.css` is loaded.
 - **The lede is serif.** The intro paragraph under a page headline is Fraunces at 22–28px
-  (Le Sirenuse, Kinsterna). Everything after it is Inter.
+  (Kinsterna sets 23.5px; Le Sirenuse goes as far as 40px). Everything after it is Inter.
 - **Inter is the working voice.** Body 16–18px, line-height 1.5–1.6, **60–72 characters per line**
   (Aman 62, Dexamenes 70). Left-aligned, never justified.
 - **Labels are tracked caps.** Eyebrows, captions and nav: Inter 12–13px, uppercase, tracking
@@ -125,14 +129,16 @@ Reference names in parentheses point there.
 - **Ink is blue.** Headlines in `--ge-blue-900` (12.2:1 on ivory), body in `--ge-slate-950`
   (15.2:1). Le Sirenuse sets *every* word in its one brand green and has no other UI colour; the
   equivalent here is Aegean blue as ink, not as a filled band.
-- **Punctuation, not fields:** `--ge-teal-700` for links and focus only (4.85:1 on ivory; it falls
-  to 4.47:1 on limestone, so no small teal text there). One solid `--ge-blue-800` button per view.
-  No full-width coloured bands except, at most, one `CtaBand`.
+- **Punctuation, not fields:** links keep the existing `--color-link` (`--ge-blue-800`, 9.3:1).
+  `--ge-teal-700` is the focus ring (`--color-ring`) and the occasional accent — 4.85:1 on ivory,
+  4.47:1 on limestone, so no small teal text on limestone. One solid `--ge-blue-800` button per
+  view. No full-width coloured bands except, at most, one `CtaBand`.
 - **Never as text:** `--ge-slate-500` (3.99:1) and `--ge-sand-500` (3.60:1) — lines and rules only.
-- **Target: under ~12% saturated pixels per page, photographs included.** The ten references
-  measure 0.4–27% (median ≈ 9%); the calmest — Moroseta, Cereal, Dexamenes, Openhouse — sit at
-  7–8%, and Kinfolk tops the range only because its content is colourful magazine covers. The
-  colour a visitor sees should come from the photographs.
+  The one exception is disabled text (`--color-disabled-fg`), which WCAG exempts.
+- **Target: under ~12% saturated pixels per page, photographs included.** The nine references
+  that could be measured range 7–27% (median 10%); the calmest — Moroseta, Cereal, Dexamenes,
+  Openhouse — sit at 7–8%, and Kinfolk tops the range only because its content is colourful
+  magazine covers. The colour a visitor sees should come from the photographs.
 
 ### 4.3 Photography
 
@@ -142,33 +148,38 @@ expensive-looking references are the ones whose photographs share one grade (Cer
 - **One grade across the site:** natural light, warm, slightly muted. Late afternoon over midday.
   No HDR, no boosted turquoise, no sunset-orange skies. Where a stock image is too saturated,
   leave it out rather than use it.
-- **Architecture, texture, food and detail over panoramas:** a whitewashed doorway, a plate from
-  above, an olive grove, stone steps (Masseria Moroseta, Kinsterna). Each image carries one idea.
-  People appear from behind or at a distance — which D-034 already asks for, for licence reasons.
+- **Architecture, texture, food and detail, with landscape as the wide shot:** a whitewashed
+  doorway, a plate from above, an olive grove, stone steps (Masseria Moroseta, Kinsterna). Each
+  image carries one idea; wall-to-wall postcard panoramas are the exception, not the rule. People
+  appear from behind or at a distance — which D-034 already asks for, for licence reasons.
 - **Text goes beside or under a photograph, not on it**, except the one `Hero`. Captions sit
   below the image as tracked caps (Dexamenes, Moroseta).
 - **Heroes are inset or full-bleed, never a carousel.** Inset means a 24–64px margin of ground
   around the image (Aman, The Newt); full-bleed means edge to edge (Dexamenes, Moroseta). A hero
-  scrim is allowed only as far as the headline needs to pass contrast.
+  scrim is allowed only as far as the headline needs to pass contrast. The inset form is a
+  variant of the `Hero` pattern in §2, not a fifth pattern; the direction pick decides which one
+  ships.
 
 ### 4.4 Space and layout
 
-- **55–70% of the page below the fold is bare ground.** Measured: Cereal 70%, Dexamenes 66%,
-  Moroseta 62%, Monocle 57%, The Newt 54%. Aman, at 34%, shows what dense looks like — it can
-  afford it; a small catalogue cannot.
+- **55–70% of the page below the fold is bare ground.** Measured: Cereal 70%, Moroseta 62%,
+  Monocle 57%, The Newt 54% (Dexamenes' 66% is an upper bound — one section did not render in the
+  capture). Aman, at 34%, shows what dense looks like — it can afford it; a small catalogue cannot.
 - **Asymmetry is allowed and useful:** two-thirds plus one-third image pairs (Aman), an offset
   cluster of three or four photographs beside a text column (Dexamenes), or alternating 50/50
   rows with the photograph running to the viewport edge (The Newt, which is our `SplitFeature`).
 - **Header: three things.** Menu, wordmark centred, one action (*Plan your trip*) — Le Sirenuse and
-  Dexamenes do exactly this; Aman adds only search and a language switch. On mobile the one action may pin to the bottom as a
-  full-width bar (Aman).
+  Dexamenes do exactly this; Aman adds only search and a language switch. On mobile the one
+  action may pin to the bottom as a full-width bar (Aman).
 
 ### 4.5 Components in this voice
 
 - **Corners are square.** Every call-to-action measured has `border-radius: 0` (nine of the ten
-  references; Cereal has no buttons), and every photograph in the captures is square-cornered. Radius
-  4 only on form inputs; `full` only on pills. The token audit (T-01.5) carries this into
-  `app/globals.css`.
+  references; Cereal has no buttons), and every photograph in the captures is square-cornered.
+  4px (`--radius-xs`) only on form inputs; `full` only on pills.
+- **Handed to the token audit (T-01.5 / GE-004.01):** today `app/globals.css` still rounds with
+  `--radius-sm` (8px) and up, and `.editorial-card` and the showcase card carry `--shadow-soft`.
+  Both change to match this section.
 - **A card is an image and a caption on the ground** — eyebrow, title, one line, a text link. No
   border, no fill, no shadow (Aman, Moroseta, Kinfolk).
 - **Links do most of the work.** Secondary actions are underlined text — *Discover the itinerary*
