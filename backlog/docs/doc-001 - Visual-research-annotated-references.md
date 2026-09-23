@@ -3,7 +3,7 @@ id: doc-001
 title: Visual research - annotated references
 type: specification
 created_date: '2026-09-23 09:17'
-updated_date: '2026-09-23 09:37'
+updated_date: '2026-09-23 10:58'
 ---
 # Visual research — annotated references (GE-003.01)
 
@@ -22,7 +22,7 @@ come from the pixels of the desktop full-page capture, below the first fold:
   colour-restraint number, and it includes the photographs.
 
 A number is not a verdict: every screenshot was looked at, and the notes say what was seen.
-Screenshots and `facts.json` are local only, in `.local/evidence/2026-09-23-visual-research/`.
+Screenshots and `facts.json` are local only, in `.local/design-exploration/2026-09-23-visual-research/`.
 
 | | Reference | Kind | Display / text faces | Ground | Bare ground | Saturated |
 |---|---|---|---|---|---|---|
