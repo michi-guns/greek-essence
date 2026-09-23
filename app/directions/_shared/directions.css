@@ -253,7 +253,8 @@
 .d-demobar-short {
   display: none;
 }
-@media (max-width: 47.99rem) {
+/* the long sentence plus the letters needs about 56rem on one line */
+@media (max-width: 55.99rem) {
   .d-demobar {
     flex-wrap: nowrap;
   }
@@ -541,6 +542,9 @@
 }
 .d-b-grid .d-eyebrow {
   margin-top: 0.25rem;
+}
+.d-b-grid .d-link {
+  justify-self: start;
 }
 .d-b-card-title {
   font-size: 1.375rem;
