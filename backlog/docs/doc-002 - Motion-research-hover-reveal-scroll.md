@@ -3,7 +3,7 @@ id: doc-002
 title: 'Motion research: hover, reveal, scroll'
 type: other
 created_date: '2026-09-23 10:40'
-updated_date: '2026-09-23 10:40'
+updated_date: '2026-09-23 10:48'
 ---
 # Motion research — hover, reveal, scroll
 
@@ -33,7 +33,7 @@ For each site:
   whether the first screen holds a video or a carousel.
 - Seven screenshots at 0–100% scroll depth and a scroll recording per site (local evidence only).
 
-Limits: desktop only (hover does not exist on phones; reveals behave the same). Elements whose
+Limits: desktop only. Hover does not exist on phones; reveals on phones were not measured. Elements whose
 travel is expressed as a percentage are reported in pixels at 1440px. Load-time animation of the
 first screen was not measured.
 
@@ -47,7 +47,7 @@ first screen was not measured.
 | Dexamenes | 21 · fade + its own height · 1.25s, 210ms stagger | colour | — | sticky | — |
 | The Newt | none | 150ms | underline | sticky | — |
 | Kinsterna | 31 · fade + 100px · 1.5s, 270ms stagger | colour + fill · 150ms | zoom ×1.20 · 2s | sticky | — |
-| Kinfolk | 13 · fade only · 1.1s, 60ms stagger | fade · 500ms | dim + overlay · 1.2s | sticky | Lenis |
+| Kinfolk | 13 · fade, rise 0–58px · 1.1s, 60ms stagger | fade · 500ms | dim + overlay · 1.2s | sticky | Lenis |
 | Cereal | none | none | — | sticky | — |
 | Openhouse | 8 · fade + 60px · 0.8s | underline · 300ms | dim · 700ms | sticky | — |
 | Monocle | none | underline | — | sticky | — |
@@ -62,9 +62,9 @@ first screen was not measured.
 
 1. **The calmest references move least.** Aman, Cereal, Monocle, Moroseta and The Newt use no
    scroll reveal. Five of the ten references do.
-2. **Where they reveal, it is always a fade,** usually with a rise of 50–100px, over 0.8–1.9s.
-   Openhouse is the quickest (0.8s, 60px). Dexamenes moves each block by its own height — up to
-   about 450px — which is the upper limit, not a model.
+2. **Where they reveal, it is always a fade,** over 0.8–1.9s. Le Sirenuse, Openhouse and Kinsterna rise 50–100px; Kinfolk barely moves (0–58px).
+   Openhouse is the quickest (0.8s, 60px). Dexamenes moves each block by its own height — median
+   about 450px, up to about 900px — the far end, not a model.
 3. **Text hovers change colour, opacity or underline, never position.** 100–500ms, median about
    300ms. Plain `ease` is the most common curve.
 4. **Image hovers are slow, or absent.** The Hoxton scales 1.07 in 600ms; Kinsterna's
