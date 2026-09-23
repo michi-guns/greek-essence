@@ -3,7 +3,7 @@ id: doc-001
 title: Visual research - annotated references
 type: specification
 created_date: '2026-09-23 09:17'
-updated_date: '2026-09-23 09:28'
+updated_date: '2026-09-23 09:34'
 ---
 # Visual research — annotated references (GE-003.01)
 
@@ -48,19 +48,20 @@ type and colour values come from the DOM and stand.
 ² One section on each of these pages reveals on scroll and shows as a blank band in the capture,
 so the bare-ground number is an upper bound.
 
-Corners: **square everywhere.** The script measured one call-to-action per site; all nine sites
-that have one return `border-radius: 0` (Cereal has no buttons), and every photograph in the
-captures is square-cornered. None puts a shadow on a card.
+Corners: **square.** The script measured one call-to-action per site. Three are boxed buttons —
+Aman, Dexamenes, Kinsterna — and all three are `border-radius: 0`; the other six are plain text
+links, whose radius proves nothing, and Cereal has none. Every photograph in the captures is
+square-cornered. None puts a shadow on a card.
 
 ---
 
 ## 1. Le Sirenuse — https://www.sirenuse.it
 
 **Seen:** wordmark centred, `MENU` left and `BOOK` right in small caps, nothing else in the header.
-A three-word headline, *"A world apart."*, in a light display serif, then a full-width video. On
+A three-word headline, *"A world apart."*, in a thin display serif, then a full-width video. On
 mobile the intro paragraph is set in the display face at ~30px, centred.
 
-- **Type:** one family does everything. Headline 60.5px, light weight, tracking −0.5px. Section
+- **Type:** one family does everything. Headline 60.5px, thin (weight 100), tracking −0.5px. Section
   heads 40px. Nav 18px uppercase in the same serif.
 - **Colour:** *every* piece of text is one green, `#11695d`, on near-white `#f8f8f8`. There is no
   second UI colour. The brand colour is the ink, not a fill.
@@ -99,7 +100,7 @@ two lines of serif text under each.
   and even they are mostly white and ochre.
 - **Image:** architecture and detail, not panoramas. A bowl of tomatoes shot from above, olive
   trees at sunset, a boat on turquoise water — each image one idea.
-- **Steal:** the photographic brief itself (see §4 of 02-DESIGN-SYSTEM). The image grid with the
+- **Steal:** the photographic brief itself (see 02-DESIGN-SYSTEM §4.3). The image grid with the
   caption *under* the picture, never over it.
 - **Don't copy:** the partner-logo strip and the mid-page newsletter form.
 
