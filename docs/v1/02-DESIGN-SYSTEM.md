@@ -333,7 +333,7 @@ Tailwind 4 defaults, mobile-first. `md` and `lg` shape layout; `xl` only caps wi
 - Named imports only (`import { ArrowRight } from 'lucide-react'`), so the bundle carries only
   the icons used.
 
-### DS-006 🟡 Motion policy
+### DS-006 ✅ Motion policy
 
 Measured on 14 sites in Chrome — hover timings, scroll reveals and header behaviour read from
 the live pages (evidence: [`backlog/docs/doc-002`](../../backlog/docs/doc-002%20-%20Motion-research-hover-reveal-scroll.md)).
@@ -341,7 +341,7 @@ The calmest references move least: Aman, Cereal, Monocle, Moroseta and The Newt 
 reveals at all. Five of the ten references reveal on scroll, taking 0.8–1.9s: Le Sirenuse,
 Openhouse and Kinsterna rise 50–100px, Kinfolk barely moves (0–58px), and Dexamenes moves each
 block its own height (median ~450px, up to ~900px). **This policy keeps the reveal, but shorter
-and closer.** 🟡 because motion is a design call, and it refines S-006 (below).
+and closer.** Approved by the operator on 2026-09-23 after trying it on a scrolling demo page; it refines S-006 (below).
 
 | Where | What moves | Timing | Evidence |
 |---|---|---|---|
