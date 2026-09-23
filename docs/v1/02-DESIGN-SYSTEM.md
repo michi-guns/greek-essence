@@ -179,8 +179,9 @@ expensive-looking references are the ones whose photographs share one grade (Cer
   cluster of three or four photographs beside a text column (Dexamenes), or alternating 50/50
   rows with the photograph running to the viewport edge (The Newt, which is our `SplitFeature`).
 - **Header: three things.** Menu, wordmark centred, one action (*Plan your trip*) — Le Sirenuse and
-  Dexamenes do exactly this; Aman adds only search and a language switch. On mobile the one
-  action may pin to the bottom as a full-width bar (Aman).
+  Dexamenes do exactly this; Aman adds only search and a language switch. On phones the
+  image-led direction (§4.6) keeps the header to menu and wordmark; the action lives in the
+  `Hero` and after the content, not in a pinned bottom bar (DS-006).
 
 ### 4.5 Components in this voice
 
@@ -365,7 +366,7 @@ and closer.** Approved by the operator on 2026-09-23 after trying it on a scroll
 | Image in a card | Scale to 1.03 inside a fixed frame; the caption link underlines | 700ms, `--ease-emphasized` | The Hoxton 1.07 at 600ms; Kinsterna's 1.20 at 2s is the ceiling not to reach |
 | Content below the fold | Fade from 0 and rise 24px, once, as it enters the viewport. Up to three siblings stagger 100ms apart | 800ms, `--ease-emphasized` | Openhouse 800ms / 60px, the quickest reference; Dexamenes moves a block its own height |
 | The `Hero` on load | Photograph settles from scale 1.04 to 1; the italic headline line fades up 150ms after the roman line, which is at rest from the first paint | 1600ms photo, 800ms text | Judgement, not measured. Neither the photo nor the first headline line fades, so the largest paint is not delayed |
-| Header | Sticky, and it does not change. Over a full-bleed photograph it takes the ivory ground once the hero has passed; its action is then a tracked-caps text link, not a button — an outline button belongs on a photograph (§4.5) and the page's one solid button comes later (§4.6, §4.8) | 220ms colour fade | 9 of 14 sticky and unchanged |
+| Header | Sticky; it never shrinks or hides. Over a full-bleed photograph it takes the ivory ground once the hero has passed, and its action changes from an outline button to `Button variant="link"` in the nav label style (§4.1) — an outline button belongs on a photograph (§4.5), and a solid one would add a second per viewport (§4.8). On pages without a `Hero` it starts that way. Below `md` the header is menu and wordmark only: the action sits under the `Hero` headline and after the content (§4.4) | 220ms colour fade | 9 of 14 sticky and unchanged |
 | Focus ring | Appears at once, teal, 2px, offset 2px. Never animated | 0ms | 5 of 14 sites draw no outline or ring on any element tested — the one place to beat them |
 
 **Ruled out:** smooth-scroll libraries that take over the wheel (Lenis, Locomotive — Kinfolk,
@@ -456,6 +457,6 @@ editor uploads each photograph once.
   never be cut off.*
 - **A `Hero` photograph is landscape and at least 3,000px wide.** Desktop from `lg` needs
   1440 × 2 = 2,880px; a phone's 4:5 box needs 390 × 3 × (photoRatio ÷ 0.8) — 2,194px for 3:2,
-  2,633px for 16:9. The Studio description for every hero image field (Home, `/personalized`,
+  2,600px for 16:9. 3,000px covers common desktops; a tall screen asks for about 1.3 × 2,880 (above), and the CDN serves what the original has. The Studio description for every hero image field (Home, `/personalized`,
   destination, package) says so, and warns on a narrower upload. It also says that the headline
   covers the bottom third of the frame on a phone: keep the hotspot out of it.
