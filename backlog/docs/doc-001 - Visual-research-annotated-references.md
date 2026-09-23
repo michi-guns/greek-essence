@@ -3,7 +3,7 @@ id: doc-001
 title: Visual research - annotated references
 type: specification
 created_date: '2026-09-23 09:17'
-updated_date: '2026-09-23 09:19'
+updated_date: '2026-09-23 09:28'
 ---
 # Visual research — annotated references (GE-003.01)
 
@@ -26,13 +26,13 @@ Screenshots and `facts.json` are local only, in `.local/evidence/2026-09-23-visu
 
 | | Reference | Kind | Display / text faces | Ground | Bare ground | Saturated |
 |---|---|---|---|---|---|---|
-| 1 | Le Sirenuse, Positano | Hotel | Epicene Display, one family | `#f8f8f8` | n/a¹ | 0.4% |
+| 1 | Le Sirenuse, Positano | Hotel | Epicene Display, one family | `#f8f8f8` | n/a¹ | n/a¹ |
 | 2 | Aman | Hotel group | Lyon Text + Whitney | `#f3eee7` | 34% | 16% |
 | 3 | Masseria Moroseta, Puglia | Boutique hotel | Fira Mono + Tinos | `#ffffff` | 62% | 7% |
-| 4 | Dexamenes, Peloponnese | Boutique hotel (GR) | Helvetica Neue Light | `#ffffff` | 66% | 8% |
+| 4 | Dexamenes, Peloponnese | Boutique hotel (GR) | Helvetica Neue Light | `#ffffff` | ≤ 66%² | 8% |
 | 5 | The Newt in Somerset | Hotel + estate | Adobe Caslon + Avenir Next | `#ffffff` | 54% | 18% |
 | 6 | Kinsterna, Monemvasia | Boutique hotel (GR) | corporate-a + Open Sans | `#e5e5e5` | 56% | 16% |
-| 7 | Kinfolk | Magazine | Kinfolk Serif + Kinfolk Sans | `#ffffff` | 44% | 27% |
+| 7 | Kinfolk | Magazine | Kinfolk Serif + Kinfolk Sans | `#ffffff` | ≤ 44%² | 27% |
 | 8 | Cereal | Travel magazine | Adobe Text + Neue Haas Unica | `#f7f6ef` | 70% | 7% |
 | 9 | Openhouse | Design magazine | EB Garamond + Sneak | `#ffffff` | 45% | 8% |
 | 10 | Monocle — Travel | Magazine | Plantin + Helvetica Neue | `#ffffff` | 57% | 10% |
@@ -40,18 +40,24 @@ Screenshots and `facts.json` are local only, in `.local/evidence/2026-09-23-visu
 | ✕ | Casa Cook | Hotel group — counter | Oswald + Courier Prime | `#f8f6f2` | 50% | 8% |
 | ✕ | Xenodocheio Milos, Athens | Hotel (GR) — counter | PF Regal Display + Averta | `#ffffff` | 62% | 11% |
 
-¹ Le Sirenuse's home page is one viewport tall plus an index menu; the full-page capture is mostly
-empty space the layout reserves, so its whitespace number measures the capture, not the design.
+¹ Le Sirenuse's full-page capture is broken: its content below the video appears on scroll and
+did not render in the capture (the DOM records a heading at y=2340 that the image shows as empty
+ground). Both pixel numbers would measure the capture, not the design, so they are left out. Its
+type and colour values come from the DOM and stand.
 
-Corners: **every one of the ten uses square corners** on buttons and images (`border-radius: 0` on
-every call-to-action measured). None puts a shadow on a card.
+² One section on each of these pages reveals on scroll and shows as a blank band in the capture,
+so the bare-ground number is an upper bound.
+
+Corners: **square everywhere.** The script measured one call-to-action per site; all nine sites
+that have one return `border-radius: 0` (Cereal has no buttons), and every photograph in the
+captures is square-cornered. None puts a shadow on a card.
 
 ---
 
 ## 1. Le Sirenuse — https://www.sirenuse.it
 
 **Seen:** wordmark centred, `MENU` left and `BOOK` right in small caps, nothing else in the header.
-A four-word headline, *"A world apart."*, in a light display serif, then a full-width video. On
+A three-word headline, *"A world apart."*, in a light display serif, then a full-width video. On
 mobile the intro paragraph is set in the display face at ~30px, centred.
 
 - **Type:** one family does everything. Headline 60.5px, light weight, tracking −0.5px. Section
@@ -61,7 +67,8 @@ mobile the intro paragraph is set in the display face at ~30px, centred.
 - **Image:** full-bleed video directly under the headline; the headline never sits on the photo.
 - **Steal:** brand colour as the text colour — for us, deep Aegean blue as ink on ivory. The
   three-item header.
-- **Don't copy:** a home page that is a single fold — we need the catalogue below it.
+- **Don't copy:** long paragraphs set in the display face at 40px — striking once on a home page,
+  tiring on a package page.
 
 ## 2. Aman — https://www.aman.com
 
@@ -107,10 +114,10 @@ an offset cluster of four photographs on the right, small caps captions under ea
   line. Almost no size contrast — the photographs are the headline.
 - **Colour:** white ground, `#1d1c1a` text, 8% saturated. Photo grade is dusty, olive and
   concrete.
-- **Image:** asymmetric clusters, varied sizes, generous gutters; 66% of the page is bare ground.
+- **Image:** asymmetric clusters, varied sizes, generous gutters; up to 66% of the page is bare
+  ground (one section did not render in the capture).
 - **Steal:** the offset image cluster with captions; the outline button on the hero.
-- **Don't copy:** text that small and light as the only type; some sections leave voids large
-  enough to read as a loading fault.
+- **Don't copy:** text that small and light as the only type.
 
 ## 5. The Newt in Somerset — https://thenewtinsomerset.com
 
@@ -161,7 +168,7 @@ links, *Buy | Read*. Then a horizontal strip of story cards, each an image with 
 issue number in brackets and a title: *(032-15) Modern Living*. Image heights vary; the grid's
 top edges step.
 
-- **Type:** Adobe Text Pro 12px for *everything*. Hierarchy comes from position and space, not
+- **Type:** Adobe Text Pro 12px for nearly everything (Neue Haas Unica for a few links). Hierarchy comes from position and space, not
   size. The wordmark is widely letterspaced caps.
 - **Colour:** ground `#f7f6ef`, ink `#363531`, 7% saturated. The ground is within a few units of
   our `--ge-ivory-100 #faf6ed`.
@@ -174,13 +181,15 @@ top edges step.
 ## 9. Openhouse — https://openhouse-magazine.com
 
 **Seen:** full-bleed dark photograph, a small category label, and a two-line headline in which the
-first line is roman and the second italic: *"Ca's Xorc / A Place to Return To"*. One underlined
+first line is roman and the second italic: *"Blasco / The heritage in every piece"* in the
+capture (the hero rotates between stories; an earlier load showed *"Ca's Xorc / A Place to Return
+To"* in the same form). One underlined
 "Read more".
 
 - **Type:** EB Garamond 75px roman + italic; Sneak (a grotesque) for nav. Intro text 35px serif.
 - **Colour:** photograph does the work; white text; ground white below.
 - **Steal:** roman + italic in one headline — a place name, then what it feels like. Fraunces has
-  true italics, so this costs nothing.
+  true italics, once its italic files are loaded (02-DESIGN-SYSTEM §4.1).
 - **Don't copy:** the cookie and advertising chrome; the heavy darkening of every hero image.
 
 ## 10. Monocle — Travel — https://monocle.com/travel/
@@ -216,12 +225,13 @@ we have no availability to search (D-001, D-032c) and must not pretend to.
 ### ✕ Xenodocheio Milos, Athens — https://www.xenodocheiomilos.com
 
 Two ideas worth one look — a 270px ghost word behind an image, and a warm cream section ground —
-buried under gold `#cba977` and navy `#042444` boxed buttons, a date-picker availability bar, a
+buried under gold (≈ `#cba977`) and navy (≈ `#042444`, a measured colour bucket, not an exact
+hex) boxed buttons, a date-picker availability bar, a
 bordered centred box around a slogan, and a row of icon tiles. Two brand colours used as fields
 rather than punctuation is the specific failure.
 
 ### Dropped during the research
 
-Hoshino Resorts (price and "Best Rate Guaranteed" in the header), Design Hotels (bot wall), Kalesma
-and Parilio (the domains tried did not serve the hotels), The Wild (the domain tried does not
+Hoshino Resorts (price and "Best Rate Guaranteed" in the header), Design Hotels (bot wall), Kalesma,
+Parilio and Mèlisses (the domains tried did not serve the hotels), The Wild (the domain tried does not
 resolve).
