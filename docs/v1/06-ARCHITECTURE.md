@@ -89,6 +89,8 @@ app/
   api/revalidate/route.ts       Sanity webhook target
   sitemap.ts  robots.ts
   studio/[[...tool]]/page.tsx   embedded Sanity Studio
+  directions/                   GE-003.03 design demos — temporary: 404 on production,
+                                deleted by GE-005.01 with tests/e2e/directions.spec.ts
 
 components/
   ui/            Button Badge Card Breadcrumb Dialog Prose

@@ -1,0 +1,683 @@
+/*
+ * GE-003.03 direction demos. The comps set the 02-DESIGN-SYSTEM §4 brief in their own CSS,
+ * as §4 asks, because app/globals.css is not audited until GE-004.01. Everything is scoped
+ * under .d-root. Colours are the existing --ge-* tokens; sizes follow DS-004 (clamp from
+ * 390px to 1440px, max <= 2.5 x min). Throwaway: deleted with app/directions/ by GE-005.01.
+ */
+
+/* ---------- shared ---------- */
+
+.d-root {
+  --d-header-h: 4.5rem;
+  --d-ink: var(--ge-blue-900);
+  --d-text: var(--ge-slate-950);
+  --d-muted: var(--ge-slate-600);
+  --d-rule: var(--ge-limestone-200);
+  --d-serif: 'Fraunces Variable', Georgia, serif;
+  --d-sans: 'Inter Variable', system-ui, sans-serif;
+  --d-gutter: clamp(1.25rem, 0.786rem + 1.905vw, 2.5rem);
+  --d-max: 90rem;
+
+  min-height: 100svh;
+  color: var(--d-text);
+  background: var(--ge-ivory-100);
+  font-family: var(--d-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  font-synthesis: none; /* a missing italic shows upright, never slanted by the browser */
+}
+
+.d-root :where(h1, h2, h3) {
+  max-width: none;
+  font-family: var(--d-serif);
+  font-weight: 350;
+  font-variation-settings:
+    'SOFT' 30,
+    'WONK' 0;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--d-ink);
+}
+
+.d-roman,
+.d-italic {
+  display: block;
+}
+.d-italic {
+  font-style: italic;
+  font-weight: 300;
+}
+
+.d-eyebrow {
+  margin: 0;
+  font-family: var(--d-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--d-muted);
+}
+
+.d-lede {
+  font-family: var(--d-serif);
+  font-size: clamp(1.375rem, 1.236rem + 0.571vw, 1.75rem);
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--d-ink);
+  max-width: 34em;
+  text-wrap: pretty;
+}
+
+.d-body {
+  text-wrap: pretty;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  max-width: 36em;
+}
+
+.d-section-title {
+  font-size: clamp(1.75rem, 1.471rem + 1.143vw, 2.5rem);
+}
+
+.d-card-title {
+  display: block;
+  font-family: var(--d-serif);
+  font-size: clamp(1.375rem, 1.236rem + 0.571vw, 1.75rem);
+  font-weight: 350;
+  line-height: 1.15;
+  color: var(--d-ink);
+}
+.d-card-dek {
+  display: block;
+  margin-top: 0.25rem;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.8em;
+  color: var(--ge-slate-800);
+}
+
+/* Links do most of the work (§4.5): underlined text, colour change on hover */
+.d-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  text-decoration-color: var(--ge-sand-200);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.d-link:hover,
+.d-card:hover .d-link {
+  color: var(--color-link-hover);
+  text-decoration-color: currentColor;
+}
+
+/* Buttons: square, tracked caps, one solid per view */
+.d-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.d-btn-solid {
+  color: var(--ge-white);
+  background: var(--ge-blue-800);
+}
+.d-btn-solid:hover {
+  background: var(--ge-blue-950);
+}
+.d-btn-outline {
+  color: var(--ge-white);
+  border-color: rgb(255 255 255 / 0.8);
+}
+.d-btn-outline:hover {
+  color: var(--ge-blue-950);
+  background: var(--ge-white);
+}
+/* DS-006's teal ring is lost on a photograph and clipped at the screen edge: white there */
+.d-root .d-btn-outline:focus-visible,
+.d-b .d-header :focus-visible {
+  outline-color: var(--ge-white);
+}
+.d-root .d-mobile-action:focus-visible {
+  outline-color: var(--ge-white);
+  outline-offset: -6px;
+}
+
+/* Photographs: square corners, fixed frames (DS-007), cover inside */
+.d-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--ge-limestone-100);
+}
+.d-frame img {
+  object-fit: cover;
+}
+.d-portrait {
+  aspect-ratio: 4 / 5;
+}
+
+/* Header: menu, wordmark centred, one action (§4.4) */
+.d-header {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  height: var(--d-header-h);
+  padding-inline: var(--d-gutter);
+  background: var(--ge-ivory-100);
+  color: var(--d-ink);
+}
+.d-menu {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.d-wordmark {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--d-serif);
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.d-header-action {
+  justify-self: end;
+}
+
+/* Phones: the header drops its action; it pins to the bottom as a full-width bar (Aman) */
+.d-mobile-action {
+  position: fixed;
+  z-index: 30;
+  inset: auto 0 0 0;
+  min-height: 3.25rem;
+}
+@media (max-width: 47.99rem) {
+  .d-menu-label,
+  .d-header-action {
+    display: none;
+  }
+  .d-root:has(.d-mobile-action) {
+    padding-bottom: 3.25rem;
+  }
+}
+@media (min-width: 48rem) {
+  .d-mobile-action {
+    display: none;
+  }
+}
+
+/* The demo bar and credits: plainly outside the design */
+.d-demobar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.375rem var(--d-gutter);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ge-slate-800);
+  background: var(--ge-limestone-200);
+}
+.d-demobar-short {
+  display: none;
+}
+/* the long sentence plus the letters needs about 56rem on one line */
+@media (max-width: 55.99rem) {
+  .d-demobar {
+    flex-wrap: nowrap;
+  }
+  .d-demobar-long {
+    display: none;
+  }
+  .d-demobar-short {
+    display: inline;
+    white-space: nowrap;
+  }
+}
+.d-demobar nav {
+  display: flex;
+  gap: 0.25rem;
+}
+.d-demobar a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  color: inherit;
+}
+.d-demobar a[aria-current='page'] {
+  font-weight: 700;
+  text-decoration: none;
+}
+.d-credits {
+  padding: 3rem var(--d-gutter);
+  border-top: 1px solid var(--d-rule);
+  font-size: 0.8125rem;
+  color: var(--d-muted);
+}
+.d-credits p {
+  max-width: 60em;
+}
+
+/* Motion (DS-006) — only when the visitor has not asked for less */
+@media (prefers-reduced-motion: no-preference) {
+  .d-link,
+  .d-btn {
+    transition:
+      color var(--motion-base) var(--ease-standard),
+      background-color var(--motion-base) var(--ease-standard),
+      text-decoration-color var(--motion-base) var(--ease-standard);
+  }
+  .d-card .d-frame img {
+    transition: transform 700ms var(--ease-emphasized);
+  }
+  .d-card:hover .d-frame img {
+    transform: scale(1.03);
+  }
+  .d-settle img {
+    animation: d-settle 1600ms var(--ease-emphasized) both;
+  }
+  h1 .d-italic {
+    animation: d-rise 800ms var(--ease-emphasized) 150ms both;
+  }
+}
+@keyframes d-settle {
+  from {
+    transform: scale(1.04);
+  }
+}
+@keyframes d-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+/* ---------- A · Type-led ---------- */
+
+.d-a-fold {
+  padding: clamp(2.5rem, 1.804rem + 2.857vw, 4.5rem) var(--d-gutter) 0;
+  text-align: center;
+}
+.d-a-fold .d-eyebrow {
+  margin-bottom: 1.5rem;
+}
+.d-display {
+  max-width: 15em;
+  margin-inline: auto;
+  font-size: clamp(2.5rem, 1.571rem + 3.81vw, 5rem);
+  font-weight: 300;
+  text-wrap: balance;
+}
+.d-display .d-roman {
+  font-weight: 350;
+}
+.d-a-hero {
+  max-width: var(--d-max);
+  margin: clamp(2.5rem, 1.804rem + 2.857vw, 4.5rem) auto 0;
+  aspect-ratio: 3 / 2;
+}
+.d-a-intro {
+  padding: clamp(4rem, 2.607rem + 5.714vw, 8rem) var(--d-gutter);
+}
+.d-a-intro .d-lede {
+  margin-inline: auto;
+  max-width: 30em;
+}
+.d-a-journeys {
+  max-width: 76rem;
+  margin-inline: auto;
+  padding: 0 var(--d-gutter) clamp(4rem, 2.607rem + 5.714vw, 8rem);
+}
+.d-a-journeys .d-section-title {
+  margin-bottom: clamp(2.5rem, 1.804rem + 2.857vw, 4.5rem);
+  text-align: center;
+}
+.d-a-list {
+  display: grid;
+  gap: clamp(4rem, 2.607rem + 5.714vw, 8rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.d-a-item {
+  display: grid;
+  gap: 1.5rem;
+  align-items: end;
+}
+.d-a-item-copy {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+@media (min-width: 48rem) {
+  .d-a-item {
+    grid-template-columns: 5fr 4fr;
+    gap: clamp(2rem, 0.5rem + 3vw, 5rem);
+  }
+  .d-a-item:nth-child(even) .d-frame {
+    order: 2;
+  }
+}
+.d-a-close {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  width: min(100%, 38.25rem + 2 * var(--d-gutter)); /* the body measure, 36em at 17px */
+  margin-inline: auto;
+  padding: 0 var(--d-gutter) clamp(4rem, 2.607rem + 5.714vw, 8rem);
+}
+
+/* ---------- B · Image-led ---------- */
+
+.d-b-fold {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  aspect-ratio: 4 / 5;
+  color: var(--ge-white);
+  background: var(--ge-blue-950);
+}
+@media (min-width: 48rem) {
+  .d-b-fold {
+    aspect-ratio: 3 / 2;
+  }
+}
+@media (min-width: 64rem) {
+  .d-b-fold {
+    aspect-ratio: auto;
+    height: min(100svh - 2.5rem, 56rem);
+  }
+}
+.d-b-hero {
+  position: absolute;
+  inset: 0;
+}
+/* Scrim only as far as the headline needs (§4.3) */
+.d-b-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgb(11 36 51 / 0.5), transparent 24%),
+    linear-gradient(to top, rgb(11 36 51 / 0.6), transparent 45%);
+}
+.d-b .d-header {
+  position: relative;
+  background: transparent;
+  color: var(--ge-white);
+}
+.d-b-caption {
+  position: relative;
+  align-self: end;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  padding: 0 var(--d-gutter) clamp(1.5rem, 0.804rem + 2.857vw, 3.5rem);
+}
+.d-b-title {
+  max-width: 16em;
+  font-size: clamp(1.75rem, 1.471rem + 1.143vw, 2.5rem);
+  font-weight: 300;
+}
+.d-b .d-b-title {
+  color: var(--ge-white);
+}
+.d-b-fold-action {
+  display: none;
+}
+@media (max-width: 47.99rem) {
+  .d-b-fold-action {
+    display: inline-flex;
+  }
+}
+.d-b-story {
+  display: grid;
+  gap: clamp(2.5rem, 1.804rem + 2.857vw, 4.5rem);
+  padding: clamp(4rem, 2.607rem + 5.714vw, 8rem) var(--d-gutter);
+}
+.d-b-text {
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+}
+.d-b-cluster {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.d-b-cluster figure {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+/* An offset cluster (Dexamenes): three sizes, stepped tops */
+.d-b-cluster li:nth-child(1) {
+  grid-column: 1 / 5;
+}
+.d-b-cluster li:nth-child(2) {
+  grid-column: 5 / 7;
+  margin-top: 40%;
+}
+.d-b-cluster li:nth-child(3) {
+  grid-column: 2 / 6;
+}
+@media (min-width: 64rem) {
+  .d-b-story {
+    grid-template-columns: 4fr 7fr;
+    max-width: var(--d-max);
+    margin-inline: auto;
+  }
+  .d-b-text {
+    padding-top: 6rem;
+  }
+  .d-b-cluster li:nth-child(1) {
+    grid-column: 1 / 4;
+  }
+  .d-b-cluster li:nth-child(2) {
+    grid-column: 4 / 6;
+    margin-top: 8rem;
+  }
+  .d-b-cluster li:nth-child(3) {
+    grid-column: 2 / 4;
+    margin-top: 0;
+  }
+}
+.d-b-journeys {
+  max-width: var(--d-max);
+  margin-inline: auto;
+  padding: 0 var(--d-gutter) clamp(4rem, 2.607rem + 5.714vw, 8rem);
+}
+.d-b-journeys > .d-eyebrow {
+  margin-bottom: 2rem;
+}
+.d-b-grid {
+  display: grid;
+  gap: 3rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.d-b-grid li {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+.d-b-grid .d-eyebrow {
+  margin-top: 0.25rem;
+}
+.d-b-grid .d-link {
+  justify-self: start;
+}
+.d-b-card-title {
+  font-size: 1.375rem;
+}
+@media (min-width: 48rem) {
+  .d-b-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .d-b-grid li:nth-child(2) {
+    margin-top: 5rem;
+  }
+}
+.d-b-close {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding: 0 var(--d-gutter) clamp(4rem, 2.607rem + 5.714vw, 8rem);
+}
+
+/* ---------- C · Editorial grid ---------- */
+
+.d-c .d-header {
+  border-bottom: 1px solid var(--d-rule);
+}
+.d-c-fold {
+  display: grid;
+  gap: 2rem;
+  max-width: var(--d-max);
+  margin-inline: auto;
+  padding: clamp(2rem, 1.304rem + 2.857vw, 4rem) var(--d-gutter) 0;
+}
+.d-c-lead {
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+  justify-items: start;
+}
+.d-c-title {
+  font-size: clamp(2.25rem, 1.6rem + 2.667vw, 4rem);
+  font-weight: 300;
+  text-wrap: balance;
+}
+.d-c-dek {
+  max-width: 30em;
+  font-family: var(--d-serif);
+  font-size: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--ge-slate-800);
+  text-wrap: pretty;
+}
+@media (min-width: 48rem) {
+  .d-c-fold {
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(2rem, 0.5rem + 3vw, 5rem);
+  }
+}
+@media (min-width: 64rem) {
+  .d-c-fold {
+    grid-template-columns: 8fr 4fr;
+  }
+}
+.d-c-journeys {
+  max-width: var(--d-max);
+  margin-inline: auto;
+  padding: clamp(2.5rem, 1.804rem + 2.857vw, 4.5rem) var(--d-gutter);
+}
+.d-c-rule {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--d-rule);
+  margin-bottom: 1.5rem;
+}
+.d-c-grid {
+  display: grid;
+  gap: 3rem clamp(1.25rem, 0.5rem + 1.5vw, 2.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.d-c-grid li {
+  display: grid;
+  gap: 0.625rem;
+  align-content: start;
+  justify-items: start;
+}
+.d-c-grid .d-frame {
+  justify-self: stretch;
+  margin-bottom: 0.5rem;
+}
+@media (min-width: 48rem) {
+  .d-c-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 64rem) {
+  .d-c-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.d-c-close {
+  max-width: var(--d-max);
+  margin-inline: auto;
+  padding: 0 var(--d-gutter) clamp(4rem, 2.607rem + 5.714vw, 8rem);
+}
+
+/* ---------- index ---------- */
+
+.d-index {
+  max-width: 60rem;
+  margin-inline: auto;
+  padding: 4rem var(--d-gutter);
+}
+.d-index .d-c-title {
+  margin: 1rem 0 3rem;
+}
+.d-index-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.d-index-link {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--d-rule);
+  color: inherit;
+  text-decoration: none;
+}
+.d-index-link:hover .d-card-title {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
